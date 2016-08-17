@@ -22,3 +22,5 @@ config/initializers/secret_token.rb
 /.bundle
 /vendor/bundle
 /node_modules
+/app/assets/javascripts/bundle.js
+/app/assets/javascripts/bundle.js.map
