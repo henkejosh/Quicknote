@@ -27588,7 +27588,6 @@
 	
 	  render: function render() {
 	    var cUser = void 0;
-	    // debugger;
 	    if (SessionStore.isUserLoggedIn()) {
 	      cUser = SessionStore.currentUser().email;
 	    } else {
@@ -27646,7 +27645,7 @@
 	// const ErrorStore = require('../stores/error_store.js');
 	// const ErrorActions = require('../actions/error_actions.js');
 	var Modal = __webpack_require__(265);
-	var modStyle = __webpack_require__(285);
+	var modStyle = __webpack_require__(286);
 	
 	var SignInModal = React.createClass({
 	  displayName: 'SignInModal',
@@ -27710,7 +27709,7 @@
 	        null,
 	        React.createElement(
 	          'h2',
-	          null,
+	          { className: 'modal-type' },
 	          this.props.modalType
 	        ),
 	        React.createElement('br', null),
@@ -36192,7 +36191,8 @@
 
 
 /***/ },
-/* 285 */
+/* 285 */,
+/* 286 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36204,7 +36204,7 @@
 	    left: 0,
 	    right: 0,
 	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+	    backgroundColor: 'rgba(243, 243, 243, 0.75)'
 	  },
 	
 	  content: {

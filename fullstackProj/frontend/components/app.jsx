@@ -57,7 +57,6 @@ const App = React.createClass({
 
   render: function() {
     let cUser;
-    // debugger;
     if(SessionStore.isUserLoggedIn()) {
       cUser = SessionStore.currentUser().email;
     } else {

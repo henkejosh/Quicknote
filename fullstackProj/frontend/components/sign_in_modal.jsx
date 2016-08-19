@@ -5,7 +5,7 @@ const SessionStore = require('../stores/session_store.js');
 // const ErrorStore = require('../stores/error_store.js');
 // const ErrorActions = require('../actions/error_actions.js');
 const Modal = require('react-modal');
-const modStyle = require('./modal_styles.js');
+const modStyle = require('../misc/modal_styles.js');
 
 const SignInModal = React.createClass({
   getInitialState: function() {
@@ -61,7 +61,7 @@ const SignInModal = React.createClass({
     return (
       <Modal style={modStyle} isOpen={this.props.isOpen}>
         <div>
-          <h2>{this.props.modalType}</h2>
+          <h2 className="modal-type">{this.props.modalType}</h2>
           <br/>
 
           <form className="signup" onSubmit={ this.handleForm }>

@@ -17,3 +17,7 @@ p.log-out {
 p.log-out:hover {
   background: grey;
 }
+
+h2.modal-type {
+  color: #2DBE60;
+}
