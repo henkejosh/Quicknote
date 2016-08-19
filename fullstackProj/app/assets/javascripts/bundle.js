@@ -27540,6 +27540,15 @@
 	    return { signInModal: false, modalType: "Sign in" };
 	  },
 	
+	  componentDidMount: function componentDidMount() {
+	    Modal.setAppElement(document.getElementById("root"));
+	    this.sessionListener = SessionStore.addListener(this.isUserLoggedIn);
+	  },
+	
+	  // componentWillMount: function() {
+	  //   Modal.setAppElement(document.getElementById("root"));
+	  // },
+	
 	  openSignInModal: function openSignInModal() {
 	    this.setState({ signInModal: true });
 	  },
@@ -27572,19 +27581,29 @@
 	    }
 	  },
 	
-	  componentWillMount: function componentWillMount() {
-	    Modal.setAppElement(document.getElementById("root"));
-	  },
-	
 	  logout: function logout(e) {
 	    e.preventDefault();
 	    SessionActions.logout();
 	  },
 	
 	  render: function render() {
+	    var cUser = void 0;
+	    // debugger;
+	    if (SessionStore.isUserLoggedIn()) {
+	      cUser = SessionStore.currentUser().email;
+	    } else {
+	      cUser = "Nobody Logged In";
+	    }
+	
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(
+	        'h3',
+	        null,
+	        'Current User: ',
+	        cUser
+	      ),
 	      this.controlSignInModal(),
 	      React.createElement(
 	        'p',

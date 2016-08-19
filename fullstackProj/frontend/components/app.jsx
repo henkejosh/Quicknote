@@ -9,6 +9,15 @@ const App = React.createClass({
     return { signInModal: false, modalType: "Sign in" };
   },
 
+  componentDidMount: function() {
+    Modal.setAppElement(document.getElementById("root"));
+    this.sessionListener = SessionStore.addListener(this.isUserLoggedIn);
+  },
+
+  // componentWillMount: function() {
+  //   Modal.setAppElement(document.getElementById("root"));
+  // },
+
   openSignInModal: function() {
     this.setState({ signInModal: true });
   },
@@ -41,18 +50,23 @@ const App = React.createClass({
     }
   },
 
-  componentWillMount: function() {
-    Modal.setAppElement(document.getElementById("root"));
-  },
-
   logout: function(e) {
     e.preventDefault();
     SessionActions.logout();
   },
 
   render: function() {
+    let cUser;
+    // debugger;
+    if(SessionStore.isUserLoggedIn()) {
+      cUser = SessionStore.currentUser().email;
+    } else {
+      cUser = "Nobody Logged In";
+    }
+
     return (
       <div>
+        <h3>Current User: { cUser }</h3>
 
         { this.controlSignInModal() }
 
