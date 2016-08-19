@@ -49,22 +49,28 @@
 	// React
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(35);
-	var reactRouter = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"react-route\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var reactRouter = __webpack_require__(182);
 	var Router = reactRouter.Router;
 	var hashHistory = reactRouter.hashHistory;
 	var Route = reactRouter.Route;
 	var IndexRoute = reactRouter.IndexRoute;
 	// Session
 	var SessionActions = __webpack_require__(175);
+	// Components
+	var App = __webpack_require__(245);
+	
+	var appRouter = React.createElement(
+	  Router,
+	  { history: hashHistory },
+	  React.createElement(Route, { path: '/', component: App })
+	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  if (window.currentUser) {
 	    SessionActions.receiveCurrentUser(window.currentUser);
 	  }
 	
-	  ReactDOM.render(
-	  // appRouter,
-	  document.getElementById("root"));
+	  ReactDOM.render(appRouter, document.getElementById("root"));
 	});
 
 /***/ },
@@ -27514,6 +27520,32 @@
 	
 	exports.default = (0, _createRouterHistory2.default)(_createHashHistory2.default);
 	module.exports = exports['default'];
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var App = React.createClass({
+	  displayName: 'App',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'p',
+	        null,
+	        'Howdy there. Back to square 1.'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = App;
 
 /***/ }
 /******/ ]);
