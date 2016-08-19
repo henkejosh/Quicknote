@@ -1,0 +1,19 @@
+div.openModal {
+  background: green;
+  width: 50px;
+  height: 20px;
+}
+
+div.closeModal {
+  background: blue;
+  width: 50px;
+  height: 20px;
+}
+
+p.log-out {
+  font-size: 2em;
+}
+
+p.log-out:hover {
+  background: grey;
+}
