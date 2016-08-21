@@ -58,11 +58,16 @@
 	var SessionActions = __webpack_require__(238);
 	// Components
 	var App = __webpack_require__(245);
+	var HomePage = __webpack_require__(286);
 	
 	var appRouter = React.createElement(
 	  Router,
 	  { history: hashHistory },
-	  React.createElement(Route, { path: '/', component: App })
+	  React.createElement(
+	    Route,
+	    { path: '/', component: App },
+	    React.createElement(IndexRoute, { component: HomePage })
+	  )
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -27532,6 +27537,8 @@
 	var Modal = __webpack_require__(265);
 	var SessionActions = __webpack_require__(238);
 	var SessionStore = __webpack_require__(247);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	var HomePage = __webpack_require__(286);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -27545,9 +27552,16 @@
 	    this.sessionListener = SessionStore.addListener(this.isUserLoggedIn);
 	  },
 	
-	  // componentWillMount: function() {
-	  //   Modal.setAppElement(document.getElementById("root"));
-	  // },
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.sessionListener.remove();
+	  },
+	
+	  isUserLoggedIn: function isUserLoggedIn() {
+	    if (SessionStore.isUserLoggedIn()) {
+	      this.setState({ currentUser: SessionStore.currentUser() });
+	      hashHistory.push('/');
+	    }
+	  },
 	
 	  openSignInModal: function openSignInModal() {
 	    this.setState({ signInModal: true });
@@ -27569,7 +27583,8 @@
 	    if (this.state.signInModal) {
 	      return React.createElement(SignInModal, { isOpen: this.state.signInModal,
 	        closeSignInModal: this.closeSignInModal,
-	        modalType: this.state.modalType });
+	        modalType: this.state.modalType,
+	        makeModalSignUp: this.makeModalSignUp });
 	    }
 	  },
 	
@@ -27587,6 +27602,8 @@
 	  },
 	
 	  render: function render() {
+	    var _this = this;
+	
 	    var cUser = void 0;
 	    if (SessionStore.isUserLoggedIn()) {
 	      cUser = SessionStore.currentUser().email;
@@ -27594,9 +27611,17 @@
 	      cUser = "Nobody Logged In";
 	    }
 	
+	    var childrenWithProps = React.Children.map(this.props.children, function (child) {
+	      return React.cloneElement(child, {
+	        openSignInModal: _this.openSignInModal,
+	        currentUser: _this.state.currentUser
+	      });
+	    });
+	
 	    return React.createElement(
 	      'div',
 	      null,
+	      childrenWithProps,
 	      React.createElement(
 	        'h3',
 	        null,
@@ -27645,7 +27670,7 @@
 	// const ErrorStore = require('../stores/error_store.js');
 	// const ErrorActions = require('../actions/error_actions.js');
 	var Modal = __webpack_require__(265);
-	var modStyle = __webpack_require__(286);
+	var modStyle = __webpack_require__(285);
 	
 	var SignInModal = React.createClass({
 	  displayName: 'SignInModal',
@@ -27697,6 +27722,31 @@
 	      this.signingUp();
 	    } else if (this.props.modalType === "Sign in") {
 	      this.loggingIn();
+	    }
+	  },
+	
+	  handleModalChange: function handleModalChange(e) {
+	    e.preventDefault();
+	    this.props.makeModalSignUp();
+	  },
+	
+	  createNewAccountElements: function createNewAccountElements() {
+	    if (this.props.modalType === "Sign in") {
+	      return React.createElement(
+	        'section',
+	        { className: 'no-account' },
+	        React.createElement(
+	          'p',
+	          null,
+	          'Don\'t have an account?'
+	        ),
+	        React.createElement(
+	          'p',
+	          { onClick: this.handleModalChange,
+	            className: 'create-account' },
+	          'Create account'
+	        )
+	      );
 	    }
 	  },
 	
@@ -27752,7 +27802,8 @@
 	            { type: 'cancel', onClick: this.props.closeSignInModal },
 	            'Cancel'
 	          )
-	        )
+	        ),
+	        this.createNewAccountElements()
 	      )
 	    );
 	  }
@@ -36191,8 +36242,7 @@
 
 
 /***/ },
-/* 285 */,
-/* 286 */
+/* 285 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36243,6 +36293,71 @@
 	//
 	//   }
 	// }
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SignInModal = __webpack_require__(246);
+	var Modal = __webpack_require__(265);
+	var SessionActions = __webpack_require__(238);
+	var SessionStore = __webpack_require__(247);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var HomePage = React.createClass({
+	  displayName: 'HomePage',
+	
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'header',
+	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'logo-container' },
+	          React.createElement(
+	            'a',
+	            { href: '/', className: 'header-sprite' },
+	            React.createElement(
+	              'span',
+	              null,
+	              '(logo image) Quicknote'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { onClick: this.props.openSignInModal,
+	            className: 'right-panel' },
+	          'Sign In'
+	        )
+	      ),
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Remember Everything'
+	      ),
+	      React.createElement(
+	        'section',
+	        null,
+	        React.createElement(
+	          'p',
+	          null,
+	          'Use Quicknote to track to-do\'s, take notes in meetings, or plan your next adventure!'
+	        ),
+	        React.createElement('img', null)
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = HomePage;
 
 /***/ }
 /******/ ]);

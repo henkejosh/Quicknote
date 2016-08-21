@@ -3,6 +3,8 @@ const SignInModal = require('./sign_in_modal.jsx');
 const Modal = require('react-modal');
 const SessionActions = require('../actions/session_actions.js');
 const SessionStore = require('../stores/session_store.js');
+const hashHistory = require('react-router').hashHistory;
+const HomePage = require('./home_page.jsx');
 
 const App = React.createClass({
   getInitialState: function() {
@@ -14,9 +16,16 @@ const App = React.createClass({
     this.sessionListener = SessionStore.addListener(this.isUserLoggedIn);
   },
 
-  // componentWillMount: function() {
-  //   Modal.setAppElement(document.getElementById("root"));
-  // },
+  componentWillUnmount: function() {
+    this.sessionListener.remove();
+  },
+
+  isUserLoggedIn: function() {
+    if(SessionStore.isUserLoggedIn()) {
+      this.setState({ currentUser: SessionStore.currentUser() });
+      hashHistory.push(`/`);
+    }
+  },
 
   openSignInModal: function() {
     this.setState({ signInModal: true });
@@ -38,7 +47,8 @@ const App = React.createClass({
     if(this.state.signInModal) {
       return <SignInModal isOpen={ this.state.signInModal }
         closeSignInModal={this.closeSignInModal}
-        modalType={this.state.modalType}/>;
+        modalType={this.state.modalType}
+        makeModalSignUp={this.makeModalSignUp} />;
     }
   },
 
@@ -63,8 +73,17 @@ const App = React.createClass({
       cUser = "Nobody Logged In";
     }
 
+    const childrenWithProps = React.Children.map(this.props.children,
+      (child) => React.cloneElement(child, {
+        openSignInModal: this.openSignInModal,
+        currentUser: this.state.currentUser
+      })
+    );
+
     return (
       <div>
+        { childrenWithProps }
+
         <h3>Current User: { cUser }</h3>
 
         { this.controlSignInModal() }

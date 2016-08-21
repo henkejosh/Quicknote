@@ -57,6 +57,23 @@ const SignInModal = React.createClass({
     }
   },
 
+  handleModalChange: function(e) {
+    e.preventDefault();
+    this.props.makeModalSignUp();
+  },
+
+  createNewAccountElements: function() {
+    if(this.props.modalType === "Sign in") {
+      return (
+        <section className="no-account">
+          <p>Don&#39;t have an account?</p>
+          <p onClick={ this.handleModalChange }
+            className="create-account">Create account</p>
+        </section>
+      );
+    }
+  },
+
   render: function() {
     return (
       <Modal style={modStyle} isOpen={this.props.isOpen}>
@@ -89,6 +106,9 @@ const SignInModal = React.createClass({
           <div className="cancel-button">
             <button type="cancel" onClick={this.props.closeSignInModal}>Cancel</button>
           </div>
+
+          { this.createNewAccountElements() }
+
         </div>
       </Modal>
     );
