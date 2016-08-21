@@ -6,6 +6,8 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  height: 45px;
+  padding: 20px 15px;
 }
 
 div.home-body-content {
@@ -22,5 +24,18 @@ div.home-body-content > h2 {
 section.app-expl {
   display: flex;
   flex-direction: row;
-  justify-content: space_around;
+  justify-content: space-around;
+  align-items: center;
+}
+
+section.app-expl > img {
+  width: 50%;
+  height: 50%;
+}
+
+section.app-expl > p {
+  border: 1px solid #EFF2F3;
+  padding: 5% 5%;
+  margin: 10% 5%;
+  background-color: #EFF2F3;
 }
