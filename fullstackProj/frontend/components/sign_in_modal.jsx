@@ -36,10 +36,6 @@ const SignInModal = React.createClass({
     };
   },
 
-  backToHome: function() {
-    hashHistory.push("/");
-  },
-
   loggingIn: function() {
     SessionActions.login(this.state);
   },
@@ -55,6 +51,7 @@ const SignInModal = React.createClass({
     } else if(this.props.modalType === "Sign in") {
       this.loggingIn();
     }
+    this.props.closeSignInModal();
   },
 
   handleModalChange: function(e) {

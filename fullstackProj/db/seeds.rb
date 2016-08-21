@@ -5,3 +5,36 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+guest = User.create!(email: "guest_user", password: "password")
+
+notebook1 = Notebook.create!(title: "Sample Notebook", user_id: guest.id)
+notebook2 = Notebook.create!(title: "To-Do List", user_id: guest.id)
+
+note1 = Note.create!(
+  notebook_id: notebook1.id,
+  title: "How to create a note:",
+  body: "1. Type your things.
+      2. Click create"
+)
+
+note2 = Note.create!(
+  notebook_id: notebook2.id,
+  title: "Go to grocery store",
+  body: "Pickup: 1) Milk 2) Eggs 3) Cheese 4) Fruit"
+)
+
+tag1 = Tag.create!(
+  note_id: note1.id,
+  title: "to-do"
+)
+
+tag2 = Tag.create!(
+  note_id: note1.id,
+  title: "sample-tag"
+)
+
+tag3 = Tag.create!(
+  note_id: note2.id,
+  title: "Grocery"
+)

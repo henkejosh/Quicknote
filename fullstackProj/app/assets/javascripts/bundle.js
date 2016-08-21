@@ -58,7 +58,8 @@
 	var SessionActions = __webpack_require__(238);
 	// Components
 	var App = __webpack_require__(245);
-	var HomePage = __webpack_require__(286);
+	var LandingPage = __webpack_require__(286);
+	var HomePage = __webpack_require__(287);
 	
 	var appRouter = React.createElement(
 	  Router,
@@ -66,7 +67,8 @@
 	  React.createElement(
 	    Route,
 	    { path: '/', component: App },
-	    React.createElement(IndexRoute, { component: HomePage })
+	    React.createElement(IndexRoute, { component: LandingPage }),
+	    React.createElement(Route, { path: '/home', component: HomePage })
 	  )
 	);
 	
@@ -27538,7 +27540,7 @@
 	var SessionActions = __webpack_require__(238);
 	var SessionStore = __webpack_require__(247);
 	var hashHistory = __webpack_require__(175).hashHistory;
-	var HomePage = __webpack_require__(286);
+	var LandingPage = __webpack_require__(286);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -27559,7 +27561,7 @@
 	  isUserLoggedIn: function isUserLoggedIn() {
 	    if (SessionStore.isUserLoggedIn()) {
 	      this.setState({ currentUser: SessionStore.currentUser() });
-	      hashHistory.push('/');
+	      hashHistory.push('/home');
 	    }
 	  },
 	
@@ -27631,20 +27633,6 @@
 	      this.controlSignInModal(),
 	      React.createElement(
 	        'p',
-	        null,
-	        'Howdy there. Back to square 1.'
-	      ),
-	      React.createElement(
-	        'h3',
-	        null,
-	        this.state.modalType
-	      ),
-	      React.createElement('div', { className: 'openModal',
-	        onClick: this.openSignInModal }),
-	      React.createElement('div', { className: 'closeModal',
-	        onClick: this.switchModalType }),
-	      React.createElement(
-	        'p',
 	        { className: 'log-out',
 	          onClick: this.logout },
 	        'Log Out'
@@ -27704,10 +27692,6 @@
 	    };
 	  },
 	
-	  backToHome: function backToHome() {
-	    hashHistory.push("/");
-	  },
-	
 	  loggingIn: function loggingIn() {
 	    SessionActions.login(this.state);
 	  },
@@ -27723,6 +27707,7 @@
 	    } else if (this.props.modalType === "Sign in") {
 	      this.loggingIn();
 	    }
+	    this.props.closeSignInModal();
 	  },
 	
 	  handleModalChange: function handleModalChange(e) {
@@ -36307,14 +36292,14 @@
 	var SessionStore = __webpack_require__(247);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	
-	var HomePage = React.createClass({
-	  displayName: 'HomePage',
+	var LandingPage = React.createClass({
+	  displayName: 'LandingPage',
 	
 	
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { className: 'home-page' },
+	      { className: 'landing-page' },
 	      React.createElement(
 	        'header',
 	        null,
@@ -36340,7 +36325,7 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'home-body-content' },
+	        { className: 'landing-body-content' },
 	        React.createElement(
 	          'h2',
 	          null,
@@ -36357,6 +36342,28 @@
 	          React.createElement('img', { src: 'https://res.cloudinary.com/dg2yejdpt/image/upload/v1471819122/to_do_list_sraefc.png' })
 	        )
 	      )
+	    );
+	  }
+	});
+	
+	module.exports = LandingPage;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var HomePage = React.createClass({
+	  displayName: 'HomePage',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Home Page dawg'
 	    );
 	  }
 	});

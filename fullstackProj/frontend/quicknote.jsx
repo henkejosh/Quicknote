@@ -10,12 +10,14 @@ const IndexRoute = reactRouter.IndexRoute;
 const SessionActions = require('./actions/session_actions.js');
 // Components
 const App = require('./components/app.jsx');
+const LandingPage = require('./components/landing_page.jsx');
 const HomePage = require('./components/home_page.jsx');
 
 const appRouter = (
   <Router history={ hashHistory }>
     <Route path="/" component={ App } >
-      <IndexRoute component={ HomePage } />
+      <IndexRoute component={ LandingPage } />
+      <Route path="/home" component={ HomePage } />
     </Route>
   </Router>
 );

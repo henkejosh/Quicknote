@@ -4,7 +4,7 @@ const Modal = require('react-modal');
 const SessionActions = require('../actions/session_actions.js');
 const SessionStore = require('../stores/session_store.js');
 const hashHistory = require('react-router').hashHistory;
-const HomePage = require('./home_page.jsx');
+const LandingPage = require('./landing_page.jsx');
 
 const App = React.createClass({
   getInitialState: function() {
@@ -23,7 +23,7 @@ const App = React.createClass({
   isUserLoggedIn: function() {
     if(SessionStore.isUserLoggedIn()) {
       this.setState({ currentUser: SessionStore.currentUser() });
-      hashHistory.push(`/`);
+      hashHistory.push(`/home`);
     }
   },
 
@@ -88,15 +88,9 @@ const App = React.createClass({
 
         { this.controlSignInModal() }
 
-        <p>Howdy there. Back to square 1.</p>
-
-        <h3>{this.state.modalType}</h3>
-        <div className="openModal"
-          onClick={this.openSignInModal} />
-        <div className="closeModal"
-          onClick={this.switchModalType} />
         <p className="log-out"
           onClick={this.logout}>Log Out</p>
+          
       </div>
     );
   }

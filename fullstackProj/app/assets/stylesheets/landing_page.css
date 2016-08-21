@@ -1,4 +1,4 @@
-div.home-page {
+div.landing-page {
   background-color: #EFF2F3;
 }
 
@@ -10,13 +10,13 @@ header {
   padding: 20px 15px;
 }
 
-div.home-body-content {
+div.landing-body-content {
   display: flex;
   flex-direction: column;
   background-color: white;
 }
 
-div.home-body-content > h2 {
+div.landing-body-content > h2 {
   text-align: center;
   color: #2DBE60;
 }
