@@ -36314,7 +36314,7 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'home-page' },
 	      React.createElement(
 	        'header',
 	        null,
@@ -36339,19 +36339,23 @@
 	        )
 	      ),
 	      React.createElement(
-	        'h2',
-	        null,
-	        'Remember Everything'
-	      ),
-	      React.createElement(
-	        'section',
-	        null,
+	        'div',
+	        { className: 'home-body-content' },
 	        React.createElement(
-	          'p',
+	          'h2',
 	          null,
-	          'Use Quicknote to track to-do\'s, take notes in meetings, or plan your next adventure!'
+	          'Remember Everything'
 	        ),
-	        React.createElement('img', null)
+	        React.createElement(
+	          'section',
+	          { className: 'app-expl' },
+	          React.createElement(
+	            'p',
+	            null,
+	            'Use Quicknote to track to-do\'s, take notes in meetings, or plan your next adventure!'
+	          ),
+	          React.createElement('img', { src: 'https://res.cloudinary.com/dg2yejdpt/image/upload/v1471819122/to_do_list_sraefc.png' })
+	        )
 	      )
 	    );
 	  }

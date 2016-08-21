@@ -1,0 +1,26 @@
+div.home-page {
+  background-color: #EFF2F3;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+div.home-body-content {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+div.home-body-content > h2 {
+  text-align: center;
+  color: #2DBE60;
+}
+
+section.app-expl {
+  display: flex;
+  flex-direction: row;
+  justify-content: space_around;
+}

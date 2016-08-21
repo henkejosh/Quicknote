@@ -10,7 +10,7 @@ const HomePage = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className="home-page">
         <header>
           <div className="logo-container">
             <a href="/" className="header-sprite">
@@ -22,11 +22,13 @@ const HomePage = React.createClass({
             className="right-panel">Sign In</div>
         </header>
 
-        <h2>Remember Everything</h2>
-        <section>
-          <p>Use Quicknote to track to-do&#39;s, take notes in meetings, or plan your next adventure!</p>
-          <img/>
-        </section>
+        <div className="home-body-content">
+          <h2>Remember Everything</h2>
+          <section className="app-expl">
+            <p>Use Quicknote to track to-do&#39;s, take notes in meetings, or plan your next adventure!</p>
+            <img src="https://res.cloudinary.com/dg2yejdpt/image/upload/v1471819122/to_do_list_sraefc.png"/>
+          </section>
+        </div>
 
       </div>
 
