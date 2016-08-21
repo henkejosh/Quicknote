@@ -8,6 +8,16 @@ class User < ApplicationRecord
 	after_initialize :ensure_session_token
 	before_validation :ensure_session_token_uniqueness
 
+  has_many :notebooks
+
+  has_many :notes,
+    through: :notebooks,
+    source: :notes
+
+  has_many :tags,
+    through: :notebooks,
+    source: :tags
+
 	def password=(password)
 		self.password_digest = BCrypt::Password.create(password)
 		@password = password
