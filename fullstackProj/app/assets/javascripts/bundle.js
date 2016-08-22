@@ -36677,7 +36677,7 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var Modal = __webpack_require__(265);
+	var NoteItem = __webpack_require__(303);
 	
 	var NotesBar = React.createClass({
 	  displayName: 'NotesBar',
@@ -36687,7 +36687,20 @@
 	  // },
 	
 	  render: function render() {
-	    return React.createElement('div', { className: 'notes-bar' });
+	    var that = this;
+	    return React.createElement(
+	      'div',
+	      { className: 'notes-bar' },
+	      Object.keys(that.props.notes).map(function (id) {
+	        var note = that.props.notes[id];
+	        return React.createElement(NoteItem, { key: id,
+	          body: note.body,
+	          notebook_id: note.notebook_id,
+	          title: note.title,
+	          id: note.id
+	        });
+	      })
+	    );
 	  }
 	});
 	
@@ -36880,7 +36893,8 @@
 	          var notebook = that.state.notebooks[id];
 	          return React.createElement(NotebookBarItem, { key: id,
 	            title: notebook.title,
-	            user_id: notebook.user_id
+	            user_id: notebook.user_id,
+	            id: notebook.id
 	          });
 	        }),
 	        React.createElement(
@@ -37104,6 +37118,53 @@
 	};
 	
 	module.exports = NoteApiUtil;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var NoteItem = React.createClass({
+	  displayName: 'NoteItem',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'ul',
+	        null,
+	        React.createElement(
+	          'li',
+	          null,
+	          this.props.title
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'NoteID: ',
+	          this.props.id
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          this.props.body
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'NotebookID: ',
+	          this.props.notebook_id
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NoteItem;
 
 /***/ }
 /******/ ]);

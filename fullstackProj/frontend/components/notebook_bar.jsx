@@ -42,6 +42,7 @@ const NotebookBar = React.createClass({
                 < NotebookBarItem key={id}
                     title={notebook.title}
                     user_id={notebook.user_id}
+                    id={notebook.id}
                   />
               );
             })
