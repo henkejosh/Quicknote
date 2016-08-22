@@ -36383,6 +36383,7 @@
 	var CurrentNotebookStore = __webpack_require__(293);
 	var NotesBar = __webpack_require__(292);
 	var LeftNavBar = __webpack_require__(295);
+	var NotebookBar = __webpack_require__(296);
 	
 	var HomePage = React.createClass({
 	  displayName: 'HomePage',
@@ -36396,7 +36397,7 @@
 	      //   tags: ,
 	      //   current_note: ,
 	      //   create_note_modal_open: false,
-	      select_notebook_modal_open: false
+	      SelectNotebookModalOpen: false
 	    };
 	  },
 	
@@ -36422,11 +36423,12 @@
 	  },
 	
 	  openSelectNotebookModal: function openSelectNotebookModal() {
-	    this.setState({ select_notebook_modal_open: true });
+	    this.setState({ SelectNotebookModalOpen: true });
 	  },
 	
 	  closeSelectNotebookModal: function closeSelectNotebookModal() {
-	    this.setState({ select_notebook_modal_open: false });
+	    // debugger;
+	    this.setState({ SelectNotebookModalOpen: false });
 	  },
 	
 	  createCurrentNotebookBar: function createCurrentNotebookBar() {
@@ -36439,11 +36441,11 @@
 	  },
 	
 	  controlSelectNotebookModal: function controlSelectNotebookModal() {
-	    if (this.state.select_notebook_modal_open) {
-	      // return <SignInModal isOpen={ this.state.signInModal }
-	      //   closeSignInModal={this.closeSignInModal}
-	      //   modalType={this.state.modalType}
-	      //   makeModalSignUp={this.makeModalSignUp} />;
+	    if (this.state.SelectNotebookModalOpen) {
+	      return React.createElement(NotebookBar, {
+	        isOpen: this.state.SelectNotebookModalOpen,
+	        closeSelectNotebookModal: this.closeSelectNotebookModal
+	      });
 	    }
 	  },
 	
@@ -36452,7 +36454,7 @@
 	      'div',
 	      null,
 	      React.createElement(LeftNavBar, {
-	        select_notebook_modal_open: this.state.select_notebook_modal_open,
+	        SelectNotebookModalOpen: this.state.SelectNotebookModalOpen,
 	        openSelectNotebookModal: this.openSelectNotebookModal,
 	        closeSelectNotebookModal: this.closeSelectNotebookModal
 	      }),
@@ -36461,7 +36463,7 @@
 	        null,
 	        'Home Page dawg'
 	      ),
-	      this.createCurrentNotebookBar()
+	      this.controlSelectNotebookModal()
 	    );
 	  }
 	});
@@ -36814,6 +36816,105 @@
 	});
 	
 	module.exports = LeftNavBar;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Modal = __webpack_require__(265);
+	var NotebookBarModStyle = __webpack_require__(297);
+	
+	var NotebookBar = React.createClass({
+	  displayName: 'NotebookBar',
+	
+	  // getInitialState: function() {
+	  //
+	  // },
+	
+	  render: function render() {
+	    return React.createElement(
+	      Modal,
+	      { style: NotebookBarModStyle, isOpen: this.props.isOpen },
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h2',
+	          { className: 'modal-type' },
+	          'Notebooks'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'div',
+	          { className: 'cancel-button' },
+	          React.createElement(
+	            'button',
+	            { type: 'cancel', onClick: this.props.closeSelectNotebookModal },
+	            'Exit'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NotebookBar;
+
+/***/ },
+/* 297 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	module.exports = {
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(243, 243, 243, 0.75)'
+	  },
+	
+	  content: {
+	    position: 'absolute',
+	    top: '150px',
+	    left: '300px',
+	    right: '300px',
+	    bottom: '300px',
+	    border: '2px solid #ccc',
+	    padding: '50px 100px 50px 100px'
+	  }
+	};
+	
+	// {
+	//   overlay : {
+	//     position          : 'fixed',
+	//     top               : 0,
+	//     left              : 0,
+	//     right             : 0,
+	//     bottom            : 0,
+	//     backgroundColor   : 'rgba(255, 255, 255, 0.75)'
+	//   },
+	//   content : {
+	//     position                   : 'absolute',
+	//     top                        : '40px',
+	//     left                       : '40px',
+	//     right                      : '40px',
+	//     bottom                     : '40px',
+	//     border                     : '1px solid #ccc',
+	//     background                 : '#fff',
+	//     overflow                   : 'auto',
+	//     WebkitOverflowScrolling    : 'touch',
+	//     borderRadius               : '4px',
+	//     outline                    : 'none',
+	//     padding                    : '20px'
+	//
+	//   }
+	// }
 
 /***/ }
 /******/ ]);

@@ -4,6 +4,7 @@ const NotebookStore = require('../stores/notebook_store.js');
 const CurrentNotebookStore = require('../stores/current_notebook_store.js');
 const NotesBar = require('./notes_bar.jsx');
 const LeftNavBar = require('./left_nav_bar.jsx');
+const NotebookBar = require('./notebook_bar.jsx');
 
 const HomePage = React.createClass({
   getInitialState: function() {
@@ -15,7 +16,7 @@ const HomePage = React.createClass({
     //   tags: ,
     //   current_note: ,
     //   create_note_modal_open: false,
-      select_notebook_modal_open: false,
+      SelectNotebookModalOpen: false,
     //   tags_modal_open: false,
     };
   },
@@ -42,11 +43,12 @@ const HomePage = React.createClass({
   },
 
   openSelectNotebookModal: function() {
-    this.setState({ select_notebook_modal_open: true });
+    this.setState({ SelectNotebookModalOpen: true });
   },
 
   closeSelectNotebookModal: function() {
-    this.setState({ select_notebook_modal_open: false });
+    // debugger;
+    this.setState({ SelectNotebookModalOpen: false });
   },
 
   createCurrentNotebookBar: function() {
@@ -59,11 +61,13 @@ const HomePage = React.createClass({
   },
 
   controlSelectNotebookModal: function() {
-    if(this.state.select_notebook_modal_open) {
-      // return <SignInModal isOpen={ this.state.signInModal }
-      //   closeSignInModal={this.closeSignInModal}
-      //   modalType={this.state.modalType}
-      //   makeModalSignUp={this.makeModalSignUp} />;
+    if(this.state.SelectNotebookModalOpen) {
+      return (
+        <NotebookBar
+          isOpen={ this.state.SelectNotebookModalOpen }
+          closeSelectNotebookModal={ this.closeSelectNotebookModal }
+          />
+      );
     }
   },
 
@@ -71,13 +75,13 @@ const HomePage = React.createClass({
     return (
       <div>
         <LeftNavBar
-          select_notebook_modal_open={this.state.select_notebook_modal_open}
+          SelectNotebookModalOpen={this.state.SelectNotebookModalOpen}
           openSelectNotebookModal={this.openSelectNotebookModal}
           closeSelectNotebookModal={this.closeSelectNotebookModal}
           />
 
         <div>Home Page dawg</div>
-        { this.createCurrentNotebookBar() }
+        { this.controlSelectNotebookModal() }
 
       </div>
     );
