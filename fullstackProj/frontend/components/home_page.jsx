@@ -29,7 +29,7 @@ const HomePage = React.createClass({
   },
 
   componentDidMount: function() {
-    // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
+    this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
     this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
     this.noteListener = NoteStore.addListener(this.updateNotes);
   },
@@ -48,6 +48,8 @@ const HomePage = React.createClass({
 
   componentWillUnmount: function() {
     this.currentNotebookListener.remove();
+    this.noteListener.remove();
+    this.notebookListener.remove();
   },
 
   openSelectNotebookModal: function() {
@@ -90,16 +92,25 @@ const HomePage = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className="home-page-content">
+
         <LeftNavBar
           SelectNotebookModalOpen={this.state.SelectNotebookModalOpen}
           openSelectNotebookModal={this.openSelectNotebookModal}
           closeSelectNotebookModal={this.closeSelectNotebookModal}
+          currentUser={this.props.currentUser}
           />
 
-        <div>Home Page dawg</div>
-        { this.createNotesComp() }
-        { this.controlSelectNotebookModal() }
+
+        <div className="page-content">
+          <div>Home Page dawg</div>
+
+          { this.createNotesComp() }
+          { this.controlSelectNotebookModal() }
+
+          <p className="log-out"
+            onClick={this.props.logout}>Log Out</p>
+        </div>
 
       </div>
     );

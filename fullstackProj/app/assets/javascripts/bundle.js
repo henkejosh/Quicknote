@@ -27639,7 +27639,8 @@
 	    var childrenWithProps = React.Children.map(this.props.children, function (child) {
 	      return React.cloneElement(child, {
 	        openSignInModal: _this.openSignInModal,
-	        currentUser: _this.state.currentUser
+	        currentUser: cUser,
+	        logout: _this.logout
 	      });
 	    });
 	
@@ -27647,19 +27648,7 @@
 	      'div',
 	      null,
 	      childrenWithProps,
-	      React.createElement(
-	        'h3',
-	        null,
-	        'Current User: ',
-	        cUser
-	      ),
-	      this.controlSignInModal(),
-	      React.createElement(
-	        'p',
-	        { className: 'log-out',
-	          onClick: this.logout },
-	        'Log Out'
-	      )
+	      this.controlSignInModal()
 	    );
 	  }
 	});
@@ -36409,7 +36398,7 @@
 	  },
 	
 	  componentDidMount: function componentDidMount() {
-	    // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
+	    this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
 	    this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
 	    this.noteListener = NoteStore.addListener(this.updateNotes);
 	  },
@@ -36428,6 +36417,8 @@
 	
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.currentNotebookListener.remove();
+	    this.noteListener.remove();
+	    this.notebookListener.remove();
 	  },
 	
 	  openSelectNotebookModal: function openSelectNotebookModal() {
@@ -36469,19 +36460,30 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'home-page-content' },
 	      React.createElement(LeftNavBar, {
 	        SelectNotebookModalOpen: this.state.SelectNotebookModalOpen,
 	        openSelectNotebookModal: this.openSelectNotebookModal,
-	        closeSelectNotebookModal: this.closeSelectNotebookModal
+	        closeSelectNotebookModal: this.closeSelectNotebookModal,
+	        currentUser: this.props.currentUser
 	      }),
 	      React.createElement(
 	        'div',
-	        null,
-	        'Home Page dawg'
-	      ),
-	      this.createNotesComp(),
-	      this.controlSelectNotebookModal()
+	        { className: 'page-content' },
+	        React.createElement(
+	          'div',
+	          null,
+	          'Home Page dawg'
+	        ),
+	        this.createNotesComp(),
+	        this.controlSelectNotebookModal(),
+	        React.createElement(
+	          'p',
+	          { className: 'log-out',
+	            onClick: this.props.logout },
+	          'Log Out'
+	        )
+	      )
 	    );
 	  }
 	});
@@ -36819,7 +36821,13 @@
 	  render: function render() {
 	    return React.createElement(
 	      'nav',
-	      null,
+	      { className: 'left-nav' },
+	      React.createElement(
+	        'div',
+	        null,
+	        'Current User: ',
+	        this.props.currentUser
+	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'note-icon' },
@@ -36879,10 +36887,11 @@
 	    var that = this;
 	    return React.createElement(
 	      Modal,
-	      { style: NotebookBarModStyle, isOpen: this.props.isOpen },
+	      { style: NotebookBarModStyle, isOpen: this.props.isOpen,
+	        transitionName: 'notebook-modal-anim' },
 	      React.createElement(
 	        'div',
-	        null,
+	        { className: 'notebook-modal' },
 	        React.createElement(
 	          'h2',
 	          { className: 'modal-type' },
@@ -36926,17 +36935,18 @@
 	    left: 0,
 	    right: 0,
 	    bottom: 0,
-	    backgroundColor: 'rgba(243, 243, 243, 0.75)'
+	    backgroundColor: 'rgba(243, 243, 243, 0.75)',
+	    opacity: 1
 	  },
 	
 	  content: {
 	    position: 'absolute',
-	    top: '150px',
-	    left: '300px',
-	    right: '300px',
-	    bottom: '300px',
-	    border: '2px solid #ccc',
-	    padding: '50px 100px 50px 100px'
+	    top: '0px',
+	    left: '73px',
+	    right: '50%',
+	    bottom: '0px',
+	    border: '2px solid #ccc'
+	
 	  }
 	};
 	

@@ -31,8 +31,10 @@ const NotebookBar = React.createClass({
   render: function() {
     const that = this;
     return (
-      <Modal style={NotebookBarModStyle} isOpen={this.props.isOpen}>
-        <div>
+      <Modal style={NotebookBarModStyle} isOpen={this.props.isOpen}
+          transitionName="notebook-modal-anim">
+
+        <div className="notebook-modal">
           <h2 className="modal-type">Notebooks</h2>
           <br/>
 

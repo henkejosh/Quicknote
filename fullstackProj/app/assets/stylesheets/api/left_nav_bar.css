@@ -1,0 +1,13 @@
+nav.left-nav {
+  position: absolute;
+  left: 0;
+  width: 73px;
+  -webkit-transition: -webkit-transform 0.4s ease-in-out;
+  transition: width 0.2s ease-in-out, left 0.2s ease-in-out 0.3s;
+    transition-property: width, left;
+    transition-duration: 0.2s, 0.2s;
+    transition-timing-function: ease-in-out, ease-in-out;
+    transition-delay: initial, 0.3s;
+  background-color: #f8f8f8;
+  height: 100%;
+}

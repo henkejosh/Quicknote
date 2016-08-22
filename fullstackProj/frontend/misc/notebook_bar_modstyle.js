@@ -6,17 +6,17 @@ module.exports = {
     right           : 0,
     bottom          : 0,
     backgroundColor : 'rgba(243, 243, 243, 0.75)',
-    // opacity: .5
+    opacity: 1
   },
 
   content : {
     position        : 'absolute',
-    top             : '150px',
-    left            : '300px',
-    right           : '300px',
-    bottom          : '300px',
+    top             : '0px',
+    left            : '73px',
+    right           : '50%',
+    bottom          : '0px',
     border          : '2px solid #ccc',
-    padding         : '50px 100px 50px 100px',
+
   }
 };
 

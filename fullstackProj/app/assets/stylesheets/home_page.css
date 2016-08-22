@@ -1,0 +1,11 @@
+div.home-page-content {
+  display: flex;
+  flex-direction: row;
+
+}
+
+div.page-content {
+  display: block;
+  left: 73px;
+  position: fixed;
+}

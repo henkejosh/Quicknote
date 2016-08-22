@@ -76,7 +76,8 @@ const App = React.createClass({
     const childrenWithProps = React.Children.map(this.props.children,
       (child) => React.cloneElement(child, {
         openSignInModal: this.openSignInModal,
-        currentUser: this.state.currentUser
+        currentUser: cUser,
+        logout: this.logout
       })
     );
 
@@ -84,12 +85,7 @@ const App = React.createClass({
       <div>
         { childrenWithProps }
 
-        <h3>Current User: { cUser }</h3>
-
         { this.controlSignInModal() }
-
-        <p className="log-out"
-          onClick={this.logout}>Log Out</p>
 
       </div>
     );

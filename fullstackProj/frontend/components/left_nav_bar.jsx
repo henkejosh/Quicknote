@@ -13,7 +13,8 @@ const LeftNavBar = React.createClass({
 
   render: function() {
     return (
-      <nav>
+      <nav className="left-nav">
+        <div>Current User: {this.props.currentUser}</div>
         <div className="note-icon">Note</div>
         <div onClick={this.handleNBClick}
           className="notebook-icon">NB</div>

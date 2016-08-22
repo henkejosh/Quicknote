@@ -1,0 +1,44 @@
+div.notebook-modal {
+  position: absolute;
+  left: 73px;
+  width: 45%;
+  background-color: #f8f8f8;
+  height: 100%;
+  -webkit-transition: -webkit-transform 0.4s ease-in-out;
+  transition: width 0.2s ease-in-out, left 0.2s ease-in-out 0.3s;
+    transition-property: width, left;
+    transition-duration: 0.2s, 0.2s;
+    transition-timing-function: ease-in-out, ease-in-out;
+    transition-delay: initial, 0.3s;
+}
+
+/* MODAL TRANSFORMATION */
+.notebook-modal-anim-enter {
+  opacity: 0.00;
+  transform: scale(0.7);
+  transition: all 0.8s;
+}
+
+.notebook-modal-anim-enter.notebook-modal-anim-enter-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.notebook-modal-anim-leave {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.2s;
+}
+
+.notebook-modal-anim-leave.notebook-modal-anim-leave-active {
+  opacity: 0.00;
+  transform: scale(0.7);
+}
+/**/
+
+/*-webkit-transition: -webkit-transform 0.4s ease-in-out;
+transition: width 0.2s ease-in-out, left 0.2s ease-in-out 0.3s;
+  transition-property: width, left;
+  transition-duration: 0.2s, 0.2s;
+  transition-timing-function: ease-in-out, ease-in-out;
+  transition-delay: initial, 0.3s;*/
