@@ -36382,6 +36382,7 @@
 	var NotebookStore = __webpack_require__(291);
 	var CurrentNotebookStore = __webpack_require__(293);
 	var NotesBar = __webpack_require__(292);
+	var LeftNavBar = __webpack_require__(295);
 	
 	var HomePage = React.createClass({
 	  displayName: 'HomePage',
@@ -36437,10 +36438,24 @@
 	    // }
 	  },
 	
+	  controlSelectNotebookModal: function controlSelectNotebookModal() {
+	    if (this.state.select_notebook_modal_open) {
+	      // return <SignInModal isOpen={ this.state.signInModal }
+	      //   closeSignInModal={this.closeSignInModal}
+	      //   modalType={this.state.modalType}
+	      //   makeModalSignUp={this.makeModalSignUp} />;
+	    }
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(LeftNavBar, {
+	        select_notebook_modal_open: this.state.select_notebook_modal_open,
+	        openSelectNotebookModal: this.openSelectNotebookModal,
+	        closeSelectNotebookModal: this.closeSelectNotebookModal
+	      }),
 	      React.createElement(
 	        'div',
 	        null,
@@ -36757,6 +36772,48 @@
 	};
 	
 	module.exports = CurrentNotebookActions;
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Modal = __webpack_require__(265);
+	
+	var LeftNavBar = React.createClass({
+	  displayName: 'LeftNavBar',
+	
+	  handleNBClick: function handleNBClick(e) {
+	    e.preventDefault();
+	    if (this.props.select_notebook_modal_open) {
+	      this.props.closeSelectNotebookModal();
+	    } else {
+	      this.props.openSelectNotebookModal();
+	    }
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      'nav',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'note-icon' },
+	        'Note'
+	      ),
+	      React.createElement(
+	        'div',
+	        { onClick: this.handleNBClick,
+	          className: 'notebook-icon' },
+	        'NB'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = LeftNavBar;
 
 /***/ }
 /******/ ]);

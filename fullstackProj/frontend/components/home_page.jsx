@@ -3,6 +3,7 @@ const NotebookActions = require('../actions/notebook_actions.js');
 const NotebookStore = require('../stores/notebook_store.js');
 const CurrentNotebookStore = require('../stores/current_notebook_store.js');
 const NotesBar = require('./notes_bar.jsx');
+const LeftNavBar = require('./left_nav_bar.jsx');
 
 const HomePage = React.createClass({
   getInitialState: function() {
@@ -57,9 +58,24 @@ const HomePage = React.createClass({
     // }
   },
 
+  controlSelectNotebookModal: function() {
+    if(this.state.select_notebook_modal_open) {
+      // return <SignInModal isOpen={ this.state.signInModal }
+      //   closeSignInModal={this.closeSignInModal}
+      //   modalType={this.state.modalType}
+      //   makeModalSignUp={this.makeModalSignUp} />;
+    }
+  },
+
   render: function() {
     return (
       <div>
+        <LeftNavBar
+          select_notebook_modal_open={this.state.select_notebook_modal_open}
+          openSelectNotebookModal={this.openSelectNotebookModal}
+          closeSelectNotebookModal={this.closeSelectNotebookModal}
+          />
+
         <div>Home Page dawg</div>
         { this.createCurrentNotebookBar() }
 
