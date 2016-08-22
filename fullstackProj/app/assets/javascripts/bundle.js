@@ -36883,21 +36883,37 @@
 	    this.notebookStoreListener.remove();
 	  },
 	
+	  handleDisplay: function handleDisplay() {
+	    if (this.props.isOpen) {
+	      return "block";
+	    } else {
+	      return "none";
+	    }
+	  },
+	
+	  // <Modal style={NotebookBarModStyle} isOpen={this.props.isOpen}
 	  render: function render() {
 	    var that = this;
 	    return React.createElement(
-	      Modal,
-	      { style: NotebookBarModStyle, isOpen: this.props.isOpen,
-	        transitionName: 'notebook-modal-anim' },
+	      'div',
+	      { className: 'notebook-modal-anim', display: this.handleDisplay },
 	      React.createElement(
 	        'div',
 	        { className: 'notebook-modal' },
 	        React.createElement(
-	          'h2',
-	          { className: 'modal-type' },
-	          'Notebooks'
+	          'div',
+	          { className: 'notebook-header' },
+	          React.createElement(
+	            'a',
+	            { className: 'modal-type' },
+	            'NOTEBOOKS'
+	          ),
+	          React.createElement(
+	            'a',
+	            { className: 'new-notebook' },
+	            'CREATE NEW'
+	          )
 	        ),
-	        React.createElement('br', null),
 	        Object.keys(that.state.notebooks).map(function (id) {
 	          var notebook = that.state.notebooks[id];
 	          return React.createElement(NotebookBarItem, { key: id,

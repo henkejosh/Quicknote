@@ -28,15 +28,25 @@ const NotebookBar = React.createClass({
     this.notebookStoreListener.remove();
   },
 
+  handleDisplay: function() {
+    if(this.props.isOpen) {
+      return "block";
+    } else {
+      return "none";
+    }
+  },
+
+  // <Modal style={NotebookBarModStyle} isOpen={this.props.isOpen}
   render: function() {
     const that = this;
     return (
-      <Modal style={NotebookBarModStyle} isOpen={this.props.isOpen}
-          transitionName="notebook-modal-anim">
+      <div className="notebook-modal-anim" display={this.handleDisplay}>
 
         <div className="notebook-modal">
-          <h2 className="modal-type">Notebooks</h2>
-          <br/>
+          <div className="notebook-header">
+            <a className="modal-type">NOTEBOOKS</a>
+            <a className="new-notebook">CREATE NEW</a>
+          </div>
 
           { Object.keys(that.state.notebooks).map( id => {
               let notebook = that.state.notebooks[id];
@@ -55,7 +65,7 @@ const NotebookBar = React.createClass({
           </div>
 
         </div>
-      </Modal>
+      </div>
     );
   }
 });
