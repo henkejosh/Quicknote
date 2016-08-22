@@ -60,6 +60,24 @@
 	var App = __webpack_require__(245);
 	var LandingPage = __webpack_require__(286);
 	var HomePage = __webpack_require__(287);
+	// Stores
+	var SessionStore = __webpack_require__(247);
+	var NotebookStore = __webpack_require__(291);
+	var NotebookActions = __webpack_require__(288);
+	var CurrentNotebookActions = __webpack_require__(294);
+	var CurrentNotebookStore = __webpack_require__(293);
+	
+	var _ensureNotLoggedIn = function _ensureNotLoggedIn(nextState, replace) {
+	  if (SessionStore.isUserLoggedIn()) {
+	    replace('/home');
+	  }
+	};
+	
+	var _ensureLoggedIn = function _ensureLoggedIn(nextState, replace) {
+	  if (!SessionStore.isUserLoggedIn()) {
+	    replace('/');
+	  }
+	};
 	
 	var appRouter = React.createElement(
 	  Router,
@@ -67,8 +85,10 @@
 	  React.createElement(
 	    Route,
 	    { path: '/', component: App },
-	    React.createElement(IndexRoute, { component: LandingPage }),
-	    React.createElement(Route, { path: '/home', component: HomePage })
+	    React.createElement(IndexRoute, { component: LandingPage,
+	      onEnter: _ensureNotLoggedIn }),
+	    React.createElement(Route, { path: '/home', component: HomePage,
+	      onEnter: _ensureLoggedIn })
 	  )
 	);
 	
@@ -79,6 +99,9 @@
 	
 	  ReactDOM.render(appRouter, document.getElementById("root"));
 	});
+	
+	window.CurrentNotebookStore = CurrentNotebookStore;
+	window.CurrentNotebookActions = CurrentNotebookActions;
 
 /***/ },
 /* 1 */
@@ -36355,20 +36378,385 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var NotebookActions = __webpack_require__(288);
+	var NotebookStore = __webpack_require__(291);
+	var CurrentNotebookStore = __webpack_require__(293);
+	var NotesBar = __webpack_require__(292);
 	
 	var HomePage = React.createClass({
 	  displayName: 'HomePage',
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      // notebooks: NotebookStore.allNotebooks(),
+	      currentNotebook: CurrentNotebookStore.currentNotebook(),
+	      // current_notebook_open: false
+	      //   notes: ,
+	      //   tags: ,
+	      //   current_note: ,
+	      //   create_note_modal_open: false,
+	      select_notebook_modal_open: false
+	    };
+	  },
+	
+	  componentWillMount: function componentWillMount() {
+	    NotebookActions.getAllNotebooks();
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
+	    this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
+	  },
+	
+	  updateCurrentNotebook: function updateCurrentNotebook() {
+	    this.setState({ currentNotebook: NotebookStore.currentNotebook });
+	  },
+	
+	  updateNotebooks: function updateNotebooks() {
+	    this.setState({ notebooks: NotebookStore.allNotebooks() });
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.currentNotebookListener.remove();
+	  },
+	
+	  openSelectNotebookModal: function openSelectNotebookModal() {
+	    this.setState({ select_notebook_modal_open: true });
+	  },
+	
+	  closeSelectNotebookModal: function closeSelectNotebookModal() {
+	    this.setState({ select_notebook_modal_open: false });
+	  },
+	
+	  createCurrentNotebookBar: function createCurrentNotebookBar() {
+	    if (Object.keys(this.state.currentNotebook).length > 0) {
+	      return React.createElement(CurrentNotebookBar, null);
+	    }
+	    // } else {
+	    //   return <NotesBar />;
+	    // }
+	  },
 	
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Home Page dawg'
+	      React.createElement(
+	        'div',
+	        null,
+	        'Home Page dawg'
+	      ),
+	      this.createCurrentNotebookBar()
 	    );
 	  }
 	});
 	
 	module.exports = HomePage;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(239);
+	var NotebookApiUtil = __webpack_require__(289);
+	var NotebookConstants = __webpack_require__(290);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var NotebookActions = {
+	  selectCurrentNotebook: function selectCurrentNotebook(notebook) {
+	    NotebookApiUtil.selectCurrentNotebook(notebook, this.receiveCurrentNotebook);
+	  },
+	
+	  receiveCurrentNotebook: function receiveCurrentNotebook(notebook) {
+	    Dispatcher.dispatch({
+	      actionType: NotebookConstants.RECEIVE_CURRENT_NOTEBOOK,
+	      currentNotebook: notebook
+	    });
+	  },
+	
+	  getAllNotebooks: function getAllNotebooks() {
+	    NotebookApiUtil.getAllNotebooks(this.receiveAllNotebooks);
+	  },
+	
+	  receiveAllNotebooks: function receiveAllNotebooks(notebooks) {
+	    Dispatcher.dispatch({
+	      actionType: NotebookConstants.GET_ALL_NOTEBOOKS,
+	      notebooks: notebooks
+	    });
+	  }
+	
+	  // signup: function(params) {
+	  //   SessionApiUtil.signup(params, SessionActions.receiveCurrentUser);
+	  //     // ErrorActions.setErrors);
+	  // },
+	  //
+	  // login: function(params) {
+	  //   SessionApiUtil.login(params, SessionActions.receiveCurrentUser);
+	  //     // ErrorActions.setErrors);
+	  // },
+	  //
+	  // logout: function() {
+	  //   SessionApiUtil.logout(SessionActions.removeCurrentUser);
+	  //   // CurrentSongActions.clearCurrentSong();
+	  // },
+	  //
+	  // receiveCurrentUser: function(user) {
+	  //   Dispatcher.dispatch({
+	  //     actionType: SessionConstants.LOGIN,
+	  //     currentUser: user
+	  //   });
+	  // },
+	  //
+	  // removeCurrentUser: function(user) {
+	  //   Dispatcher.dispatch({
+	  //     actionType: SessionConstants.LOGOUT
+	  //   });
+	  // }
+	};
+	
+	module.exports = NotebookActions;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var NotebookApiUtil = {
+	  selectCurrentNotebook: function selectCurrentNotebook(notebook, success) {
+	    $.ajax({
+	      url: "api/notebooks/" + notebook.id,
+	      type: "GET",
+	      dataType: "json",
+	      success: success,
+	      error: function error() {
+	        console.log("Error fetching current notebook");
+	      }
+	    });
+	  },
+	
+	  getAllNotebooks: function getAllNotebooks(success) {
+	    $.ajax({
+	      url: "api/notebooks",
+	      type: "GET",
+	      dataType: "json",
+	      success: success,
+	      error: function error() {
+	        console.log("Error fetching all notebooks");
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = NotebookApiUtil;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var NotebookConstants = {
+	  GET_ALL_NOTEBOOKS: "GET_ALL_NOTEBOOKS"
+	};
+	
+	module.exports = NotebookConstants;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var Store = __webpack_require__(248).Store;
+	var Dispatcher = __webpack_require__(239);
+	var NotebookConstants = __webpack_require__(290);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var NotebookStore = new Store(Dispatcher);
+	
+	var _currentNotebook = {};
+	var _allNotebooks = {};
+	
+	var _setCurrentNotebook = function _setCurrentNotebook(notebook) {
+	  _currentNotebook[notebook.id] = notebook;
+	};
+	
+	var _setAllNotebooks = function _setAllNotebooks(notebooks) {
+	  notebooks.forEach(function (notebook) {
+	    _allNotebooks[notebook.id] = notebook;
+	  });
+	
+	  // if(Object.keys(_currentNotebook).length === 0) {
+	  //   let notebook = notebooks[0];
+	  //   _currentNotebook[notebook.id] = notebook;
+	  // }
+	};
+	
+	NotebookStore.currentNotebook = function () {
+	  return Object.assign({}, _currentNotebook);
+	};
+	
+	NotebookStore.allNotebooks = function () {
+	  return Object.assign({}, _allNotebooks);
+	};
+	
+	NotebookStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case NotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
+	      _setCurrentNotebook(payload.currentNotebook);
+	      NotebookStore.__emitChange();
+	      break;
+	    case NotebookConstants.GET_ALL_NOTEBOOKS:
+	      _setAllNotebooks(payload.notebooks);
+	      NotebookStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	// const _login = function(currentUser) {
+	//   _currentUser = currentUser;
+	// };
+	
+	// const _logout = function() {
+	//   _currentUser = {};
+	//   hashHistory.push("/");
+	// };
+	
+	
+	//
+	// SessionStore.isUserLoggedIn = function() {
+	//   return !!_currentUser.id;
+	// };
+	//
+	// SessionStore.__onDispatch = payload => {
+	//   switch(payload.actionType) {
+	//     case SessionConstants.LOGIN:
+	//       _login(payload.currentUser);
+	//       SessionStore.__emitChange();
+	//       break;
+	//     case SessionConstants.LOGOUT:
+	//       _logout();
+	//       SessionStore.__emitChange();
+	//       break;
+	//   }
+	// };
+	
+	module.exports = NotebookStore;
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Modal = __webpack_require__(265);
+	
+	var NotesBar = React.createClass({
+	  displayName: 'NotesBar',
+	
+	  // getInitialState: function() {
+	  //
+	  // },
+	
+	  render: function render() {
+	    return React.createElement('div', { className: 'notes-bar' });
+	  }
+	});
+	
+	module.exports = NotesBar;
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var Store = __webpack_require__(248).Store;
+	var Dispatcher = __webpack_require__(239);
+	var NotebookConstants = __webpack_require__(290);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var CurrentNotebookStore = new Store(Dispatcher);
+	
+	var _currentNotebook = {};
+	
+	var _setCurrentNotebook = function _setCurrentNotebook(notebook) {
+	  _currentNotebook[notebook.id] = notebook;
+	};
+	
+	CurrentNotebookStore.currentNotebook = function () {
+	  return Object.assign({}, _currentNotebook);
+	};
+	
+	CurrentNotebookStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case NotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
+	      _setCurrentNotebook(payload.currentNotebook);
+	      CurrentNotebookStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	// const _login = function(currentUser) {
+	//   _currentUser = currentUser;
+	// };
+	
+	// const _logout = function() {
+	//   _currentUser = {};
+	//   hashHistory.push("/");
+	// };
+	
+	
+	//
+	// SessionStore.isUserLoggedIn = function() {
+	//   return !!_currentUser.id;
+	// };
+	//
+	// SessionStore.__onDispatch = payload => {
+	//   switch(payload.actionType) {
+	//     case SessionConstants.LOGIN:
+	//       _login(payload.currentUser);
+	//       SessionStore.__emitChange();
+	//       break;
+	//     case SessionConstants.LOGOUT:
+	//       _logout();
+	//       SessionStore.__emitChange();
+	//       break;
+	//   }
+	// };
+	
+	module.exports = CurrentNotebookStore;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(239);
+	var NotebookApiUtil = __webpack_require__(289);
+	var NotebookConstants = __webpack_require__(290);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var CurrentNotebookActions = {
+	  selectCurrentNotebook: function selectCurrentNotebook(notebook) {
+	    NotebookApiUtil.selectCurrentNotebook(notebook, this.receiveCurrentNotebook);
+	  },
+	
+	  receiveCurrentNotebook: function receiveCurrentNotebook(notebook) {
+	    Dispatcher.dispatch({
+	      actionType: NotebookConstants.RECEIVE_CURRENT_NOTEBOOK,
+	      currentNotebook: notebook
+	    });
+	  }
+	
+	};
+	
+	module.exports = CurrentNotebookActions;
 
 /***/ }
 /******/ ]);

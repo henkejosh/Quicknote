@@ -12,12 +12,32 @@ const SessionActions = require('./actions/session_actions.js');
 const App = require('./components/app.jsx');
 const LandingPage = require('./components/landing_page.jsx');
 const HomePage = require('./components/home_page.jsx');
+// Stores
+const SessionStore = require('./stores/session_store.js');
+const NotebookStore = require('./stores/notebook_store.js');
+const NotebookActions = require('./actions/notebook_actions.js');
+const CurrentNotebookActions = require('./actions/current_notebook_actions.js');
+const CurrentNotebookStore = require('./stores/current_notebook_store.js');
+
+const _ensureNotLoggedIn = function(nextState, replace) {
+  if(SessionStore.isUserLoggedIn()) {
+    replace('/home');
+  }
+};
+
+const _ensureLoggedIn = function(nextState, replace) {
+  if (!SessionStore.isUserLoggedIn()) {
+    replace('/');
+  }
+};
 
 const appRouter = (
   <Router history={ hashHistory }>
     <Route path="/" component={ App } >
-      <IndexRoute component={ LandingPage } />
-      <Route path="/home" component={ HomePage } />
+      <IndexRoute component={ LandingPage }
+        onEnter={ _ensureNotLoggedIn }/>
+      <Route path="/home" component={ HomePage }
+        onEnter={ _ensureLoggedIn }/>
     </Route>
   </Router>
 );
@@ -32,3 +52,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("root")
   );
 });
+
+window.CurrentNotebookStore = CurrentNotebookStore;
+window.CurrentNotebookActions = CurrentNotebookActions;

@@ -90,7 +90,7 @@ const App = React.createClass({
 
         <p className="log-out"
           onClick={this.logout}>Log Out</p>
-          
+
       </div>
     );
   }
