@@ -3,9 +3,6 @@ const Modal = require('react-modal');
 const NotebookBarModStyle = require('../misc/notebook_bar_modstyle.js');
 
 const NotebookBarItem = React.createClass({
-  // getInitialState: function() {
-  //
-  // },
 
   render: function() {
     return (

@@ -6,9 +6,8 @@ Rails.application.routes.draw do
     resource :session, only: [:create, :destroy, :new]
     resources :users, only: [:create, :update, :new, :show]
 
-    resources :notebooks do
-      resources :notes
-    end
+    resources :notebooks
+    resources :notes
 
     resources :tags
 

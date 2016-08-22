@@ -1,6 +1,7 @@
 class Api::NotesController < ApplicationController
   def index
-    @notes = Note.all.where(notebook_id: params[:notebook_id])
+    # @notes = Note.all.where(notebook_id: params[:notebook_id])
+    @notes = Note.all
     render json: @notes
   end
 

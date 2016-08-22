@@ -4,17 +4,6 @@ const NotebookConstants = require('../constants/notebook_constants.js');
 const hashHistory = require('react-router').hashHistory;
 
 const NotebookActions = {
-  selectCurrentNotebook: function(notebook) {
-    NotebookApiUtil.selectCurrentNotebook(notebook, this.receiveCurrentNotebook);
-  },
-
-  receiveCurrentNotebook: function(notebook) {
-    Dispatcher.dispatch({
-      actionType: NotebookConstants.RECEIVE_CURRENT_NOTEBOOK,
-      currentNotebook: notebook
-    });
-  },
-
   getAllNotebooks: function() {
     NotebookApiUtil.getAllNotebooks(this.receiveAllNotebooks);
   },

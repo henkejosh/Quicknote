@@ -36384,6 +36384,8 @@
 	var NotesBar = __webpack_require__(292);
 	var LeftNavBar = __webpack_require__(295);
 	var NotebookBar = __webpack_require__(296);
+	var NoteStore = __webpack_require__(299);
+	var NoteActions = __webpack_require__(301);
 	
 	var HomePage = React.createClass({
 	  displayName: 'HomePage',
@@ -36393,7 +36395,7 @@
 	      // notebooks: NotebookStore.allNotebooks(),
 	      currentNotebook: CurrentNotebookStore.currentNotebook(),
 	      // current_notebook_open: false
-	      //   notes: ,
+	      notes: NoteStore.allNotes(),
 	      //   tags: ,
 	      //   current_note: ,
 	      //   create_note_modal_open: false,
@@ -36403,11 +36405,17 @@
 	
 	  componentWillMount: function componentWillMount() {
 	    NotebookActions.getAllNotebooks();
+	    NoteActions.getAllNotes();
 	  },
 	
 	  componentDidMount: function componentDidMount() {
 	    // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
 	    this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
+	    this.noteListener = NoteStore.addListener(this.updateNotes);
+	  },
+	
+	  updateNotes: function updateNotes() {
+	    this.setState({ notes: this.controlNotesProps() });
 	  },
 	
 	  updateCurrentNotebook: function updateCurrentNotebook() {
@@ -36432,12 +36440,7 @@
 	  },
 	
 	  createCurrentNotebookBar: function createCurrentNotebookBar() {
-	    if (Object.keys(this.state.currentNotebook).length > 0) {
-	      return React.createElement(CurrentNotebookBar, null);
-	    }
-	    // } else {
-	    //   return <NotesBar />;
-	    // }
+	    return React.createElement(CurrentNotebookBar, { notes: this.controlNotesProps() });
 	  },
 	
 	  controlSelectNotebookModal: function controlSelectNotebookModal() {
@@ -36446,6 +36449,20 @@
 	        isOpen: this.state.SelectNotebookModalOpen,
 	        closeSelectNotebookModal: this.closeSelectNotebookModal
 	      });
+	    }
+	  },
+	
+	  controlNotesProps: function controlNotesProps() {
+	    if (Object.keys(this.state.currentNotebook).length > 0) {
+	      return NoteStore.allNotebookNotes();
+	    } else {
+	      return NoteStore.allNotes();
+	    }
+	  },
+	
+	  createNotesComp: function createNotesComp() {
+	    if (Object.keys(this.state.notes).length > 0) {
+	      return React.createElement(NotesBar, { notes: this.state.notes });
 	    }
 	  },
 	
@@ -36463,6 +36480,7 @@
 	        null,
 	        'Home Page dawg'
 	      ),
+	      this.createNotesComp(),
 	      this.controlSelectNotebookModal()
 	    );
 	  }
@@ -36482,17 +36500,6 @@
 	var hashHistory = __webpack_require__(175).hashHistory;
 	
 	var NotebookActions = {
-	  selectCurrentNotebook: function selectCurrentNotebook(notebook) {
-	    NotebookApiUtil.selectCurrentNotebook(notebook, this.receiveCurrentNotebook);
-	  },
-	
-	  receiveCurrentNotebook: function receiveCurrentNotebook(notebook) {
-	    Dispatcher.dispatch({
-	      actionType: NotebookConstants.RECEIVE_CURRENT_NOTEBOOK,
-	      currentNotebook: notebook
-	    });
-	  },
-	
 	  getAllNotebooks: function getAllNotebooks() {
 	    NotebookApiUtil.getAllNotebooks(this.receiveAllNotebooks);
 	  },
@@ -36851,6 +36858,10 @@
 	    NotebookActions.getAllNotebooks();
 	  },
 	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.notebookStoreListener.remove();
+	  },
+	
 	  render: function render() {
 	    var that = this;
 	    return React.createElement(
@@ -36954,9 +36965,6 @@
 	var NotebookBarItem = React.createClass({
 	  displayName: 'NotebookBarItem',
 	
-	  // getInitialState: function() {
-	  //
-	  // },
 	
 	  render: function render() {
 	    return React.createElement(
@@ -36986,6 +36994,116 @@
 	});
 	
 	module.exports = NotebookBarItem;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var Store = __webpack_require__(248).Store;
+	var Dispatcher = __webpack_require__(239);
+	var NoteConstants = __webpack_require__(300);
+	var NotebookConstants = __webpack_require__(290);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var NoteStore = new Store(Dispatcher);
+	
+	var _notes = {};
+	var _notebookNotes = {};
+	
+	var _setNotes = function _setNotes(notes) {
+	  notes.forEach(function (note) {
+	    _notes[note.id] = note;
+	  });
+	};
+	
+	var _setNotebookNotes = function _setNotebookNotes(notes) {
+	  notes.forEach(function (note) {
+	    _notebookNotes[note.id] = note;
+	  });
+	};
+	
+	NoteStore.allNotes = function () {
+	  return Object.assign({}, _notes);
+	};
+	
+	NoteStore.allNotebookNotes = function () {
+	  return Object.assign({}, _notebookNotes);
+	};
+	
+	NoteStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case NoteConstants.RECEIVE_ALL_NOTES:
+	      _setNotes(payload.notes);
+	      NoteStore.__emitChange();
+	      break;
+	    case NotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
+	      _setNotebookNotes(payload.currentNotebook.notes);
+	  }
+	};
+	
+	module.exports = NoteStore;
+
+/***/ },
+/* 300 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var CurrentNotebookConstants = {
+	  RECEIVE_ALL_NOTES: "RECEIVE_ALL_NOTES"
+	};
+	
+	module.exports = CurrentNotebookConstants;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(239);
+	var NoteApiUtil = __webpack_require__(302);
+	var NoteConstants = __webpack_require__(300);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var NoteActions = {
+	  getAllNotes: function getAllNotes() {
+	    NoteApiUtil.getAllNotes(this.receiveAllNotes);
+	  },
+	
+	  receiveAllNotes: function receiveAllNotes(notes) {
+	    Dispatcher.dispatch({
+	      actionType: NoteConstants.RECEIVE_ALL_NOTES,
+	      notes: notes
+	    });
+	  }
+	};
+	
+	module.exports = NoteActions;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var NoteApiUtil = {
+	  getAllNotes: function getAllNotes(success) {
+	    $.ajax({
+	      url: "api/notes",
+	      type: "GET",
+	      dataType: "json",
+	      success: success,
+	      error: function error() {
+	        console.log("Error fetching notes");
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = NoteApiUtil;
 
 /***/ }
 /******/ ]);

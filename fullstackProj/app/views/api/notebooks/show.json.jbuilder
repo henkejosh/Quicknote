@@ -7,6 +7,8 @@ if @notebook
       json.id note.id
       json.body note.body
       json.title note.title
+      json.created_at note.created_at
+      json.updated_at note.updated_at
     end
   end
 end

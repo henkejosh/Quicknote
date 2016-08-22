@@ -1,4 +1,4 @@
-const NotebookApiUtil = {
+const CurrentNotebookApiUtil = {
   selectCurrentNotebook: function(notebook, success) {
     $.ajax({
       url: `api/notebooks/${notebook.id}`,

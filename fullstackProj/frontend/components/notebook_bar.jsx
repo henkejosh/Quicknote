@@ -24,6 +24,10 @@ const NotebookBar = React.createClass({
     NotebookActions.getAllNotebooks();
   },
 
+  componentWillUnmount: function() {
+    this.notebookStoreListener.remove();
+  },
+
   render: function() {
     const that = this;
     return (

@@ -5,6 +5,8 @@ const CurrentNotebookStore = require('../stores/current_notebook_store.js');
 const NotesBar = require('./notes_bar.jsx');
 const LeftNavBar = require('./left_nav_bar.jsx');
 const NotebookBar = require('./notebook_bar.jsx');
+const NoteStore = require('../stores/note_store.js');
+const NoteActions = require('../actions/note_actions.js');
 
 const HomePage = React.createClass({
   getInitialState: function() {
@@ -12,7 +14,7 @@ const HomePage = React.createClass({
       // notebooks: NotebookStore.allNotebooks(),
       currentNotebook: CurrentNotebookStore.currentNotebook(),
     // current_notebook_open: false
-    //   notes: ,
+      notes: NoteStore.allNotes(),
     //   tags: ,
     //   current_note: ,
     //   create_note_modal_open: false,
@@ -23,11 +25,17 @@ const HomePage = React.createClass({
 
   componentWillMount: function() {
     NotebookActions.getAllNotebooks();
+    NoteActions.getAllNotes();
   },
 
   componentDidMount: function() {
     // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
     this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
+    this.noteListener = NoteStore.addListener(this.updateNotes);
+  },
+
+  updateNotes: function() {
+    this.setState({ notes: this.controlNotesProps() });
   },
 
   updateCurrentNotebook: function() {
@@ -52,12 +60,7 @@ const HomePage = React.createClass({
   },
 
   createCurrentNotebookBar: function() {
-    if(Object.keys(this.state.currentNotebook).length > 0) {
-      return <CurrentNotebookBar />;
-    }
-    // } else {
-    //   return <NotesBar />;
-    // }
+    return <CurrentNotebookBar notes={ this.controlNotesProps() }/>;
   },
 
   controlSelectNotebookModal: function() {
@@ -71,6 +74,20 @@ const HomePage = React.createClass({
     }
   },
 
+  controlNotesProps: function() {
+    if(Object.keys(this.state.currentNotebook).length > 0) {
+      return NoteStore.allNotebookNotes();
+    } else {
+      return NoteStore.allNotes();
+    }
+  },
+
+  createNotesComp: function() {
+    if(Object.keys(this.state.notes).length > 0) {
+      return <NotesBar notes={this.state.notes} />;
+    }
+  },
+
   render: function() {
     return (
       <div>
@@ -81,6 +98,7 @@ const HomePage = React.createClass({
           />
 
         <div>Home Page dawg</div>
+        { this.createNotesComp() }
         { this.controlSelectNotebookModal() }
 
       </div>
