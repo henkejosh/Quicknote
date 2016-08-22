@@ -36826,15 +36826,33 @@
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
 	var NotebookBarModStyle = __webpack_require__(297);
+	var NotebookBarItem = __webpack_require__(298);
+	var NotebookStore = __webpack_require__(291);
+	var NotebookActions = __webpack_require__(288);
 	
 	var NotebookBar = React.createClass({
 	  displayName: 'NotebookBar',
 	
-	  // getInitialState: function() {
-	  //
-	  // },
+	  getInitialState: function getInitialState() {
+	    return {
+	      notebooks: NotebookStore.allNotebooks()
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.notebookStoreListener = NotebookStore.addListener(this.updateNotebooks);
+	  },
+	
+	  updateNotebooks: function updateNotebooks() {
+	    this.setState({ notebooks: NotebookStore.allNotebooks() });
+	  },
+	
+	  componentWillMount: function componentWillMount() {
+	    NotebookActions.getAllNotebooks();
+	  },
 	
 	  render: function render() {
+	    var that = this;
 	    return React.createElement(
 	      Modal,
 	      { style: NotebookBarModStyle, isOpen: this.props.isOpen },
@@ -36847,6 +36865,13 @@
 	          'Notebooks'
 	        ),
 	        React.createElement('br', null),
+	        Object.keys(that.state.notebooks).map(function (id) {
+	          var notebook = that.state.notebooks[id];
+	          return React.createElement(NotebookBarItem, { key: id,
+	            title: notebook.title,
+	            user_id: notebook.user_id
+	          });
+	        }),
 	        React.createElement(
 	          'div',
 	          { className: 'cancel-button' },
@@ -36915,6 +36940,52 @@
 	//
 	//   }
 	// }
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Modal = __webpack_require__(265);
+	var NotebookBarModStyle = __webpack_require__(297);
+	
+	var NotebookBarItem = React.createClass({
+	  displayName: 'NotebookBarItem',
+	
+	  // getInitialState: function() {
+	  //
+	  // },
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'ul',
+	        null,
+	        React.createElement(
+	          'li',
+	          null,
+	          this.props.title
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          this.props.id
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          this.props.user_id
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NotebookBarItem;
 
 /***/ }
 /******/ ]);
