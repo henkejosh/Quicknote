@@ -4,6 +4,7 @@ const Store = require('flux/utils').Store;
 const Dispatcher = require('../dispatcher/dispatcher.js');
 const NotebookConstants = require('../constants/notebook_constants.js');
 const hashHistory = require('react-router').hashHistory;
+const NotebookStore = require('./notebook_store.js');
 
 const CurrentNotebookStore = new Store(Dispatcher);
 
@@ -14,6 +15,9 @@ const _setCurrentNotebook = function(notebook) {
 };
 
 CurrentNotebookStore.currentNotebook = function() {
+  // if(Object.keys(_currentNotebook).length === 0) {
+  //   _currentNotebook = NotebookStore.mostRecentNotebook();
+  // }
   return Object.assign({}, _currentNotebook);
 };
 
@@ -25,33 +29,5 @@ CurrentNotebookStore.__onDispatch = payload => {
       break;
   }
 };
-
-// const _login = function(currentUser) {
-//   _currentUser = currentUser;
-// };
-
-// const _logout = function() {
-//   _currentUser = {};
-//   hashHistory.push("/");
-// };
-
-
-//
-// SessionStore.isUserLoggedIn = function() {
-//   return !!_currentUser.id;
-// };
-//
-// SessionStore.__onDispatch = payload => {
-//   switch(payload.actionType) {
-//     case SessionConstants.LOGIN:
-//       _login(payload.currentUser);
-//       SessionStore.__emitChange();
-//       break;
-//     case SessionConstants.LOGOUT:
-//       _logout();
-//       SessionStore.__emitChange();
-//       break;
-//   }
-// };
 
 module.exports = CurrentNotebookStore;

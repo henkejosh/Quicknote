@@ -53,5 +53,6 @@ document.addEventListener("DOMContentLoaded", function() {
   );
 });
 
+window.NotebookStore = NotebookStore;
 window.CurrentNotebookStore = CurrentNotebookStore;
 window.CurrentNotebookActions = CurrentNotebookActions;

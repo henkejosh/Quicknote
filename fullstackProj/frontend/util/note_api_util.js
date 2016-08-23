@@ -9,6 +9,10 @@ const NoteApiUtil = {
         console.log("Error fetching notes");
       }
     });
+  },
+
+  createNote: function(note) {
+
   }
 };
 

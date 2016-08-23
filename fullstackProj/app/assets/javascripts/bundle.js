@@ -100,6 +100,7 @@
 	  ReactDOM.render(appRouter, document.getElementById("root"));
 	});
 	
+	window.NotebookStore = NotebookStore;
 	window.CurrentNotebookStore = CurrentNotebookStore;
 	window.CurrentNotebookActions = CurrentNotebookActions;
 
@@ -36375,6 +36376,7 @@
 	var NotebookBar = __webpack_require__(296);
 	var NoteStore = __webpack_require__(299);
 	var NoteActions = __webpack_require__(301);
+	var NoteEditor = __webpack_require__(304);
 	
 	var HomePage = React.createClass({
 	  displayName: 'HomePage',
@@ -36383,6 +36385,7 @@
 	    return {
 	      // notebooks: NotebookStore.allNotebooks(),
 	      currentNotebook: CurrentNotebookStore.currentNotebook(),
+	      // currentNote: CurrentNoteStore.currentNote();
 	      // current_notebook_open: false
 	      notes: NoteStore.allNotes(),
 	      //   tags: ,
@@ -36466,20 +36469,17 @@
 	        SelectNotebookModalOpen: this.state.SelectNotebookModalOpen,
 	        openSelectNotebookModal: this.openSelectNotebookModal,
 	        closeSelectNotebookModal: this.closeSelectNotebookModal,
-	        currentUser: this.props.currentUser
+	        currentUser: this.props.currentUser,
+	        logout: this.props.logout,
+	        currentNotebook: this.props.currentNotebook
 	      }),
 	      React.createElement(
 	        'div',
 	        { className: 'page-content' },
 	        this.createNotesComp(),
-	        this.controlSelectNotebookModal(),
-	        React.createElement(
-	          'p',
-	          { className: 'log-out',
-	            onClick: this.props.logout },
-	          'Log Out'
-	        )
-	      )
+	        this.controlSelectNotebookModal()
+	      ),
+	      React.createElement(NoteEditor, { currentNotebook: this.props.currentNotebook })
 	    );
 	  }
 	});
@@ -36599,77 +36599,32 @@
 	
 	var NotebookStore = new Store(Dispatcher);
 	
-	var _currentNotebook = {};
 	var _allNotebooks = {};
-	
-	var _setCurrentNotebook = function _setCurrentNotebook(notebook) {
-	  _currentNotebook[notebook.id] = notebook;
-	};
 	
 	var _setAllNotebooks = function _setAllNotebooks(notebooks) {
 	  notebooks.forEach(function (notebook) {
 	    _allNotebooks[notebook.id] = notebook;
 	  });
-	
-	  // if(Object.keys(_currentNotebook).length === 0) {
-	  //   let notebook = notebooks[0];
-	  //   _currentNotebook[notebook.id] = notebook;
-	  // }
 	};
 	
-	NotebookStore.currentNotebook = function () {
-	  return Object.assign({}, _currentNotebook);
+	NotebookStore.mostRecentNotebook = function () {
+	  var ids = Object.keys(_allNotebooks);
+	  var lastID = Math.max.apply(null, ids);
+	  return { lastID: _allNotebooks[lastID] };
 	};
 	
 	NotebookStore.allNotebooks = function () {
-	  // if(Object.keys(_currentNotebook).length === 0) {
-	  //   return : {
-	  //
-	  //   }}
-	  // }
 	  return Object.assign({}, _allNotebooks);
 	};
 	
 	NotebookStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
-	    case NotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
-	      _setCurrentNotebook(payload.currentNotebook);
-	      NotebookStore.__emitChange();
-	      break;
 	    case NotebookConstants.GET_ALL_NOTEBOOKS:
 	      _setAllNotebooks(payload.notebooks);
 	      NotebookStore.__emitChange();
 	      break;
 	  }
 	};
-	
-	// const _login = function(currentUser) {
-	//   _currentUser = currentUser;
-	// };
-	
-	// const _logout = function() {
-	//   _currentUser = {};
-	//   hashHistory.push("/");
-	// };
-	
-	
-	//
-	// SessionStore.isUserLoggedIn = function() {
-	//   return !!_currentUser.id;
-	// };
-	//
-	// SessionStore.__onDispatch = payload => {
-	//   switch(payload.actionType) {
-	//     case SessionConstants.LOGIN:
-	//       _login(payload.currentUser);
-	//       SessionStore.__emitChange();
-	//       break;
-	//     case SessionConstants.LOGOUT:
-	//       _logout();
-	//       SessionStore.__emitChange();
-	//       break;
-	//   }
-	// };
 	
 	module.exports = NotebookStore;
 
@@ -36683,6 +36638,7 @@
 	var Dispatcher = __webpack_require__(239);
 	var NotebookConstants = __webpack_require__(290);
 	var hashHistory = __webpack_require__(175).hashHistory;
+	var NotebookStore = __webpack_require__(291);
 	
 	var CurrentNotebookStore = new Store(Dispatcher);
 	
@@ -36693,6 +36649,9 @@
 	};
 	
 	CurrentNotebookStore.currentNotebook = function () {
+	  // if(Object.keys(_currentNotebook).length === 0) {
+	  //   _currentNotebook = NotebookStore.mostRecentNotebook();
+	  // }
 	  return Object.assign({}, _currentNotebook);
 	};
 	
@@ -36704,34 +36663,6 @@
 	      break;
 	  }
 	};
-	
-	// const _login = function(currentUser) {
-	//   _currentUser = currentUser;
-	// };
-	
-	// const _logout = function() {
-	//   _currentUser = {};
-	//   hashHistory.push("/");
-	// };
-	
-	
-	//
-	// SessionStore.isUserLoggedIn = function() {
-	//   return !!_currentUser.id;
-	// };
-	//
-	// SessionStore.__onDispatch = payload => {
-	//   switch(payload.actionType) {
-	//     case SessionConstants.LOGIN:
-	//       _login(payload.currentUser);
-	//       SessionStore.__emitChange();
-	//       break;
-	//     case SessionConstants.LOGOUT:
-	//       _logout();
-	//       SessionStore.__emitChange();
-	//       break;
-	//   }
-	// };
 	
 	module.exports = CurrentNotebookStore;
 
@@ -36854,6 +36785,7 @@
 	
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
+	var NotebookStore = __webpack_require__(291);
 	
 	var LeftNavBar = React.createClass({
 	  displayName: 'LeftNavBar',
@@ -36867,6 +36799,19 @@
 	    }
 	  },
 	
+	  createNewNote: function createNewNote() {
+	    var notebook = void 0;
+	    if (Object.keys(this.props.currentNotebook).length === 0) {
+	      notebook = NotebookStore.mostRecentNotebook();
+	    } else {
+	      notebook = this.props.currentNotebook;
+	    }
+	    // let note = {
+	    //   notebook_id: notebook.id,
+	    //
+	    // }
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      'nav',
@@ -36877,16 +36822,32 @@
 	        'Current User: ',
 	        this.props.currentUser
 	      ),
+	      React.createElement('br', null),
 	      React.createElement(
 	        'div',
-	        { className: 'note-icon' },
-	        'Note'
+	        { className: 'add-note-icon nav-icon',
+	          onClick: this.createNewNote },
+	        'Add Note'
 	      ),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'div',
+	        { className: 'note-icon nav-icon' },
+	        'Note Icon'
+	      ),
+	      React.createElement('br', null),
 	      React.createElement(
 	        'div',
 	        { onClick: this.handleNBClick,
-	          className: 'notebook-icon' },
-	        'NB'
+	          className: 'notebook-icon nav-icon' },
+	        'NB Icon'
+	      ),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'p',
+	        { className: 'log-out',
+	          onClick: this.props.logout },
+	        'Log Out'
 	      )
 	    );
 	  }
@@ -37189,7 +37150,9 @@
 	        console.log("Error fetching notes");
 	      }
 	    });
-	  }
+	  },
+	
+	  createNote: function createNote(note) {}
 	};
 	
 	module.exports = NoteApiUtil;
@@ -37220,6 +37183,62 @@
 	};
 	
 	module.exports = CurrentNotebookActions;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var NoteEditor = React.createClass({
+	  displayName: "NoteEditor",
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    // make this autosave by doing an "onChange" and having body
+	    // content tied to state
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      "form",
+	      { onSubmit: this.handleSubmit, className: "note-editor-page" },
+	      React.createElement(
+	        "div",
+	        { className: "top-toolbar" },
+	        React.createElement(
+	          "div",
+	          { className: "notebook-selector" },
+	          "choose NB"
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "tag-selector" },
+	          "choose tag"
+	        )
+	      ),
+	      React.createElement(
+	        "h2",
+	        { className: "note-name" },
+	        "Note Name Here"
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "text-editor-toolbar" },
+	        "Text editor Toolbar"
+	      ),
+	      React.createElement(
+	        "span",
+	        { className: "note-body" },
+	        "Type your note here"
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NoteEditor;
 
 /***/ }
 /******/ ]);

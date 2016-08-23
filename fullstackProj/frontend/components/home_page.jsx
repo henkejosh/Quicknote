@@ -7,12 +7,14 @@ const LeftNavBar = require('./left_nav_bar.jsx');
 const NotebookBar = require('./notebook_bar.jsx');
 const NoteStore = require('../stores/note_store.js');
 const NoteActions = require('../actions/note_actions.js');
+const NoteEditor = require('./note_editor.jsx');
 
 const HomePage = React.createClass({
   getInitialState: function() {
     return {
       // notebooks: NotebookStore.allNotebooks(),
       currentNotebook: CurrentNotebookStore.currentNotebook(),
+      // currentNote: CurrentNoteStore.currentNote();
     // current_notebook_open: false
       notes: NoteStore.allNotes(),
     //   tags: ,
@@ -102,17 +104,16 @@ const HomePage = React.createClass({
           openSelectNotebookModal={this.openSelectNotebookModal}
           closeSelectNotebookModal={this.closeSelectNotebookModal}
           currentUser={this.props.currentUser}
+          logout={this.props.logout}
+          currentNotebook={this.props.currentNotebook}
           />
 
-
         <div className="page-content">
-
           { this.createNotesComp() }
           { this.controlSelectNotebookModal() }
-
-          <p className="log-out"
-            onClick={this.props.logout}>Log Out</p>
         </div>
+
+        <NoteEditor currentNotebook={this.props.currentNotebook}/>
 
       </div>
     );
