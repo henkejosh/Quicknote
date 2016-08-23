@@ -1,0 +1,24 @@
+div.note-card {
+  height: 120px;
+  width: 350px;
+  border: 1px solid black;
+  margin: 0px;
+  padding: 0px;
+}
+
+.note-card-title {
+  height: 120px;
+  width: 350px;
+  border: 1px solid black;
+  margin: 0px;
+  padding: 0px;
+}
+
+div.note-card:hover {
+  cursor: pointer;
+  background-color: #2DBE60;
+}
+
+ul.note-card {
+  list-style: none;
+}

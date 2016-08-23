@@ -86,7 +86,10 @@ const HomePage = React.createClass({
 
   createNotesComp: function() {
     if(Object.keys(this.state.notes).length > 0) {
-      return <NotesBar notes={this.state.notes} />;
+      return (
+        <NotesBar notes={this.state.notes}
+          currentNotebook={this.state.currentNotebook}/>
+      );
     }
   },
 
@@ -103,7 +106,6 @@ const HomePage = React.createClass({
 
 
         <div className="page-content">
-          <div>Home Page dawg</div>
 
           { this.createNotesComp() }
           { this.controlSelectNotebookModal() }

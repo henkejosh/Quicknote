@@ -30,6 +30,11 @@ NotebookStore.currentNotebook = function() {
 };
 
 NotebookStore.allNotebooks = function() {
+  // if(Object.keys(_currentNotebook).length === 0) {
+  //   return : {
+  //
+  //   }}
+  // }
   return Object.assign({}, _allNotebooks);
 };
 
