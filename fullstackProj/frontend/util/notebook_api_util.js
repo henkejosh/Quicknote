@@ -1,7 +1,7 @@
 const NotebookApiUtil = {
-  selectCurrentNotebook: function(notebook, success) {
+  selectCurrentNotebook: function(notebookID, success) {
     $.ajax({
-      url: `api/notebooks/${notebook.id}`,
+      url: `api/notebooks/${notebookID}`,
       type: "GET",
       dataType: "json",
       success,

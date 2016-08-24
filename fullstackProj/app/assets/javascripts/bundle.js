@@ -36450,7 +36450,6 @@
 	  },
 	
 	  closeSelectNotebookModal: function closeSelectNotebookModal() {
-	    // debugger;
 	    this.setState({ SelectNotebookModalOpen: false });
 	  },
 	
@@ -36462,7 +36461,9 @@
 	    if (this.state.SelectNotebookModalOpen) {
 	      return React.createElement(NotebookBar, {
 	        isOpen: this.state.SelectNotebookModalOpen,
-	        closeSelectNotebookModal: this.closeSelectNotebookModal
+	        closeSelectNotebookModal: this.closeSelectNotebookModal,
+	        changeCardColumnToNotebook: this.changeCardColumnToNotebook,
+	        changeCardColumnToAllCards: this.changeCardColumnToAllCards
 	      });
 	    }
 	  },
@@ -36477,6 +36478,10 @@
 	
 	  changeCardColumnToNotebook: function changeCardColumnToNotebook() {
 	    this.setState({ cardColumnNotebook: true });
+	  },
+	
+	  changeCardColumnToAllCards: function changeCardColumnToAllCards() {
+	    this.setState({ cardColumnNotebook: false });
 	  },
 	
 	  createNotesComp: function createNotesComp() {
@@ -36581,9 +36586,9 @@
 	"use strict";
 	
 	var NotebookApiUtil = {
-	  selectCurrentNotebook: function selectCurrentNotebook(notebook, success) {
+	  selectCurrentNotebook: function selectCurrentNotebook(notebookID, success) {
 	    $.ajax({
-	      url: "api/notebooks/" + notebook.id,
+	      url: "api/notebooks/" + notebookID,
 	      type: "GET",
 	      dataType: "json",
 	      success: success,
@@ -36968,8 +36973,9 @@
 	    }
 	  },
 	
-	  // <Modal style={NotebookBarModStyle} isOpen={this.props.isOpen}
 	  render: function render() {
+	    var _this = this;
+	
 	    var that = this;
 	    return React.createElement(
 	      'div',
@@ -36996,7 +37002,10 @@
 	          return React.createElement(NotebookBarItem, { key: id,
 	            title: notebook.title,
 	            user_id: notebook.user_id,
-	            id: notebook.id
+	            id: notebook.id,
+	            changeCardColumnToNotebook: _this.props.changeCardColumnToNotebook,
+	            changeCardColumnToAllCards: _this.props.changeCardColumnToAllCards,
+	            closeSelectNotebookModal: _this.props.closeSelectNotebookModal
 	          });
 	        }),
 	        React.createElement(
@@ -37079,10 +37088,17 @@
 	var Modal = __webpack_require__(265);
 	var NotebookBarModStyle = __webpack_require__(297);
 	var NoteStore = __webpack_require__(299);
+	var CurrentNotebookActions = __webpack_require__(314);
 	
 	var NotebookBarItem = React.createClass({
 	  displayName: 'NotebookBarItem',
 	
+	  handleClick: function handleClick(e) {
+	    e.preventDefault();
+	    CurrentNotebookActions.selectCurrentNotebook(this.props.id);
+	    this.props.changeCardColumnToNotebook();
+	    this.props.closeSelectNotebookModal();
+	  },
 	
 	  render: function render() {
 	    return React.createElement(
@@ -37090,7 +37106,7 @@
 	      null,
 	      React.createElement(
 	        'ul',
-	        null,
+	        { className: 'notebook-card', onClick: this.handleClick },
 	        React.createElement(
 	          'li',
 	          null,
@@ -37137,6 +37153,7 @@
 	};
 	
 	var _setNotebookNotes = function _setNotebookNotes(notes) {
+	  _notebookNotes = {};
 	  notes.forEach(function (note) {
 	    _notebookNotes[note.id] = note;
 	  });
@@ -48912,8 +48929,8 @@
 	var hashHistory = __webpack_require__(175).hashHistory;
 	
 	var CurrentNotebookActions = {
-	  selectCurrentNotebook: function selectCurrentNotebook(notebook) {
-	    NotebookApiUtil.selectCurrentNotebook(notebook, this.receiveCurrentNotebook);
+	  selectCurrentNotebook: function selectCurrentNotebook(notebookID) {
+	    NotebookApiUtil.selectCurrentNotebook(notebookID, this.receiveCurrentNotebook);
 	  },
 	
 	  receiveCurrentNotebook: function receiveCurrentNotebook(notebook) {

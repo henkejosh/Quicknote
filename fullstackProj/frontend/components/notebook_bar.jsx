@@ -36,7 +36,6 @@ const NotebookBar = React.createClass({
     }
   },
 
-  // <Modal style={NotebookBarModStyle} isOpen={this.props.isOpen}
   render: function() {
     const that = this;
     return (
@@ -55,6 +54,9 @@ const NotebookBar = React.createClass({
                     title={notebook.title}
                     user_id={notebook.user_id}
                     id={notebook.id}
+                    changeCardColumnToNotebook={this.props.changeCardColumnToNotebook}
+                    changeCardColumnToAllCards={this.props.changeCardColumnToAllCards}
+                    closeSelectNotebookModal={this.props.closeSelectNotebookModal}
                   />
               );
             })

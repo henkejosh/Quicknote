@@ -75,7 +75,6 @@ const HomePage = React.createClass({
   },
 
   closeSelectNotebookModal: function() {
-    // debugger;
     this.setState({ SelectNotebookModalOpen: false });
   },
 
@@ -89,6 +88,8 @@ const HomePage = React.createClass({
         <NotebookBar
           isOpen={ this.state.SelectNotebookModalOpen }
           closeSelectNotebookModal={ this.closeSelectNotebookModal }
+          changeCardColumnToNotebook={this.changeCardColumnToNotebook}
+          changeCardColumnToAllCards={this.changeCardColumnToAllCards}
           />
       );
     }
@@ -104,6 +105,10 @@ const HomePage = React.createClass({
 
   changeCardColumnToNotebook: function() {
     this.setState({ cardColumnNotebook: true });
+  },
+
+  changeCardColumnToAllCards: function() {
+    this.setState({ cardColumnNotebook: false });
   },
 
   createNotesComp: function() {

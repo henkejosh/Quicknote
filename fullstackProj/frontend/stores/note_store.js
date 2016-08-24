@@ -22,6 +22,7 @@ const _addNote = function(note) {
 };
 
 const _setNotebookNotes = function(notes) {
+  _notebookNotes = {};
   notes.forEach( note => {
     _notebookNotes[note.id] = note;
   });
