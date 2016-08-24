@@ -66,6 +66,7 @@
 	var NotebookActions = __webpack_require__(288);
 	var CurrentNotebookActions = __webpack_require__(314);
 	var CurrentNotebookStore = __webpack_require__(292);
+	var CurrentNoteStore = __webpack_require__(316);
 	
 	var _ensureNotLoggedIn = function _ensureNotLoggedIn(nextState, replace) {
 	  if (SessionStore.isUserLoggedIn()) {
@@ -100,6 +101,7 @@
 	  ReactDOM.render(appRouter, document.getElementById("root"));
 	});
 	
+	window.CurrentNoteStore = CurrentNoteStore;
 	window.NotebookStore = NotebookStore;
 	window.CurrentNotebookStore = CurrentNotebookStore;
 	window.CurrentNotebookActions = CurrentNotebookActions;
@@ -36380,6 +36382,7 @@
 	var NoteActions = __webpack_require__(301);
 	var NoteEditor = __webpack_require__(303);
 	var CurrentNoteStore = __webpack_require__(316);
+	var CurrentNoteActions = __webpack_require__(318);
 	
 	var HomePage = React.createClass({
 	  displayName: 'HomePage',
@@ -36394,7 +36397,6 @@
 	      //   tags: ,
 	      //   current_note: ,
 	      //   create_note_modal_open: false,
-	      SelectNotebookModalOpen: false,
 	      //   tags_modal_open: false,
 	      cardColumnNotebook: false
 	    };
@@ -36403,15 +36405,19 @@
 	  componentWillMount: function componentWillMount() {
 	    // this.currentNotebookListener =
 	    //   CurrentNotebookStore.addListener(this.updateCurrentNotebook);
+	    // this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
+	    // this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
+	    // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
+	    // this.noteListener = NoteStore.addListener(this.updateNotes);
 	    NotebookActions.getAllNotebooks();
 	    NoteActions.getAllNotes();
 	  },
 	
 	  componentDidMount: function componentDidMount() {
 	    this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
+	    this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
 	    this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
 	    this.noteListener = NoteStore.addListener(this.updateNotes);
-	    this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
@@ -36477,9 +36483,14 @@
 	    if (Object.keys(this.state.notes).length > 0) {
 	      return React.createElement(NotesBar, { notes: this.state.notes,
 	        currentNotebook: this.state.currentNotebook,
-	        cardColumnNotebook: this.state.cardColumnNotebook
+	        cardColumnNotebook: this.state.cardColumnNotebook,
+	        selectCurrentNote: this.selectCurrentNote
 	      });
 	    }
+	  },
+	
+	  selectCurrentNote: function selectCurrentNote(noteID) {
+	    CurrentNoteActions.selectCurrentNote(noteID);
 	  },
 	
 	  render: function render() {
@@ -36501,8 +36512,8 @@
 	        this.createNotesComp(),
 	        this.controlSelectNotebookModal()
 	      ),
-	      React.createElement(NoteEditor, { currentNote: this.state.currentNote,
-	        currentNotebook: this.state.currentNotebook })
+	      React.createElement(NoteEditor, { key: this.state.currentNote.id,
+	        currentNote: this.state.currentNote })
 	    );
 	  }
 	});
@@ -36732,6 +36743,8 @@
 	  },
 	
 	  render: function render() {
+	    var _this = this;
+	
 	    var that = this;
 	    return React.createElement(
 	      'div',
@@ -36758,7 +36771,8 @@
 	          title: note.title,
 	          id: note.id,
 	          created_at: note.created_at,
-	          updated_at: note.updated_at
+	          updated_at: note.updated_at,
+	          selectCurrentNote: _this.props.selectCurrentNote
 	        });
 	      })
 	    );
@@ -36787,10 +36801,16 @@
 	    }
 	  },
 	
+	  handleSelection: function handleSelection(e) {
+	    e.preventDefault();
+	    this.props.selectCurrentNote(this.props.id);
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      "div",
-	      { className: "note-card" },
+	      { onClick: this.handleSelection,
+	        className: "note-card" },
 	      React.createElement(
 	        "ul",
 	        null,
@@ -37217,6 +37237,20 @@
 	    });
 	  },
 	
+	  selectCurrentNote: function selectCurrentNote(noteID, success) {
+	    $.ajax({
+	      url: "api/notes/" + noteID,
+	      dataType: "json",
+	      type: "GET",
+	      success: success,
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  },
+	
 	  createNote: function createNote(note, success) {
 	    $.ajax({
 	      url: "api/notes",
@@ -37224,8 +37258,10 @@
 	      data: { note: note },
 	      dataType: "json",
 	      success: success,
-	      error: function error() {
-	        console.log("Error creating note");
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
 	      }
 	    });
 	  },
@@ -37237,9 +37273,6 @@
 	      type: "PATCH",
 	      data: { note: note },
 	      success: success,
-	      // error: function() {
-	      //   console.log("Error updating note");
-	      // }
 	      error: function error(xhr) {
 	        var error = "status: " + xhr.status + " " + xhr.statusText;
 	        console.log(error);
@@ -37287,7 +37320,7 @@
 	    // content tied to state
 	  },
 	
-	  componentWillReceiveProps: function componentWillReceiveProps() {
+	  componentDidMount: function componentDidMount() {
 	    this.setState({
 	      title: this.props.currentNote.title,
 	      body: this.props.currentNote.body
@@ -37303,7 +37336,7 @@
 	  },
 	
 	  autoSave: function autoSave() {
-	    this.saveTimeout = setTimeout(this.saveChanges, 100);
+	    this.saveTimeout = setTimeout(this.saveChanges, 1);
 	  },
 	
 	  update: function update(property) {
@@ -48956,6 +48989,33 @@
 	};
 	
 	module.exports = CurrentNoteConstants;
+
+/***/ },
+/* 318 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(239);
+	var NoteApiUtil = __webpack_require__(302);
+	var CurrentNoteConstants = __webpack_require__(317);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var CurrentNoteActions = {
+	  selectCurrentNote: function selectCurrentNote(noteID) {
+	    NoteApiUtil.selectCurrentNote(noteID, this.receiveCurrentNote);
+	  },
+	
+	  receiveCurrentNote: function receiveCurrentNote(note) {
+	    Dispatcher.dispatch({
+	      actionType: CurrentNoteConstants.RECEIVE_CURRENT_NOTE,
+	      currentNote: note
+	    });
+	  }
+	
+	};
+	
+	module.exports = CurrentNoteActions;
 
 /***/ }
 /******/ ]);

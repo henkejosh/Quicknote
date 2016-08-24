@@ -9,6 +9,7 @@ const NoteStore = require('../stores/note_store.js');
 const NoteActions = require('../actions/note_actions.js');
 const NoteEditor = require('./note_editor.jsx');
 const CurrentNoteStore = require('../stores/current_note_store.js');
+const CurrentNoteActions = require('../actions/current_note_actions.js');
 
 const HomePage = React.createClass({
   getInitialState: function() {
@@ -21,7 +22,6 @@ const HomePage = React.createClass({
     //   tags: ,
     //   current_note: ,
     //   create_note_modal_open: false,
-      SelectNotebookModalOpen: false,
     //   tags_modal_open: false,
       cardColumnNotebook: false
     };
@@ -30,15 +30,19 @@ const HomePage = React.createClass({
   componentWillMount: function() {
     // this.currentNotebookListener =
     //   CurrentNotebookStore.addListener(this.updateCurrentNotebook);
+    // this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
+    // this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
+    // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
+    // this.noteListener = NoteStore.addListener(this.updateNotes);
     NotebookActions.getAllNotebooks();
     NoteActions.getAllNotes();
   },
 
   componentDidMount: function() {
     this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
+    this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
     this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
     this.noteListener = NoteStore.addListener(this.updateNotes);
-    this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
   },
 
   componentWillUnmount: function() {
@@ -108,9 +112,14 @@ const HomePage = React.createClass({
         <NotesBar notes={this.state.notes}
           currentNotebook={this.state.currentNotebook}
           cardColumnNotebook={this.state.cardColumnNotebook}
+          selectCurrentNote={this.selectCurrentNote}
           />
       );
     }
+  },
+
+  selectCurrentNote: function(noteID) {
+    CurrentNoteActions.selectCurrentNote(noteID);
   },
 
   render: function() {
@@ -132,8 +141,8 @@ const HomePage = React.createClass({
           { this.controlSelectNotebookModal() }
         </div>
 
-        <NoteEditor currentNote={this.state.currentNote}
-          currentNotebook={this.state.currentNotebook}/>
+        <NoteEditor key={this.state.currentNote.id}
+          currentNote={this.state.currentNote} />
 
       </div>
     );

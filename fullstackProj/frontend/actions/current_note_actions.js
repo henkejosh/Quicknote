@@ -4,8 +4,8 @@ const CurrentNoteConstants = require('../constants/current_note_constants.js');
 const hashHistory = require('react-router').hashHistory;
 
 const CurrentNoteActions = {
-  selectCurrentNote: function(note) {
-    NoteApiUtil.selectCurrentNote(note, this.receiveCurrentNote);
+  selectCurrentNote: function(noteID) {
+    NoteApiUtil.selectCurrentNote(noteID, this.receiveCurrentNote);
   },
 
   receiveCurrentNote: function(note) {

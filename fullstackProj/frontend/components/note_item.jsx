@@ -10,9 +10,15 @@ const NoteItem = React.createClass({
     }
   },
 
+  handleSelection: function(e) {
+    e.preventDefault();
+    this.props.selectCurrentNote(this.props.id);
+  },
+
   render: function() {
     return (
-      <div className="note-card">
+      <div onClick={this.handleSelection}
+        className="note-card">
         <ul>
           <li>{this.props.title}</li>
           <li>{this.formatLastUpdated()}</li>

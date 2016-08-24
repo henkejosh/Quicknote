@@ -24,7 +24,7 @@ const NoteEditor = React.createClass({
     // content tied to state
   },
 
-  componentWillReceiveProps: function() {
+  componentDidMount: function() {
     this.setState({
       title: this.props.currentNote.title,
       body: this.props.currentNote.body
@@ -40,7 +40,7 @@ const NoteEditor = React.createClass({
   },
 
   autoSave: function() {
-    this.saveTimeout = setTimeout(this.saveChanges, 100);
+    this.saveTimeout = setTimeout(this.saveChanges, 1);
   },
 
   update: function(property) {

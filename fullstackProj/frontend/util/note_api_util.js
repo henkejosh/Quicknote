@@ -11,6 +11,20 @@ const NoteApiUtil = {
     });
   },
 
+  selectCurrentNote: function(noteID, success) {
+    $.ajax({
+      url: `api/notes/${noteID}`,
+      dataType: "json",
+      type: "GET",
+      success,
+      error: xhr => {
+        const error = `status: ${xhr.status} ${xhr.statusText}`;
+        console.log(error);
+        console.log(xhr.responseText);
+      }
+    });
+  },
+
   createNote: function(note, success) {
     $.ajax({
       url: "api/notes",
@@ -18,8 +32,10 @@ const NoteApiUtil = {
       data: { note },
       dataType: "json",
       success,
-      error: function() {
-        console.log("Error creating note");
+      error: xhr => {
+        const error = `status: ${xhr.status} ${xhr.statusText}`;
+        console.log(error);
+        console.log(xhr.responseText);
       }
     });
   },
@@ -31,9 +47,6 @@ const NoteApiUtil = {
       type: "PATCH",
       data: { note },
       success,
-      // error: function() {
-      //   console.log("Error updating note");
-      // }
       error: xhr => {
         const error = `status: ${xhr.status} ${xhr.statusText}`;
         console.log(error);
