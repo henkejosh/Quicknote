@@ -13,6 +13,7 @@ module.exports = {
     extensions: ["", ".js", ".jsx"]
   },
   module: {
+    noParse: /node_modules\/quill\/dist\/quill\.js/,
     loaders: [
       {
         test: /\.jsx?$/,

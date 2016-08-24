@@ -11,8 +11,30 @@ const NoteApiUtil = {
     });
   },
 
-  createNote: function(note) {
+  createNote: function(note, success) {
+    $.ajax({
+      url: "api/notes",
+      type: "POST",
+      data: { note },
+      dataType: "json",
+      success,
+      error: function() {
+        console.log("Error creating note");
+      }
+    });
+  },
 
+  updateNote: function(note, success) {
+    $.ajax({
+      url: `api/notes/${note.id}`,
+      dataType: "json",
+      type: "PATCH",
+      data: "note",
+      success,
+      error: function() {
+        console.log("Error updating note");
+      }
+    });
   }
 };
 

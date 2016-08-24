@@ -20,6 +20,7 @@ const SignInModal = React.createClass({
   componentWillUnmount() {
     // this.errorListener.remove();
     this.sessionListener.remove();
+    this.props.makeModalSignIn();
   },
 
   // isUserLoggedIn: function() {

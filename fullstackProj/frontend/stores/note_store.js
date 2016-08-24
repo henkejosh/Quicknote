@@ -17,6 +17,10 @@ const _setNotes = function(notes) {
   });
 };
 
+const _addNote = function(note) {
+  _notes[note.id] = note;
+};
+
 const _setNotebookNotes = function(notes) {
   notes.forEach( note => {
     _notebookNotes[note.id] = note;
@@ -39,6 +43,12 @@ NoteStore.__onDispatch = payload => {
       break;
     case NotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
       _setNotebookNotes(payload.currentNotebook.notes);
+      NoteStore.__emitChange();
+      break;
+    case NoteConstants.RECEIVE_NOTE:
+      _addNote(payload.note);
+      NoteStore.__emitChange();
+      break;
   }
 };
 

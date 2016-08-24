@@ -13,6 +13,21 @@ const NoteActions = {
       actionType: NoteConstants.RECEIVE_ALL_NOTES,
       notes: notes
     });
+  },
+
+  createNewNote: function(note) {
+    NoteApiUtil.createNote(note, this.receiveNote);
+  },
+
+  receiveNote: function(note) {
+    Dispatcher.dispatch({
+      actionType: NoteConstants.RECEIVE_NOTE,
+      note: note
+    });
+  },
+
+  updateNote: function(note) {
+    NoteApiUtil.updateNote(note, this.receiveNote);
   }
 };
 

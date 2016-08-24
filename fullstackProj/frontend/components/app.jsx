@@ -48,7 +48,8 @@ const App = React.createClass({
       return <SignInModal isOpen={ this.state.signInModal }
         closeSignInModal={this.closeSignInModal}
         modalType={this.state.modalType}
-        makeModalSignUp={this.makeModalSignUp} />;
+        makeModalSignUp={this.makeModalSignUp}
+        makeModalSignIn={this.makeModalSignIn} />;
     }
   },
 

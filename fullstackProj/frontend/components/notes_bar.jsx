@@ -4,7 +4,7 @@ const NoteItem = require('./note_item.jsx');
 const NotesBar = React.createClass({
 
   formatCurrentNotebookTitle: function() {
-    if(Object.keys(this.props.currentNotebook).length === 0) {
+    if(!this.props.cardColumnNotebook) {
       return "NOTES";
     } else {
       return this.props.currentNotebook.title;
