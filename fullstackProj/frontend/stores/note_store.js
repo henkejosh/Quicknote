@@ -27,6 +27,20 @@ const _setNotebookNotes = function(notes) {
   });
 };
 
+NoteStore.find = function(notebookID) {
+  let returnNotes = {};
+  Object.keys(_notes).forEach( id => {
+    if(_notes[id].notebook_id === notebookID) {
+      returnNotes[id] = _notes[id];
+    }
+  });
+  return returnNotes;
+};
+
+NoteStore.count = function(notebookID) {
+  return Object.keys(this.find(notebookID)).length;
+};
+
 NoteStore.allNotes = function() {
   return Object.assign({}, _notes);
 };

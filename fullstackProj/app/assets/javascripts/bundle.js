@@ -36493,8 +36493,6 @@
 	    CurrentNoteActions.selectCurrentNote(noteID);
 	  },
 	
-	  formatNoteBodyForCard: function formatNoteBodyForCard() {},
-	
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -36505,7 +36503,7 @@
 	        closeSelectNotebookModal: this.closeSelectNotebookModal,
 	        currentUser: this.props.currentUser,
 	        logout: this.props.logout,
-	        currentNotebook: this.props.currentNotebook,
+	        currentNotebook: this.state.currentNotebook,
 	        changeCardColumnToNotebook: this.changeCardColumnToNotebook
 	      }),
 	      React.createElement(
@@ -36809,14 +36807,11 @@
 	  },
 	
 	  formatBody: function formatBody() {
-	    // var html = document.getElementById("txt").innerHTML;
 	    var html = $(this.props.body)[0];
 	    return html.innerText || html.textContent;
-	    // document.getElementById("txt").innerHTML = html.replace(/<[^>]*>/g, "");
 	  },
 	
 	  render: function render() {
-	    // debugger;
 	    return React.createElement(
 	      "div",
 	      { onClick: this.handleSelection,
@@ -36855,6 +36850,7 @@
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
 	var NotebookStore = __webpack_require__(291);
+	var NoteActions = __webpack_require__(301);
 	
 	var LeftNavBar = React.createClass({
 	  displayName: 'LeftNavBar',
@@ -36869,16 +36865,18 @@
 	  },
 	
 	  createNewNote: function createNewNote() {
-	    var notebook = void 0;
-	    if (Object.keys(this.props.currentNotebook).length === 0) {
-	      notebook = NotebookStore.mostRecentNotebook();
-	    } else {
-	      notebook = this.props.currentNotebook;
-	    }
-	    // let note = {
-	    //   notebook_id: notebook.id,
-	    //
+	    // let notebook;
+	    // if(Object.keys(this.props.currentNotebook).length === 0) {
+	    //   notebook = NotebookStore.mostRecentNotebook();
+	    // } else {
+	    //   notebook = this.props.currentNotebook;
 	    // }
+	    var note = {
+	      title: "New Note",
+	      body: "<div>Edit your note in here!</div>",
+	      notebook_id: this.props.currentNotebook.id
+	    };
+	    NoteActions.createNewNote(note);
 	  },
 	
 	  render: function render() {
@@ -37080,6 +37078,7 @@
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
 	var NotebookBarModStyle = __webpack_require__(297);
+	var NoteStore = __webpack_require__(299);
 	
 	var NotebookBarItem = React.createClass({
 	  displayName: 'NotebookBarItem',
@@ -37100,12 +37099,8 @@
 	        React.createElement(
 	          'li',
 	          null,
-	          this.props.id
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          this.props.user_id
+	          NoteStore.count(this.props.id),
+	          ' notes'
 	        )
 	      )
 	    );
@@ -37145,6 +37140,20 @@
 	  notes.forEach(function (note) {
 	    _notebookNotes[note.id] = note;
 	  });
+	};
+	
+	NoteStore.find = function (notebookID) {
+	  var returnNotes = {};
+	  Object.keys(_notes).forEach(function (id) {
+	    if (_notes[id].notebook_id === notebookID) {
+	      returnNotes[id] = _notes[id];
+	    }
+	  });
+	  return returnNotes;
+	};
+	
+	NoteStore.count = function (notebookID) {
+	  return Object.keys(this.find(notebookID)).length;
 	};
 	
 	NoteStore.allNotes = function () {
@@ -37353,9 +37362,7 @@
 	  },
 	
 	  updateBody: function updateBody(text) {
-	    // debugger;
 	    if (this.saveTimeout) clearTimeout(this.saveTimeout);
-	    // this.setState({ [property]: e.target.value});
 	    this.setState({ "body": text });
 	    this.autoSave();
 	  },

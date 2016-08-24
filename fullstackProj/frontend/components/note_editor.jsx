@@ -49,9 +49,7 @@ const NoteEditor = React.createClass({
   },
 
   updateBody: function(text) {
-    // debugger;
     if(this.saveTimeout) clearTimeout(this.saveTimeout);
-    // this.setState({ [property]: e.target.value});
     this.setState({ "body": text});
     this.autoSave();
   },

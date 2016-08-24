@@ -122,10 +122,6 @@ const HomePage = React.createClass({
     CurrentNoteActions.selectCurrentNote(noteID);
   },
 
-  formatNoteBodyForCard: function() {
-
-  },
-
   render: function() {
     return (
       <div className="home-page-content">
@@ -136,7 +132,7 @@ const HomePage = React.createClass({
           closeSelectNotebookModal={this.closeSelectNotebookModal}
           currentUser={this.props.currentUser}
           logout={this.props.logout}
-          currentNotebook={this.props.currentNotebook}
+          currentNotebook={this.state.currentNotebook}
           changeCardColumnToNotebook={this.changeCardColumnToNotebook}
           />
 

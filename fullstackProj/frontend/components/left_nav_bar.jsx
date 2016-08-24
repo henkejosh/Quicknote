@@ -1,6 +1,7 @@
 const React = require('react');
 const Modal = require('react-modal');
 const NotebookStore = require('../stores/notebook_store.js');
+const NoteActions = require('../actions/note_actions.js');
 
 const LeftNavBar = React.createClass({
   handleNBClick: function(e) {
@@ -13,16 +14,18 @@ const LeftNavBar = React.createClass({
   },
 
   createNewNote: function() {
-    let notebook;
-    if(Object.keys(this.props.currentNotebook).length === 0) {
-      notebook = NotebookStore.mostRecentNotebook();
-    } else {
-      notebook = this.props.currentNotebook;
-    }
-    // let note = {
-    //   notebook_id: notebook.id,
-    //
+    // let notebook;
+    // if(Object.keys(this.props.currentNotebook).length === 0) {
+    //   notebook = NotebookStore.mostRecentNotebook();
+    // } else {
+    //   notebook = this.props.currentNotebook;
     // }
+    let note = {
+      title: "New Note",
+      body: "<div>Edit your note in here!</div>",
+      notebook_id: this.props.currentNotebook.id
+    };
+    NoteActions.createNewNote(note);
   },
 
   render: function() {

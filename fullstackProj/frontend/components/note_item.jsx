@@ -16,14 +16,11 @@ const NoteItem = React.createClass({
   },
 
   formatBody: function() {
-    // var html = document.getElementById("txt").innerHTML;
     const html = $(this.props.body)[0];
     return html.innerText || html.textContent;
-    // document.getElementById("txt").innerHTML = html.replace(/<[^>]*>/g, "");
   },
 
   render: function() {
-    // debugger;
     return (
       <div onClick={this.handleSelection}
         className="note-card">

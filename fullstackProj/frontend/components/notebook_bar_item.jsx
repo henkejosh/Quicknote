@@ -1,6 +1,7 @@
 const React = require('react');
 const Modal = require('react-modal');
 const NotebookBarModStyle = require('../misc/notebook_bar_modstyle.js');
+const NoteStore = require('../stores/note_store.js');
 
 const NotebookBarItem = React.createClass({
 
@@ -9,8 +10,7 @@ const NotebookBarItem = React.createClass({
       <div>
         <ul>
           <li>{this.props.title}</li>
-          <li>{this.props.id}</li>
-          <li>{this.props.user_id}</li>
+          <li>{NoteStore.count(this.props.id)} notes</li>
         </ul>
       </div>
     );
