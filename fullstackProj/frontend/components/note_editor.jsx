@@ -43,13 +43,18 @@ const NoteEditor = React.createClass({
     this.saveTimeout = setTimeout(this.saveChanges, 1);
   },
 
-  update: function(property) {
+  updateTitle: function(e) {
+    e.preventDefault();
+    this.setState({ title: e.target.value});
+  },
+
+  updateBody: function() {
     // debugger;
     const that = this;
     return(e) => {
       if(that.saveTimeout) clearTimeout(that.saveTimeout);
       // that.setState({ [property]: e.target.value});
-      that.setState({ [property]: e});
+      that.setState({ "body": e});
       // this.autoSave();
     };
   },
@@ -66,13 +71,14 @@ const NoteEditor = React.createClass({
           <div className="tag-selector">choose tag</div>
         </div>
 
-        <h2 onChange={this.update("title")}
-          className="note-name">{this.state.title}</h2>
+        <input className="note-name"
+          onChange={this.updateTitle}
+          value={this.state.title} />
 
         <div className="text-editor-toolbar">Text editor Toolbar</div>
 
         <ReactQuill theme="snow"
-                  onChange={ this.update("body") }
+                  onChange={ this.updateBody }
                   value={ this.state.body }/>
 
       </form>

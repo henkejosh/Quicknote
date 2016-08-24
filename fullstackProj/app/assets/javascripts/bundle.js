@@ -37300,8 +37300,6 @@
 
 	'use strict';
 	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-	
 	var React = __webpack_require__(1);
 	var ReactQuill = __webpack_require__(304);
 	var NoteActions = __webpack_require__(301);
@@ -37349,13 +37347,18 @@
 	    this.saveTimeout = setTimeout(this.saveChanges, 1);
 	  },
 	
-	  update: function update(property) {
+	  updateTitle: function updateTitle(e) {
+	    e.preventDefault();
+	    this.setState({ title: e.target.value });
+	  },
+	
+	  updateBody: function updateBody() {
 	    // debugger;
 	    var that = this;
 	    return function (e) {
 	      if (that.saveTimeout) clearTimeout(that.saveTimeout);
 	      // that.setState({ [property]: e.target.value});
-	      that.setState(_defineProperty({}, property, e));
+	      that.setState({ "body": e });
 	      // this.autoSave();
 	    };
 	  },
@@ -37380,19 +37383,16 @@
 	          'choose tag'
 	        )
 	      ),
-	      React.createElement(
-	        'h2',
-	        { onChange: this.update("title"),
-	          className: 'note-name' },
-	        this.state.title
-	      ),
+	      React.createElement('input', { className: 'note-name',
+	        onChange: this.updateTitle,
+	        value: this.state.title }),
 	      React.createElement(
 	        'div',
 	        { className: 'text-editor-toolbar' },
 	        'Text editor Toolbar'
 	      ),
 	      React.createElement(ReactQuill, { theme: 'snow',
-	        onChange: this.update("body"),
+	        onChange: this.updateBody,
 	        value: this.state.body })
 	    );
 	  }
