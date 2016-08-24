@@ -43,6 +43,7 @@ NoteStore.count = function(notebookID) {
 };
 
 NoteStore.allNotes = function() {
+  // debugger;
   return Object.assign({}, _notes);
 };
 

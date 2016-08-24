@@ -36445,6 +36445,10 @@
 	    this.setState({ notebooks: NotebookStore.allNotebooks() });
 	  },
 	
+	  forceUpdateAllNotes: function forceUpdateAllNotes() {
+	    this.setState({ notes: NoteStore.allNotes() });
+	  },
+	
 	  openSelectNotebookModal: function openSelectNotebookModal() {
 	    this.setState({ SelectNotebookModalOpen: true });
 	  },
@@ -36509,7 +36513,10 @@
 	        currentUser: this.props.currentUser,
 	        logout: this.props.logout,
 	        currentNotebook: this.state.currentNotebook,
-	        changeCardColumnToNotebook: this.changeCardColumnToNotebook
+	        changeCardColumnToNotebook: this.changeCardColumnToNotebook,
+	        changeCardColumnToAllCards: this.changeCardColumnToAllCards,
+	        updateNotes: this.updateNotes,
+	        forceUpdateAllNotes: this.forceUpdateAllNotes
 	      }),
 	      React.createElement(
 	        'div',
@@ -36869,13 +36876,13 @@
 	    }
 	  },
 	
+	  handleNoteIconClick: function handleNoteIconClick(e) {
+	    e.preventDefault();
+	    this.props.changeCardColumnToAllCards();
+	    this.props.forceUpdateAllNotes();
+	  },
+	
 	  createNewNote: function createNewNote() {
-	    // let notebook;
-	    // if(Object.keys(this.props.currentNotebook).length === 0) {
-	    //   notebook = NotebookStore.mostRecentNotebook();
-	    // } else {
-	    //   notebook = this.props.currentNotebook;
-	    // }
 	    var note = {
 	      title: "New Note",
 	      body: "<div>Edit your note in here!</div>",
@@ -36904,7 +36911,8 @@
 	      React.createElement('br', null),
 	      React.createElement(
 	        'div',
-	        { className: 'note-icon nav-icon' },
+	        { onClick: this.handleNoteIconClick,
+	          className: 'note-icon nav-icon' },
 	        'Note Icon'
 	      ),
 	      React.createElement('br', null),
@@ -37174,6 +37182,7 @@
 	};
 	
 	NoteStore.allNotes = function () {
+	  // debugger;
 	  return Object.assign({}, _notes);
 	};
 	

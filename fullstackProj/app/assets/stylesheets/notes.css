@@ -1,6 +1,7 @@
 div.notes-bar {
   height: 100%;
   border: 1px solid green;
+  overflow-y: scroll;
 }
 
 /* note-CARDS*/

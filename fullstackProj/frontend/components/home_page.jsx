@@ -70,6 +70,10 @@ const HomePage = React.createClass({
     this.setState({ notebooks: NotebookStore.allNotebooks() });
   },
 
+  forceUpdateAllNotes: function() {
+    this.setState({ notes: NoteStore.allNotes() });
+  },
+
   openSelectNotebookModal: function() {
     this.setState({ SelectNotebookModalOpen: true });
   },
@@ -139,6 +143,9 @@ const HomePage = React.createClass({
           logout={this.props.logout}
           currentNotebook={this.state.currentNotebook}
           changeCardColumnToNotebook={this.changeCardColumnToNotebook}
+          changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+          updateNotes={this.updateNotes}
+          forceUpdateAllNotes={this.forceUpdateAllNotes}
           />
 
         <div className="page-content">

@@ -13,13 +13,13 @@ const LeftNavBar = React.createClass({
     }
   },
 
+  handleNoteIconClick: function(e) {
+    e.preventDefault();
+    this.props.changeCardColumnToAllCards();
+    this.props.forceUpdateAllNotes();
+  },
+
   createNewNote: function() {
-    // let notebook;
-    // if(Object.keys(this.props.currentNotebook).length === 0) {
-    //   notebook = NotebookStore.mostRecentNotebook();
-    // } else {
-    //   notebook = this.props.currentNotebook;
-    // }
     let note = {
       title: "New Note",
       body: "<div>Edit your note in here!</div>",
@@ -37,7 +37,8 @@ const LeftNavBar = React.createClass({
           onClick={this.createNewNote}>Add Note</div>
 
           <br/>
-        <div className="note-icon nav-icon">Note Icon</div>
+        <div onClick={this.handleNoteIconClick}
+          className="note-icon nav-icon">Note Icon</div>
 
           <br/>
         <div onClick={this.handleNBClick}
