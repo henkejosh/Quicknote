@@ -12,13 +12,15 @@ const CurrentNotebookStore = new Store(Dispatcher);
 let _currentNotebook = {};
 
 const _setCurrentNotebook = function(notebook) {
-  _currentNotebook[notebook.id] = notebook;
+  // _currentNotebook[notebook.id] = notebook;
+  _currentNotebook = notebook;
 };
 
 const _chooseLastNotebook = function(notebooks) {
   const ids = Object.keys(notebooks);
   const lastID = Math.max.apply(null, ids);
-  _currentNotebook[lastID] = notebooks[lastID];
+  // _currentNotebook[lastID] = notebooks[lastID];
+  _currentNotebook = notebooks[lastID];
 };
 
 const _bootstrapCurrentNotebook = function(notebooks) {

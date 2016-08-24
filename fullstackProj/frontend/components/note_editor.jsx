@@ -5,9 +5,10 @@ const NoteActions = require('../actions/note_actions.js');
 const NoteEditor = React.createClass({
   getInitialState: function() {
     return {
-      title: "Title Here",
-      body: "Note body here",
-      notebook_id: 1
+      title: this.props.currentNote.title,
+      body: this.props.currentNote.body
+      // notebook_id: this.props.currentNote.notebook_id,
+
       // notebook_id: this.props.currentNotebook.id
 
       // title: this.props.currentNote.title,
@@ -23,8 +24,19 @@ const NoteEditor = React.createClass({
     // content tied to state
   },
 
+  componentWillReceiveProps: function() {
+    this.setState({
+      title: this.props.currentNote.title,
+      body: this.props.currentNote.body
+    });
+  },
+
   saveChanges: function() {
-    NoteActions.updateNote(this.state);
+    let note = this.props.currentNote;
+    note.body = this.state.body;
+    note.title = this.state.title;
+    note = note;
+    NoteActions.updateNote(note);
   },
 
   autoSave: function() {
@@ -32,9 +44,11 @@ const NoteEditor = React.createClass({
   },
 
   update: function(property) {
+    const that = this;
     return(e) => {
-      if(this.saveTimeout) clearTimeout(this.saveTimeout);
-      this.setState({ [property]: e.target.value});
+      if(that.saveTimeout) clearTimeout(that.saveTimeout);
+      // that.setState({ [property]: e.target.value});
+      that.setState({ [property]: e});
       // this.autoSave();
     };
   },
@@ -55,9 +69,6 @@ const NoteEditor = React.createClass({
           className="note-name">{this.state.title}</h2>
 
         <div className="text-editor-toolbar">Text editor Toolbar</div>
-
-        <span onChange={this.update("body")}
-          className="note-body">{this.state.body}</span>
 
         <ReactQuill theme="snow"
                   onChange={ this.update("body") }

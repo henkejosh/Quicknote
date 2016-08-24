@@ -36379,7 +36379,7 @@
 	var NoteStore = __webpack_require__(299);
 	var NoteActions = __webpack_require__(301);
 	var NoteEditor = __webpack_require__(303);
-	// const CurrentNoteStore = require('../stores/current_note_store.js');
+	var CurrentNoteStore = __webpack_require__(316);
 	
 	var HomePage = React.createClass({
 	  displayName: 'HomePage',
@@ -36388,7 +36388,7 @@
 	    return {
 	      notebooks: NotebookStore.allNotebooks(),
 	      currentNotebook: CurrentNotebookStore.currentNotebook(),
-	      // currentNote: CurrentNoteStore.currentNote();
+	      currentNote: CurrentNoteStore.currentNote(),
 	      // current_notebook_open: false
 	      notes: NoteStore.allNotes(),
 	      //   tags: ,
@@ -36411,14 +36411,14 @@
 	    this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
 	    this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
 	    this.noteListener = NoteStore.addListener(this.updateNotes);
-	    // this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
+	    this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
 	    this.currentNotebookListener.remove();
 	    this.noteListener.remove();
 	    this.notebookListener.remove();
-	    // this.currentNoteListener.remove();
+	    this.currentNoteListener.remove();
 	  },
 	
 	  updateCurrentNote: function updateCurrentNote() {
@@ -36501,7 +36501,8 @@
 	        this.createNotesComp(),
 	        this.controlSelectNotebookModal()
 	      ),
-	      React.createElement(NoteEditor, { currentNotebook: this.props.currentNotebook })
+	      React.createElement(NoteEditor, { currentNote: this.state.currentNote,
+	        currentNotebook: this.state.currentNotebook })
 	    );
 	  }
 	});
@@ -36668,13 +36669,15 @@
 	var _currentNotebook = {};
 	
 	var _setCurrentNotebook = function _setCurrentNotebook(notebook) {
-	  _currentNotebook[notebook.id] = notebook;
+	  // _currentNotebook[notebook.id] = notebook;
+	  _currentNotebook = notebook;
 	};
 	
 	var _chooseLastNotebook = function _chooseLastNotebook(notebooks) {
 	  var ids = Object.keys(notebooks);
 	  var lastID = Math.max.apply(null, ids);
-	  _currentNotebook[lastID] = notebooks[lastID];
+	  // _currentNotebook[lastID] = notebooks[lastID];
+	  _currentNotebook = notebooks[lastID];
 	};
 	
 	var _bootstrapCurrentNotebook = function _bootstrapCurrentNotebook(notebooks) {
@@ -37232,10 +37235,15 @@
 	      url: "api/notes/" + note.id,
 	      dataType: "json",
 	      type: "PATCH",
-	      data: "note",
+	      data: { note: note },
 	      success: success,
-	      error: function error() {
-	        console.log("Error updating note");
+	      // error: function() {
+	      //   console.log("Error updating note");
+	      // }
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
 	      }
 	    });
 	  }
@@ -37260,9 +37268,10 @@
 	
 	  getInitialState: function getInitialState() {
 	    return {
-	      title: "Title Here",
-	      body: "Note body here",
-	      notebook_id: 1
+	      title: this.props.currentNote.title,
+	      body: this.props.currentNote.body
+	      // notebook_id: this.props.currentNote.notebook_id,
+	
 	      // notebook_id: this.props.currentNotebook.id
 	
 	      // title: this.props.currentNote.title,
@@ -37278,8 +37287,19 @@
 	    // content tied to state
 	  },
 	
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    this.setState({
+	      title: this.props.currentNote.title,
+	      body: this.props.currentNote.body
+	    });
+	  },
+	
 	  saveChanges: function saveChanges() {
-	    NoteActions.updateNote(this.state);
+	    var note = this.props.currentNote;
+	    note.body = this.state.body;
+	    note.title = this.state.title;
+	    note = note;
+	    NoteActions.updateNote(note);
 	  },
 	
 	  autoSave: function autoSave() {
@@ -37287,11 +37307,11 @@
 	  },
 	
 	  update: function update(property) {
-	    var _this = this;
-	
+	    var that = this;
 	    return function (e) {
-	      if (_this.saveTimeout) clearTimeout(_this.saveTimeout);
-	      _this.setState(_defineProperty({}, property, e.target.value));
+	      if (that.saveTimeout) clearTimeout(that.saveTimeout);
+	      // that.setState({ [property]: e.target.value});
+	      that.setState(_defineProperty({}, property, e));
 	      // this.autoSave();
 	    };
 	  },
@@ -37326,12 +37346,6 @@
 	        'div',
 	        { className: 'text-editor-toolbar' },
 	        'Text editor Toolbar'
-	      ),
-	      React.createElement(
-	        'span',
-	        { onChange: this.update("body"),
-	          className: 'note-body' },
-	        this.state.body
 	      ),
 	      React.createElement(ReactQuill, { theme: 'snow',
 	        onChange: this.update("body"),
@@ -48876,6 +48890,72 @@
 	};
 	
 	module.exports = CurrentNotebookConstants;
+
+/***/ },
+/* 316 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var Store = __webpack_require__(248).Store;
+	var Dispatcher = __webpack_require__(239);
+	var NoteConstants = __webpack_require__(300);
+	var CurrentNoteConstants = __webpack_require__(317);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	var NotebookStore = __webpack_require__(291);
+	
+	var CurrentNoteStore = new Store(Dispatcher);
+	
+	var _currentNote = {};
+	
+	var _setCurrentNote = function _setCurrentNote(note) {
+	  // _currentNote[note.id] = note;
+	  _currentNote = note;
+	};
+	
+	var _chooseLastNote = function _chooseLastNote(notes) {
+	  var ids = Object.keys(notes);
+	  var lastID = Math.max.apply(null, ids);
+	  // _currentNote[lastID] = notes[lastID];
+	  _currentNote = notes[lastID];
+	};
+	
+	var _bootstrapCurrentNote = function _bootstrapCurrentNote(notes) {
+	  if (Object.keys(_currentNote).length === 0) {
+	    _chooseLastNote(notes);
+	  }
+	};
+	
+	CurrentNoteStore.currentNote = function () {
+	  return Object.assign({}, _currentNote);
+	};
+	
+	CurrentNoteStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case CurrentNoteConstants.RECEIVE_CURRENT_NOTE:
+	      _setCurrentNote(payload.currentNote);
+	      CurrentNoteStore.__emitChange();
+	      break;
+	    case NoteConstants.RECEIVE_ALL_NOTES:
+	      _bootstrapCurrentNote(payload.notes);
+	      CurrentNoteStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = CurrentNoteStore;
+
+/***/ },
+/* 317 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var CurrentNoteConstants = {
+	  RECEIVE_CURRENT_NOTE: "RECEIVE_CURRENT_NOTE"
+	};
+	
+	module.exports = CurrentNoteConstants;
 
 /***/ }
 /******/ ]);

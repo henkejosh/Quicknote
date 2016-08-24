@@ -29,10 +29,15 @@ const NoteApiUtil = {
       url: `api/notes/${note.id}`,
       dataType: "json",
       type: "PATCH",
-      data: "note",
+      data: { note },
       success,
-      error: function() {
-        console.log("Error updating note");
+      // error: function() {
+      //   console.log("Error updating note");
+      // }
+      error: xhr => {
+        const error = `status: ${xhr.status} ${xhr.statusText}`;
+        console.log(error);
+        console.log(xhr.responseText);
       }
     });
   }

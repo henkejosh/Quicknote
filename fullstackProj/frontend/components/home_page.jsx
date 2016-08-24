@@ -8,14 +8,14 @@ const NotebookBar = require('./notebook_bar.jsx');
 const NoteStore = require('../stores/note_store.js');
 const NoteActions = require('../actions/note_actions.js');
 const NoteEditor = require('./note_editor.jsx');
-// const CurrentNoteStore = require('../stores/current_note_store.js');
+const CurrentNoteStore = require('../stores/current_note_store.js');
 
 const HomePage = React.createClass({
   getInitialState: function() {
     return {
       notebooks: NotebookStore.allNotebooks(),
       currentNotebook: CurrentNotebookStore.currentNotebook(),
-      // currentNote: CurrentNoteStore.currentNote();
+      currentNote: CurrentNoteStore.currentNote(),
     // current_notebook_open: false
       notes: NoteStore.allNotes(),
     //   tags: ,
@@ -38,14 +38,14 @@ const HomePage = React.createClass({
     this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
     this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
     this.noteListener = NoteStore.addListener(this.updateNotes);
-    // this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
+    this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
   },
 
   componentWillUnmount: function() {
     this.currentNotebookListener.remove();
     this.noteListener.remove();
     this.notebookListener.remove();
-    // this.currentNoteListener.remove();
+    this.currentNoteListener.remove();
   },
 
   updateCurrentNote: function() {
@@ -132,7 +132,8 @@ const HomePage = React.createClass({
           { this.controlSelectNotebookModal() }
         </div>
 
-        <NoteEditor currentNotebook={this.props.currentNotebook}/>
+        <NoteEditor currentNote={this.state.currentNote}
+          currentNotebook={this.state.currentNotebook}/>
 
       </div>
     );
