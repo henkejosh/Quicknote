@@ -40,7 +40,7 @@ const NoteEditor = React.createClass({
   },
 
   autoSave: function() {
-    this.saveTimeout = setTimeout(this.saveChanges, 1);
+    this.saveTimeout = setTimeout(this.saveChanges, 500);
   },
 
   updateTitle: function(e) {
@@ -48,15 +48,12 @@ const NoteEditor = React.createClass({
     this.setState({ title: e.target.value});
   },
 
-  updateBody: function() {
+  updateBody: function(text) {
     // debugger;
-    const that = this;
-    return(e) => {
-      if(that.saveTimeout) clearTimeout(that.saveTimeout);
-      // that.setState({ [property]: e.target.value});
-      that.setState({ "body": e});
-      // this.autoSave();
-    };
+    if(this.saveTimeout) clearTimeout(this.saveTimeout);
+    // this.setState({ [property]: e.target.value});
+    this.setState({ "body": text});
+    this.autoSave();
   },
 
   render: function() {

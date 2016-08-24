@@ -37344,7 +37344,7 @@
 	  },
 	
 	  autoSave: function autoSave() {
-	    this.saveTimeout = setTimeout(this.saveChanges, 1);
+	    this.saveTimeout = setTimeout(this.saveChanges, 500);
 	  },
 	
 	  updateTitle: function updateTitle(e) {
@@ -37352,15 +37352,12 @@
 	    this.setState({ title: e.target.value });
 	  },
 	
-	  updateBody: function updateBody() {
+	  updateBody: function updateBody(text) {
 	    // debugger;
-	    var that = this;
-	    return function (e) {
-	      if (that.saveTimeout) clearTimeout(that.saveTimeout);
-	      // that.setState({ [property]: e.target.value});
-	      that.setState({ "body": e });
-	      // this.autoSave();
-	    };
+	    if (this.saveTimeout) clearTimeout(this.saveTimeout);
+	    // this.setState({ [property]: e.target.value});
+	    this.setState({ "body": text });
+	    this.autoSave();
 	  },
 	
 	  render: function render() {
