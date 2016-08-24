@@ -15,14 +15,22 @@ const NoteItem = React.createClass({
     this.props.selectCurrentNote(this.props.id);
   },
 
+  formatBody: function() {
+    // var html = document.getElementById("txt").innerHTML;
+    const html = $(this.props.body)[0];
+    return html.innerText || html.textContent;
+    // document.getElementById("txt").innerHTML = html.replace(/<[^>]*>/g, "");
+  },
+
   render: function() {
+    // debugger;
     return (
       <div onClick={this.handleSelection}
         className="note-card">
         <ul>
           <li>{this.props.title}</li>
           <li>{this.formatLastUpdated()}</li>
-          <li>{this.props.body}</li>
+          <li>{this.formatBody()}</li>
         </ul>
       </div>
     );

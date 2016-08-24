@@ -122,6 +122,10 @@ const HomePage = React.createClass({
     CurrentNoteActions.selectCurrentNote(noteID);
   },
 
+  formatNoteBodyForCard: function() {
+
+  },
+
   render: function() {
     return (
       <div className="home-page-content">

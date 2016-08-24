@@ -36493,6 +36493,8 @@
 	    CurrentNoteActions.selectCurrentNote(noteID);
 	  },
 	
+	  formatNoteBodyForCard: function formatNoteBodyForCard() {},
+	
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -36806,7 +36808,15 @@
 	    this.props.selectCurrentNote(this.props.id);
 	  },
 	
+	  formatBody: function formatBody() {
+	    // var html = document.getElementById("txt").innerHTML;
+	    var html = $(this.props.body)[0];
+	    return html.innerText || html.textContent;
+	    // document.getElementById("txt").innerHTML = html.replace(/<[^>]*>/g, "");
+	  },
+	
 	  render: function render() {
+	    // debugger;
 	    return React.createElement(
 	      "div",
 	      { onClick: this.handleSelection,
@@ -36827,7 +36837,7 @@
 	        React.createElement(
 	          "li",
 	          null,
-	          this.props.body
+	          this.formatBody()
 	        )
 	      )
 	    );
@@ -37340,6 +37350,7 @@
 	  },
 	
 	  update: function update(property) {
+	    // debugger;
 	    var that = this;
 	    return function (e) {
 	      if (that.saveTimeout) clearTimeout(that.saveTimeout);

@@ -44,6 +44,7 @@ const NoteEditor = React.createClass({
   },
 
   update: function(property) {
+    // debugger;
     const that = this;
     return(e) => {
       if(that.saveTimeout) clearTimeout(that.saveTimeout);
