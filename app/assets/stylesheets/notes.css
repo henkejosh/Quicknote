@@ -5,12 +5,19 @@ div.notes-bar {
 }
 
 /* note-CARDS*/
+div.note-cards {
+  top: 120px;
+  position: relative;
+  overflow-y: scroll;
+}
+
 div.note-card {
   height: 120px;
   width: 350px;
   border: 1px solid black;
   margin: 0px;
   padding: 0px;
+  top: 120px;
 }
 
 .note-card-title {
@@ -19,6 +26,10 @@ div.note-card {
   border: 1px solid black;
   margin: 0px;
   padding: 0px;
+  position: absolute;
+  z-index: 1;
+  opacity: 1;
+  background-color: white;
 }
 
 div.note-card:hover {

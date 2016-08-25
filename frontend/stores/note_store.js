@@ -4,6 +4,7 @@ const Store = require('flux/utils').Store;
 const Dispatcher = require('../dispatcher/dispatcher.js');
 const NoteConstants = require('../constants/note_constants.js');
 const NotebookConstants = require('../constants/notebook_constants.js');
+const CurrentNotebookConstants = require('../constants/current_notebook_constants.js');
 const hashHistory = require('react-router').hashHistory;
 
 const NoteStore = new Store(Dispatcher);
@@ -19,6 +20,7 @@ const _setNotes = function(notes) {
 
 const _addNote = function(note) {
   _notes[note.id] = note;
+  _notebookNotes[note.id] = note;
 };
 
 const _setNotebookNotes = function(notes) {
@@ -43,7 +45,6 @@ NoteStore.count = function(notebookID) {
 };
 
 NoteStore.allNotes = function() {
-  // debugger;
   return Object.assign({}, _notes);
 };
 
@@ -57,7 +58,7 @@ NoteStore.__onDispatch = payload => {
       _setNotes(payload.notes);
       NoteStore.__emitChange();
       break;
-    case NotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
+    case CurrentNotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
       _setNotebookNotes(payload.currentNotebook.notes);
       NoteStore.__emitChange();
       break;

@@ -36488,7 +36488,7 @@
 	    this.setState({ cardColumnNotebook: false });
 	  },
 	
-	  createNotesComp: function createNotesComp() {
+	  createNotesBar: function createNotesBar() {
 	    if (Object.keys(this.state.notes).length > 0) {
 	      return React.createElement(NotesBar, { notes: this.state.notes,
 	        currentNotebook: this.state.currentNotebook,
@@ -36521,7 +36521,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'page-content' },
-	        this.createNotesComp(),
+	        this.createNotesBar(),
 	        this.controlSelectNotebookModal()
 	      ),
 	      React.createElement(NoteEditor, { key: this.state.currentNote.id,
@@ -36752,7 +36752,6 @@
 	var NotesBar = React.createClass({
 	  displayName: 'NotesBar',
 	
-	
 	  formatCurrentNotebookTitle: function formatCurrentNotebookTitle() {
 	    if (!this.props.cardColumnNotebook) {
 	      return "NOTES";
@@ -36787,18 +36786,22 @@
 	          this.formatNotesLength()
 	        )
 	      ),
-	      Object.keys(that.props.notes).map(function (id) {
-	        var note = that.props.notes[id];
-	        return React.createElement(NoteItem, { key: id,
-	          body: note.body,
-	          notebook_id: note.notebook_id,
-	          title: note.title,
-	          id: note.id,
-	          created_at: note.created_at,
-	          updated_at: note.updated_at,
-	          selectCurrentNote: _this.props.selectCurrentNote
-	        });
-	      })
+	      React.createElement(
+	        'div',
+	        { className: 'note-cards' },
+	        Object.keys(that.props.notes).map(function (id) {
+	          var note = that.props.notes[id];
+	          return React.createElement(NoteItem, { key: id,
+	            body: note.body,
+	            notebook_id: note.notebook_id,
+	            title: note.title,
+	            id: note.id,
+	            created_at: note.created_at,
+	            updated_at: note.updated_at,
+	            selectCurrentNote: _this.props.selectCurrentNote
+	          });
+	        })
+	      )
 	    );
 	  }
 	});
@@ -37275,6 +37278,7 @@
 	var Dispatcher = __webpack_require__(239);
 	var NoteConstants = __webpack_require__(299);
 	var NotebookConstants = __webpack_require__(290);
+	var CurrentNotebookConstants = __webpack_require__(293);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	
 	var NoteStore = new Store(Dispatcher);
@@ -37290,6 +37294,7 @@
 	
 	var _addNote = function _addNote(note) {
 	  _notes[note.id] = note;
+	  _notebookNotes[note.id] = note;
 	};
 	
 	var _setNotebookNotes = function _setNotebookNotes(notes) {
@@ -37314,7 +37319,6 @@
 	};
 	
 	NoteStore.allNotes = function () {
-	  // debugger;
 	  return Object.assign({}, _notes);
 	};
 	
@@ -37328,7 +37332,7 @@
 	      _setNotes(payload.notes);
 	      NoteStore.__emitChange();
 	      break;
-	    case NotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
+	    case CurrentNotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
 	      _setNotebookNotes(payload.currentNotebook.notes);
 	      NoteStore.__emitChange();
 	      break;
@@ -37349,7 +37353,7 @@
 	
 	var Dispatcher = __webpack_require__(239);
 	var NotebookApiUtil = __webpack_require__(289);
-	var NotebookConstants = __webpack_require__(290);
+	var CurrentNotebookConstants = __webpack_require__(293);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	
 	var CurrentNotebookActions = {
@@ -37359,11 +37363,10 @@
 	
 	  receiveCurrentNotebook: function receiveCurrentNotebook(notebook) {
 	    Dispatcher.dispatch({
-	      actionType: NotebookConstants.RECEIVE_CURRENT_NOTEBOOK,
+	      actionType: CurrentNotebookConstants.RECEIVE_CURRENT_NOTEBOOK,
 	      currentNotebook: notebook
 	    });
 	  }
-	
 	};
 	
 	module.exports = CurrentNotebookActions;

@@ -115,7 +115,7 @@ const HomePage = React.createClass({
     this.setState({ cardColumnNotebook: false });
   },
 
-  createNotesComp: function() {
+  createNotesBar: function() {
     if(Object.keys(this.state.notes).length > 0) {
       return (
         <NotesBar notes={this.state.notes}
@@ -149,7 +149,7 @@ const HomePage = React.createClass({
           />
 
         <div className="page-content">
-          { this.createNotesComp() }
+          { this.createNotesBar() }
           { this.controlSelectNotebookModal() }
         </div>
 

@@ -2,7 +2,6 @@ const React = require('react');
 const NoteItem = require('./note_item.jsx');
 
 const NotesBar = React.createClass({
-
   formatCurrentNotebookTitle: function() {
     if(!this.props.cardColumnNotebook) {
       return "NOTES";
@@ -25,6 +24,7 @@ const NotesBar = React.createClass({
           <span>{this.formatNotesLength()}</span>
         </div>
 
+        <div className="note-cards">
       { Object.keys(that.props.notes).map( id => {
           let note = that.props.notes[id];
           return (
@@ -40,6 +40,7 @@ const NotesBar = React.createClass({
           );
         })
       }
+        </div>
       </div>
     );
   }
