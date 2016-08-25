@@ -19,7 +19,6 @@ const NoteItem = React.createClass({
 
   handleSelection: function(e) {
     e.preventDefault();
-    debugger;
     this.props.selectCurrentNote(this.props.id);
   },
 

@@ -36449,6 +36449,10 @@
 	    this.setState({ notes: NoteStore.allNotes() });
 	  },
 	
+	  forceUpdateCurrentNote: function forceUpdateCurrentNote() {
+	    CurrentNoteActions.forceUpdateCurrentNote(this.state.notes);
+	  },
+	
 	  openSelectNotebookModal: function openSelectNotebookModal() {
 	    this.setState({ SelectNotebookModalOpen: true });
 	  },
@@ -36502,6 +36506,21 @@
 	    CurrentNoteActions.selectCurrentNote(noteID);
 	  },
 	
+	  ensureCurrentNote: function ensureCurrentNote() {
+	    if (Object.keys(this.state.currentNote).length === 0) {
+	      CurrentNoteStore.forceUpdateCurrentNote(this.state.notes);
+	    }
+	  },
+	
+	  renderNoteEditor: function renderNoteEditor() {
+	    if (Object.keys(this.state.currentNote).length === 0) {
+	      return React.createElement('div', null);
+	    } else {
+	      return React.createElement(NoteEditor, { key: this.state.currentNote.id,
+	        currentNote: this.state.currentNote });
+	    }
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -36524,8 +36543,7 @@
 	        this.createNotesBar(),
 	        this.controlSelectNotebookModal()
 	      ),
-	      React.createElement(NoteEditor, { key: this.state.currentNote.id,
-	        currentNote: this.state.currentNote })
+	      this.renderNoteEditor()
 	    );
 	  }
 	});
@@ -36837,7 +36855,6 @@
 	
 	  handleSelection: function handleSelection(e) {
 	    e.preventDefault();
-	    debugger;
 	    this.props.selectCurrentNote(this.props.id);
 	  },
 	
@@ -37320,6 +37337,7 @@
 	var NotebookConstants = __webpack_require__(290);
 	var CurrentNotebookConstants = __webpack_require__(293);
 	var hashHistory = __webpack_require__(175).hashHistory;
+	var CurrentNoteStore = __webpack_require__(316);
 	
 	var NoteStore = new Store(Dispatcher);
 	
@@ -37347,6 +37365,10 @@
 	var _removeNote = function _removeNote(noteID) {
 	  delete _notes[noteID];
 	  if (_notebookNotes[noteID]) delete _notebookNotes[noteID];
+	  // let note = CurrentNoteStore.currentNote();
+	  // if(Object.keys(note).length === 0 || note.id === noteID) {
+	  //   CurrentNoteStore.
+	  // }
 	};
 	
 	NoteStore.find = function (notebookID) {
@@ -49052,6 +49074,10 @@
 	  }
 	};
 	
+	CurrentNoteStore.forceUpdateCurrentNote = function (notes) {
+	  _bootstrapCurrentNote(notes);
+	};
+	
 	var _removeNote = function _removeNote(noteID) {
 	  if (_currentNote.id === noteID) _currentNote = {};
 	};
@@ -49071,7 +49097,7 @@
 	      CurrentNoteStore.__emitChange();
 	      break;
 	    case NoteConstants.REMOVE_NOTE:
-	      _removeNote(payload.note);
+	      _removeNote(payload.noteID);
 	      CurrentNoteStore.__emitChange();
 	      break;
 	  }

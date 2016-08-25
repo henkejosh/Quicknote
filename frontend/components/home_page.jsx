@@ -74,6 +74,10 @@ const HomePage = React.createClass({
     this.setState({ notes: NoteStore.allNotes() });
   },
 
+  forceUpdateCurrentNote: function() {
+    CurrentNoteActions.forceUpdateCurrentNote(this.state.notes);
+  },
+
   openSelectNotebookModal: function() {
     this.setState({ SelectNotebookModalOpen: true });
   },
@@ -131,6 +135,23 @@ const HomePage = React.createClass({
     CurrentNoteActions.selectCurrentNote(noteID);
   },
 
+  ensureCurrentNote: function() {
+    if(Object.keys(this.state.currentNote).length === 0) {
+      CurrentNoteStore.forceUpdateCurrentNote(this.state.notes);
+    }
+  },
+
+  renderNoteEditor: function() {
+    if(Object.keys(this.state.currentNote).length === 0) {
+      return <div></div>;
+    } else {
+      return (
+        <NoteEditor key={this.state.currentNote.id}
+          currentNote={this.state.currentNote} />
+      );
+    }
+  },
+
   render: function() {
     return (
       <div className="home-page-content">
@@ -153,8 +174,7 @@ const HomePage = React.createClass({
           { this.controlSelectNotebookModal() }
         </div>
 
-        <NoteEditor key={this.state.currentNote.id}
-          currentNote={this.state.currentNote} />
+        { this.renderNoteEditor() }
 
       </div>
     );

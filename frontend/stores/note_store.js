@@ -6,6 +6,7 @@ const NoteConstants = require('../constants/note_constants.js');
 const NotebookConstants = require('../constants/notebook_constants.js');
 const CurrentNotebookConstants = require('../constants/current_notebook_constants.js');
 const hashHistory = require('react-router').hashHistory;
+const CurrentNoteStore = require("./current_note_store.js");
 
 const NoteStore = new Store(Dispatcher);
 
@@ -33,6 +34,10 @@ const _setNotebookNotes = function(notes) {
 const _removeNote = function(noteID) {
   delete _notes[noteID];
   if(_notebookNotes[noteID]) delete _notebookNotes[noteID];
+  // let note = CurrentNoteStore.currentNote();
+  // if(Object.keys(note).length === 0 || note.id === noteID) {
+  //   CurrentNoteStore.
+  // }
 };
 
 NoteStore.find = function(notebookID) {

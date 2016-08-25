@@ -29,6 +29,10 @@ const _bootstrapCurrentNote = function(notes) {
   }
 };
 
+CurrentNoteStore.forceUpdateCurrentNote = function(notes) {
+  _bootstrapCurrentNote(notes);
+};
+
 const _removeNote = function(noteID) {
   if(_currentNote.id === noteID) _currentNote = {};
 };
@@ -48,7 +52,7 @@ CurrentNoteStore.__onDispatch = payload => {
       CurrentNoteStore.__emitChange();
       break;
     case NoteConstants.REMOVE_NOTE:
-      _removeNote(payload.note);
+      _removeNote(payload.noteID);
       CurrentNoteStore.__emitChange();
       break;
   }
