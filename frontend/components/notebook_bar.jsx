@@ -64,6 +64,7 @@ const NotebookBar = React.createClass({
                     changeCardColumnToNotebook={this.props.changeCardColumnToNotebook}
                     changeCardColumnToAllCards={this.props.changeCardColumnToAllCards}
                     closeSelectNotebookModal={this.props.closeSelectNotebookModal}
+                    notebooks={this.state.notebooks}
                   />
               );
             })

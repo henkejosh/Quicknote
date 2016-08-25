@@ -29,6 +29,11 @@ const _bootstrapCurrentNotebook = function(notebooks) {
   }
 };
 
+CurrentNotebookStore.resetCurrentNotebook = function(notebooks) {
+  _currentNotebook = {};
+  _bootstrapCurrentNotebook(notebooks);
+};
+
 CurrentNotebookStore.currentNotebook = function() {
   return Object.assign({}, _currentNotebook);
 };

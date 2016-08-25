@@ -14,6 +14,7 @@ let _notes = {};
 let _notebookNotes = {};
 
 const _setNotes = function(notes) {
+  _notes = {};
   notes.forEach( note => {
     _notes[note.id] = note;
   });
@@ -29,6 +30,7 @@ const _setNotebookNotes = function(notes) {
   notes.forEach( note => {
     _notebookNotes[note.id] = note;
   });
+  // CurrentNoteStore.resetCurrentNote(notes);
 };
 
 const _removeNote = function(noteID) {
@@ -38,6 +40,15 @@ const _removeNote = function(noteID) {
 
 const _resetNotebookNotes = function() {
   _notebookNotes = {};
+};
+
+const _createNotebookNotes = function(notebookID) {
+  const notes = NoteStore.find(notebookID);
+  _resetNotebookNotes();
+  Object.keys(notes).forEach( id => {
+    _notebookNotes[id] = notes[id];
+  });
+  // _setNotebookNotes(notes);
 };
 
 NoteStore.find = function(notebookID) {
@@ -82,6 +93,10 @@ NoteStore.__onDispatch = payload => {
       break;
     case NotebookConstants.RECEIVE_NOTEBOOK:
       _resetNotebookNotes();
+      NoteStore.__emitChange();
+      break;
+    case NoteConstants.UPDATE_NOTEBOOK_NOTES:
+      _createNotebookNotes(payload.notebookID);
       NoteStore.__emitChange();
       break;
   }

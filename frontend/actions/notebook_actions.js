@@ -2,6 +2,7 @@ const Dispatcher = require('../dispatcher/dispatcher.js');
 const NotebookApiUtil = require('../util/notebook_api_util');
 const NotebookConstants = require('../constants/notebook_constants.js');
 const hashHistory = require('react-router').hashHistory;
+const NoteActions = require('./note_actions.js');
 
 const NotebookActions = {
   getAllNotebooks: function() {
@@ -27,7 +28,7 @@ const NotebookActions = {
   },
 
   deleteNotebook: function(notebookID) {
-    NotebookApiUtil.deleteNote(notebookID, this.removeNotebookFromStore);
+    NotebookApiUtil.deleteNotebook(notebookID, this.removeNotebookFromStore);
   },
 
   removeNotebookFromStore: function(notebookID) {
@@ -35,6 +36,8 @@ const NotebookActions = {
       actionType: NotebookConstants.REMOVE_NOTEBOOK,
       notebookID: notebookID
     });
+    NoteActions.getAllNotes();
+    NoteActions.updateNotebookNotes(notebookID);
   }
 
 

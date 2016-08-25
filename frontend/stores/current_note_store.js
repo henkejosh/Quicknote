@@ -6,6 +6,8 @@ const NoteConstants = require('../constants/note_constants.js');
 const CurrentNoteConstants = require('../constants/current_note_constants.js');
 const hashHistory = require('react-router').hashHistory;
 const NotebookStore = require('./notebook_store.js');
+const CurrentNotebookConstants = require("../constants/current_notebook_constants.js");
+const NotebookConstants = require("../constants/notebook_constants.js");
 
 const CurrentNoteStore = new Store(Dispatcher);
 
@@ -24,17 +26,31 @@ const _chooseLastNote = function(notes) {
 };
 
 const _bootstrapCurrentNote = function(notes) {
-  if(Object.keys(_currentNote).length === 0) {
+  // if(Object.keys(_currentNote).length === 0) {
     _chooseLastNote(notes);
-  }
+  // }
+};
+
+const _bootstrapCurrentNoteFromArray = function(notes) {
+  _currentNote = notes[0];
+};
+
+const _removeNote = function(noteID) {
+  if(_currentNote.id === noteID) _currentNote = {};
+};
+
+const _resetStore = function() {
+  _currentNote = {};
 };
 
 CurrentNoteStore.forceUpdateCurrentNote = function(notes) {
   _bootstrapCurrentNote(notes);
 };
 
-const _removeNote = function(noteID) {
-  if(_currentNote.id === noteID) _currentNote = {};
+CurrentNoteStore.resetCurrentNote = function(notes) {
+  _currentNote = {};
+  // debugger;
+  _bootstrapCurrentNoteFromArray(notes);
 };
 
 CurrentNoteStore.currentNote = function() {
@@ -57,6 +73,14 @@ CurrentNoteStore.__onDispatch = payload => {
       break;
     case NoteConstants.RECEIVE_NOTE:
       _setCurrentNote(payload.note);
+      CurrentNoteStore.__emitChange();
+      break;
+    case CurrentNotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
+      _bootstrapCurrentNoteFromArray(payload.currentNotebook.notes);
+      CurrentNoteStore.__emitChange();
+      break;
+    case NotebookConstants.RECEIVE_NOTEBOOK:
+      _resetStore();
       CurrentNoteStore.__emitChange();
       break;
   }

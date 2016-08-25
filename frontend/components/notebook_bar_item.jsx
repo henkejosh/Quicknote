@@ -4,6 +4,7 @@ const NotebookBarModStyle = require('../misc/notebook_bar_modstyle.js');
 const NoteStore = require('../stores/note_store.js');
 const CurrentNotebookActions = require('../actions/current_notebook_actions.js');
 const NotebookActions = require('../actions/notebook_actions.js');
+const CurrentNotebookStore = require('../stores/current_notebook_store.js');
 
 const NotebookBarItem = React.createClass({
   handleClick: function(e) {
@@ -16,6 +17,9 @@ const NotebookBarItem = React.createClass({
   handleDelete: function(e) {
     e.preventDefault();
     NotebookActions.deleteNotebook(this.props.id);
+    this.props.changeCardColumnToAllCards();
+    this.props.closeSelectNotebookModal();
+    // CurrentNotebookStore.resetCurrentNotebook(this.props.notebooks);
     e.stopPropagation();
   },
 
@@ -28,7 +32,7 @@ const NotebookBarItem = React.createClass({
 
           <li className="notebook-delete-icon"
             onClick={this.handleDelete}>DELETE</li>
-            
+
         </ul>
       </div>
     );

@@ -4,6 +4,7 @@ const Store = require('flux/utils').Store;
 const Dispatcher = require('../dispatcher/dispatcher.js');
 const NotebookConstants = require('../constants/notebook_constants.js');
 const hashHistory = require('react-router').hashHistory;
+const CurrentNotebookStore = require('./current_notebook_store.js');
 
 const NotebookStore = new Store(Dispatcher);
 
@@ -17,6 +18,7 @@ const _setAllNotebooks = function(notebooks) {
 
 const _removeNotebook = function(notebookID) {
   delete _allNotebooks[notebookID];
+  CurrentNotebookStore.resetCurrentNotebook(_allNotebooks);
 };
 
 const _receiveNotebook = function(notebook) {

@@ -36603,6 +36603,7 @@
 	var NotebookApiUtil = __webpack_require__(289);
 	var NotebookConstants = __webpack_require__(290);
 	var hashHistory = __webpack_require__(175).hashHistory;
+	var NoteActions = __webpack_require__(297);
 	
 	var NotebookActions = {
 	  getAllNotebooks: function getAllNotebooks() {
@@ -36628,7 +36629,7 @@
 	  },
 	
 	  deleteNotebook: function deleteNotebook(notebookID) {
-	    NotebookApiUtil.deleteNote(notebookID, this.removeNotebookFromStore);
+	    NotebookApiUtil.deleteNotebook(notebookID, this.removeNotebookFromStore);
 	  },
 	
 	  removeNotebookFromStore: function removeNotebookFromStore(notebookID) {
@@ -36636,6 +36637,8 @@
 	      actionType: NotebookConstants.REMOVE_NOTEBOOK,
 	      notebookID: notebookID
 	    });
+	    NoteActions.getAllNotes();
+	    NoteActions.updateNotebookNotes(notebookID);
 	  }
 	
 	  // signup: function(params) {
@@ -36756,6 +36759,7 @@
 	var Dispatcher = __webpack_require__(239);
 	var NotebookConstants = __webpack_require__(290);
 	var hashHistory = __webpack_require__(175).hashHistory;
+	var CurrentNotebookStore = __webpack_require__(292);
 	
 	var NotebookStore = new Store(Dispatcher);
 	
@@ -36769,6 +36773,7 @@
 	
 	var _removeNotebook = function _removeNotebook(notebookID) {
 	  delete _allNotebooks[notebookID];
+	  CurrentNotebookStore.resetCurrentNotebook(_allNotebooks);
 	};
 	
 	var _receiveNotebook = function _receiveNotebook(notebook) {
@@ -36837,6 +36842,11 @@
 	  if (Object.keys(_currentNotebook).length === 0) {
 	    _chooseLastNotebook(notebooks);
 	  }
+	};
+	
+	CurrentNotebookStore.resetCurrentNotebook = function (notebooks) {
+	  _currentNotebook = {};
+	  _bootstrapCurrentNotebook(notebooks);
 	};
 	
 	CurrentNotebookStore.currentNotebook = function () {
@@ -37124,9 +37134,10 @@
 	    NoteApiUtil.createNote(note, this.receiveNote);
 	  },
 	
-	  updateNotebookNotes: function updateNotebookNotes() {
+	  updateNotebookNotes: function updateNotebookNotes(notebookID) {
 	    Dispatcher.dispatch({
-	      actionType: NoteConstants.UPDATE_NOTEBOOK_NOTES
+	      actionType: NoteConstants.UPDATE_NOTEBOOK_NOTES,
+	      notebookID: notebookID
 	    });
 	  },
 	
@@ -37335,7 +37346,8 @@
 	            id: notebook.id,
 	            changeCardColumnToNotebook: _this.props.changeCardColumnToNotebook,
 	            changeCardColumnToAllCards: _this.props.changeCardColumnToAllCards,
-	            closeSelectNotebookModal: _this.props.closeSelectNotebookModal
+	            closeSelectNotebookModal: _this.props.closeSelectNotebookModal,
+	            notebooks: _this.state.notebooks
 	          });
 	        }),
 	        React.createElement(
@@ -37420,6 +37432,7 @@
 	var NoteStore = __webpack_require__(303);
 	var CurrentNotebookActions = __webpack_require__(304);
 	var NotebookActions = __webpack_require__(288);
+	var CurrentNotebookStore = __webpack_require__(292);
 	
 	var NotebookBarItem = React.createClass({
 	  displayName: 'NotebookBarItem',
@@ -37434,6 +37447,9 @@
 	  handleDelete: function handleDelete(e) {
 	    e.preventDefault();
 	    NotebookActions.deleteNotebook(this.props.id);
+	    this.props.changeCardColumnToAllCards();
+	    this.props.closeSelectNotebookModal();
+	    // CurrentNotebookStore.resetCurrentNotebook(this.props.notebooks);
 	    e.stopPropagation();
 	  },
 	
@@ -37488,6 +37504,7 @@
 	var _notebookNotes = {};
 	
 	var _setNotes = function _setNotes(notes) {
+	  _notes = {};
 	  notes.forEach(function (note) {
 	    _notes[note.id] = note;
 	  });
@@ -37503,6 +37520,7 @@
 	  notes.forEach(function (note) {
 	    _notebookNotes[note.id] = note;
 	  });
+	  // CurrentNoteStore.resetCurrentNote(notes);
 	};
 	
 	var _removeNote = function _removeNote(noteID) {
@@ -37512,6 +37530,15 @@
 	
 	var _resetNotebookNotes = function _resetNotebookNotes() {
 	  _notebookNotes = {};
+	};
+	
+	var _createNotebookNotes = function _createNotebookNotes(notebookID) {
+	  var notes = NoteStore.find(notebookID);
+	  _resetNotebookNotes();
+	  Object.keys(notes).forEach(function (id) {
+	    _notebookNotes[id] = notes[id];
+	  });
+	  // _setNotebookNotes(notes);
 	};
 	
 	NoteStore.find = function (notebookID) {
@@ -37556,6 +37583,10 @@
 	      break;
 	    case NotebookConstants.RECEIVE_NOTEBOOK:
 	      _resetNotebookNotes();
+	      NoteStore.__emitChange();
+	      break;
+	    case NoteConstants.UPDATE_NOTEBOOK_NOTES:
+	      _createNotebookNotes(payload.notebookID);
 	      NoteStore.__emitChange();
 	      break;
 	  }
@@ -49198,6 +49229,8 @@
 	var CurrentNoteConstants = __webpack_require__(317);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	var NotebookStore = __webpack_require__(291);
+	var CurrentNotebookConstants = __webpack_require__(293);
+	var NotebookConstants = __webpack_require__(290);
 	
 	var CurrentNoteStore = new Store(Dispatcher);
 	
@@ -49216,17 +49249,31 @@
 	};
 	
 	var _bootstrapCurrentNote = function _bootstrapCurrentNote(notes) {
-	  if (Object.keys(_currentNote).length === 0) {
-	    _chooseLastNote(notes);
-	  }
+	  // if(Object.keys(_currentNote).length === 0) {
+	  _chooseLastNote(notes);
+	  // }
+	};
+	
+	var _bootstrapCurrentNoteFromArray = function _bootstrapCurrentNoteFromArray(notes) {
+	  _currentNote = notes[0];
+	};
+	
+	var _removeNote = function _removeNote(noteID) {
+	  if (_currentNote.id === noteID) _currentNote = {};
+	};
+	
+	var _resetStore = function _resetStore() {
+	  _currentNote = {};
 	};
 	
 	CurrentNoteStore.forceUpdateCurrentNote = function (notes) {
 	  _bootstrapCurrentNote(notes);
 	};
 	
-	var _removeNote = function _removeNote(noteID) {
-	  if (_currentNote.id === noteID) _currentNote = {};
+	CurrentNoteStore.resetCurrentNote = function (notes) {
+	  _currentNote = {};
+	  // debugger;
+	  _bootstrapCurrentNoteFromArray(notes);
 	};
 	
 	CurrentNoteStore.currentNote = function () {
@@ -49249,6 +49296,14 @@
 	      break;
 	    case NoteConstants.RECEIVE_NOTE:
 	      _setCurrentNote(payload.note);
+	      CurrentNoteStore.__emitChange();
+	      break;
+	    case CurrentNotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
+	      _bootstrapCurrentNoteFromArray(payload.currentNotebook.notes);
+	      CurrentNoteStore.__emitChange();
+	      break;
+	    case NotebookConstants.RECEIVE_NOTEBOOK:
+	      _resetStore();
 	      CurrentNoteStore.__emitChange();
 	      break;
 	  }
