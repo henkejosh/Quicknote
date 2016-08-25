@@ -64,7 +64,7 @@
 	var SessionStore = __webpack_require__(247);
 	var NotebookStore = __webpack_require__(291);
 	var NotebookActions = __webpack_require__(288);
-	var CurrentNotebookActions = __webpack_require__(314);
+	var CurrentNotebookActions = __webpack_require__(304);
 	var CurrentNotebookStore = __webpack_require__(292);
 	var CurrentNoteStore = __webpack_require__(316);
 	
@@ -36375,12 +36375,12 @@
 	var NotebookActions = __webpack_require__(288);
 	var NotebookStore = __webpack_require__(291);
 	var CurrentNotebookStore = __webpack_require__(292);
-	var NotesBar = __webpack_require__(293);
-	var LeftNavBar = __webpack_require__(295);
-	var NotebookBar = __webpack_require__(296);
-	var NoteStore = __webpack_require__(299);
-	var NoteActions = __webpack_require__(301);
-	var NoteEditor = __webpack_require__(303);
+	var NotesBar = __webpack_require__(294);
+	var LeftNavBar = __webpack_require__(296);
+	var NotebookBar = __webpack_require__(300);
+	var NoteStore = __webpack_require__(303);
+	var NoteActions = __webpack_require__(297);
+	var NoteEditor = __webpack_require__(305);
 	var CurrentNoteStore = __webpack_require__(316);
 	var CurrentNoteActions = __webpack_require__(318);
 	
@@ -36683,7 +36683,7 @@
 	var Store = __webpack_require__(248).Store;
 	var Dispatcher = __webpack_require__(239);
 	var NotebookConstants = __webpack_require__(290);
-	var CurrentNotebookConstants = __webpack_require__(315);
+	var CurrentNotebookConstants = __webpack_require__(293);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	var NotebookStore = __webpack_require__(291);
 	
@@ -36730,12 +36730,24 @@
 
 /***/ },
 /* 293 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var CurrentNotebookConstants = {
+	  RECEIVE_CURRENT_NOTEBOOK: "RECEIVE_CURRENT_NOTEBOOK"
+	};
+	
+	module.exports = CurrentNotebookConstants;
+
+/***/ },
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var NoteItem = __webpack_require__(294);
+	var NoteItem = __webpack_require__(295);
 	
 	var NotesBar = React.createClass({
 	  displayName: 'NotesBar',
@@ -36794,7 +36806,7 @@
 	module.exports = NotesBar;
 
 /***/ },
-/* 294 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36854,7 +36866,7 @@
 	module.exports = NoteItem;
 
 /***/ },
-/* 295 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36862,7 +36874,7 @@
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
 	var NotebookStore = __webpack_require__(291);
-	var NoteActions = __webpack_require__(301);
+	var NoteActions = __webpack_require__(297);
 	
 	var LeftNavBar = React.createClass({
 	  displayName: 'LeftNavBar',
@@ -36936,15 +36948,135 @@
 	module.exports = LeftNavBar;
 
 /***/ },
-/* 296 */
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(239);
+	var NoteApiUtil = __webpack_require__(298);
+	var NoteConstants = __webpack_require__(299);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var NoteActions = {
+	  getAllNotes: function getAllNotes() {
+	    NoteApiUtil.getAllNotes(this.receiveAllNotes);
+	  },
+	
+	  receiveAllNotes: function receiveAllNotes(notes) {
+	    Dispatcher.dispatch({
+	      actionType: NoteConstants.RECEIVE_ALL_NOTES,
+	      notes: notes
+	    });
+	  },
+	
+	  createNewNote: function createNewNote(note) {
+	    NoteApiUtil.createNote(note, this.receiveNote);
+	  },
+	
+	  receiveNote: function receiveNote(note) {
+	    Dispatcher.dispatch({
+	      actionType: NoteConstants.RECEIVE_NOTE,
+	      note: note
+	    });
+	  },
+	
+	  updateNote: function updateNote(note) {
+	    NoteApiUtil.updateNote(note, this.receiveNote);
+	  }
+	};
+	
+	module.exports = NoteActions;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var NoteApiUtil = {
+	  getAllNotes: function getAllNotes(success) {
+	    $.ajax({
+	      url: "api/notes",
+	      type: "GET",
+	      dataType: "json",
+	      success: success,
+	      error: function error() {
+	        console.log("Error fetching notes");
+	      }
+	    });
+	  },
+	
+	  selectCurrentNote: function selectCurrentNote(noteID, success) {
+	    $.ajax({
+	      url: "api/notes/" + noteID,
+	      dataType: "json",
+	      type: "GET",
+	      success: success,
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  },
+	
+	  createNote: function createNote(note, success) {
+	    $.ajax({
+	      url: "api/notes",
+	      type: "POST",
+	      data: { note: note },
+	      dataType: "json",
+	      success: success,
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  },
+	
+	  updateNote: function updateNote(note, success) {
+	    $.ajax({
+	      url: "api/notes/" + note.id,
+	      dataType: "json",
+	      type: "PATCH",
+	      data: { note: note },
+	      success: success,
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = NoteApiUtil;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var CurrentNotebookConstants = {
+	  RECEIVE_ALL_NOTES: "RECEIVE_ALL_NOTES",
+	  RECEIVE_NOTE: "RECEIVE_NOTE"
+	};
+	
+	module.exports = CurrentNotebookConstants;
+
+/***/ },
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
-	var NotebookBarModStyle = __webpack_require__(297);
-	var NotebookBarItem = __webpack_require__(298);
+	var NotebookBarModStyle = __webpack_require__(301);
+	var NotebookBarItem = __webpack_require__(302);
 	var NotebookStore = __webpack_require__(291);
 	var NotebookActions = __webpack_require__(288);
 	
@@ -37033,7 +37165,7 @@
 	module.exports = NotebookBar;
 
 /***/ },
-/* 297 */
+/* 301 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37087,16 +37219,16 @@
 	// }
 
 /***/ },
-/* 298 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
-	var NotebookBarModStyle = __webpack_require__(297);
-	var NoteStore = __webpack_require__(299);
-	var CurrentNotebookActions = __webpack_require__(314);
+	var NotebookBarModStyle = __webpack_require__(301);
+	var NoteStore = __webpack_require__(303);
+	var CurrentNotebookActions = __webpack_require__(304);
 	
 	var NotebookBarItem = React.createClass({
 	  displayName: 'NotebookBarItem',
@@ -37134,14 +37266,14 @@
 	module.exports = NotebookBarItem;
 
 /***/ },
-/* 299 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
 	var Store = __webpack_require__(248).Store;
 	var Dispatcher = __webpack_require__(239);
-	var NoteConstants = __webpack_require__(300);
+	var NoteConstants = __webpack_require__(299);
 	var NotebookConstants = __webpack_require__(290);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	
@@ -37210,134 +37342,41 @@
 	module.exports = NoteStore;
 
 /***/ },
-/* 300 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var CurrentNotebookConstants = {
-	  RECEIVE_ALL_NOTES: "RECEIVE_ALL_NOTES",
-	  RECEIVE_NOTE: "RECEIVE_NOTE"
-	};
-	
-	module.exports = CurrentNotebookConstants;
-
-/***/ },
-/* 301 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var Dispatcher = __webpack_require__(239);
-	var NoteApiUtil = __webpack_require__(302);
-	var NoteConstants = __webpack_require__(300);
+	var NotebookApiUtil = __webpack_require__(289);
+	var NotebookConstants = __webpack_require__(290);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	
-	var NoteActions = {
-	  getAllNotes: function getAllNotes() {
-	    NoteApiUtil.getAllNotes(this.receiveAllNotes);
+	var CurrentNotebookActions = {
+	  selectCurrentNotebook: function selectCurrentNotebook(notebookID) {
+	    NotebookApiUtil.selectCurrentNotebook(notebookID, this.receiveCurrentNotebook);
 	  },
 	
-	  receiveAllNotes: function receiveAllNotes(notes) {
+	  receiveCurrentNotebook: function receiveCurrentNotebook(notebook) {
 	    Dispatcher.dispatch({
-	      actionType: NoteConstants.RECEIVE_ALL_NOTES,
-	      notes: notes
-	    });
-	  },
-	
-	  createNewNote: function createNewNote(note) {
-	    NoteApiUtil.createNote(note, this.receiveNote);
-	  },
-	
-	  receiveNote: function receiveNote(note) {
-	    Dispatcher.dispatch({
-	      actionType: NoteConstants.RECEIVE_NOTE,
-	      note: note
-	    });
-	  },
-	
-	  updateNote: function updateNote(note) {
-	    NoteApiUtil.updateNote(note, this.receiveNote);
-	  }
-	};
-	
-	module.exports = NoteActions;
-
-/***/ },
-/* 302 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var NoteApiUtil = {
-	  getAllNotes: function getAllNotes(success) {
-	    $.ajax({
-	      url: "api/notes",
-	      type: "GET",
-	      dataType: "json",
-	      success: success,
-	      error: function error() {
-	        console.log("Error fetching notes");
-	      }
-	    });
-	  },
-	
-	  selectCurrentNote: function selectCurrentNote(noteID, success) {
-	    $.ajax({
-	      url: "api/notes/" + noteID,
-	      dataType: "json",
-	      type: "GET",
-	      success: success,
-	      error: function error(xhr) {
-	        var error = "status: " + xhr.status + " " + xhr.statusText;
-	        console.log(error);
-	        console.log(xhr.responseText);
-	      }
-	    });
-	  },
-	
-	  createNote: function createNote(note, success) {
-	    $.ajax({
-	      url: "api/notes",
-	      type: "POST",
-	      data: { note: note },
-	      dataType: "json",
-	      success: success,
-	      error: function error(xhr) {
-	        var error = "status: " + xhr.status + " " + xhr.statusText;
-	        console.log(error);
-	        console.log(xhr.responseText);
-	      }
-	    });
-	  },
-	
-	  updateNote: function updateNote(note, success) {
-	    $.ajax({
-	      url: "api/notes/" + note.id,
-	      dataType: "json",
-	      type: "PATCH",
-	      data: { note: note },
-	      success: success,
-	      error: function error(xhr) {
-	        var error = "status: " + xhr.status + " " + xhr.statusText;
-	        console.log(error);
-	        console.log(xhr.responseText);
-	      }
+	      actionType: NotebookConstants.RECEIVE_CURRENT_NOTEBOOK,
+	      currentNotebook: notebook
 	    });
 	  }
+	
 	};
 	
-	module.exports = NoteApiUtil;
+	module.exports = CurrentNotebookActions;
 
 /***/ },
-/* 303 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var ReactQuill = __webpack_require__(304);
-	var NoteActions = __webpack_require__(301);
+	var ReactQuill = __webpack_require__(306);
+	var NoteActions = __webpack_require__(297);
 	
 	var NoteEditor = React.createClass({
 	  displayName: 'NoteEditor',
@@ -37431,29 +37470,29 @@
 	module.exports = NoteEditor;
 
 /***/ },
-/* 304 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
 	React-Quill v0.4.1
 	https://github.com/zenoamaro/react-quill
 	*/
-	module.exports = __webpack_require__(305);
-	module.exports.Mixin = __webpack_require__(311);
-	module.exports.Toolbar = __webpack_require__(306);
-	module.exports.Quill = __webpack_require__(312);
+	module.exports = __webpack_require__(307);
+	module.exports.Mixin = __webpack_require__(313);
+	module.exports.Toolbar = __webpack_require__(308);
+	module.exports.Quill = __webpack_require__(314);
 
 
 /***/ },
-/* 305 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1),
 		ReactDOM = __webpack_require__(35),
-		QuillToolbar = __webpack_require__(306),
-		QuillMixin = __webpack_require__(311),
+		QuillToolbar = __webpack_require__(308),
+		QuillMixin = __webpack_require__(313),
 		T = React.PropTypes;
 	
 	// FIXME: Remove with the switch to JSX
@@ -37739,13 +37778,13 @@
 
 
 /***/ },
-/* 306 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1),
-		ReactDOMServer = __webpack_require__(307),
+		ReactDOMServer = __webpack_require__(309),
 		T = React.PropTypes;
 	
 	var defaultColors = [
@@ -37907,16 +37946,16 @@
 
 
 /***/ },
-/* 307 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	module.exports = __webpack_require__(308);
+	module.exports = __webpack_require__(310);
 
 
 /***/ },
-/* 308 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -37933,7 +37972,7 @@
 	'use strict';
 	
 	var ReactDefaultInjection = __webpack_require__(40);
-	var ReactServerRendering = __webpack_require__(309);
+	var ReactServerRendering = __webpack_require__(311);
 	var ReactVersion = __webpack_require__(33);
 	
 	ReactDefaultInjection.inject();
@@ -37947,7 +37986,7 @@
 	module.exports = ReactDOMServer;
 
 /***/ },
-/* 309 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -37970,7 +38009,7 @@
 	var ReactInstrumentation = __webpack_require__(63);
 	var ReactMarkupChecksum = __webpack_require__(170);
 	var ReactReconciler = __webpack_require__(60);
-	var ReactServerBatchingStrategy = __webpack_require__(310);
+	var ReactServerBatchingStrategy = __webpack_require__(312);
 	var ReactServerRenderingTransaction = __webpack_require__(134);
 	var ReactUpdates = __webpack_require__(57);
 	
@@ -38042,7 +38081,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 310 */
+/* 312 */
 /***/ function(module, exports) {
 
 	/**
@@ -38069,12 +38108,12 @@
 	module.exports = ReactServerBatchingStrategy;
 
 /***/ },
-/* 311 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var Quill = __webpack_require__(312);
+	var Quill = __webpack_require__(314);
 	
 	var QuillMixin = {
 	
@@ -38166,14 +38205,14 @@
 
 
 /***/ },
-/* 312 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(313);
+	module.exports = __webpack_require__(315);
 
 
 /***/ },
-/* 313 */
+/* 315 */
 /***/ function(module, exports) {
 
 	/*! Quill Editor v0.20.1
@@ -48927,45 +48966,6 @@
 	});
 
 /***/ },
-/* 314 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Dispatcher = __webpack_require__(239);
-	var NotebookApiUtil = __webpack_require__(289);
-	var NotebookConstants = __webpack_require__(290);
-	var hashHistory = __webpack_require__(175).hashHistory;
-	
-	var CurrentNotebookActions = {
-	  selectCurrentNotebook: function selectCurrentNotebook(notebookID) {
-	    NotebookApiUtil.selectCurrentNotebook(notebookID, this.receiveCurrentNotebook);
-	  },
-	
-	  receiveCurrentNotebook: function receiveCurrentNotebook(notebook) {
-	    Dispatcher.dispatch({
-	      actionType: NotebookConstants.RECEIVE_CURRENT_NOTEBOOK,
-	      currentNotebook: notebook
-	    });
-	  }
-	
-	};
-	
-	module.exports = CurrentNotebookActions;
-
-/***/ },
-/* 315 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var CurrentNotebookConstants = {
-	  RECEIVE_CURRENT_NOTEBOOK: "RECEIVE_CURRENT_NOTEBOOK"
-	};
-	
-	module.exports = CurrentNotebookConstants;
-
-/***/ },
 /* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -48973,7 +48973,7 @@
 	
 	var Store = __webpack_require__(248).Store;
 	var Dispatcher = __webpack_require__(239);
-	var NoteConstants = __webpack_require__(300);
+	var NoteConstants = __webpack_require__(299);
 	var CurrentNoteConstants = __webpack_require__(317);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	var NotebookStore = __webpack_require__(291);
@@ -49038,7 +49038,7 @@
 	'use strict';
 	
 	var Dispatcher = __webpack_require__(239);
-	var NoteApiUtil = __webpack_require__(302);
+	var NoteApiUtil = __webpack_require__(298);
 	var CurrentNoteConstants = __webpack_require__(317);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	
