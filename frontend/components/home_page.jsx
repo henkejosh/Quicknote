@@ -80,14 +80,24 @@ const HomePage = React.createClass({
 
   openSelectNotebookModal: function() {
     this.setState({ SelectNotebookModalOpen: true });
+    this.makeNoteEditorOpaque();
   },
 
   closeSelectNotebookModal: function() {
     this.setState({ SelectNotebookModalOpen: false });
+    this.removeNoteEditorOpacity();
   },
 
   createCurrentNotebookBar: function() {
     return <CurrentNotebookBar notes={ this.controlNotesProps() }/>;
+  },
+
+  makeNoteEditorOpaque: function() {
+    $(".note-editor-page").css("opacity", 0.5);
+  },
+
+  removeNoteEditorOpacity: function() {
+    $(".note-editor-page").css("opacity", 1);
   },
 
   controlSelectNotebookModal: function() {

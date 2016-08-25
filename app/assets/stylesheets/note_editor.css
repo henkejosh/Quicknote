@@ -5,6 +5,7 @@ form.note-editor-page {
   width: 100%;
   border: 1px solid blue;
   margin-left: 15px;
+  z-index: -1;
 }
 
 div.quill {

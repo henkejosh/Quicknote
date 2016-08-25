@@ -36455,14 +36455,24 @@
 	
 	  openSelectNotebookModal: function openSelectNotebookModal() {
 	    this.setState({ SelectNotebookModalOpen: true });
+	    this.makeNoteEditorOpaque();
 	  },
 	
 	  closeSelectNotebookModal: function closeSelectNotebookModal() {
 	    this.setState({ SelectNotebookModalOpen: false });
+	    this.removeNoteEditorOpacity();
 	  },
 	
 	  createCurrentNotebookBar: function createCurrentNotebookBar() {
 	    return React.createElement(CurrentNotebookBar, { notes: this.controlNotesProps() });
+	  },
+	
+	  makeNoteEditorOpaque: function makeNoteEditorOpaque() {
+	    $(".note-editor-page").css("opacity", 0.5);
+	  },
+	
+	  removeNoteEditorOpacity: function removeNoteEditorOpacity() {
+	    $(".note-editor-page").css("opacity", 1);
 	  },
 	
 	  controlSelectNotebookModal: function controlSelectNotebookModal() {

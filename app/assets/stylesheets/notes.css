@@ -40,4 +40,13 @@ div.note-card:hover {
 ul.note-card {
   list-style: none;
 }
+
+li.delete-icon {
+  width: 20%;
+}
+
+li.delete-icon:hover {
+  background-color: grey;
+  border: 1px solid blue;
+}
 /*note-cards*/
