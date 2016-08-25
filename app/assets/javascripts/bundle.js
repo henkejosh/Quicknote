@@ -36812,24 +36812,32 @@
 /* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var React = __webpack_require__(1);
+	var NoteActions = __webpack_require__(297);
 	
 	var NoteItem = React.createClass({
-	  displayName: "NoteItem",
+	  displayName: 'NoteItem',
 	
 	  formatLastUpdated: function formatLastUpdated() {
 	    var difference = Date.now() - Date.parse(this.props.updated_at);
 	    if (difference < 0.6) {
 	      return "JUST NOW";
 	    } else {
-	      return Math.ceil(difference / 86400000) + " DAYS AGO";
+	      return Math.ceil(difference / 86400000) + ' DAYS AGO';
 	    }
+	  },
+	
+	  deleteNote: function deleteNote(e) {
+	    e.preventDefault();
+	    NoteActions.deleteNote(this.props.id);
+	    e.stopPropagation();
 	  },
 	
 	  handleSelection: function handleSelection(e) {
 	    e.preventDefault();
+	    debugger;
 	    this.props.selectCurrentNote(this.props.id);
 	  },
 	
@@ -36840,26 +36848,32 @@
 	
 	  render: function render() {
 	    return React.createElement(
-	      "div",
+	      'div',
 	      { onClick: this.handleSelection,
-	        className: "note-card" },
+	        className: 'note-card' },
 	      React.createElement(
-	        "ul",
+	        'ul',
 	        null,
 	        React.createElement(
-	          "li",
+	          'li',
 	          null,
 	          this.props.title
 	        ),
 	        React.createElement(
-	          "li",
+	          'li',
 	          null,
 	          this.formatLastUpdated()
 	        ),
 	        React.createElement(
-	          "li",
+	          'li',
 	          null,
 	          this.formatBody()
+	        ),
+	        React.createElement(
+	          'li',
+	          { className: 'delete-icon',
+	            onClick: this.deleteNote },
+	          'DELETE'
 	        )
 	      )
 	    );
@@ -36986,6 +37000,17 @@
 	
 	  updateNote: function updateNote(note) {
 	    NoteApiUtil.updateNote(note, this.receiveNote);
+	  },
+	
+	  deleteNote: function deleteNote(noteID) {
+	    NoteApiUtil.deleteNote(noteID, this.removeNoteFromStore);
+	  },
+	
+	  removeNoteFromStore: function removeNoteFromStore(noteID) {
+	    Dispatcher.dispatch({
+	      actionType: NoteConstants.REMOVE_NOTE,
+	      noteID: noteID
+	    });
 	  }
 	};
 	
@@ -37052,6 +37077,20 @@
 	        console.log(xhr.responseText);
 	      }
 	    });
+	  },
+	
+	  deleteNote: function deleteNote(noteID, success) {
+	    $.ajax({
+	      url: "api/notes/" + noteID,
+	      type: "DELETE",
+	      dataType: "json",
+	      success: success,
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
 	  }
 	};
 	
@@ -37065,7 +37104,8 @@
 	
 	var CurrentNotebookConstants = {
 	  RECEIVE_ALL_NOTES: "RECEIVE_ALL_NOTES",
-	  RECEIVE_NOTE: "RECEIVE_NOTE"
+	  RECEIVE_NOTE: "RECEIVE_NOTE",
+	  REMOVE_NOTE: "REMOVE_NOTE"
 	};
 	
 	module.exports = CurrentNotebookConstants;
@@ -37304,6 +37344,11 @@
 	  });
 	};
 	
+	var _removeNote = function _removeNote(noteID) {
+	  delete _notes[noteID];
+	  if (_notebookNotes[noteID]) delete _notebookNotes[noteID];
+	};
+	
 	NoteStore.find = function (notebookID) {
 	  var returnNotes = {};
 	  Object.keys(_notes).forEach(function (id) {
@@ -37338,6 +37383,10 @@
 	      break;
 	    case NoteConstants.RECEIVE_NOTE:
 	      _addNote(payload.note);
+	      NoteStore.__emitChange();
+	      break;
+	    case NoteConstants.REMOVE_NOTE:
+	      _removeNote(payload.noteID);
 	      NoteStore.__emitChange();
 	      break;
 	  }
@@ -49003,6 +49052,10 @@
 	  }
 	};
 	
+	var _removeNote = function _removeNote(noteID) {
+	  if (_currentNote.id === noteID) _currentNote = {};
+	};
+	
 	CurrentNoteStore.currentNote = function () {
 	  return Object.assign({}, _currentNote);
 	};
@@ -49015,6 +49068,10 @@
 	      break;
 	    case NoteConstants.RECEIVE_ALL_NOTES:
 	      _bootstrapCurrentNote(payload.notes);
+	      CurrentNoteStore.__emitChange();
+	      break;
+	    case NoteConstants.REMOVE_NOTE:
+	      _removeNote(payload.note);
 	      CurrentNoteStore.__emitChange();
 	      break;
 	  }

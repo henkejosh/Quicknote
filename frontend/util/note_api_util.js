@@ -53,6 +53,20 @@ const NoteApiUtil = {
         console.log(xhr.responseText);
       }
     });
+  },
+
+  deleteNote: function(noteID, success) {
+    $.ajax({
+      url: `api/notes/${noteID}`,
+      type: "DELETE",
+      dataType: "json",
+      success,
+      error: xhr => {
+        const error = `status: ${xhr.status} ${xhr.statusText}`;
+        console.log(error);
+        console.log(xhr.responseText);
+      }
+    });
   }
 };
 

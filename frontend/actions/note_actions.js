@@ -28,6 +28,17 @@ const NoteActions = {
 
   updateNote: function(note) {
     NoteApiUtil.updateNote(note, this.receiveNote);
+  },
+
+  deleteNote: function(noteID) {
+    NoteApiUtil.deleteNote(noteID, this.removeNoteFromStore);
+  },
+
+  removeNoteFromStore: function(noteID) {
+    Dispatcher.dispatch({
+      actionType: NoteConstants.REMOVE_NOTE,
+      noteID: noteID
+    });
   }
 };
 

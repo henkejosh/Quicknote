@@ -30,6 +30,11 @@ const _setNotebookNotes = function(notes) {
   });
 };
 
+const _removeNote = function(noteID) {
+  delete _notes[noteID];
+  if(_notebookNotes[noteID]) delete _notebookNotes[noteID];
+};
+
 NoteStore.find = function(notebookID) {
   let returnNotes = {};
   Object.keys(_notes).forEach( id => {
@@ -64,6 +69,10 @@ NoteStore.__onDispatch = payload => {
       break;
     case NoteConstants.RECEIVE_NOTE:
       _addNote(payload.note);
+      NoteStore.__emitChange();
+      break;
+    case NoteConstants.REMOVE_NOTE:
+      _removeNote(payload.noteID);
       NoteStore.__emitChange();
       break;
   }

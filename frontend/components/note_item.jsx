@@ -1,4 +1,5 @@
 const React = require('react');
+const NoteActions = require('../actions/note_actions.js');
 
 const NoteItem = React.createClass({
   formatLastUpdated: function() {
@@ -10,8 +11,15 @@ const NoteItem = React.createClass({
     }
   },
 
+  deleteNote: function(e) {
+    e.preventDefault();
+    NoteActions.deleteNote(this.props.id);
+    e.stopPropagation();
+  },
+
   handleSelection: function(e) {
     e.preventDefault();
+    debugger;
     this.props.selectCurrentNote(this.props.id);
   },
 
@@ -28,6 +36,8 @@ const NoteItem = React.createClass({
           <li>{this.props.title}</li>
           <li>{this.formatLastUpdated()}</li>
           <li>{this.formatBody()}</li>
+          <li className="delete-icon"
+            onClick={this.deleteNote}>DELETE</li>
         </ul>
       </div>
     );

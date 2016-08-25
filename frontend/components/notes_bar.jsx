@@ -25,21 +25,21 @@ const NotesBar = React.createClass({
         </div>
 
         <div className="note-cards">
-      { Object.keys(that.props.notes).map( id => {
-          let note = that.props.notes[id];
-          return (
-            < NoteItem key={id}
-                body={note.body}
-                notebook_id={note.notebook_id}
-                title={note.title}
-                id={note.id}
-                created_at={note.created_at}
-                updated_at={note.updated_at}
-                selectCurrentNote={this.props.selectCurrentNote}
-              />
-          );
-        })
-      }
+          { Object.keys(that.props.notes).map( id => {
+              let note = that.props.notes[id];
+              return (
+                < NoteItem key={id}
+                    body={note.body}
+                    notebook_id={note.notebook_id}
+                    title={note.title}
+                    id={note.id}
+                    created_at={note.created_at}
+                    updated_at={note.updated_at}
+                    selectCurrentNote={this.props.selectCurrentNote}
+                  />
+              );
+            })
+          }
         </div>
       </div>
     );
