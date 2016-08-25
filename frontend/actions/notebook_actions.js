@@ -13,8 +13,29 @@ const NotebookActions = {
       actionType: NotebookConstants.GET_ALL_NOTEBOOKS,
       notebooks: notebooks
     });
-  }
+  },
 
+  createNotebook: function(notebook) {
+    NotebookApiUtil.createNotebook(notebook, this.receiveNotebook);
+  },
+
+  receiveNotebook: function(notebook) {
+    Dispatcher.dispatch({
+      actionType: NotebookConstants.RECEIVE_NOTEBOOK,
+      notebook: notebook
+    });
+  },
+
+  deleteNotebook: function(notebookID) {
+    NotebookApiUtil.deleteNote(notebookID, this.removeNotebookFromStore);
+  },
+
+  removeNotebookFromStore: function(notebookID) {
+    Dispatcher.dispatch({
+      actionType: NotebookConstants.REMOVE_NOTEBOOK,
+      notebookID: notebookID
+    });
+  }
 
 
   // signup: function(params) {

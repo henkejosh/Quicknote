@@ -8,7 +8,8 @@ const NotebookActions = require('../actions/notebook_actions.js');
 const NotebookBar = React.createClass({
   getInitialState: function() {
     return {
-      notebooks: NotebookStore.allNotebooks()
+      notebooks: NotebookStore.allNotebooks(),
+      notebookEditorOpen: false
     };
   },
 
@@ -36,6 +37,11 @@ const NotebookBar = React.createClass({
     }
   },
 
+  openNotebookCreator: function(e) {
+    e.preventDefault();
+    this.props.openNotebookCreator();
+  },
+
   render: function() {
     const that = this;
     return (
@@ -44,7 +50,8 @@ const NotebookBar = React.createClass({
         <div className="notebook-modal">
           <div className="notebook-header">
             <a className="modal-type">NOTEBOOKS</a>
-            <a className="new-notebook">CREATE NEW</a>
+            <a onClick={this.openNotebookCreator}
+              className="new-notebook">CREATE NEW</a>
           </div>
 
           { Object.keys(that.state.notebooks).map( id => {

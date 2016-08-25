@@ -68,17 +68,22 @@ const App = React.createClass({
 
   render: function() {
     let cUser;
+    let cUserID;
     if(SessionStore.isUserLoggedIn()) {
-      cUser = SessionStore.currentUser().email;
+      let user = SessionStore.currentUser();
+      cUser = user.email;
+      cUserID = user.id;
     } else {
       cUser = "Nobody Logged In";
+      cUserID = "none";
     }
 
     const childrenWithProps = React.Children.map(this.props.children,
       (child) => React.cloneElement(child, {
         openSignInModal: this.openSignInModal,
         currentUser: cUser,
-        logout: this.logout
+        logout: this.logout,
+        currentUserID: cUserID
       })
     );
 

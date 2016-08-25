@@ -21,6 +21,35 @@ const NotebookApiUtil = {
         console.log("Error fetching all notebooks");
       }
     });
+  },
+
+  createNotebook: function(notebook, success) {
+    $.ajax({
+      url: "api/notebooks",
+      type: "POST",
+      dataType: "json",
+      data: { notebook },
+      success,
+      error: xhr => {
+        const error = `status: ${xhr.status} ${xhr.statusText}`;
+        console.log(error);
+        console.log(xhr.responseText);
+      }
+    });
+  },
+
+  deleteNotebook: function(notebookID, success) {
+    $.ajax({
+      url: `api/notebooks/${notebookID}`,
+      type: "DELETE",
+      dataType: "json",
+      success,
+      error: xhr => {
+        const error = `status: ${xhr.status} ${xhr.statusText}`;
+        console.log(error);
+        console.log(xhr.responseText);
+      }
+    });
   }
 };
 

@@ -19,6 +19,12 @@ const NoteActions = {
     NoteApiUtil.createNote(note, this.receiveNote);
   },
 
+  updateNotebookNotes: function() {
+    Dispatcher.dispatch({
+      actionType: NoteConstants.UPDATE_NOTEBOOK_NOTES
+    })
+  },
+
   receiveNote: function(note) {
     Dispatcher.dispatch({
       actionType: NoteConstants.RECEIVE_NOTE,

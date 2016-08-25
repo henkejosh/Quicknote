@@ -10,6 +10,7 @@ const NoteActions = require('../actions/note_actions.js');
 const NoteEditor = require('./note_editor.jsx');
 const CurrentNoteStore = require('../stores/current_note_store.js');
 const CurrentNoteActions = require('../actions/current_note_actions.js');
+const NotebookCreator = require('./notebook_creator.jsx');
 
 const HomePage = React.createClass({
   getInitialState: function() {
@@ -19,6 +20,7 @@ const HomePage = React.createClass({
       currentNote: CurrentNoteStore.currentNote(),
     // current_notebook_open: false
       notes: NoteStore.allNotes(),
+      notebookCreatorOpen: false,
     //   tags: ,
     //   current_note: ,
     //   create_note_modal_open: false,
@@ -74,6 +76,10 @@ const HomePage = React.createClass({
     this.setState({ notes: NoteStore.allNotes() });
   },
 
+  forceUpdateNotebookNotes: function() {
+    this.setState({ notes: NoteStore.allNotebookNotes() });
+  },
+
   forceUpdateCurrentNote: function() {
     CurrentNoteActions.forceUpdateCurrentNote(this.state.notes);
   },
@@ -108,6 +114,7 @@ const HomePage = React.createClass({
           closeSelectNotebookModal={ this.closeSelectNotebookModal }
           changeCardColumnToNotebook={this.changeCardColumnToNotebook}
           changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+          openNotebookCreator={this.openNotebookCreator}
           />
       );
     }
@@ -130,7 +137,7 @@ const HomePage = React.createClass({
   },
 
   createNotesBar: function() {
-    if(Object.keys(this.state.notes).length > 0) {
+    // if(Object.keys(this.state.notes).length > 0) {
       return (
         <NotesBar notes={this.state.notes}
           currentNotebook={this.state.currentNotebook}
@@ -138,7 +145,7 @@ const HomePage = React.createClass({
           selectCurrentNote={this.selectCurrentNote}
           />
       );
-    }
+    // }
   },
 
   selectCurrentNote: function(noteID) {
@@ -149,6 +156,28 @@ const HomePage = React.createClass({
     if(Object.keys(this.state.currentNote).length === 0) {
       CurrentNoteStore.forceUpdateCurrentNote(this.state.notes);
     }
+  },
+
+  renderNotebookCreator: function() {
+    if(this.state.notebookCreatorOpen) {
+      return (
+        <NotebookCreator
+          closeNotebookCreator={this.closeNotebookCreator}
+          currentUser={this.props.currentUser}
+          currentUserID={this.props.currentUserID}
+          closeSelectNotebookModal={this.closeSelectNotebookModal}
+          changeCardColumnToNotebook={this.changeCardColumnToNotebook}
+          />
+      );
+    }
+  },
+
+  closeNotebookCreator: function() {
+    this.setState({ notebookCreatorOpen: false });
+  },
+
+  openNotebookCreator: function() {
+    this.setState({ notebookCreatorOpen: true });
   },
 
   renderNoteEditor: function() {
@@ -185,6 +214,7 @@ const HomePage = React.createClass({
         </div>
 
         { this.renderNoteEditor() }
+        { this.renderNotebookCreator() }
 
       </div>
     );

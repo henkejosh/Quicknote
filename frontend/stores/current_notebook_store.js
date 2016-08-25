@@ -43,6 +43,10 @@ CurrentNotebookStore.__onDispatch = payload => {
       _bootstrapCurrentNotebook(payload.notebooks);
       CurrentNotebookStore.__emitChange();
       break;
+    case NotebookConstants.RECEIVE_NOTEBOOK:
+      _setCurrentNotebook(payload.notebook);
+      CurrentNotebookStore.__emitChange();
+      break;
   }
 };
 

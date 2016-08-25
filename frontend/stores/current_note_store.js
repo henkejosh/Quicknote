@@ -55,6 +55,10 @@ CurrentNoteStore.__onDispatch = payload => {
       _removeNote(payload.noteID);
       CurrentNoteStore.__emitChange();
       break;
+    case NoteConstants.RECEIVE_NOTE:
+      _setCurrentNote(payload.note);
+      CurrentNoteStore.__emitChange();
+      break;
   }
 };
 

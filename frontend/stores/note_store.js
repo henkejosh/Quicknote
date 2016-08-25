@@ -34,10 +34,10 @@ const _setNotebookNotes = function(notes) {
 const _removeNote = function(noteID) {
   delete _notes[noteID];
   if(_notebookNotes[noteID]) delete _notebookNotes[noteID];
-  // let note = CurrentNoteStore.currentNote();
-  // if(Object.keys(note).length === 0 || note.id === noteID) {
-  //   CurrentNoteStore.
-  // }
+};
+
+const _resetNotebookNotes = function() {
+  _notebookNotes = {};
 };
 
 NoteStore.find = function(notebookID) {
@@ -78,6 +78,10 @@ NoteStore.__onDispatch = payload => {
       break;
     case NoteConstants.REMOVE_NOTE:
       _removeNote(payload.noteID);
+      NoteStore.__emitChange();
+      break;
+    case NotebookConstants.RECEIVE_NOTEBOOK:
+      _resetNotebookNotes();
       NoteStore.__emitChange();
       break;
   }

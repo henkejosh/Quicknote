@@ -15,6 +15,14 @@ const _setAllNotebooks = function(notebooks) {
   });
 };
 
+const _removeNotebook = function(notebookID) {
+  delete _allNotebooks[notebookID];
+};
+
+const _receiveNotebook = function(notebook) {
+  _allNotebooks[notebook.id] = notebook;
+};
+
 NotebookStore.mostRecentNotebook = function() {
   const ids = Object.keys(_allNotebooks);
   const lastID = Math.max.apply(null, ids);
@@ -29,6 +37,14 @@ NotebookStore.__onDispatch = payload => {
   switch(payload.actionType) {
     case NotebookConstants.GET_ALL_NOTEBOOKS:
       _setAllNotebooks(payload.notebooks);
+      NotebookStore.__emitChange();
+      break;
+    case NotebookConstants.REMOVE_NOTEBOOK:
+      _removeNotebook(payload.notebookID);
+      NotebookStore.__emitChange();
+      break;
+    case NotebookConstants.RECEIVE_NOTEBOOK:
+      _receiveNotebook(payload.notebook);
       NotebookStore.__emitChange();
       break;
   }
