@@ -11,6 +11,7 @@ const NoteEditor = require('./note_editor.jsx');
 const CurrentNoteStore = require('../stores/current_note_store.js');
 const CurrentNoteActions = require('../actions/current_note_actions.js');
 const NotebookCreator = require('./notebook_creator.jsx');
+const NotebookEditor = require('./notebook_editor.jsx');
 
 const HomePage = React.createClass({
   getInitialState: function() {
@@ -21,6 +22,7 @@ const HomePage = React.createClass({
     // current_notebook_open: false
       notes: NoteStore.allNotes(),
       notebookCreatorOpen: false,
+      notebookEditorOpen: false,
     //   tags: ,
     //   current_note: ,
     //   create_note_modal_open: false,
@@ -143,6 +145,7 @@ const HomePage = React.createClass({
           currentNotebook={this.state.currentNotebook}
           cardColumnNotebook={this.state.cardColumnNotebook}
           selectCurrentNote={this.selectCurrentNote}
+          openNotebookEditor={this.openNotebookEditor}
           />
       );
     // }
@@ -180,6 +183,28 @@ const HomePage = React.createClass({
     this.setState({ notebookCreatorOpen: true });
   },
 
+  closeNotebookEditor: function() {
+    this.setState({ notebookEditorOpen: false });
+  },
+
+  openNotebookEditor: function() {
+    this.setState({ notebookEditorOpen: true });
+  },
+
+  renderNotebookEditor: function() {
+    if(this.state.notebookEditorOpen) {
+      return (
+        <NotebookEditor key={`editor-${this.state.currentNotebook.id}`}
+          currentNotebook={this.state.currentNotebook}
+          closeNotebookEditor={this.closeNotebookEditor}
+          openNotebookEditor={this.openNotebookEditor}
+          changeCardColumnToNotebook={this.changeCardColumnToNotebook}
+          currentUser={this.props.currentUser}
+          />
+      );
+    }
+  },
+
   renderNoteEditor: function() {
     if(Object.keys(this.state.currentNote).length === 0) {
       return <div></div>;
@@ -215,7 +240,7 @@ const HomePage = React.createClass({
 
         { this.renderNoteEditor() }
         { this.renderNotebookCreator() }
-
+        { this.renderNotebookEditor() }
       </div>
     );
   }

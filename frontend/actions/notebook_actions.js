@@ -38,6 +38,17 @@ const NotebookActions = {
     });
     NoteActions.getAllNotes();
     NoteActions.updateNotebookNotes(notebookID);
+  },
+
+  updateNotebook: function(notebook) {
+    NotebookApiUtil.updateNotebook(notebook, this.receiveUpdatedNotebook);
+  },
+
+  receiveUpdatedNotebook: function(notebook) {
+    Dispatcher.dispatch({
+      actionType: NotebookConstants.RECIEVE_UPDATED_NOTEBOOK,
+      notebook: notebook
+    });
   }
 
 

@@ -20,7 +20,7 @@ div.note-card {
   top: 120px;
 }
 
-.note-card-title {
+.current-notebook-card {
   height: 120px;
   width: 350px;
   border: 1px solid black;

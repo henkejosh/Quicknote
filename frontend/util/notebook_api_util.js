@@ -11,6 +11,21 @@ const NotebookApiUtil = {
     });
   },
 
+  updateNotebook: function(notebook, success) {
+    $.ajax({
+      url: `api/notebooks/${notebook.id}`,
+      type: "PATCH",
+      dataType: "json",
+      data: { notebook },
+      success,
+      error: xhr => {
+        const error = `status: ${xhr.status} ${xhr.statusText}`;
+        console.log(error);
+        console.log(xhr.responseText);
+      }
+    });
+  },
+
   getAllNotebooks: function(success) {
     $.ajax({
       url: `api/notebooks`,

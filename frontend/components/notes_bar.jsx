@@ -10,18 +10,37 @@ const NotesBar = React.createClass({
     }
   },
 
+  formatNotesOrNotebook: function() {
+    if(this.props.cardColumnNotebook) {
+      return (
+        <div onClick={this.openNotebookEditor}
+          className="edit-nb-icon">EDIT NB!!!</div>
+      );
+    }
+  },
+
   formatNotesLength: function() {
     const notesLength = Object.keys(this.props.notes).length;
     return `${notesLength} notes`;
+  },
+
+  openNotebookEditor: function(e) {
+    e.preventDefault();
+    this.props.openNotebookEditor();
   },
 
   render: function() {
     const that = this;
     return (
       <div className="notes-bar">
-        <div className="note-card-title">
-          <div>{this.formatCurrentNotebookTitle()}</div>
-          <span>{this.formatNotesLength()}</span>
+        <div className="current-notebook-card">
+
+          { this.formatNotesOrNotebook() }
+
+          <div className="notebook-card-title">
+            <div>{this.formatCurrentNotebookTitle()}</div>
+            <span>{this.formatNotesLength()}</span>
+          </div>
         </div>
 
         <div className="note-cards">
