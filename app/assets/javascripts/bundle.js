@@ -36389,9 +36389,9 @@
 	var NoteActions = __webpack_require__(291);
 	var NoteEditor = __webpack_require__(307);
 	var CurrentNoteStore = __webpack_require__(304);
-	var CurrentNoteActions = __webpack_require__(318);
-	var NotebookCreator = __webpack_require__(319);
-	var NotebookEditor = __webpack_require__(320);
+	var CurrentNoteActions = __webpack_require__(322);
+	var NotebookCreator = __webpack_require__(323);
+	var NotebookEditor = __webpack_require__(324);
 	
 	var HomePage = React.createClass({
 	  displayName: 'HomePage',
@@ -37895,7 +37895,7 @@
 	var React = __webpack_require__(1);
 	var ReactQuill = __webpack_require__(308);
 	var NoteActions = __webpack_require__(291);
-	var NotebookDropdown = __webpack_require__(321);
+	var NotebookDropdown = __webpack_require__(318);
 	var NotebookStore = __webpack_require__(294);
 	
 	var NoteEditor = React.createClass({
@@ -49581,180 +49581,11 @@
 
 	'use strict';
 	
-	var Dispatcher = __webpack_require__(239);
-	var NoteApiUtil = __webpack_require__(292);
-	var CurrentNoteConstants = __webpack_require__(305);
-	var hashHistory = __webpack_require__(175).hashHistory;
-	
-	var CurrentNoteActions = {
-	  selectCurrentNote: function selectCurrentNote(noteID) {
-	    NoteApiUtil.selectCurrentNote(noteID, this.receiveCurrentNote);
-	  },
-	
-	  receiveCurrentNote: function receiveCurrentNote(note) {
-	    Dispatcher.dispatch({
-	      actionType: CurrentNoteConstants.RECEIVE_CURRENT_NOTE,
-	      currentNote: note
-	    });
-	  }
-	
-	};
-	
-	module.exports = CurrentNoteActions;
-
-/***/ },
-/* 319 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
 	var React = __webpack_require__(1);
-	var NotebookActions = __webpack_require__(288);
-	var CurrentNotebookActions = __webpack_require__(306);
-	
-	var NotebookCreator = React.createClass({
-	  displayName: "NotebookCreator",
-	
-	  getInitialState: function getInitialState() {
-	    return { title: "Title your notebook" };
-	  },
-	
-	  handleCancel: function handleCancel(e) {
-	    e.preventDefault();
-	    this.props.closeNotebookCreator();
-	  },
-	
-	  handleTextChange: function handleTextChange(e) {
-	    e.preventDefault();
-	    this.setState({ title: e.target.value });
-	  },
-	
-	  handleCreate: function handleCreate(e) {
-	    e.preventDefault();
-	    var notebook = {};
-	    notebook["title"] = this.state.title;
-	    notebook["user_id"] = this.props.currentUserID;
-	    NotebookActions.createNotebook(notebook);
-	    this.props.closeNotebookCreator();
-	    this.props.closeSelectNotebookModal();
-	    this.props.changeCardColumnToNotebook();
-	  },
-	
-	  render: function render() {
-	    return React.createElement(
-	      "div",
-	      { className: "notebook-creator-modal" },
-	      React.createElement(
-	        "h3",
-	        null,
-	        "CREATE NOTEBOOK"
-	      ),
-	      React.createElement("input", { onChange: this.handleTextChange,
-	        type: "text", value: this.state.title }),
-	      React.createElement(
-	        "button",
-	        { onClick: this.handleCancel },
-	        "Cancel"
-	      ),
-	      React.createElement(
-	        "button",
-	        { onClick: this.handleCreate },
-	        "Create notebook"
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = NotebookCreator;
-
-/***/ },
-/* 320 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var React = __webpack_require__(1);
-	var NotebookActions = __webpack_require__(288);
-	var CurrentNotebookActions = __webpack_require__(306);
-	
-	var NotebookEditor = React.createClass({
-	  displayName: "NotebookEditor",
-	
-	  getInitialState: function getInitialState() {
-	    return { title: this.props.currentNotebook.title };
-	  },
-	
-	  handleCancel: function handleCancel(e) {
-	    e.preventDefault();
-	    this.props.closeNotebookEditor();
-	  },
-	
-	  handleTextChange: function handleTextChange(e) {
-	    e.preventDefault();
-	    this.setState({ title: e.target.value });
-	  },
-	
-	  handleCreate: function handleCreate(e) {
-	    e.preventDefault();
-	    var notebook = this.props.currentNotebook;
-	    notebook["title"] = this.state.title;
-	    // notebook["user_id"] = this.props.currentUserID;
-	    NotebookActions.updateNotebook(notebook);
-	    this.props.closeNotebookEditor();
-	    // this.props.closeSelectNotebookModal();
-	    this.props.changeCardColumnToNotebook();
-	  },
-	
-	  render: function render() {
-	    return React.createElement(
-	      "div",
-	      { className: "notebook-editor-modal" },
-	      React.createElement(
-	        "h3",
-	        null,
-	        "NOTEBOOK INFO"
-	      ),
-	      React.createElement(
-	        "p",
-	        null,
-	        "Title: ",
-	        React.createElement("input", { onChange: this.handleTextChange,
-	          type: "text", value: this.state.title })
-	      ),
-	      React.createElement(
-	        "p",
-	        null,
-	        "Creator: ",
-	        this.props.currentUser
-	      ),
-	      React.createElement("br", null),
-	      React.createElement(
-	        "button",
-	        { onClick: this.handleCancel },
-	        "Cancel"
-	      ),
-	      React.createElement(
-	        "button",
-	        { onClick: this.handleCreate },
-	        "Update notebook"
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = NotebookEditor;
-
-/***/ },
-/* 321 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var ReactDropdown = __webpack_require__(322).default;
+	var ReactDropdown = __webpack_require__(319).default;
 	var Modal = __webpack_require__(265);
 	var modStyle = __webpack_require__(285);
-	var NotebookSelectee = __webpack_require__(324);
+	var NotebookSelectee = __webpack_require__(321);
 	var NoteActions = __webpack_require__(291);
 	
 	var NotebookDropdown = React.createClass({
@@ -49845,7 +49676,7 @@
 	module.exports = NotebookDropdown;
 
 /***/ },
-/* 322 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49864,7 +49695,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _classnames = __webpack_require__(323);
+	var _classnames = __webpack_require__(320);
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
@@ -50060,7 +49891,7 @@
 	exports.default = Dropdown;
 
 /***/ },
-/* 323 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -50114,7 +49945,7 @@
 
 
 /***/ },
-/* 324 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -50135,6 +49966,175 @@
 	});
 	
 	module.exports = NotebookSelectee;
+
+/***/ },
+/* 322 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(239);
+	var NoteApiUtil = __webpack_require__(292);
+	var CurrentNoteConstants = __webpack_require__(305);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var CurrentNoteActions = {
+	  selectCurrentNote: function selectCurrentNote(noteID) {
+	    NoteApiUtil.selectCurrentNote(noteID, this.receiveCurrentNote);
+	  },
+	
+	  receiveCurrentNote: function receiveCurrentNote(note) {
+	    Dispatcher.dispatch({
+	      actionType: CurrentNoteConstants.RECEIVE_CURRENT_NOTE,
+	      currentNote: note
+	    });
+	  }
+	
+	};
+	
+	module.exports = CurrentNoteActions;
+
+/***/ },
+/* 323 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	var NotebookActions = __webpack_require__(288);
+	var CurrentNotebookActions = __webpack_require__(306);
+	
+	var NotebookCreator = React.createClass({
+	  displayName: "NotebookCreator",
+	
+	  getInitialState: function getInitialState() {
+	    return { title: "Title your notebook" };
+	  },
+	
+	  handleCancel: function handleCancel(e) {
+	    e.preventDefault();
+	    this.props.closeNotebookCreator();
+	  },
+	
+	  handleTextChange: function handleTextChange(e) {
+	    e.preventDefault();
+	    this.setState({ title: e.target.value });
+	  },
+	
+	  handleCreate: function handleCreate(e) {
+	    e.preventDefault();
+	    var notebook = {};
+	    notebook["title"] = this.state.title;
+	    notebook["user_id"] = this.props.currentUserID;
+	    NotebookActions.createNotebook(notebook);
+	    this.props.closeNotebookCreator();
+	    this.props.closeSelectNotebookModal();
+	    this.props.changeCardColumnToNotebook();
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "notebook-creator-modal" },
+	      React.createElement(
+	        "h3",
+	        null,
+	        "CREATE NOTEBOOK"
+	      ),
+	      React.createElement("input", { onChange: this.handleTextChange,
+	        type: "text", value: this.state.title }),
+	      React.createElement(
+	        "button",
+	        { onClick: this.handleCancel },
+	        "Cancel"
+	      ),
+	      React.createElement(
+	        "button",
+	        { onClick: this.handleCreate },
+	        "Create notebook"
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NotebookCreator;
+
+/***/ },
+/* 324 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	var NotebookActions = __webpack_require__(288);
+	var CurrentNotebookActions = __webpack_require__(306);
+	
+	var NotebookEditor = React.createClass({
+	  displayName: "NotebookEditor",
+	
+	  getInitialState: function getInitialState() {
+	    return { title: this.props.currentNotebook.title };
+	  },
+	
+	  handleCancel: function handleCancel(e) {
+	    e.preventDefault();
+	    this.props.closeNotebookEditor();
+	  },
+	
+	  handleTextChange: function handleTextChange(e) {
+	    e.preventDefault();
+	    this.setState({ title: e.target.value });
+	  },
+	
+	  handleCreate: function handleCreate(e) {
+	    e.preventDefault();
+	    var notebook = this.props.currentNotebook;
+	    notebook["title"] = this.state.title;
+	    // notebook["user_id"] = this.props.currentUserID;
+	    NotebookActions.updateNotebook(notebook);
+	    this.props.closeNotebookEditor();
+	    // this.props.closeSelectNotebookModal();
+	    this.props.changeCardColumnToNotebook();
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "notebook-editor-modal" },
+	      React.createElement(
+	        "h3",
+	        null,
+	        "NOTEBOOK INFO"
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Title: ",
+	        React.createElement("input", { onChange: this.handleTextChange,
+	          type: "text", value: this.state.title })
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Creator: ",
+	        this.props.currentUser
+	      ),
+	      React.createElement("br", null),
+	      React.createElement(
+	        "button",
+	        { onClick: this.handleCancel },
+	        "Cancel"
+	      ),
+	      React.createElement(
+	        "button",
+	        { onClick: this.handleCreate },
+	        "Update notebook"
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NotebookEditor;
 
 /***/ }
 /******/ ]);

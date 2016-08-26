@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :notes
 
     resources :tags
+    resources :notes_tags, only: [:create, :destroy]
 
 
   end

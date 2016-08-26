@@ -25,16 +25,13 @@ note2 = Note.create!(
 )
 
 tag1 = Tag.create!(
-  note_id: note1.id,
   title: "to-do"
 )
 
 tag2 = Tag.create!(
-  note_id: note1.id,
   title: "sample-tag"
 )
 
 tag3 = Tag.create!(
-  note_id: note2.id,
   title: "Grocery"
 )
