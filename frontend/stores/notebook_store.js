@@ -25,6 +25,16 @@ const _receiveNotebook = function(notebook) {
   _allNotebooks[notebook.id] = notebook;
 };
 
+NotebookStore.findNotebook = function(notebookID) {
+  let notebook;
+  Object.keys(_allNotebooks).forEach( id => {
+    if(parseInt(id) === notebookID) {
+      notebook = _allNotebooks[id];
+    }
+  });
+  return notebook;
+};
+
 NotebookStore.mostRecentNotebook = function() {
   const ids = Object.keys(_allNotebooks);
   const lastID = Math.max.apply(null, ids);

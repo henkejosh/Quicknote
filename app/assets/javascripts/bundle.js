@@ -67,6 +67,7 @@
 	var CurrentNotebookActions = __webpack_require__(306);
 	var CurrentNotebookStore = __webpack_require__(295);
 	var CurrentNoteStore = __webpack_require__(304);
+	var NoteStore = __webpack_require__(303);
 	
 	var _ensureNotLoggedIn = function _ensureNotLoggedIn(nextState, replace) {
 	  if (SessionStore.isUserLoggedIn()) {
@@ -101,6 +102,7 @@
 	  ReactDOM.render(appRouter, document.getElementById("root"));
 	});
 	
+	window.NoteStore = NoteStore;
 	window.CurrentNoteStore = CurrentNoteStore;
 	window.NotebookStore = NotebookStore;
 	window.CurrentNotebookStore = CurrentNotebookStore;
@@ -36582,7 +36584,10 @@
 	      return React.createElement('div', null);
 	    } else {
 	      return React.createElement(NoteEditor, { key: this.state.currentNote.id,
-	        currentNote: this.state.currentNote });
+	        currentNote: this.state.currentNote,
+	        currentNotebook: this.state.currentNotebook,
+	        notebooks: this.state.notebooks
+	      });
 	    }
 	  },
 	
@@ -36845,6 +36850,17 @@
 	    NoteApiUtil.updateNote(note, this.receiveNote);
 	  },
 	
+	  changeNoteNotebook: function changeNoteNotebook(note) {
+	    NoteApiUtil.updateNote(note, this.receiveNoteNewNotebook);
+	  },
+	
+	  receiveNoteNewNotebook: function receiveNoteNewNotebook(note) {
+	    Dispatcher.dispatch({
+	      actionType: NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK,
+	      note: note
+	    });
+	  },
+	
 	  deleteNote: function deleteNote(noteID) {
 	    NoteApiUtil.deleteNote(noteID, this.removeNoteFromStore);
 	  },
@@ -36949,7 +36965,8 @@
 	  RECEIVE_ALL_NOTES: "RECEIVE_ALL_NOTES",
 	  RECEIVE_NOTE: "RECEIVE_NOTE",
 	  REMOVE_NOTE: "REMOVE_NOTE",
-	  UPDATE_NOTEBOOK_NOTES: "UPDATE_NOTEBOOK_NOTES"
+	  UPDATE_NOTEBOOK_NOTES: "UPDATE_NOTEBOOK_NOTES",
+	  RECEIVE_NOTE_NEW_NOTEBOOK: "RECEIVE_NOTE_NEW_NOTEBOOK"
 	};
 	
 	module.exports = CurrentNotebookConstants;
@@ -36983,6 +37000,16 @@
 	
 	var _receiveNotebook = function _receiveNotebook(notebook) {
 	  _allNotebooks[notebook.id] = notebook;
+	};
+	
+	NotebookStore.findNotebook = function (notebookID) {
+	  var notebook = void 0;
+	  Object.keys(_allNotebooks).forEach(function (id) {
+	    if (parseInt(id) === notebookID) {
+	      notebook = _allNotebooks[id];
+	    }
+	  });
+	  return notebook;
 	};
 	
 	NotebookStore.mostRecentNotebook = function () {
@@ -37239,6 +37266,12 @@
 	          'li',
 	          null,
 	          this.formatBody()
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'NB_ID: ',
+	          this.props.notebook_id
 	        ),
 	        React.createElement(
 	          'li',
@@ -37586,12 +37619,19 @@
 	
 	var _addNote = function _addNote(note) {
 	  _notes[note.id] = note;
-	  _notebookNotes[note.id] = note;
+	  // _notebookNotes[note.id] = note;
+	  _ensureRightNotebook(note);
 	};
 	
-	var _setNotebookNotes = function _setNotebookNotes(notes) {
+	var _addJustNote = function _addJustNote(note) {
+	  _notes[note.id] = note;
+	};
+	
+	var _setNotebookNotes = function _setNotebookNotes(currentNotebook) {
+	  var notes = currentNotebook.notes;
 	  _notebookNotes = {};
 	  notes.forEach(function (note) {
+	    note.notebook_id = currentNotebook.id;
 	    _notebookNotes[note.id] = note;
 	  });
 	  // CurrentNoteStore.resetCurrentNote(notes);
@@ -37604,6 +37644,29 @@
 	
 	var _resetNotebookNotes = function _resetNotebookNotes() {
 	  _notebookNotes = {};
+	};
+	
+	var _ensureRightNotebook = function _ensureRightNotebook(note) {
+	  Object.keys(_notebookNotes).forEach(function (id) {
+	    if (_notebookNotes[id].notebook_id === note.notebook_id) {
+	      _notebookNotes[note.id] = note;
+	    }
+	  });
+	};
+	
+	var _handleNewNotebookNote = function _handleNewNotebookNote(note) {
+	  Object.keys(_notebookNotes).forEach(function (id) {
+	    if (_notebookNotes[id].notebook_id === note.notebook_id) {
+	      _notebookNotes[note.id] = note;
+	      return;
+	    }
+	  });
+	  Object.keys(_notebookNotes).forEach(function (id) {
+	    if (parseInt(id) === note.id) {
+	      delete _notebookNotes[note.id];
+	      return;
+	    }
+	  });
 	};
 	
 	var _createNotebookNotes = function _createNotebookNotes(notebookID) {
@@ -37644,7 +37707,7 @@
 	      NoteStore.__emitChange();
 	      break;
 	    case CurrentNotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
-	      _setNotebookNotes(payload.currentNotebook.notes);
+	      _setNotebookNotes(payload.currentNotebook);
 	      NoteStore.__emitChange();
 	      break;
 	    case NoteConstants.RECEIVE_NOTE:
@@ -37661,6 +37724,11 @@
 	      break;
 	    case NoteConstants.UPDATE_NOTEBOOK_NOTES:
 	      _createNotebookNotes(payload.notebookID);
+	      NoteStore.__emitChange();
+	      break;
+	    case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
+	      _addJustNote(payload.note);
+	      _handleNewNotebookNote(payload.note);
 	      NoteStore.__emitChange();
 	      break;
 	  }
@@ -37682,6 +37750,7 @@
 	var NotebookStore = __webpack_require__(294);
 	var CurrentNotebookConstants = __webpack_require__(296);
 	var NotebookConstants = __webpack_require__(290);
+	var NoteStore = __webpack_require__(303);
 	
 	var CurrentNoteStore = new Store(Dispatcher);
 	
@@ -37690,6 +37759,15 @@
 	var _setCurrentNote = function _setCurrentNote(note) {
 	  // _currentNote[note.id] = note;
 	  _currentNote = note;
+	};
+	
+	var _getNotebookNoteFromNoteStore = function _getNotebookNoteFromNoteStore(notestore) {
+	  // debugger;
+	  var notes = notestore.allNotebookNotes();
+	  if (Object.keys(notes).length === 0) {
+	    return {};
+	  }
+	  _bootstrapCurrentNote(notes);
 	};
 	
 	var _chooseLastNote = function _chooseLastNote(notes) {
@@ -37705,8 +37783,11 @@
 	  // }
 	};
 	
-	var _bootstrapCurrentNoteFromArray = function _bootstrapCurrentNoteFromArray(notes) {
-	  _currentNote = notes[0];
+	var _bootstrapCurrentNoteFromArray = function _bootstrapCurrentNoteFromArray(currentNotebook) {
+	  var notes = currentNotebook.notes;
+	  var note = notes[0];
+	  note.notebook_id = currentNotebook.id;
+	  _currentNote = note;
 	};
 	
 	var _removeNote = function _removeNote(noteID) {
@@ -37750,13 +37831,18 @@
 	      CurrentNoteStore.__emitChange();
 	      break;
 	    case CurrentNotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
-	      _bootstrapCurrentNoteFromArray(payload.currentNotebook.notes);
+	      //
+	      _bootstrapCurrentNoteFromArray(payload.currentNotebook);
 	      CurrentNoteStore.__emitChange();
 	      break;
 	    case NotebookConstants.RECEIVE_NOTEBOOK:
 	      _resetStore();
 	      CurrentNoteStore.__emitChange();
 	      break;
+	    // case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
+	    //   _getNotebookNoteFromNoteStore(NoteStore);
+	    //   CurrentNoteStore.__emitChange();
+	    //   break;
 	  }
 	};
 	
@@ -37809,14 +37895,20 @@
 	var React = __webpack_require__(1);
 	var ReactQuill = __webpack_require__(308);
 	var NoteActions = __webpack_require__(291);
+	var NotebookDropdown = __webpack_require__(321);
+	var NotebookStore = __webpack_require__(294);
 	
 	var NoteEditor = React.createClass({
 	  displayName: 'NoteEditor',
 	
 	  getInitialState: function getInitialState() {
+	    // const notebook = this.findNotebook();
 	    return {
 	      title: this.props.currentNote.title,
-	      body: this.props.currentNote.body
+	      body: this.props.currentNote.body,
+	      notebookSelectorOpen: false,
+	      notebookTitle: "",
+	      notebook_id: ""
 	      // notebook_id: this.props.currentNote.notebook_id,
 	
 	      // notebook_id: this.props.currentNotebook.id
@@ -37828,6 +37920,47 @@
 	    };
 	  },
 	
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    var notebook = this.findNotebook();
+	    this.setState({
+	      title: this.props.currentNote.title,
+	      body: this.props.currentNote.body,
+	      notebookTitle: notebook.title,
+	      notebook_id: notebook.id
+	    });
+	  },
+	
+	  findNotebook: function findNotebook() {
+	    return NotebookStore.findNotebook(this.props.currentNote.notebook_id);
+	    // debugger;
+	    // debugger;
+	    // const notebooks = this.props.notebooks;
+	    // const that = this;
+	    // let returnNotebook;
+	    // if(Object.keys(notebooks).length > 0) {
+	    //   Object.keys(notebooks).forEach( id => {
+	    //     // debugger;
+	    //     if(parseInt(id) === that.props.currentNote.notebook_id) {
+	    //       returnNotebook = notebooks[id];
+	    //     }
+	    //   });
+	    // }
+	    // if(returnNotebook) return returnNotebook;
+	  },
+	
+	  // createNotebookTitle: function() {
+	  //   const notebooks = this.props.notebooks;
+	  //   const that = this;
+	  //   if(Object.keys(notebooks).length > 0) {
+	  //     Object.keys(notebooks).forEach( id => {
+	  //       debugger;
+	  //       if(parseInt(id) === that.props.currentNote.notebook_id) {
+	  //         return notebooks[id].title;
+	  //       }
+	  //     });
+	  //   }
+	  // },
+	
 	  handleSubmit: function handleSubmit(e) {
 	    e.preventDefault();
 	    // make this autosave by doing an "onChange" and having body
@@ -37835,9 +37968,12 @@
 	  },
 	
 	  componentDidMount: function componentDidMount() {
+	    var notebook = this.findNotebook();
 	    this.setState({
 	      title: this.props.currentNote.title,
-	      body: this.props.currentNote.body
+	      body: this.props.currentNote.body,
+	      notebookTitle: notebook.title,
+	      notebook_id: notebook.id
 	    });
 	  },
 	
@@ -37845,6 +37981,7 @@
 	    var note = this.props.currentNote;
 	    note.body = this.state.body;
 	    note.title = this.state.title;
+	    note.notebook_id = this.state.notebook_id;
 	    note = note;
 	    NoteActions.updateNote(note);
 	  },
@@ -37858,10 +37995,44 @@
 	    this.setState({ title: e.target.value });
 	  },
 	
+	  updateNotebook: function updateNotebook() {
+	    if (this.saveTimeout) clearTimeout(this.saveTimeout);
+	    var note = this.props.currentNote;
+	    // this.props.currentNote.notebook_id = this.state.notebook_id;
+	    NoteActions.changeNoteNotebook(note);
+	  },
+	
 	  updateBody: function updateBody(text) {
 	    if (this.saveTimeout) clearTimeout(this.saveTimeout);
 	    this.setState({ "body": text });
 	    this.autoSave();
+	  },
+	
+	  createNotebookDropdownSelector: function createNotebookDropdownSelector() {
+	    // <NotebookDropdown currentNotebook={this.props.currentNotebook}
+	    if (this.state.notebookSelectorOpen) {
+	      return React.createElement(NotebookDropdown, { currentNotebook: this.state.notebookTitle,
+	        notebooks: this.props.notebooks,
+	        closeNotebookSelector: this.closeNotebookSelector,
+	        openNotebookSelector: this.openNotebookSelector,
+	        notebookSelectorOpen: this.state.notebookSelectorOpen,
+	        currentNote: this.props.currentNote,
+	        updateNotebook: this.updateNotebook
+	      });
+	    }
+	  },
+	
+	  closeNotebookSelector: function closeNotebookSelector() {
+	    this.setState({ notebookSelectorOpen: false });
+	  },
+	
+	  openNotebookSelector: function openNotebookSelector() {
+	    this.setState({ notebookSelectorOpen: true });
+	  },
+	
+	  handleNotebookSelectorOpen: function handleNotebookSelectorOpen(e) {
+	    e.preventDefault();
+	    this.openNotebookSelector();
 	  },
 	
 	  render: function render() {
@@ -37875,8 +38046,15 @@
 	        { className: 'top-toolbar' },
 	        React.createElement(
 	          'div',
-	          { className: 'notebook-selector' },
-	          'choose NB'
+	          { className: 'curr-notebook-name',
+	            onClick: this.handleNotebookSelectorOpen
+	          },
+	          this.state.notebookTitle
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'dropdown-placeholder' },
+	          this.createNotebookDropdownSelector()
 	        ),
 	        React.createElement(
 	          'div',
@@ -49565,6 +49743,398 @@
 	});
 	
 	module.exports = NotebookEditor;
+
+/***/ },
+/* 321 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var ReactDropdown = __webpack_require__(322).default;
+	var Modal = __webpack_require__(265);
+	var modStyle = __webpack_require__(285);
+	var NotebookSelectee = __webpack_require__(324);
+	var NoteActions = __webpack_require__(291);
+	
+	var NotebookDropdown = React.createClass({
+	  displayName: 'NotebookDropdown',
+	
+	  formatNotebooks: function formatNotebooks() {
+	    var _this = this;
+	
+	    var notebooks = [];
+	
+	    Object.keys(this.props.notebooks).forEach(function (id) {
+	      if (_this.props.notebooks[id].title !== _this.props.currentNotebook.title) {
+	        notebooks.push(_this.props.notebooks[id].title);
+	      }
+	    });
+	    return notebooks;
+	  },
+	
+	  formatCurrentNotebookTitle: function formatCurrentNotebookTitle() {
+	    if (Object.keys(this.props.currentNotebook).length === 0) return;
+	
+	    return this.props.currentNotebook.title;
+	  },
+	
+	  formatNotebookOptions: function formatNotebookOptions() {
+	    if (Object.keys(this.props.notebooks).length === 0) return;
+	
+	    var that = this;
+	    Object.keys(this.props.notebooks).map(function (id) {
+	      var notebook = that.props.notebooks[id];
+	      return React.createElement(NotebookSelectee, { key: id,
+	        title: notebook.title,
+	        onSelect: that.onSelect
+	      });
+	    });
+	  },
+	
+	  handleCancel: function handleCancel(e) {
+	    e.preventDefault();
+	    this.props.closeNotebookSelector();
+	  },
+	
+	  onSelect: function onSelect(e) {
+	    var _this2 = this;
+	
+	    e.preventDefault();
+	    var title = e.target.innerHTML;
+	    // debugger;
+	    var notebook = void 0;
+	    Object.keys(this.props.notebooks).forEach(function (id) {
+	      if (_this2.props.notebooks[id].title === title) {
+	        notebook = _this2.props.notebooks[id];
+	      }
+	    });
+	    var note = this.props.currentNote;
+	    note.notebook_id = notebook.id;
+	    this.props.updateNotebook();
+	    // NoteActions.changeNoteNotebook(note);
+	    this.props.closeNotebookSelector();
+	  },
+	
+	  render: function render() {
+	    var _this3 = this;
+	
+	    return React.createElement(
+	      Modal,
+	      { className: 'notebook-selector',
+	        isOpen: this.props.notebookSelectorOpen,
+	        style: modStyle },
+	      Object.keys(this.props.notebooks).map(function (id) {
+	        var notebook = _this3.props.notebooks[id];
+	        return React.createElement(NotebookSelectee, { key: id,
+	          title: notebook.title,
+	          onSelect: _this3.onSelect,
+	          closeNotebookSelector: _this3.props.closeNotebookSelector
+	
+	        });
+	      }),
+	      React.createElement(
+	        'button',
+	        { onClick: this.handleCancel },
+	        'Cancel'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NotebookDropdown;
+
+/***/ },
+/* 322 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(35);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _classnames = __webpack_require__(323);
+	
+	var _classnames2 = _interopRequireDefault(_classnames);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Dropdown = function (_Component) {
+	  _inherits(Dropdown, _Component);
+	
+	  function Dropdown(props) {
+	    _classCallCheck(this, Dropdown);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Dropdown).call(this, props));
+	
+	    _this.state = {
+	      selected: props.value || {
+	        label: props.placeholder || 'Select...',
+	        value: ''
+	      },
+	      isOpen: false
+	    };
+	    _this.mounted = true;
+	    _this.handleDocumentClick = _this.handleDocumentClick.bind(_this);
+	    _this.fireChangeEvent = _this.fireChangeEvent.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Dropdown, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (newProps.value && newProps.value !== this.state.selected) {
+	        this.setState({ selected: newProps.value });
+	      } else if (!newProps.value && newProps.placeholder) {
+	        this.setState({ selected: { label: newProps.placeholder, value: '' } });
+	      }
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      document.addEventListener('click', this.handleDocumentClick, false);
+	      document.addEventListener('touchend', this.handleDocumentClick, false);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.mounted = false;
+	      document.removeEventListener('click', this.handleDocumentClick, false);
+	      document.removeEventListener('touchend', this.handleDocumentClick, false);
+	    }
+	  }, {
+	    key: 'handleMouseDown',
+	    value: function handleMouseDown(event) {
+	      if (event.type === 'mousedown' && event.button !== 0) return;
+	      event.stopPropagation();
+	      event.preventDefault();
+	
+	      this.setState({
+	        isOpen: !this.state.isOpen
+	      });
+	    }
+	  }, {
+	    key: 'setValue',
+	    value: function setValue(value, label) {
+	      var newState = {
+	        selected: {
+	          value: value,
+	          label: label
+	        },
+	        isOpen: false
+	      };
+	      this.fireChangeEvent(newState);
+	      this.setState(newState);
+	    }
+	  }, {
+	    key: 'fireChangeEvent',
+	    value: function fireChangeEvent(newState) {
+	      if (newState.selected !== this.state.selected && this.props.onChange) {
+	        this.props.onChange(newState.selected);
+	      }
+	    }
+	  }, {
+	    key: 'renderOption',
+	    value: function renderOption(option) {
+	      var _classNames;
+	
+	      var optionClass = (0, _classnames2.default)((_classNames = {}, _defineProperty(_classNames, this.props.baseClassName + '-option', true), _defineProperty(_classNames, 'is-selected', option === this.state.selected), _classNames));
+	
+	      var value = option.value || option.label || option;
+	      var label = option.label || option.value || option;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        {
+	          key: value,
+	          className: optionClass,
+	          onMouseDown: this.setValue.bind(this, value, label),
+	          onClick: this.setValue.bind(this, value, label) },
+	        label
+	      );
+	    }
+	  }, {
+	    key: 'buildMenu',
+	    value: function buildMenu() {
+	      var _this2 = this;
+	
+	      var _props = this.props;
+	      var options = _props.options;
+	      var baseClassName = _props.baseClassName;
+	
+	      var ops = options.map(function (option) {
+	        if (option.type === 'group') {
+	          var groupTitle = _react2.default.createElement(
+	            'div',
+	            { className: baseClassName + '-title' },
+	            option.name
+	          );
+	          var _options = option.items.map(function (item) {
+	            return _this2.renderOption(item);
+	          });
+	
+	          return _react2.default.createElement(
+	            'div',
+	            { className: baseClassName + '-group', key: option.name },
+	            groupTitle,
+	            _options
+	          );
+	        } else {
+	          return _this2.renderOption(option);
+	        }
+	      });
+	
+	      return ops.length ? ops : _react2.default.createElement(
+	        'div',
+	        { className: baseClassName + '-noresults' },
+	        'No options found'
+	      );
+	    }
+	  }, {
+	    key: 'handleDocumentClick',
+	    value: function handleDocumentClick(event) {
+	      if (this.mounted) {
+	        if (!_reactDom2.default.findDOMNode(this).contains(event.target)) {
+	          this.setState({ isOpen: false });
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _classNames2;
+	
+	      var baseClassName = this.props.baseClassName;
+	
+	      var placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.label;
+	      var value = _react2.default.createElement(
+	        'div',
+	        { className: baseClassName + '-placeholder' },
+	        placeHolderValue
+	      );
+	      var menu = this.state.isOpen ? _react2.default.createElement(
+	        'div',
+	        { className: baseClassName + '-menu' },
+	        this.buildMenu()
+	      ) : null;
+	
+	      var dropdownClass = (0, _classnames2.default)((_classNames2 = {}, _defineProperty(_classNames2, baseClassName + '-root', true), _defineProperty(_classNames2, 'is-open', this.state.isOpen), _classNames2));
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: dropdownClass },
+	        _react2.default.createElement(
+	          'div',
+	          { className: baseClassName + '-control', onMouseDown: this.handleMouseDown.bind(this), onTouchEnd: this.handleMouseDown.bind(this) },
+	          value,
+	          _react2.default.createElement('span', { className: baseClassName + '-arrow' })
+	        ),
+	        menu
+	      );
+	    }
+	  }]);
+	
+	  return Dropdown;
+	}(_react.Component);
+	
+	Dropdown.defaultProps = { baseClassName: 'Dropdown' };
+	exports.default = Dropdown;
+
+/***/ },
+/* 323 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+	
+	(function () {
+		'use strict';
+	
+		var hasOwn = {}.hasOwnProperty;
+	
+		function classNames () {
+			var classes = [];
+	
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+	
+				var argType = typeof arg;
+	
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+	
+			return classes.join(' ');
+		}
+	
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
+
+/***/ },
+/* 324 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var NotebookSelectee = React.createClass({
+	  displayName: "NotebookSelectee",
+	
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { onClick: this.props.onSelect,
+	        className: "nb-selector-option" },
+	      this.props.title
+	    );
+	  }
+	});
+	
+	module.exports = NotebookSelectee;
 
 /***/ }
 /******/ ]);

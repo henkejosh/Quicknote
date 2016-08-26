@@ -211,7 +211,10 @@ const HomePage = React.createClass({
     } else {
       return (
         <NoteEditor key={this.state.currentNote.id}
-          currentNote={this.state.currentNote} />
+          currentNote={this.state.currentNote}
+          currentNotebook={this.state.currentNotebook}
+          notebooks={this.state.notebooks}
+          />
       );
     }
   },

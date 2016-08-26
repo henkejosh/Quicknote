@@ -37,6 +37,17 @@ const NoteActions = {
     NoteApiUtil.updateNote(note, this.receiveNote);
   },
 
+  changeNoteNotebook: function(note) {
+    NoteApiUtil.updateNote(note, this.receiveNoteNewNotebook);
+  },
+
+  receiveNoteNewNotebook: function(note) {
+    Dispatcher.dispatch({
+      actionType: NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK,
+      note: note
+    });
+  },
+
   deleteNote: function(noteID) {
     NoteApiUtil.deleteNote(noteID, this.removeNoteFromStore);
   },

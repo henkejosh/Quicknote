@@ -35,6 +35,7 @@ const NoteItem = React.createClass({
           <li>{this.props.title}</li>
           <li>{this.formatLastUpdated()}</li>
           <li>{this.formatBody()}</li>
+          <li>NB_ID: {this.props.notebook_id}</li>
           <li className="delete-icon"
             onClick={this.deleteNote}>DELETE</li>
         </ul>

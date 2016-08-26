@@ -22,12 +22,19 @@ const _setNotes = function(notes) {
 
 const _addNote = function(note) {
   _notes[note.id] = note;
-  _notebookNotes[note.id] = note;
+  // _notebookNotes[note.id] = note;
+  _ensureRightNotebook(note);
 };
 
-const _setNotebookNotes = function(notes) {
+const _addJustNote = function(note) {
+  _notes[note.id] = note;
+};
+
+const _setNotebookNotes = function(currentNotebook) {
+  const notes = currentNotebook.notes;
   _notebookNotes = {};
   notes.forEach( note => {
+    note.notebook_id = currentNotebook.id;
     _notebookNotes[note.id] = note;
   });
   // CurrentNoteStore.resetCurrentNote(notes);
@@ -40,6 +47,29 @@ const _removeNote = function(noteID) {
 
 const _resetNotebookNotes = function() {
   _notebookNotes = {};
+};
+
+const _ensureRightNotebook = function(note) {
+  Object.keys(_notebookNotes).forEach( id => {
+    if(_notebookNotes[id].notebook_id === note.notebook_id) {
+      _notebookNotes[note.id] = note;
+    }
+  });
+};
+
+const _handleNewNotebookNote = function(note) {
+  Object.keys(_notebookNotes).forEach( id => {
+    if(_notebookNotes[id].notebook_id === note.notebook_id) {
+      _notebookNotes[note.id] = note;
+      return;
+    }
+  });
+  Object.keys(_notebookNotes).forEach( id => {
+    if(parseInt(id) === note.id) {
+      delete _notebookNotes[note.id];
+      return;
+    }
+  });
 };
 
 const _createNotebookNotes = function(notebookID) {
@@ -80,7 +110,7 @@ NoteStore.__onDispatch = payload => {
       NoteStore.__emitChange();
       break;
     case CurrentNotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
-      _setNotebookNotes(payload.currentNotebook.notes);
+      _setNotebookNotes(payload.currentNotebook);
       NoteStore.__emitChange();
       break;
     case NoteConstants.RECEIVE_NOTE:
@@ -97,6 +127,11 @@ NoteStore.__onDispatch = payload => {
       break;
     case NoteConstants.UPDATE_NOTEBOOK_NOTES:
       _createNotebookNotes(payload.notebookID);
+      NoteStore.__emitChange();
+      break;
+    case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
+      _addJustNote(payload.note);
+      _handleNewNotebookNote(payload.note);
       NoteStore.__emitChange();
       break;
   }
