@@ -18,6 +18,7 @@ const _setNotes = function(notes) {
   notes.forEach( note => {
     _notes[note.id] = note;
   });
+  // debugger;
 };
 
 const _addNote = function(note) {
@@ -50,11 +51,17 @@ const _resetNotebookNotes = function() {
 };
 
 const _ensureRightNotebook = function(note) {
-  Object.keys(_notebookNotes).forEach( id => {
-    if(_notebookNotes[id].notebook_id === note.notebook_id) {
-      _notebookNotes[note.id] = note;
-    }
-  });
+  // debugger;
+  if(Object.keys(_notebookNotes).length === 0) {
+    _notebookNotes[note.id] = note;
+    // return;
+  } else {
+    Object.keys(_notebookNotes).forEach( id => {
+      if(_notebookNotes[id].notebook_id === note.notebook_id) {
+        _notebookNotes[note.id] = note;
+      }
+    });
+  }
 };
 
 const _handleNewNotebookNote = function(note) {

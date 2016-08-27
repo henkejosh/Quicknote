@@ -25,7 +25,10 @@ const NoteEditor = React.createClass({
   },
 
   componentWillReceiveProps: function() {
-    const notebook = this.findNotebook();
+    let notebook = this.findNotebook();
+    if(!notebook) {
+      notebook = this.props.currentNotebook;
+    }
     this.setState({
       title: this.props.currentNote.title,
       body: this.props.currentNote.body,
@@ -72,7 +75,10 @@ const NoteEditor = React.createClass({
   },
 
   componentDidMount: function() {
-    const notebook = this.findNotebook();
+    let notebook = this.findNotebook();
+    if(!notebook) {
+      notebook = this.props.currentNotebook;
+    }
     this.setState({
       title: this.props.currentNote.title,
       body: this.props.currentNote.body,

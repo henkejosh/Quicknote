@@ -41,9 +41,13 @@ const _bootstrapCurrentNote = function(notes) {
 
 const _bootstrapCurrentNoteFromArray = function(currentNotebook) {
   const notes = currentNotebook.notes;
-  let note = notes[0];
-  note.notebook_id = currentNotebook.id;
-  _currentNote = note;
+  if(notes.length > 0) {
+    let note = notes[0];
+    note.notebook_id = currentNotebook.id;
+    _currentNote = note;
+  } else {
+    _currentNote = {};
+  }
 };
 
 const _removeNote = function(noteID) {

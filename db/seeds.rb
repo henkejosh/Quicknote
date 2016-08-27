@@ -14,14 +14,12 @@ notebook2 = Notebook.create!(title: "To-Do List", user_id: guest.id)
 note1 = Note.create!(
   notebook_id: notebook1.id,
   title: "How to create a note:",
-  body: "1. Type your things.
-      2. Click create"
-)
+  body: "<div>1. Type your things.</div>")
 
 note2 = Note.create!(
   notebook_id: notebook2.id,
   title: "Go to grocery store",
-  body: "Pickup: 1) Milk 2) Eggs 3) Cheese 4) Fruit"
+  body: "<div>Pickup: 1) Milk 2) Eggs 3) Cheese 4) Fruit</div>"
 )
 
 tag1 = Tag.create!(

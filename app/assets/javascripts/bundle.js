@@ -36420,6 +36420,8 @@
 	    // this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
 	    // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
 	    // this.noteListener = NoteStore.addListener(this.updateNotes);
+	
+	
 	    NotebookActions.getAllNotebooks();
 	    NoteActions.getAllNotes();
 	  },
@@ -36429,6 +36431,8 @@
 	    this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
 	    this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
 	    this.noteListener = NoteStore.addListener(this.updateNotes);
+	    NotebookActions.getAllNotebooks();
+	    NoteActions.getAllNotes();
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
@@ -37615,6 +37619,7 @@
 	  notes.forEach(function (note) {
 	    _notes[note.id] = note;
 	  });
+	  // debugger;
 	};
 	
 	var _addNote = function _addNote(note) {
@@ -37647,11 +37652,17 @@
 	};
 	
 	var _ensureRightNotebook = function _ensureRightNotebook(note) {
-	  Object.keys(_notebookNotes).forEach(function (id) {
-	    if (_notebookNotes[id].notebook_id === note.notebook_id) {
-	      _notebookNotes[note.id] = note;
-	    }
-	  });
+	  // debugger;
+	  if (Object.keys(_notebookNotes).length === 0) {
+	    _notebookNotes[note.id] = note;
+	    // return;
+	  } else {
+	    Object.keys(_notebookNotes).forEach(function (id) {
+	      if (_notebookNotes[id].notebook_id === note.notebook_id) {
+	        _notebookNotes[note.id] = note;
+	      }
+	    });
+	  }
 	};
 	
 	var _handleNewNotebookNote = function _handleNewNotebookNote(note) {
@@ -37785,9 +37796,13 @@
 	
 	var _bootstrapCurrentNoteFromArray = function _bootstrapCurrentNoteFromArray(currentNotebook) {
 	  var notes = currentNotebook.notes;
-	  var note = notes[0];
-	  note.notebook_id = currentNotebook.id;
-	  _currentNote = note;
+	  if (notes.length > 0) {
+	    var note = notes[0];
+	    note.notebook_id = currentNotebook.id;
+	    _currentNote = note;
+	  } else {
+	    _currentNote = {};
+	  }
 	};
 	
 	var _removeNote = function _removeNote(noteID) {
@@ -37922,6 +37937,9 @@
 	
 	  componentWillReceiveProps: function componentWillReceiveProps() {
 	    var notebook = this.findNotebook();
+	    if (!notebook) {
+	      notebook = this.props.currentNotebook;
+	    }
 	    this.setState({
 	      title: this.props.currentNote.title,
 	      body: this.props.currentNote.body,
@@ -37969,6 +37987,9 @@
 	
 	  componentDidMount: function componentDidMount() {
 	    var notebook = this.findNotebook();
+	    if (!notebook) {
+	      notebook = this.props.currentNotebook;
+	    }
 	    this.setState({
 	      title: this.props.currentNote.title,
 	      body: this.props.currentNote.body,

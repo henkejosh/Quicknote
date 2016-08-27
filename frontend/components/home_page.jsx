@@ -38,6 +38,8 @@ const HomePage = React.createClass({
     // this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
     // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
     // this.noteListener = NoteStore.addListener(this.updateNotes);
+
+
     NotebookActions.getAllNotebooks();
     NoteActions.getAllNotes();
   },
@@ -47,6 +49,8 @@ const HomePage = React.createClass({
     this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
     this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
     this.noteListener = NoteStore.addListener(this.updateNotes);
+    NotebookActions.getAllNotebooks();
+    NoteActions.getAllNotes();
   },
 
   componentWillUnmount: function() {
