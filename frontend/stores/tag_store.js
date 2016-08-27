@@ -12,7 +12,7 @@ const _addTag = function(tag) {
 };
 
 const _updateTags = function(tags) {
-  tags.forEach( tag => {
+  tags.tags_arr.forEach( tag => {
     _tags[tag.id] = tag;
   });
 };
@@ -25,7 +25,6 @@ TagStore.__onDispatch = payload => {
   switch(payload.actionType) {
     case TagConstants.RECEIVE_TAG:
       _addTag(payload.tag);
-      console.log(_tags);
       TagStore.__emitChange();
       break;
     case TagConstants.RECEIVE_ALL_TAGS:

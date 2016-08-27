@@ -36513,7 +36513,8 @@
 	        closeSelectTagModal: this.closeSelectTagModal,
 	        openSelectTagModal: this.openSelectTagModal,
 	        changeCardColumnToTag: this.changeCardColumnToTag,
-	        changeCardColumnToAllCards: this.changeCardColumnToAllCards
+	        changeCardColumnToAllCards: this.changeCardColumnToAllCards,
+	        notes: this.state.notes
 	        // openTagCreator={this.openTagCreator}
 	      });
 	    }
@@ -50352,12 +50353,20 @@
 	    this.props.closeSelectTagModal();
 	  },
 	
+	  formatNoteCount: function formatNoteCount() {
+	    return this.props.tag.note_ids.length;
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      "li",
 	      { onClick: this.handleSelection,
-	        className: "current-note-tag" },
-	      this.props.title
+	        className: "current-note-tag"
+	      },
+	      this.props.title,
+	      ": [",
+	      this.formatNoteCount(),
+	      "]"
 	    );
 	  }
 	});
@@ -50503,6 +50512,13 @@
 	    }
 	  },
 	
+	  // getAppropriateNotes: function(tagID) {
+	  //   let notes = [];
+	  //   Object.keys(this.props.notes).forEach( id => {
+	  //     if(this.props.notes[id] === )
+	  //   });
+	  // },
+	
 	  openTagCreator: function openTagCreator(e) {
 	    e.preventDefault();
 	    // this.props.openTagCreator();
@@ -50542,7 +50558,7 @@
 	            changeCardColumnToAllCards: _this.props.changeCardColumnToAllCards,
 	            changeCardColumnToTag: _this.props.changeCardColumnToTag,
 	            closeSelectTagModal: _this.props.closeSelectTagModal,
-	            tags: _this.state.tags
+	            tag: tag
 	          });
 	        }),
 	        React.createElement(
@@ -50581,7 +50597,7 @@
 	};
 	
 	var _updateTags = function _updateTags(tags) {
-	  tags.forEach(function (tag) {
+	  tags.tags_arr.forEach(function (tag) {
 	    _tags[tag.id] = tag;
 	  });
 	};
@@ -50594,7 +50610,6 @@
 	  switch (payload.actionType) {
 	    case TagConstants.RECEIVE_TAG:
 	      _addTag(payload.tag);
-	      console.log(_tags);
 	      TagStore.__emitChange();
 	      break;
 	    case TagConstants.RECEIVE_ALL_TAGS:

@@ -131,6 +131,7 @@ const HomePage = React.createClass({
           openSelectTagModal={ this.openSelectTagModal }
           changeCardColumnToTag={this.changeCardColumnToTag}
           changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+          notes={this.state.notes}
           // openTagCreator={this.openTagCreator}
           />
       );

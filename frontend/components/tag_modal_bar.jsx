@@ -36,6 +36,13 @@ const TagModalBar = React.createClass({
     }
   },
 
+  // getAppropriateNotes: function(tagID) {
+  //   let notes = [];
+  //   Object.keys(this.props.notes).forEach( id => {
+  //     if(this.props.notes[id] === )
+  //   });
+  // },
+
   openTagCreator: function(e) {
     e.preventDefault();
     // this.props.openTagCreator();
@@ -63,7 +70,7 @@ const TagModalBar = React.createClass({
                     changeCardColumnToAllCards={this.props.changeCardColumnToAllCards}
                     changeCardColumnToTag={this.props.changeCardColumnToTag}
                     closeSelectTagModal={this.props.closeSelectTagModal}
-                    tags={this.state.tags}
+                    tag={tag}
                   />
               );
             })
