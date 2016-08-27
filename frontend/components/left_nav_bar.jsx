@@ -21,7 +21,8 @@ const LeftNavBar = React.createClass({
 
   handleTagIconClick: function(e) {
     e.preventDefault();
-    if(this.props.SelectTagModalOpen) {
+    // debugger;
+    if(this.props.tagModalBarIsOpen) {
       this.props.closeSelectTagModal();
     } else {
       this.props.openSelectTagModal();

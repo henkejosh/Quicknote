@@ -100,6 +100,9 @@ const HomePage = React.createClass({
   openSelectNotebookModal: function() {
     this.setState({ SelectNotebookModalOpen: true });
     this.makeNoteEditorOpaque();
+    this.closeNotebookCreator();
+    this.closeSelectTagModal();
+    this.closeNotebookEditor();
   },
 
   closeSelectNotebookModal: function() {
@@ -212,6 +215,7 @@ const HomePage = React.createClass({
     this.setState({ notebookCreatorOpen: true });
     this.closeSelectTagModal();
     this.closeNotebookEditor();
+    this.closeSelectNotebookModal();
   },
 
   closeNotebookEditor: function() {
@@ -222,6 +226,7 @@ const HomePage = React.createClass({
     this.setState({ notebookEditorOpen: true });
     this.closeSelectTagModal();
     this.closeNotebookCreator();
+    this.closeSelectNotebookModal();
   },
 
   closeSelectTagModal: function() {
@@ -232,6 +237,7 @@ const HomePage = React.createClass({
     this.setState({ tagModalBarIsOpen: true });
     this.closeNotebookCreator();
     this.closeNotebookEditor();
+    this.closeSelectNotebookModal();
   },
 
   renderNotebookEditor: function() {
@@ -270,6 +276,7 @@ const HomePage = React.createClass({
           SelectNotebookModalOpen={this.state.SelectNotebookModalOpen}
           openSelectNotebookModal={this.openSelectNotebookModal}
           closeSelectNotebookModal={this.closeSelectNotebookModal}
+          tagModalBarIsOpen={this.state.tagModalBarIsOpen}
           openSelectTagModal={this.openSelectTagModal}
           closeSelectTagModal={this.closeSelectTagModal}
           currentUser={this.props.currentUser}

@@ -61,7 +61,8 @@ const TagModalBar = React.createClass({
                     id={tag.id}
                     changeCardColumnToNotebook={this.props.changeCardColumnToNotebook}
                     changeCardColumnToAllCards={this.props.changeCardColumnToAllCards}
-                    closeSelectTagModal={this.props.closeSelectNotebookModal}
+                    changeCardColumnToTag={this.props.changeCardColumnToTag}
+                    closeSelectTagModal={this.props.closeSelectTagModal}
                     tags={this.state.tags}
                   />
               );
@@ -69,7 +70,7 @@ const TagModalBar = React.createClass({
           }
 
           <div className="cancel-button">
-            <button type="cancel" onClick={this.props.closeSelectNotebookModal}>Exit</button>
+            <button type="cancel" onClick={this.props.closeSelectTagModal}>Exit</button>
           </div>
 
         </div>

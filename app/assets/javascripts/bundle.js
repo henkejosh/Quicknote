@@ -36484,6 +36484,9 @@
 	  openSelectNotebookModal: function openSelectNotebookModal() {
 	    this.setState({ SelectNotebookModalOpen: true });
 	    this.makeNoteEditorOpaque();
+	    this.closeNotebookCreator();
+	    this.closeSelectTagModal();
+	    this.closeNotebookEditor();
 	  },
 	
 	  closeSelectNotebookModal: function closeSelectNotebookModal() {
@@ -36588,6 +36591,7 @@
 	    this.setState({ notebookCreatorOpen: true });
 	    this.closeSelectTagModal();
 	    this.closeNotebookEditor();
+	    this.closeSelectNotebookModal();
 	  },
 	
 	  closeNotebookEditor: function closeNotebookEditor() {
@@ -36598,6 +36602,7 @@
 	    this.setState({ notebookEditorOpen: true });
 	    this.closeSelectTagModal();
 	    this.closeNotebookCreator();
+	    this.closeSelectNotebookModal();
 	  },
 	
 	  closeSelectTagModal: function closeSelectTagModal() {
@@ -36608,6 +36613,7 @@
 	    this.setState({ tagModalBarIsOpen: true });
 	    this.closeNotebookCreator();
 	    this.closeNotebookEditor();
+	    this.closeSelectNotebookModal();
 	  },
 	
 	  renderNotebookEditor: function renderNotebookEditor() {
@@ -36642,6 +36648,7 @@
 	        SelectNotebookModalOpen: this.state.SelectNotebookModalOpen,
 	        openSelectNotebookModal: this.openSelectNotebookModal,
 	        closeSelectNotebookModal: this.closeSelectNotebookModal,
+	        tagModalBarIsOpen: this.state.tagModalBarIsOpen,
 	        openSelectTagModal: this.openSelectTagModal,
 	        closeSelectTagModal: this.closeSelectTagModal,
 	        currentUser: this.props.currentUser,
@@ -37386,7 +37393,8 @@
 	
 	  handleTagIconClick: function handleTagIconClick(e) {
 	    e.preventDefault();
-	    if (this.props.SelectTagModalOpen) {
+	    // debugger;
+	    if (this.props.tagModalBarIsOpen) {
 	      this.props.closeSelectTagModal();
 	    } else {
 	      this.props.openSelectTagModal();
@@ -50338,10 +50346,17 @@
 	var TagsBarItem = React.createClass({
 	  displayName: "TagsBarItem",
 	
+	  handleSelection: function handleSelection(e) {
+	    e.preventDefault();
+	    this.props.changeCardColumnToTag();
+	    this.props.closeSelectTagModal();
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      "li",
-	      { className: "current-note-tag" },
+	      { onClick: this.handleSelection,
+	        className: "current-note-tag" },
 	      this.props.title
 	    );
 	  }
@@ -50525,7 +50540,8 @@
 	            id: tag.id,
 	            changeCardColumnToNotebook: _this.props.changeCardColumnToNotebook,
 	            changeCardColumnToAllCards: _this.props.changeCardColumnToAllCards,
-	            closeSelectTagModal: _this.props.closeSelectNotebookModal,
+	            changeCardColumnToTag: _this.props.changeCardColumnToTag,
+	            closeSelectTagModal: _this.props.closeSelectTagModal,
 	            tags: _this.state.tags
 	          });
 	        }),
@@ -50534,7 +50550,7 @@
 	          { className: 'cancel-button' },
 	          React.createElement(
 	            'button',
-	            { type: 'cancel', onClick: this.props.closeSelectNotebookModal },
+	            { type: 'cancel', onClick: this.props.closeSelectTagModal },
 	            'Exit'
 	          )
 	        )
