@@ -45,6 +45,10 @@ const LeftNavBar = React.createClass({
           className="notebook-icon nav-icon">NB Icon</div>
           <br/>
 
+          <div
+            className="tag-icon nav-icon">Tag Icon</div>
+            <br/>
+
         <p className="log-out"
           onClick={this.props.logout}>Log Out</p>
 

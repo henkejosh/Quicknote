@@ -37361,6 +37361,13 @@
 	      ),
 	      React.createElement('br', null),
 	      React.createElement(
+	        'div',
+	        {
+	          className: 'tag-icon nav-icon' },
+	        'Tag Icon'
+	      ),
+	      React.createElement('br', null),
+	      React.createElement(
 	        'p',
 	        { className: 'log-out',
 	          onClick: this.props.logout },
