@@ -40,7 +40,8 @@ class Api::NotesController < ApplicationController
 
     if @note.save
       # @note.notebook_title = @note.notebook.title
-      render json: @note
+      # render json: @note
+      render :show
     else
       render json: @note.errors, status: 422
     end

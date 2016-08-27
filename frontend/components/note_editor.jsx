@@ -3,6 +3,7 @@ const ReactQuill = require('react-quill');
 const NoteActions = require('../actions/note_actions.js');
 const NotebookDropdown = require('./notebook_dropdown.jsx');
 const NotebookStore = require('../stores/notebook_store.js');
+const TagsBarIndex = require('./tags_bar_index.jsx');
 
 const NoteEditor = React.createClass({
   getInitialState: function() {
@@ -92,6 +93,9 @@ const NoteEditor = React.createClass({
     note.body = this.state.body;
     note.title = this.state.title;
     note.notebook_id = this.state.notebook_id;
+    // delete note["tags"];
+    // delete note["created_at"];
+    // delete note["updated_at"];
     note = note;
     NoteActions.updateNote(note);
   },
@@ -163,7 +167,8 @@ const NoteEditor = React.createClass({
               { this.createNotebookDropdownSelector() }
             </div>
 
-          <div className="tag-selector">choose tag</div>
+          <TagsBarIndex currentNote={this.props.currentNote}/>
+
         </div>
 
         <input className="note-name"

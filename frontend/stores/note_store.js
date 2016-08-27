@@ -7,6 +7,7 @@ const NotebookConstants = require('../constants/notebook_constants.js');
 const CurrentNotebookConstants = require('../constants/current_notebook_constants.js');
 const hashHistory = require('react-router').hashHistory;
 const CurrentNoteStore = require("./current_note_store.js");
+const CurrentNoteConstants = require("../constants/current_note_constants.js");
 
 const NoteStore = new Store(Dispatcher);
 
@@ -18,7 +19,6 @@ const _setNotes = function(notes) {
   notes.notes_arr.forEach( note => {
     _notes[note.id] = note;
   });
-  // debugger;
 };
 
 const _addNote = function(note) {
@@ -139,6 +139,10 @@ NoteStore.__onDispatch = payload => {
     case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
       _addJustNote(payload.note);
       _handleNewNotebookNote(payload.note);
+      NoteStore.__emitChange();
+      break;
+    case CurrentNoteConstants.RECEIVE_CURRENT_NOTE:
+      _addNote(payload.currentNote);
       NoteStore.__emitChange();
       break;
   }

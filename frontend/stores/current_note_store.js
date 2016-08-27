@@ -9,6 +9,7 @@ const NotebookStore = require('./notebook_store.js');
 const CurrentNotebookConstants = require("../constants/current_notebook_constants.js");
 const NotebookConstants = require("../constants/notebook_constants.js");
 const NoteStore = require("./note_store.js");
+const TagConstants = require('../constants/tag_constants.js');
 
 const CurrentNoteStore = new Store(Dispatcher);
 
@@ -58,6 +59,10 @@ const _resetStore = function() {
   _currentNote = {};
 };
 
+const _updateNoteFromTag = function(tag) {
+  // if(_currentNote.id === tag.)
+};
+
 CurrentNoteStore.forceUpdateCurrentNote = function(notes) {
   _bootstrapCurrentNote(notes);
 };
@@ -99,6 +104,8 @@ CurrentNoteStore.__onDispatch = payload => {
       _resetStore();
       CurrentNoteStore.__emitChange();
       break;
+    // case TagConstants.RECEIVE_TAG:
+
     // case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
     //   _getNotebookNoteFromNoteStore(NoteStore);
     //   CurrentNoteStore.__emitChange();

@@ -5,4 +5,7 @@ class Tag < ApplicationRecord
   has_many :notes_tags, dependent: :delete_all
   has_many :notes, through: :notes_tags, source: :note
 
+  has_many :notebooks, through: :notes
+  has_one :user, through: :notebooks
+
 end

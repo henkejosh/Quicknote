@@ -22,6 +22,14 @@ const _chooseLastNotebook = function(notebooks) {
 };
 
 const _bootstrapCurrentNotebook = function(notebooks) {
+  if(Array.isArray(notebooks.notebooks_arr)) {
+    let newNotebooks = {};
+    notebooks.notebooks_arr.forEach( nb => {
+      newNotebooks[nb.id] = nb;
+    });
+    notebooks = newNotebooks;
+  }
+
   if(Object.keys(_currentNotebook).length === 0) {
     _chooseLastNotebook(notebooks);
   }

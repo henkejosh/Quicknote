@@ -144,15 +144,14 @@ const HomePage = React.createClass({
 
   createNotesBar: function() {
     // if(Object.keys(this.state.notes).length > 0) {
-      return (
-        <NotesBar notes={this.state.notes}
-          currentNotebook={this.state.currentNotebook}
-          cardColumnNotebook={this.state.cardColumnNotebook}
-          selectCurrentNote={this.selectCurrentNote}
-          openNotebookEditor={this.openNotebookEditor}
-          />
-      );
-    // }
+    return (
+      <NotesBar notes={this.state.notes}
+        currentNotebook={this.state.currentNotebook}
+        cardColumnNotebook={this.state.cardColumnNotebook}
+        selectCurrentNote={this.selectCurrentNote}
+        openNotebookEditor={this.openNotebookEditor}
+        />
+    );
   },
 
   selectCurrentNote: function(noteID) {

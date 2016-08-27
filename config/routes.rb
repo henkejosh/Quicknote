@@ -7,9 +7,10 @@ Rails.application.routes.draw do
     resources :users, only: [:create, :update, :new, :show]
 
     resources :notebooks
-    resources :notes
+    resources :notes do
+      resources :tags
+    end
 
-    resources :tags
     resources :notes_tags, only: [:create, :destroy]
 
 

@@ -2,7 +2,8 @@ class Api::NotebooksController < ApplicationController
   def index
     # @notebooks = Notebook.all
     @notebooks = Notebook.where(user_id: current_user.id)
-    render json: @notebooks
+    # render json: @notebooks
+    render :index
   end
 
   def user_index
@@ -18,7 +19,8 @@ class Api::NotebooksController < ApplicationController
   def show
     @notebook = Notebook.find(params[:id])
     # render json: @notebook
-    render "api/notebooks/show"
+    # render "api/notebooks/show"
+    render :show
   end
 
   def destroy

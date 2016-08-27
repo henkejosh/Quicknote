@@ -15,6 +15,10 @@ const NoteActions = {
     });
   },
 
+  getNote: function(noteID) {
+    NoteApiUtil.selectCurrentNote(noteID, this.receiveNote);
+  },
+
   createNewNote: function(note) {
     NoteApiUtil.createNote(note, this.receiveNote);
   },

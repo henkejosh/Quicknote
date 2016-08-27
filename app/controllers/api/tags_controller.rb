@@ -1,6 +1,8 @@
+require 'byebug'
+
 class Api::TagsController < ApplicationController
   def index
-    @tags = Tag.all
+    @tags = Tag.where(user_id: current_user.id)
     render json: @tags
   end
 
@@ -23,6 +25,9 @@ class Api::TagsController < ApplicationController
   def create
     @tag = Tag.new(tag_params)
     if @tag.save
+      note = Note.find(params["note_id"])
+      @tag.notes << note
+      @tag.save
       render json: @tag
     else
       render json: @tag.errors, status: 422

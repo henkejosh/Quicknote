@@ -36530,7 +36530,6 @@
 	      selectCurrentNote: this.selectCurrentNote,
 	      openNotebookEditor: this.openNotebookEditor
 	    });
-	    // }
 	  },
 	
 	  selectCurrentNote: function selectCurrentNote(noteID) {
@@ -36832,6 +36831,10 @@
 	    });
 	  },
 	
+	  getNote: function getNote(noteID) {
+	    NoteApiUtil.selectCurrentNote(noteID, this.receiveNote);
+	  },
+	
 	  createNewNote: function createNewNote(note) {
 	    NoteApiUtil.createNote(note, this.receiveNote);
 	  },
@@ -36992,7 +36995,15 @@
 	var _allNotebooks = {};
 	
 	var _setAllNotebooks = function _setAllNotebooks(notebooks) {
-	  notebooks.forEach(function (notebook) {
+	  // if(Array.isArray(notebooks.notebooks_arr)) {
+	  //   let newNotebooks = {};
+	  //   notebooks.notebooks_arr.forEach( nb => {
+	  //     newNotebooks[nb.id] = nb;
+	  //   });
+	  //   notebooks = newNotebooks;
+	  // }
+	  // debugger;
+	  notebooks.notebooks_arr.forEach(function (notebook) {
 	    _allNotebooks[notebook.id] = notebook;
 	  });
 	};
@@ -37073,6 +37084,16 @@
 	};
 	
 	var _bootstrapCurrentNotebook = function _bootstrapCurrentNotebook(notebooks) {
+	  if (Array.isArray(notebooks.notebooks_arr)) {
+	    (function () {
+	      var newNotebooks = {};
+	      notebooks.notebooks_arr.forEach(function (nb) {
+	        newNotebooks[nb.id] = nb;
+	      });
+	      notebooks = newNotebooks;
+	    })();
+	  }
+	
 	  if (Object.keys(_currentNotebook).length === 0) {
 	    _chooseLastNotebook(notebooks);
 	  }
@@ -37615,6 +37636,7 @@
 	var CurrentNotebookConstants = __webpack_require__(296);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	var CurrentNoteStore = __webpack_require__(304);
+	var CurrentNoteConstants = __webpack_require__(305);
 	
 	var NoteStore = new Store(Dispatcher);
 	
@@ -37626,7 +37648,6 @@
 	  notes.notes_arr.forEach(function (note) {
 	    _notes[note.id] = note;
 	  });
-	  // debugger;
 	};
 	
 	var _addNote = function _addNote(note) {
@@ -37749,6 +37770,10 @@
 	      _handleNewNotebookNote(payload.note);
 	      NoteStore.__emitChange();
 	      break;
+	    case CurrentNoteConstants.RECEIVE_CURRENT_NOTE:
+	      _addNote(payload.currentNote);
+	      NoteStore.__emitChange();
+	      break;
 	  }
 	};
 	
@@ -37769,6 +37794,7 @@
 	var CurrentNotebookConstants = __webpack_require__(296);
 	var NotebookConstants = __webpack_require__(290);
 	var NoteStore = __webpack_require__(303);
+	var TagConstants = __webpack_require__(329);
 	
 	var CurrentNoteStore = new Store(Dispatcher);
 	
@@ -37820,6 +37846,10 @@
 	  _currentNote = {};
 	};
 	
+	var _updateNoteFromTag = function _updateNoteFromTag(tag) {
+	  // if(_currentNote.id === tag.)
+	};
+	
 	CurrentNoteStore.forceUpdateCurrentNote = function (notes) {
 	  _bootstrapCurrentNote(notes);
 	};
@@ -37861,6 +37891,8 @@
 	      _resetStore();
 	      CurrentNoteStore.__emitChange();
 	      break;
+	    // case TagConstants.RECEIVE_TAG:
+	
 	    // case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
 	    //   _getNotebookNoteFromNoteStore(NoteStore);
 	    //   CurrentNoteStore.__emitChange();
@@ -37919,6 +37951,7 @@
 	var NoteActions = __webpack_require__(291);
 	var NotebookDropdown = __webpack_require__(318);
 	var NotebookStore = __webpack_require__(294);
+	var TagsBarIndex = __webpack_require__(325);
 	
 	var NoteEditor = React.createClass({
 	  displayName: 'NoteEditor',
@@ -38010,6 +38043,9 @@
 	    note.body = this.state.body;
 	    note.title = this.state.title;
 	    note.notebook_id = this.state.notebook_id;
+	    // delete note["tags"];
+	    // delete note["created_at"];
+	    // delete note["updated_at"];
 	    note = note;
 	    NoteActions.updateNote(note);
 	  },
@@ -38084,11 +38120,7 @@
 	          { className: 'dropdown-placeholder' },
 	          this.createNotebookDropdownSelector()
 	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'tag-selector' },
-	          'choose tag'
-	        )
+	        React.createElement(TagsBarIndex, { currentNote: this.props.currentNote })
 	      ),
 	      React.createElement('input', { className: 'note-name',
 	        onChange: this.updateTitle,
@@ -50163,6 +50195,172 @@
 	});
 	
 	module.exports = NotebookEditor;
+
+/***/ },
+/* 325 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var TagsBarItem = __webpack_require__(326);
+	var TagActions = __webpack_require__(327);
+	
+	var TagsBarIndex = React.createClass({
+	  displayName: 'TagsBarIndex',
+	
+	  getInitialState: function getInitialState() {
+	    return { title: "" };
+	  },
+	
+	  createCurrentNoteTags: function createCurrentNoteTags() {
+	    if (!this.props.currentNote.tags) return;
+	
+	    return this.props.currentNote.tags.map(function (tag) {
+	      return React.createElement(TagsBarItem, { key: tag.id, tag: tag,
+	        className: 'current-note-tag', title: tag.title });
+	    });
+	  },
+	
+	  resetTitle: function resetTitle() {
+	    this.setState({ title: "" });
+	  },
+	
+	  handleTitleChange: function handleTitleChange(e) {
+	    e.preventDefault();
+	    this.setState({ title: e.target.value });
+	    // if(e.keyCode === 13) {
+	    //   const tag = {title: this.state.title};
+	    //   TagActions.createTag(tag, this.props.currentNote.id);
+	    // }
+	  },
+	
+	  createTag: function createTag(e) {
+	    if (this.state.title === "") return;
+	
+	    if (e.key === "Enter") {
+	      var tag = { title: this.state.title };
+	      TagActions.createTag(tag, this.props.currentNote.id);
+	      this.resetTitle();
+	    }
+	  },
+	  // onBlur={this.createTag}
+	  render: function render() {
+	    return React.createElement(
+	      'section',
+	      { className: 'tag-bar' },
+	      React.createElement(
+	        'div',
+	        { className: 'tag-selector' },
+	        'choose tag'
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'tag-list' },
+	        this.createCurrentNoteTags(),
+	        React.createElement('input', { type: 'text',
+	          onKeyPress: this.createTag,
+	          className: 'tag-create-button',
+	          onChange: this.handleTitleChange,
+	          placeholder: '+',
+	          value: this.state.title
+	        })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = TagsBarIndex;
+
+/***/ },
+/* 326 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var TagsBarItem = React.createClass({
+	  displayName: "TagsBarItem",
+	
+	
+	  render: function render() {
+	    return React.createElement(
+	      "li",
+	      { className: "current-note-tag" },
+	      this.props.title
+	    );
+	  }
+	});
+	
+	module.exports = TagsBarItem;
+
+/***/ },
+/* 327 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(239);
+	var TagApiUtil = __webpack_require__(328);
+	var TagConstants = __webpack_require__(329);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	var CurrentNoteActions = __webpack_require__(322);
+	
+	var TagActions = {
+	  createTag: function createTag(tag, noteID) {
+	    TagApiUtil.createTag(tag, noteID, this.receiveTag);
+	  },
+	
+	  receiveTag: function receiveTag(tag, noteID) {
+	    Dispatcher.dispatch({
+	      actionType: TagConstants.RECEIVE_TAG,
+	      tag: tag
+	    });
+	    CurrentNoteActions.selectCurrentNote(noteID);
+	  }
+	};
+	
+	module.exports = TagActions;
+
+/***/ },
+/* 328 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var TagApiUtil = {
+	  createTag: function createTag(tag, noteID, _success) {
+	    $.ajax({
+	      url: "api/notes/" + noteID + "/tags",
+	      type: "POST",
+	      dataType: "json",
+	      data: { tag: tag },
+	      success: function success(tag2) {
+	        _success(tag2, noteID);
+	      },
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = TagApiUtil;
+
+/***/ },
+/* 329 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var TagConstants = {
+	  RECEIVE_TAG: "RECEIVE_TAG"
+	};
+	
+	module.exports = TagConstants;
 
 /***/ }
 /******/ ]);
