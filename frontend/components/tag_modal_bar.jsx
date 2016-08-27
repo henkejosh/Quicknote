@@ -1,6 +1,6 @@
 const React = require('react');
 const Modal = require('react-modal');
-const TagBarItem = require('./tags_bar_item.jsx');
+const TagModalCard = require('./tag_modal_card.jsx');
 const TagStore = require('../stores/tag_store.js');
 const TagActions = require('../actions/tag_actions.js');
 
@@ -63,7 +63,7 @@ const TagModalBar = React.createClass({
           { Object.keys(that.state.tags).map( id => {
               let tag = that.state.tags[id];
               return (
-                < TagBarItem key={id}
+                < TagModalCard key={id}
                     title={tag.title}
                     id={tag.id}
                     changeCardColumnToNotebook={this.props.changeCardColumnToNotebook}
@@ -71,6 +71,7 @@ const TagModalBar = React.createClass({
                     changeCardColumnToTag={this.props.changeCardColumnToTag}
                     closeSelectTagModal={this.props.closeSelectTagModal}
                     tag={tag}
+                    selectCurrentTag={this.props.selectCurrentTag}
                   />
               );
             })

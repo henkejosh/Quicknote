@@ -13,6 +13,7 @@ const CurrentNoteActions = require('../actions/current_note_actions.js');
 const NotebookCreator = require('./notebook_creator.jsx');
 const NotebookEditor = require('./notebook_editor.jsx');
 const TagModalBar = require('./tag_modal_bar.jsx');
+const TagStore = require('../stores/tag_store.js');
 
 const HomePage = React.createClass({
   getInitialState: function() {
@@ -20,6 +21,7 @@ const HomePage = React.createClass({
       notebooks: NotebookStore.allNotebooks(),
       currentNotebook: CurrentNotebookStore.currentNotebook(),
       currentNote: CurrentNoteStore.currentNote(),
+      currentTag: {},
     // current_notebook_open: false
       notes: NoteStore.allNotes(),
       notebookCreatorOpen: false,
@@ -61,6 +63,10 @@ const HomePage = React.createClass({
     this.noteListener.remove();
     this.notebookListener.remove();
     this.currentNoteListener.remove();
+  },
+
+  selectCurrentTag: function(tag) {
+    this.setState({ currentTag: tag });
   },
 
   updateCurrentNote: function() {
@@ -132,6 +138,8 @@ const HomePage = React.createClass({
           changeCardColumnToTag={this.changeCardColumnToTag}
           changeCardColumnToAllCards={this.changeCardColumnToAllCards}
           notes={this.state.notes}
+          selectCurrentTag={this.selectCurrentTag}
+          currentTag={this.currentTag}
           // openTagCreator={this.openTagCreator}
           />
       );
@@ -155,8 +163,10 @@ const HomePage = React.createClass({
   controlNotesProps: function() {
     if(this.state.cardColumnStyle === "notebook") {
       return NoteStore.allNotebookNotes();
-    } else {
+    } else if(this.state.cardColumnStyle === "all") {
       return NoteStore.allNotes();
+    } else if(this.state.cardColumnStyle === "tag") {
+      return NoteStore.tagNotes(this.state.currentTag);
     }
   },
 
@@ -180,6 +190,7 @@ const HomePage = React.createClass({
         cardColumnStyle={this.state.cardColumnStyle}
         selectCurrentNote={this.selectCurrentNote}
         openNotebookEditor={this.openNotebookEditor}
+        currentTag={this.state.currentTag}
         />
     );
   },

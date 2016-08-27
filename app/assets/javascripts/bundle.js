@@ -36395,6 +36395,7 @@
 	var NotebookCreator = __webpack_require__(323);
 	var NotebookEditor = __webpack_require__(324);
 	var TagModalBar = __webpack_require__(330);
+	var TagStore = __webpack_require__(331);
 	
 	var HomePage = React.createClass({
 	  displayName: 'HomePage',
@@ -36404,6 +36405,7 @@
 	      notebooks: NotebookStore.allNotebooks(),
 	      currentNotebook: CurrentNotebookStore.currentNotebook(),
 	      currentNote: CurrentNoteStore.currentNote(),
+	      currentTag: {},
 	      // current_notebook_open: false
 	      notes: NoteStore.allNotes(),
 	      notebookCreatorOpen: false,
@@ -36445,6 +36447,10 @@
 	    this.noteListener.remove();
 	    this.notebookListener.remove();
 	    this.currentNoteListener.remove();
+	  },
+	
+	  selectCurrentTag: function selectCurrentTag(tag) {
+	    this.setState({ currentTag: tag });
 	  },
 	
 	  updateCurrentNote: function updateCurrentNote() {
@@ -36514,7 +36520,9 @@
 	        openSelectTagModal: this.openSelectTagModal,
 	        changeCardColumnToTag: this.changeCardColumnToTag,
 	        changeCardColumnToAllCards: this.changeCardColumnToAllCards,
-	        notes: this.state.notes
+	        notes: this.state.notes,
+	        selectCurrentTag: this.selectCurrentTag,
+	        currentTag: this.currentTag
 	        // openTagCreator={this.openTagCreator}
 	      });
 	    }
@@ -36535,8 +36543,10 @@
 	  controlNotesProps: function controlNotesProps() {
 	    if (this.state.cardColumnStyle === "notebook") {
 	      return NoteStore.allNotebookNotes();
-	    } else {
+	    } else if (this.state.cardColumnStyle === "all") {
 	      return NoteStore.allNotes();
+	    } else if (this.state.cardColumnStyle === "tag") {
+	      return NoteStore.tagNotes(this.state.currentTag);
 	    }
 	  },
 	
@@ -36558,7 +36568,8 @@
 	      currentNotebook: this.state.currentNotebook,
 	      cardColumnStyle: this.state.cardColumnStyle,
 	      selectCurrentNote: this.selectCurrentNote,
-	      openNotebookEditor: this.openNotebookEditor
+	      openNotebookEditor: this.openNotebookEditor,
+	      currentTag: this.state.currentTag
 	    });
 	  },
 	
@@ -37207,27 +37218,43 @@
 	var NotesBar = React.createClass({
 	  displayName: 'NotesBar',
 	
-	  formatCurrentNotebookTitle: function formatCurrentNotebookTitle() {
+	  formatCardColumnType: function formatCardColumnType() {
 	    if (this.props.cardColumnStyle === "all") {
 	      return "NOTES";
 	    } else if (this.props.cardColumnStyle === "notebook") {
-	      return this.props.currentNotebook.title;
+	      return 'NOTEBOOK: ' + this.props.currentNotebook.title;
+	    } else if (this.props.cardColumnStyle === "tag") {
+	      return 'TAG: ' + this.props.currentTag.title;
 	    }
 	  },
 	
-	  formatNotesOrNotebook: function formatNotesOrNotebook() {
+	  formatCardColumnHeader: function formatCardColumnHeader() {
 	    if (this.props.cardColumnStyle === "notebook") {
 	      return React.createElement(
 	        'div',
-	        { onClick: this.openNotebookEditor,
+	        { key: 'nb-' + this.props.currentNotebook.id,
+	          onClick: this.openNotebookEditor,
 	          className: 'edit-nb-icon' },
 	        'EDIT NB!!!'
 	      );
 	    }
+	    // } else if(this.props.cardColumnStyle === "tag") {
+	    //   return (
+	    //     <div key={`tag-${this.props.currentTag.id}`}
+	    //       onClick={this.openNotebookEditor}
+	    //       className="edit-nb-icon">EDIT NB!!!</div>
+	    //   );
+	    // }
 	  },
 	
 	  formatNotesLength: function formatNotesLength() {
-	    var notesLength = Object.keys(this.props.notes).length;
+	    var notesLength = void 0;
+	    if (this.props.cardColumnStyle === "tag") {
+	      notesLength = this.props.currentTag.note_ids.length;
+	    } else {
+	      // if(this.props.cardColumnStyle === "notebook") {
+	      notesLength = Object.keys(this.props.notes).length;
+	    }
 	    return notesLength + ' notes';
 	  },
 	
@@ -37246,14 +37273,14 @@
 	      React.createElement(
 	        'div',
 	        { className: 'current-notebook-card' },
-	        this.formatNotesOrNotebook(),
+	        this.formatCardColumnHeader(),
 	        React.createElement(
 	          'div',
 	          { className: 'notebook-card-title' },
 	          React.createElement(
 	            'div',
 	            null,
-	            this.formatCurrentNotebookTitle()
+	            this.formatCardColumnType()
 	          ),
 	          React.createElement(
 	            'span',
@@ -37779,7 +37806,21 @@
 	  // _setNotebookNotes(notes);
 	};
 	
-	NoteStore.allTagNotes = function () {};
+	NoteStore.tagNotes = function (tag) {
+	  if (Object.keys(tag).length === 0) return;
+	
+	  var relevantNoteIDs = tag.note_ids;
+	  var tagNotes = {};
+	  Object.keys(_notes).forEach(function (noteID) {
+	    relevantNoteIDs.forEach(function (id) {
+	      if (noteID === id) {
+	        tagNotes[noteID] = _notes[noteID];
+	      }
+	    });
+	  });
+	  console.log(tagNotes);
+	  return tagNotes;
+	};
 	
 	NoteStore.find = function (notebookID) {
 	  var returnNotes = {};
@@ -50347,15 +50388,6 @@
 	var TagsBarItem = React.createClass({
 	  displayName: "TagsBarItem",
 	
-	  handleSelection: function handleSelection(e) {
-	    e.preventDefault();
-	    this.props.changeCardColumnToTag();
-	    this.props.closeSelectTagModal();
-	  },
-	
-	  formatNoteCount: function formatNoteCount() {
-	    return this.props.tag.note_ids.length;
-	  },
 	
 	  render: function render() {
 	    return React.createElement(
@@ -50363,10 +50395,7 @@
 	      { onClick: this.handleSelection,
 	        className: "current-note-tag"
 	      },
-	      this.props.title,
-	      ": [",
-	      this.formatNoteCount(),
-	      "]"
+	      this.props.title
 	    );
 	  }
 	});
@@ -50474,7 +50503,7 @@
 	
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
-	var TagBarItem = __webpack_require__(326);
+	var TagModalCard = __webpack_require__(332);
 	var TagStore = __webpack_require__(331);
 	var TagActions = __webpack_require__(327);
 	
@@ -50551,14 +50580,15 @@
 	        ),
 	        Object.keys(that.state.tags).map(function (id) {
 	          var tag = that.state.tags[id];
-	          return React.createElement(TagBarItem, { key: id,
+	          return React.createElement(TagModalCard, { key: id,
 	            title: tag.title,
 	            id: tag.id,
 	            changeCardColumnToNotebook: _this.props.changeCardColumnToNotebook,
 	            changeCardColumnToAllCards: _this.props.changeCardColumnToAllCards,
 	            changeCardColumnToTag: _this.props.changeCardColumnToTag,
 	            closeSelectTagModal: _this.props.closeSelectTagModal,
-	            tag: tag
+	            tag: tag,
+	            selectCurrentTag: _this.props.selectCurrentTag
 	          });
 	        }),
 	        React.createElement(
@@ -50620,6 +50650,48 @@
 	};
 	
 	module.exports = TagStore;
+
+/***/ },
+/* 332 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var TagModalCard = React.createClass({
+	  displayName: "TagModalCard",
+	
+	  handleSelection: function handleSelection(e) {
+	    e.preventDefault();
+	    this.props.selectCurrentTag(this.props.tag);
+	    this.props.changeCardColumnToTag();
+	    this.props.closeSelectTagModal();
+	  },
+	
+	  formatNoteCount: function formatNoteCount() {
+	    if (this.props.tag.note_ids) {
+	      return this.props.tag.note_ids.length;
+	    } else {
+	      return "0";
+	    }
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      "li",
+	      { onClick: this.handleSelection,
+	        className: "current-note-tag"
+	      },
+	      this.props.title,
+	      ": [",
+	      this.formatNoteCount(),
+	      "]"
+	    );
+	  }
+	});
+	
+	module.exports = TagModalCard;
 
 /***/ }
 /******/ ]);

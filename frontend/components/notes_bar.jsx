@@ -2,25 +2,41 @@ const React = require('react');
 const NoteItem = require('./note_item.jsx');
 
 const NotesBar = React.createClass({
-  formatCurrentNotebookTitle: function() {
+  formatCardColumnType: function() {
     if(this.props.cardColumnStyle === "all") {
       return "NOTES";
     } else if(this.props.cardColumnStyle === "notebook"){
-      return this.props.currentNotebook.title;
+      return `NOTEBOOK: ${this.props.currentNotebook.title}`;
+    } else if(this.props.cardColumnStyle === "tag") {
+      return `TAG: ${this.props.currentTag.title}`;
     }
   },
 
-  formatNotesOrNotebook: function() {
+  formatCardColumnHeader: function() {
     if(this.props.cardColumnStyle === "notebook") {
       return (
-        <div onClick={this.openNotebookEditor}
+        <div key={`nb-${this.props.currentNotebook.id}`}
+          onClick={this.openNotebookEditor}
           className="edit-nb-icon">EDIT NB!!!</div>
       );
     }
+    // } else if(this.props.cardColumnStyle === "tag") {
+    //   return (
+    //     <div key={`tag-${this.props.currentTag.id}`}
+    //       onClick={this.openNotebookEditor}
+    //       className="edit-nb-icon">EDIT NB!!!</div>
+    //   );
+    // }
   },
 
   formatNotesLength: function() {
-    const notesLength = Object.keys(this.props.notes).length;
+    let notesLength;
+    if(this.props.cardColumnStyle === "tag") {
+      notesLength = this.props.currentTag.note_ids.length;
+    } else {
+    // if(this.props.cardColumnStyle === "notebook") {
+      notesLength = Object.keys(this.props.notes).length;
+    }
     return `${notesLength} notes`;
   },
 
@@ -35,10 +51,10 @@ const NotesBar = React.createClass({
       <div className="notes-bar">
         <div className="current-notebook-card">
 
-          { this.formatNotesOrNotebook() }
+          { this.formatCardColumnHeader() }
 
           <div className="notebook-card-title">
-            <div>{this.formatCurrentNotebookTitle()}</div>
+            <div>{this.formatCardColumnType()}</div>
             <span>{this.formatNotesLength()}</span>
           </div>
         </div>

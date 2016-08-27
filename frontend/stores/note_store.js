@@ -88,8 +88,20 @@ const _createNotebookNotes = function(notebookID) {
   // _setNotebookNotes(notes);
 };
 
-NoteStore.allTagNotes = function() {
+NoteStore.tagNotes = function(tag) {
+  if(Object.keys(tag).length === 0) return;
 
+  const relevantNoteIDs = tag.note_ids;
+  let tagNotes = {};
+  Object.keys(_notes).forEach( noteID => {
+    relevantNoteIDs.forEach( id => {
+      if (noteID === id) {
+        tagNotes[noteID] = _notes[noteID];
+      }
+    });
+  });
+  console.log(tagNotes);
+  return tagNotes;
 };
 
 NoteStore.find = function(notebookID) {
