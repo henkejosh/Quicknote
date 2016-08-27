@@ -9,12 +9,23 @@ const TagActions = {
     TagApiUtil.createTag(tag, noteID, this.receiveTag);
   },
 
+  getAllTags: function() {
+    TagApiUtil.getAllTags(this.receiveTags);
+  },
+
   receiveTag: function(tag, noteID) {
     Dispatcher.dispatch({
       actionType: TagConstants.RECEIVE_TAG,
       tag: tag
     });
     CurrentNoteActions.selectCurrentNote(noteID);
+  },
+
+  receiveTags: function(tags) {
+    Dispatcher.dispatch({
+      actionType: TagConstants.RECEIVE_ALL_TAGS,
+      tags: tags
+    });
   }
 };
 

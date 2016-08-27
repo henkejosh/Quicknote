@@ -88,6 +88,10 @@ const _createNotebookNotes = function(notebookID) {
   // _setNotebookNotes(notes);
 };
 
+NoteStore.allTagNotes = function() {
+
+};
+
 NoteStore.find = function(notebookID) {
   let returnNotes = {};
   Object.keys(_notes).forEach( id => {

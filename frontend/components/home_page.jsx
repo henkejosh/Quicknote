@@ -12,6 +12,7 @@ const CurrentNoteStore = require('../stores/current_note_store.js');
 const CurrentNoteActions = require('../actions/current_note_actions.js');
 const NotebookCreator = require('./notebook_creator.jsx');
 const NotebookEditor = require('./notebook_editor.jsx');
+const TagModalBar = require('./tag_modal_bar.jsx');
 
 const HomePage = React.createClass({
   getInitialState: function() {
@@ -23,11 +24,13 @@ const HomePage = React.createClass({
       notes: NoteStore.allNotes(),
       notebookCreatorOpen: false,
       notebookEditorOpen: false,
+      tagModalBarIsOpen: false,
     //   tags: ,
     //   current_note: ,
     //   create_note_modal_open: false,
     //   tags_modal_open: false,
-      cardColumnNotebook: false
+      cardColumnStyle: "all"
+      // cardColumnNotebook: false
     };
   },
 
@@ -86,6 +89,10 @@ const HomePage = React.createClass({
     this.setState({ notes: NoteStore.allNotebookNotes() });
   },
 
+  forceUpdateTagNotes: function() {
+    // TODO!!!
+  },
+
   forceUpdateCurrentNote: function() {
     CurrentNoteActions.forceUpdateCurrentNote(this.state.notes);
   },
@@ -112,11 +119,26 @@ const HomePage = React.createClass({
     $(".note-editor-page").css("opacity", 1);
   },
 
+  controlSelectTagModal: function() {
+    if(this.state.tagModalBarIsOpen) {
+      return (
+        <TagModalBar
+          tagModalBarIsOpen={ this.state.tagModalBarIsOpen }
+          closeSelectTagModal={ this.closeSelectTagModal }
+          openSelectTagModal={ this.openSelectTagModal }
+          changeCardColumnToTag={this.changeCardColumnToTag}
+          changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+          // openTagCreator={this.openTagCreator}
+          />
+      );
+    }
+  },
+
   controlSelectNotebookModal: function() {
     if(this.state.SelectNotebookModalOpen) {
       return (
         <NotebookBar
-          isOpen={ this.state.SelectNotebookModalOpen }
+          notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
           closeSelectNotebookModal={ this.closeSelectNotebookModal }
           changeCardColumnToNotebook={this.changeCardColumnToNotebook}
           changeCardColumnToAllCards={this.changeCardColumnToAllCards}
@@ -127,19 +149,23 @@ const HomePage = React.createClass({
   },
 
   controlNotesProps: function() {
-    if(this.state.cardColumnNotebook) {
+    if(this.state.cardColumnStyle === "notebook") {
       return NoteStore.allNotebookNotes();
     } else {
       return NoteStore.allNotes();
     }
   },
 
+  changeCardColumnToTag: function() {
+    this.setState({ cardColumnStyle: "tag" });
+  },
+
   changeCardColumnToNotebook: function() {
-    this.setState({ cardColumnNotebook: true });
+    this.setState({ cardColumnStyle: "notebook" });
   },
 
   changeCardColumnToAllCards: function() {
-    this.setState({ cardColumnNotebook: false });
+    this.setState({ cardColumnStyle: "all" });
   },
 
   createNotesBar: function() {
@@ -147,7 +173,7 @@ const HomePage = React.createClass({
     return (
       <NotesBar notes={this.state.notes}
         currentNotebook={this.state.currentNotebook}
-        cardColumnNotebook={this.state.cardColumnNotebook}
+        cardColumnStyle={this.state.cardColumnStyle}
         selectCurrentNote={this.selectCurrentNote}
         openNotebookEditor={this.openNotebookEditor}
         />
@@ -184,6 +210,8 @@ const HomePage = React.createClass({
 
   openNotebookCreator: function() {
     this.setState({ notebookCreatorOpen: true });
+    this.closeSelectTagModal();
+    this.closeNotebookEditor();
   },
 
   closeNotebookEditor: function() {
@@ -192,6 +220,18 @@ const HomePage = React.createClass({
 
   openNotebookEditor: function() {
     this.setState({ notebookEditorOpen: true });
+    this.closeSelectTagModal();
+    this.closeNotebookCreator();
+  },
+
+  closeSelectTagModal: function() {
+    this.setState({ tagModalBarIsOpen: false });
+  },
+
+  openSelectTagModal: function() {
+    this.setState({ tagModalBarIsOpen: true });
+    this.closeNotebookCreator();
+    this.closeNotebookEditor();
   },
 
   renderNotebookEditor: function() {
@@ -230,6 +270,8 @@ const HomePage = React.createClass({
           SelectNotebookModalOpen={this.state.SelectNotebookModalOpen}
           openSelectNotebookModal={this.openSelectNotebookModal}
           closeSelectNotebookModal={this.closeSelectNotebookModal}
+          openSelectTagModal={this.openSelectTagModal}
+          closeSelectTagModal={this.closeSelectTagModal}
           currentUser={this.props.currentUser}
           logout={this.props.logout}
           currentNotebook={this.state.currentNotebook}
@@ -237,11 +279,13 @@ const HomePage = React.createClass({
           changeCardColumnToAllCards={this.changeCardColumnToAllCards}
           updateNotes={this.updateNotes}
           forceUpdateAllNotes={this.forceUpdateAllNotes}
+          changeCardColumnToTag={this.changeCardColumnToTag}
           />
 
         <div className="page-content">
           { this.createNotesBar() }
           { this.controlSelectNotebookModal() }
+          { this.controlSelectTagModal() }
         </div>
 
         { this.renderNoteEditor() }

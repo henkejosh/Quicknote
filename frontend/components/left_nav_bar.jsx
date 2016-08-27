@@ -6,7 +6,7 @@ const NoteActions = require('../actions/note_actions.js');
 const LeftNavBar = React.createClass({
   handleNBClick: function(e) {
     e.preventDefault();
-    if(this.props.select_notebook_modal_open) {
+    if(this.props.SelectNotebookModalOpen) {
       this.props.closeSelectNotebookModal();
     } else {
       this.props.openSelectNotebookModal();
@@ -17,6 +17,15 @@ const LeftNavBar = React.createClass({
     e.preventDefault();
     this.props.changeCardColumnToAllCards();
     this.props.forceUpdateAllNotes();
+  },
+
+  handleTagIconClick: function(e) {
+    e.preventDefault();
+    if(this.props.SelectTagModalOpen) {
+      this.props.closeSelectTagModal();
+    } else {
+      this.props.openSelectTagModal();
+    }
   },
 
   createNewNote: function() {
@@ -45,7 +54,7 @@ const LeftNavBar = React.createClass({
           className="notebook-icon nav-icon">NB Icon</div>
           <br/>
 
-          <div
+          <div onClick={this.handleTagIconClick}
             className="tag-icon nav-icon">Tag Icon</div>
             <br/>
 

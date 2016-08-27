@@ -30,7 +30,7 @@ const NotebookBar = React.createClass({
   },
 
   handleDisplay: function() {
-    if(this.props.isOpen) {
+    if(this.props.notebookBarIsOpen) {
       return "block";
     } else {
       return "none";

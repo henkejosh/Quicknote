@@ -15,6 +15,20 @@ const TagApiUtil = {
         console.log(xhr.responseText);
       }
     });
+  },
+
+  getAllTags: function(success) {
+    $.ajax({
+      url: "api/tags",
+      type: "GET",
+      dataType: "json",
+      success,
+      error: xhr => {
+        const error = `status: ${xhr.status} ${xhr.statusText}`;
+        console.log(error);
+        console.log(xhr.responseText);
+      }
+    });
   }
 };
 

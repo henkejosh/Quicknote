@@ -3,15 +3,15 @@ const NoteItem = require('./note_item.jsx');
 
 const NotesBar = React.createClass({
   formatCurrentNotebookTitle: function() {
-    if(!this.props.cardColumnNotebook) {
+    if(this.props.cardColumnStyle === "all") {
       return "NOTES";
-    } else {
+    } else if(this.props.cardColumnStyle === "notebook"){
       return this.props.currentNotebook.title;
     }
   },
 
   formatNotesOrNotebook: function() {
-    if(this.props.cardColumnNotebook) {
+    if(this.props.cardColumnStyle === "notebook") {
       return (
         <div onClick={this.openNotebookEditor}
           className="edit-nb-icon">EDIT NB!!!</div>

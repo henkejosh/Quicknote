@@ -2,7 +2,9 @@ require 'byebug'
 
 class Api::TagsController < ApplicationController
   def index
-    @tags = Tag.where(user_id: current_user.id)
+    # byebug
+    # @tags = Tag.where(user_id: current_user.id)
+    @tags = current_user.tags
     render json: @tags
   end
 

@@ -20,6 +20,7 @@ const CurrentNotebookActions = require('./actions/current_notebook_actions.js');
 const CurrentNotebookStore = require('./stores/current_notebook_store.js');
 const CurrentNoteStore = require('./stores/current_note_store.js');
 const NoteStore = require('./stores/note_store.js');
+const TagStore = require("./stores/tag_store.js");
 
 const _ensureNotLoggedIn = function(nextState, replace) {
   if(SessionStore.isUserLoggedIn()) {
@@ -55,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
   );
 });
 
+window.TagStore = TagStore;
 window.NoteStore = NoteStore;
 window.CurrentNoteStore = CurrentNoteStore;
 window.NotebookStore = NotebookStore;

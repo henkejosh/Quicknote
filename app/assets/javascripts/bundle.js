@@ -68,6 +68,7 @@
 	var CurrentNotebookStore = __webpack_require__(295);
 	var CurrentNoteStore = __webpack_require__(304);
 	var NoteStore = __webpack_require__(303);
+	var TagStore = __webpack_require__(331);
 	
 	var _ensureNotLoggedIn = function _ensureNotLoggedIn(nextState, replace) {
 	  if (SessionStore.isUserLoggedIn()) {
@@ -102,6 +103,7 @@
 	  ReactDOM.render(appRouter, document.getElementById("root"));
 	});
 	
+	window.TagStore = TagStore;
 	window.NoteStore = NoteStore;
 	window.CurrentNoteStore = CurrentNoteStore;
 	window.NotebookStore = NotebookStore;
@@ -36392,6 +36394,7 @@
 	var CurrentNoteActions = __webpack_require__(322);
 	var NotebookCreator = __webpack_require__(323);
 	var NotebookEditor = __webpack_require__(324);
+	var TagModalBar = __webpack_require__(330);
 	
 	var HomePage = React.createClass({
 	  displayName: 'HomePage',
@@ -36405,11 +36408,13 @@
 	      notes: NoteStore.allNotes(),
 	      notebookCreatorOpen: false,
 	      notebookEditorOpen: false,
+	      tagModalBarIsOpen: false,
 	      //   tags: ,
 	      //   current_note: ,
 	      //   create_note_modal_open: false,
 	      //   tags_modal_open: false,
-	      cardColumnNotebook: false
+	      cardColumnStyle: "all"
+	      // cardColumnNotebook: false
 	    };
 	  },
 	
@@ -36468,6 +36473,10 @@
 	    this.setState({ notes: NoteStore.allNotebookNotes() });
 	  },
 	
+	  forceUpdateTagNotes: function forceUpdateTagNotes() {
+	    // TODO!!!
+	  },
+	
 	  forceUpdateCurrentNote: function forceUpdateCurrentNote() {
 	    CurrentNoteActions.forceUpdateCurrentNote(this.state.notes);
 	  },
@@ -36494,10 +36503,23 @@
 	    $(".note-editor-page").css("opacity", 1);
 	  },
 	
+	  controlSelectTagModal: function controlSelectTagModal() {
+	    if (this.state.tagModalBarIsOpen) {
+	      return React.createElement(TagModalBar, {
+	        tagModalBarIsOpen: this.state.tagModalBarIsOpen,
+	        closeSelectTagModal: this.closeSelectTagModal,
+	        openSelectTagModal: this.openSelectTagModal,
+	        changeCardColumnToTag: this.changeCardColumnToTag,
+	        changeCardColumnToAllCards: this.changeCardColumnToAllCards
+	        // openTagCreator={this.openTagCreator}
+	      });
+	    }
+	  },
+	
 	  controlSelectNotebookModal: function controlSelectNotebookModal() {
 	    if (this.state.SelectNotebookModalOpen) {
 	      return React.createElement(NotebookBar, {
-	        isOpen: this.state.SelectNotebookModalOpen,
+	        notebookBarIsOpen: this.state.SelectNotebookModalOpen,
 	        closeSelectNotebookModal: this.closeSelectNotebookModal,
 	        changeCardColumnToNotebook: this.changeCardColumnToNotebook,
 	        changeCardColumnToAllCards: this.changeCardColumnToAllCards,
@@ -36507,26 +36529,30 @@
 	  },
 	
 	  controlNotesProps: function controlNotesProps() {
-	    if (this.state.cardColumnNotebook) {
+	    if (this.state.cardColumnStyle === "notebook") {
 	      return NoteStore.allNotebookNotes();
 	    } else {
 	      return NoteStore.allNotes();
 	    }
 	  },
 	
+	  changeCardColumnToTag: function changeCardColumnToTag() {
+	    this.setState({ cardColumnStyle: "tag" });
+	  },
+	
 	  changeCardColumnToNotebook: function changeCardColumnToNotebook() {
-	    this.setState({ cardColumnNotebook: true });
+	    this.setState({ cardColumnStyle: "notebook" });
 	  },
 	
 	  changeCardColumnToAllCards: function changeCardColumnToAllCards() {
-	    this.setState({ cardColumnNotebook: false });
+	    this.setState({ cardColumnStyle: "all" });
 	  },
 	
 	  createNotesBar: function createNotesBar() {
 	    // if(Object.keys(this.state.notes).length > 0) {
 	    return React.createElement(NotesBar, { notes: this.state.notes,
 	      currentNotebook: this.state.currentNotebook,
-	      cardColumnNotebook: this.state.cardColumnNotebook,
+	      cardColumnStyle: this.state.cardColumnStyle,
 	      selectCurrentNote: this.selectCurrentNote,
 	      openNotebookEditor: this.openNotebookEditor
 	    });
@@ -36560,6 +36586,8 @@
 	
 	  openNotebookCreator: function openNotebookCreator() {
 	    this.setState({ notebookCreatorOpen: true });
+	    this.closeSelectTagModal();
+	    this.closeNotebookEditor();
 	  },
 	
 	  closeNotebookEditor: function closeNotebookEditor() {
@@ -36568,6 +36596,18 @@
 	
 	  openNotebookEditor: function openNotebookEditor() {
 	    this.setState({ notebookEditorOpen: true });
+	    this.closeSelectTagModal();
+	    this.closeNotebookCreator();
+	  },
+	
+	  closeSelectTagModal: function closeSelectTagModal() {
+	    this.setState({ tagModalBarIsOpen: false });
+	  },
+	
+	  openSelectTagModal: function openSelectTagModal() {
+	    this.setState({ tagModalBarIsOpen: true });
+	    this.closeNotebookCreator();
+	    this.closeNotebookEditor();
 	  },
 	
 	  renderNotebookEditor: function renderNotebookEditor() {
@@ -36602,19 +36642,23 @@
 	        SelectNotebookModalOpen: this.state.SelectNotebookModalOpen,
 	        openSelectNotebookModal: this.openSelectNotebookModal,
 	        closeSelectNotebookModal: this.closeSelectNotebookModal,
+	        openSelectTagModal: this.openSelectTagModal,
+	        closeSelectTagModal: this.closeSelectTagModal,
 	        currentUser: this.props.currentUser,
 	        logout: this.props.logout,
 	        currentNotebook: this.state.currentNotebook,
 	        changeCardColumnToNotebook: this.changeCardColumnToNotebook,
 	        changeCardColumnToAllCards: this.changeCardColumnToAllCards,
 	        updateNotes: this.updateNotes,
-	        forceUpdateAllNotes: this.forceUpdateAllNotes
+	        forceUpdateAllNotes: this.forceUpdateAllNotes,
+	        changeCardColumnToTag: this.changeCardColumnToTag
 	      }),
 	      React.createElement(
 	        'div',
 	        { className: 'page-content' },
 	        this.createNotesBar(),
-	        this.controlSelectNotebookModal()
+	        this.controlSelectNotebookModal(),
+	        this.controlSelectTagModal()
 	      ),
 	      this.renderNoteEditor(),
 	      this.renderNotebookCreator(),
@@ -37156,15 +37200,15 @@
 	  displayName: 'NotesBar',
 	
 	  formatCurrentNotebookTitle: function formatCurrentNotebookTitle() {
-	    if (!this.props.cardColumnNotebook) {
+	    if (this.props.cardColumnStyle === "all") {
 	      return "NOTES";
-	    } else {
+	    } else if (this.props.cardColumnStyle === "notebook") {
 	      return this.props.currentNotebook.title;
 	    }
 	  },
 	
 	  formatNotesOrNotebook: function formatNotesOrNotebook() {
-	    if (this.props.cardColumnNotebook) {
+	    if (this.props.cardColumnStyle === "notebook") {
 	      return React.createElement(
 	        'div',
 	        { onClick: this.openNotebookEditor,
@@ -37327,7 +37371,7 @@
 	
 	  handleNBClick: function handleNBClick(e) {
 	    e.preventDefault();
-	    if (this.props.select_notebook_modal_open) {
+	    if (this.props.SelectNotebookModalOpen) {
 	      this.props.closeSelectNotebookModal();
 	    } else {
 	      this.props.openSelectNotebookModal();
@@ -37338,6 +37382,15 @@
 	    e.preventDefault();
 	    this.props.changeCardColumnToAllCards();
 	    this.props.forceUpdateAllNotes();
+	  },
+	
+	  handleTagIconClick: function handleTagIconClick(e) {
+	    e.preventDefault();
+	    if (this.props.SelectTagModalOpen) {
+	      this.props.closeSelectTagModal();
+	    } else {
+	      this.props.openSelectTagModal();
+	    }
 	  },
 	
 	  createNewNote: function createNewNote() {
@@ -37383,7 +37436,7 @@
 	      React.createElement('br', null),
 	      React.createElement(
 	        'div',
-	        {
+	        { onClick: this.handleTagIconClick,
 	          className: 'tag-icon nav-icon' },
 	        'Tag Icon'
 	      ),
@@ -37440,7 +37493,7 @@
 	  },
 	
 	  handleDisplay: function handleDisplay() {
-	    if (this.props.isOpen) {
+	    if (this.props.notebookBarIsOpen) {
 	      return "block";
 	    } else {
 	      return "none";
@@ -37716,6 +37769,8 @@
 	  });
 	  // _setNotebookNotes(notes);
 	};
+	
+	NoteStore.allTagNotes = function () {};
 	
 	NoteStore.find = function (notebookID) {
 	  var returnNotes = {};
@@ -50283,7 +50338,6 @@
 	var TagsBarItem = React.createClass({
 	  displayName: "TagsBarItem",
 	
-	
 	  render: function render() {
 	    return React.createElement(
 	      "li",
@@ -50312,12 +50366,23 @@
 	    TagApiUtil.createTag(tag, noteID, this.receiveTag);
 	  },
 	
+	  getAllTags: function getAllTags() {
+	    TagApiUtil.getAllTags(this.receiveTags);
+	  },
+	
 	  receiveTag: function receiveTag(tag, noteID) {
 	    Dispatcher.dispatch({
 	      actionType: TagConstants.RECEIVE_TAG,
 	      tag: tag
 	    });
 	    CurrentNoteActions.selectCurrentNote(noteID);
+	  },
+	
+	  receiveTags: function receiveTags(tags) {
+	    Dispatcher.dispatch({
+	      actionType: TagConstants.RECEIVE_ALL_TAGS,
+	      tags: tags
+	    });
 	  }
 	};
 	
@@ -50345,6 +50410,20 @@
 	        console.log(xhr.responseText);
 	      }
 	    });
+	  },
+	
+	  getAllTags: function getAllTags(success) {
+	    $.ajax({
+	      url: "api/tags",
+	      type: "GET",
+	      dataType: "json",
+	      success: success,
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
 	  }
 	};
 	
@@ -50357,10 +50436,159 @@
 	"use strict";
 	
 	var TagConstants = {
-	  RECEIVE_TAG: "RECEIVE_TAG"
+	  RECEIVE_TAG: "RECEIVE_TAG",
+	  RECEIVE_ALL_TAGS: "RECEIVE_ALL_TAGS"
 	};
 	
 	module.exports = TagConstants;
+
+/***/ },
+/* 330 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Modal = __webpack_require__(265);
+	var TagBarItem = __webpack_require__(326);
+	var TagStore = __webpack_require__(331);
+	var TagActions = __webpack_require__(327);
+	
+	var TagModalBar = React.createClass({
+	  displayName: 'TagModalBar',
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      tags: TagStore.allTags(),
+	      tagEditorOpen: false
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.tagStoreListener = TagStore.addListener(this.updateTags);
+	  },
+	
+	  updateTags: function updateTags() {
+	    this.setState({ tags: TagStore.allTags() });
+	  },
+	
+	  componentWillMount: function componentWillMount() {
+	    TagActions.getAllTags();
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.tagStoreListener.remove();
+	  },
+	
+	  handleDisplay: function handleDisplay() {
+	    if (this.props.tagModalIsOpen) {
+	      return "block";
+	    } else {
+	      return "none";
+	    }
+	  },
+	
+	  openTagCreator: function openTagCreator(e) {
+	    e.preventDefault();
+	    // this.props.openTagCreator();
+	  },
+	
+	  render: function render() {
+	    var _this = this;
+	
+	    var that = this;
+	    return React.createElement(
+	      'div',
+	      { className: 'notebook-modal-anim', display: this.handleDisplay },
+	      React.createElement(
+	        'div',
+	        { className: 'notebook-modal' },
+	        React.createElement(
+	          'div',
+	          { className: 'notebook-header' },
+	          React.createElement(
+	            'a',
+	            { className: 'modal-type' },
+	            'TAGS'
+	          ),
+	          React.createElement(
+	            'a',
+	            { onClick: this.openTagCreator,
+	              className: 'new-notebook' },
+	            'CREATE NEW'
+	          )
+	        ),
+	        Object.keys(that.state.tags).map(function (id) {
+	          var tag = that.state.tags[id];
+	          return React.createElement(TagBarItem, { key: id,
+	            title: tag.title,
+	            id: tag.id,
+	            changeCardColumnToNotebook: _this.props.changeCardColumnToNotebook,
+	            changeCardColumnToAllCards: _this.props.changeCardColumnToAllCards,
+	            closeSelectTagModal: _this.props.closeSelectNotebookModal,
+	            tags: _this.state.tags
+	          });
+	        }),
+	        React.createElement(
+	          'div',
+	          { className: 'cancel-button' },
+	          React.createElement(
+	            'button',
+	            { type: 'cancel', onClick: this.props.closeSelectNotebookModal },
+	            'Exit'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = TagModalBar;
+
+/***/ },
+/* 331 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Store = __webpack_require__(248).Store;
+	var Dispatcher = __webpack_require__(239);
+	var TagConstants = __webpack_require__(329);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var _tags = {};
+	
+	var TagStore = new Store(Dispatcher);
+	
+	var _addTag = function _addTag(tag) {
+	  _tags[tag.id] = tag;
+	};
+	
+	var _updateTags = function _updateTags(tags) {
+	  tags.forEach(function (tag) {
+	    _tags[tag.id] = tag;
+	  });
+	};
+	
+	TagStore.allTags = function () {
+	  return Object.assign({}, _tags);
+	};
+	
+	TagStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case TagConstants.RECEIVE_TAG:
+	      _addTag(payload.tag);
+	      console.log(_tags);
+	      TagStore.__emitChange();
+	      break;
+	    case TagConstants.RECEIVE_ALL_TAGS:
+	      _updateTags(payload.tags);
+	      TagStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = TagStore;
 
 /***/ }
 /******/ ]);
