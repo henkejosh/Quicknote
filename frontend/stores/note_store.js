@@ -15,7 +15,7 @@ let _notebookNotes = {};
 
 const _setNotes = function(notes) {
   _notes = {};
-  notes.forEach( note => {
+  notes.notes_arr.forEach( note => {
     _notes[note.id] = note;
   });
   // debugger;

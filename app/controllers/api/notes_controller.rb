@@ -2,10 +2,9 @@ require 'byebug'
 
 class Api::NotesController < ApplicationController
   def index
-    # @notes = Note.all.where(notebook_id: params[:notebook_id])
     @notes = Note.all
-    # @notes.map! { |note| note.notebook_title = note.notebook.title}
-    render json: @notes
+    # render json: @notes
+    render :index
   end
 
   def new
@@ -15,8 +14,8 @@ class Api::NotesController < ApplicationController
 
   def show
     @note = Note.find(params[:id])
-    # @note.notebook_title = @note.notebook.title
-    render json: @note
+    # render json: @note
+    render :show
   end
 
   def destroy

@@ -37623,7 +37623,7 @@
 	
 	var _setNotes = function _setNotes(notes) {
 	  _notes = {};
-	  notes.forEach(function (note) {
+	  notes.notes_arr.forEach(function (note) {
 	    _notes[note.id] = note;
 	  });
 	  // debugger;

@@ -33,3 +33,7 @@ tag2 = Tag.create!(
 tag3 = Tag.create!(
   title: "Grocery"
 )
+
+note1.tags << tag1
+note2.tags << tag2
+note2.tags << tag3
