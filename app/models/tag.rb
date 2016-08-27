@@ -6,6 +6,7 @@ class Tag < ApplicationRecord
   has_many :notes, through: :notes_tags, source: :note
 
   has_many :notebooks, through: :notes
-  has_one :user, through: :notebooks
+  # has_one :user, through: :notebooks
+  belongs_to :user
 
 end

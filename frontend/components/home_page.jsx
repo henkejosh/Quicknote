@@ -14,6 +14,8 @@ const NotebookCreator = require('./notebook_creator.jsx');
 const NotebookEditor = require('./notebook_editor.jsx');
 const TagModalBar = require('./tag_modal_bar.jsx');
 const TagStore = require('../stores/tag_store.js');
+const TagActions = require('../actions/tag_actions.js');
+const CurrentTagStore = require("../stores/current_tag_store.js");
 
 const HomePage = React.createClass({
   getInitialState: function() {
@@ -22,8 +24,9 @@ const HomePage = React.createClass({
       currentNotebook: CurrentNotebookStore.currentNotebook(),
       currentNote: CurrentNoteStore.currentNote(),
       currentTag: {},
+      tags: {},
     // current_notebook_open: false
-      notes: NoteStore.allNotes(),
+      notes: NoteStore.allNotes("all"),
       notebookCreatorOpen: false,
       notebookEditorOpen: false,
       tagModalBarIsOpen: false,
@@ -43,8 +46,9 @@ const HomePage = React.createClass({
     // this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
     // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
     // this.noteListener = NoteStore.addListener(this.updateNotes);
-
-
+    NotebookActions.getAllNotebooks();
+    NoteActions.getAllNotes();
+    TagActions.getAllTags();
     NotebookActions.getAllNotebooks();
     NoteActions.getAllNotes();
   },
@@ -54,8 +58,10 @@ const HomePage = React.createClass({
     this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
     this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
     this.noteListener = NoteStore.addListener(this.updateNotes);
-    NotebookActions.getAllNotebooks();
-    NoteActions.getAllNotes();
+    this.tagStoreListener = TagStore.addListener(this.updateTags);
+    this.currentTagListener = CurrentTagStore.addListener(this.updateCurrentTag);
+    // NotebookActions.getAllNotebooks();
+    // NoteActions.getAllNotes();
   },
 
   componentWillUnmount: function() {
@@ -63,10 +69,19 @@ const HomePage = React.createClass({
     this.noteListener.remove();
     this.notebookListener.remove();
     this.currentNoteListener.remove();
+    this.tagStoreListener.remove();
+  },
+
+  updateCurrentTag: function() {
+    this.setState({ currentTag: CurrentTagStore.currentTag() });
   },
 
   selectCurrentTag: function(tag) {
     this.setState({ currentTag: tag });
+  },
+
+  updateTags: function() {
+    this.setState({ tags: TagStore.allTags() });
   },
 
   updateCurrentNote: function() {
@@ -74,7 +89,9 @@ const HomePage = React.createClass({
   },
 
   updateNotes: function() {
-    this.setState({ notes: this.controlNotesProps() });
+    // this.setState({ notes: this.controlNotesProps() });
+    this.setState({ notes:
+      NoteStore.allNotes(this.state.cardColumnStyle) });
   },
 
   updateCurrentNotebook: function() {
@@ -88,15 +105,15 @@ const HomePage = React.createClass({
   },
 
   forceUpdateAllNotes: function() {
-    this.setState({ notes: NoteStore.allNotes() });
+    this.setState({ notes: NoteStore.allNotes("all") });
   },
 
   forceUpdateNotebookNotes: function() {
-    this.setState({ notes: NoteStore.allNotebookNotes() });
+    this.setState({ notes: NoteStore.allNotes("notebook") });
   },
 
   forceUpdateTagNotes: function() {
-    // TODO!!!
+    this.setState({ notes: NoteStore.allNotes("tag")});
   },
 
   forceUpdateCurrentNote: function() {
@@ -140,6 +157,7 @@ const HomePage = React.createClass({
           notes={this.state.notes}
           selectCurrentTag={this.selectCurrentTag}
           currentTag={this.currentTag}
+          tags={this.state.tags}
           // openTagCreator={this.openTagCreator}
           />
       );
@@ -275,6 +293,7 @@ const HomePage = React.createClass({
           currentNote={this.state.currentNote}
           currentNotebook={this.state.currentNotebook}
           notebooks={this.state.notebooks}
+          currentUserID={this.props.currentUserID}
           />
       );
     }
@@ -299,6 +318,7 @@ const HomePage = React.createClass({
           updateNotes={this.updateNotes}
           forceUpdateAllNotes={this.forceUpdateAllNotes}
           changeCardColumnToTag={this.changeCardColumnToTag}
+          forceUpdateTagNotes={this.forceUpdateTagNotes}
           />
 
         <div className="page-content">

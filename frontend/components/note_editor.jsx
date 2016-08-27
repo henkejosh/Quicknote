@@ -167,7 +167,8 @@ const NoteEditor = React.createClass({
               { this.createNotebookDropdownSelector() }
             </div>
 
-          <TagsBarIndex currentNote={this.props.currentNote}/>
+          <TagsBarIndex currentUserID={this.props.currentUserID}
+            currentNote={this.props.currentNote}/>
 
         </div>
 

@@ -26,13 +26,33 @@ class Api::TagsController < ApplicationController
     render :index
   end
 
+  def add_note_to_tag(tag)
+    note = Note.find(params["note_id"])
+    @tag.notes << note
+    @tag.save
+  end
+
   def create
-    @tag = Tag.new(tag_params)
+    # byebug
+    # @tag = Tag.joins("JOIN notes_tags nt on nt. notes n on n.tag_id = tag.id JOIN notebooks nb on nb.id = n.notebook_id JOIN users u on  u.id = nb.user_id").where(title: tag_params[:title])
+    # tag_id = Tag.where(title: tag_params[:title], user_id: current_user.id).id
+    @tag = Tag.where(title: tag_params[:title], user_id: current_user.id).first
+    # byebug
+    @tag ||= Tag.new(tag_params)
+    # if tag_id
+    #   @tag = Tag.find(tag_id)
+    # else
+    #   @tag = Tag.new(tag_params)
+    # end
+    # p @tag
+
     if @tag.save
+      # byebug
       note = Note.find(params["note_id"])
       @tag.notes << note
       @tag.save
-      render json: @tag
+      # render json: @tag
+      render :show
     else
       render json: @tag.errors, status: 422
     end
@@ -51,6 +71,6 @@ class Api::TagsController < ApplicationController
 
   private
   def tag_params
-    params.require(:tag).permit(:title)
+    params.require(:tag).permit(:title, :user_id)
   end
 end

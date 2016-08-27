@@ -23,15 +23,18 @@ note2 = Note.create!(
 )
 
 tag1 = Tag.create!(
-  title: "to-do"
+  title: "to-do",
+  user_id: guest.id
 )
 
 tag2 = Tag.create!(
-  title: "sample-tag"
+  title: "sample-tag",
+  user_id: guest.id
 )
 
 tag3 = Tag.create!(
-  title: "Grocery"
+  title: "Grocery",
+  user_id: guest.id
 )
 
 note1.tags << tag1

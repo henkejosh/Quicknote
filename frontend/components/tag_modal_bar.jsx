@@ -12,21 +12,21 @@ const TagModalBar = React.createClass({
     };
   },
 
-  componentDidMount: function() {
-    this.tagStoreListener = TagStore.addListener(this.updateTags);
-  },
+  // componentDidMount: function() {
+  //   // this.tagStoreListener = TagStore.addListener(this.updateTags);
+  // },
 
-  updateTags: function() {
-    this.setState({ tags: TagStore.allTags() });
-  },
+  // updateTags: function() {
+  //   this.setState({ tags: TagStore.allTags() });
+  // },
 
-  componentWillMount: function() {
-    TagActions.getAllTags();
-  },
+  // componentWillMount: function() {
+  //   TagActions.getAllTags();
+  // },
 
-  componentWillUnmount: function() {
-    this.tagStoreListener.remove();
-  },
+  // componentWillUnmount: function() {
+  //   // this.tagStoreListener.remove();
+  // },
 
   handleDisplay: function() {
     if(this.props.tagModalIsOpen) {
@@ -35,13 +35,6 @@ const TagModalBar = React.createClass({
       return "none";
     }
   },
-
-  // getAppropriateNotes: function(tagID) {
-  //   let notes = [];
-  //   Object.keys(this.props.notes).forEach( id => {
-  //     if(this.props.notes[id] === )
-  //   });
-  // },
 
   openTagCreator: function(e) {
     e.preventDefault();
@@ -60,8 +53,8 @@ const TagModalBar = React.createClass({
               className="new-notebook">CREATE NEW</a>
           </div>
 
-          { Object.keys(that.state.tags).map( id => {
-              let tag = that.state.tags[id];
+          { Object.keys(that.props.tags).map( id => {
+              let tag = that.props.tags[id];
               return (
                 < TagModalCard key={id}
                     title={tag.title}

@@ -17,6 +17,21 @@ const TagApiUtil = {
     });
   },
 
+  // selectCurrentTag: function(tag, success) {
+  //   $.ajax({
+  //     url: `api/notes/${tag.id}`,
+  //     data: {tag},
+  //     dataType: "json",
+  //     type: "GET",
+  //     success,
+  //     error: xhr => {
+  //       const error = `status: ${xhr.status} ${xhr.statusText}`;
+  //       console.log(error);
+  //       console.log(xhr.responseText);
+  //     }
+  //   });
+  // },
+
   getAllTags: function(success) {
     $.ajax({
       url: "api/tags",

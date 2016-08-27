@@ -32,7 +32,11 @@ const NotesBar = React.createClass({
   formatNotesLength: function() {
     let notesLength;
     if(this.props.cardColumnStyle === "tag") {
-      notesLength = this.props.currentTag.note_ids.length;
+      if(this.props.currentTag.note_ids) {
+        notesLength = this.props.currentTag.note_ids.length;
+      } else {
+        notesLength = 0;
+      }
     } else {
     // if(this.props.cardColumnStyle === "notebook") {
       notesLength = Object.keys(this.props.notes).length;

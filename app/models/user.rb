@@ -9,14 +9,15 @@ class User < ApplicationRecord
 	before_validation :ensure_session_token_uniqueness
 
   has_many :notebooks
+  has_many :tags
 
   has_many :notes,
     through: :notebooks,
     source: :notes
 
-  has_many :tags,
-    through: :notebooks,
-    source: :tags
+  # has_many :tags,
+  #   through: :notebooks,
+  #   source: :tags
 
 	def password=(password)
 		self.password_digest = BCrypt::Password.create(password)

@@ -27,6 +27,7 @@ const LeftNavBar = React.createClass({
     } else {
       this.props.openSelectTagModal();
     }
+    this.props.forceUpdateTagNotes();
   },
 
   createNewNote: function() {

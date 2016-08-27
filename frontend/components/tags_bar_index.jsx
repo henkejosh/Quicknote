@@ -33,9 +33,10 @@ const TagsBarIndex = React.createClass({
 
   createTag: function(e) {
     if(this.state.title === "") return;
-    
+
     if(e.key === "Enter") {
-      const tag = {title: this.state.title};
+      const tag = { title: this.state.title,
+        user_id: this.props.currentUserID };
       TagActions.createTag(tag, this.props.currentNote.id);
       this.resetTitle();
     }

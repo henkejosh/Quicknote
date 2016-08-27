@@ -26,6 +26,11 @@ const TagActions = {
       actionType: TagConstants.RECEIVE_ALL_TAGS,
       tags: tags
     });
+  },
+
+  selectCurrentTag: function(tag, noteID) {
+    // TagApiUtil.selectCurrentTag(tag, this.receiveTag);
+    this.receiveTag(tag, noteID);
   }
 };
 

@@ -8,11 +8,13 @@ const CurrentNotebookConstants = require('../constants/current_notebook_constant
 const hashHistory = require('react-router').hashHistory;
 const CurrentNoteStore = require("./current_note_store.js");
 const CurrentNoteConstants = require("../constants/current_note_constants.js");
+const TagConstants = require('../constants/tag_constants.js');
 
 const NoteStore = new Store(Dispatcher);
 
 let _notes = {};
 let _notebookNotes = {};
+let _tagNotes = {};
 
 const _setNotes = function(notes) {
   _notes = {};
@@ -29,6 +31,20 @@ const _addNote = function(note) {
 
 const _addJustNote = function(note) {
   _notes[note.id] = note;
+};
+
+const _chooseTagNotes = function(currentTag) {
+  // debugger;
+  if(Object.keys(currentTag).length === 0) return;
+
+  let note_ids = currentTag.note_ids;
+  Object.keys(_notes).forEach( id => {
+    note_ids.forEach( validID => {
+      if(parseInt(id) === validID.id) {
+        _tagNotes[id] = _notes[id];
+      }
+    });
+  });
 };
 
 const _setNotebookNotes = function(currentNotebook) {
@@ -118,8 +134,14 @@ NoteStore.count = function(notebookID) {
   return Object.keys(this.find(notebookID)).length;
 };
 
-NoteStore.allNotes = function() {
-  return Object.assign({}, _notes);
+NoteStore.allNotes = function(type) {
+  if(type === "all") {
+    return Object.assign({}, _notes);
+  } else if(type === "notebook") {
+    return Object.assign({}, _notebookNotes);
+  } else if(type === "tag") {
+    return Object.assign({}, _tagNotes);
+  }
 };
 
 NoteStore.allNotebookNotes = function() {
@@ -159,6 +181,10 @@ NoteStore.__onDispatch = payload => {
       break;
     case CurrentNoteConstants.RECEIVE_CURRENT_NOTE:
       _addNote(payload.currentNote);
+      NoteStore.__emitChange();
+      break;
+    case TagConstants.RECEIVE_TAG:
+      _chooseTagNotes(payload.tag);
       NoteStore.__emitChange();
       break;
   }
