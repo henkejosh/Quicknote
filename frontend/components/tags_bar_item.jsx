@@ -8,10 +8,16 @@ const TagsBarItem = React.createClass({
 
   handleDestroy: function(e) {
     e.preventDefault();
-    // debugger;
+    this.props.tag.taggings.forEach( tagging => {
+      if(tagging.tag_id === this.props.tag.id &&
+        tagging.note_id ===this.props.currentNote.id) {
+        TagActions.destroyRelationship(this.props.tag.id, tagging.id);
+      }
+    });
+    e.stopPropagation();
     // if(this.state.selected && e.key === "Delete") {
-      TagActions.destroyRelationship(this.props.tag.id,
-        this.props.currentNote.id);
+      // TagActions.destroyRelationship(this.props.tag.id,
+      //   this.props.currentNote.id);
 
             // TODO
             // kill it (tag actions)

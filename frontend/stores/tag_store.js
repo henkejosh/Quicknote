@@ -41,6 +41,10 @@ TagStore.__onDispatch = payload => {
       _removeTag(payload.tagID);
       TagStore.__emitChange();
       break;
+    case TagConstants.UPDATE_NOTE_AND_TAG:
+      _addTag(payload.tag);
+      TagStore.__emitChange();
+      break;
     // case NoteConstants.RECEIVE_ALL_NOTES:
     //   _updateTags(payload.notes)
     //   TagStore.__emitChange();

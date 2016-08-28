@@ -23,6 +23,7 @@ const NoteItem = React.createClass({
   },
 
   formatBody: function() {
+    if(!this.props.body) return;
     const html = $(this.props.body)[0];
     return html.innerText || html.textContent;
   },

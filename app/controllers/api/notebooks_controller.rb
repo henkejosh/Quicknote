@@ -22,12 +22,15 @@ class Api::NotebooksController < ApplicationController
     @notebooks = Notebook.where(user_id: current_user.id)
     @notes = []
     @tags = []
+    @taggings = []
     @notebooks.each do |notebook|
       @notes += notebook.notes
     end
     @notes.each do |note|
       @tags += note.tags
+      @taggings += note.taggings
     end
+
     render "api/notebooks/everything"
   end
 

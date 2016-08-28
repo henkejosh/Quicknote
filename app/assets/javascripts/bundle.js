@@ -37396,6 +37396,7 @@
 	  },
 	
 	  formatBody: function formatBody() {
+	    if (!this.props.body) return;
 	    var html = $(this.props.body)[0];
 	    return html.innerText || html.textContent;
 	  },
@@ -37860,6 +37861,10 @@
 	  }
 	};
 	
+	var _removeTagNote = function _removeTagNote(note) {
+	  delete _tagNotes[note.id];
+	};
+	
 	var _handleNewNotebookNote = function _handleNewNotebookNote(note) {
 	  Object.keys(_notebookNotes).forEach(function (id) {
 	    if (_notebookNotes[id].notebook_id === note.notebook_id) {
@@ -37969,6 +37974,11 @@
 	      break;
 	    case TagConstants.RECEIVE_CURRENT_TAG:
 	      _chooseTagNotes(payload.tag);
+	      NoteStore.__emitChange();
+	      break;
+	    case TagConstants.UPDATE_NOTE_AND_TAG:
+	      _addNote(payload.note);
+	      _removeTagNote(payload.note);
 	      NoteStore.__emitChange();
 	      break;
 	  }
@@ -38087,7 +38097,10 @@
 	      _resetStore();
 	      CurrentNoteStore.__emitChange();
 	      break;
-	
+	    case TagConstants.UPDATE_NOTE_AND_TAG:
+	      _setCurrentNote(payload.note);
+	      CurrentNoteStore.__emitChange();
+	      break;
 	    // case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
 	    //   _getNotebookNoteFromNoteStore(NoteStore);
 	    //   CurrentNoteStore.__emitChange();
@@ -38119,7 +38132,8 @@
 	  RECEIVE_TAG: "RECEIVE_TAG",
 	  RECEIVE_ALL_TAGS: "RECEIVE_ALL_TAGS",
 	  RECEIVE_CURRENT_TAG: "RECEIVE_CURRENT_TAG",
-	  REMOVE_TAG: "REMOVE_TAG"
+	  REMOVE_TAG: "REMOVE_TAG",
+	  UPDATE_NOTE_AND_TAG: "UPDATE_NOTE_AND_TAG"
 	};
 	
 	module.exports = TagConstants;
@@ -50338,10 +50352,18 @@
 	  },
 	
 	  handleDestroy: function handleDestroy(e) {
+	    var _this = this;
+	
 	    e.preventDefault();
-	    // debugger;
+	    this.props.tag.taggings.forEach(function (tagging) {
+	      if (tagging.tag_id === _this.props.tag.id && tagging.note_id === _this.props.currentNote.id) {
+	        TagActions.destroyRelationship(_this.props.tag.id, tagging.id);
+	      }
+	    });
+	    e.stopPropagation();
 	    // if(this.state.selected && e.key === "Delete") {
-	    TagActions.destroyRelationship(this.props.tag.id, this.props.currentNote.id);
+	    // TagActions.destroyRelationship(this.props.tag.id,
+	    //   this.props.currentNote.id);
 	
 	    // TODO
 	    // kill it (tag actions)
@@ -50433,15 +50455,15 @@
 	    // NoteActions.getAllNotes();
 	  },
 	
-	  destroyRelationship: function destroyRelationship(tagID, noteID) {
-	    TagApiUtil.destroyRelationship(tagID, noteID, this.updateNotesAndTags);
+	  destroyRelationship: function destroyRelationship(tagID, taggingID) {
+	    TagApiUtil.destroyRelationship(tagID, taggingID, this.updateNotesAndTags);
 	  },
 	
-	  updateNotesAndTags: function updateNotesAndTags(newNote, newTag) {
+	  updateNotesAndTags: function updateNotesAndTags(object) {
 	    Dispatcher.dispatch({
 	      actionType: TagConstants.UPDATE_NOTE_AND_TAG,
-	      tag: newTag,
-	      note: newNote
+	      tag: object.object.tag,
+	      note: object.object.note
 	    });
 	  },
 	
@@ -50500,12 +50522,12 @@
 	    });
 	  },
 	
-	  destroyRelationship: function destroyRelationship(tagID, noteID, success) {
+	  destroyRelationship: function destroyRelationship(tagID, taggingID, success) {
 	    $.ajax({
 	      url: "api/tags/" + tagID,
 	      dataType: "json",
 	      type: "DELETE",
-	      data: { tag_id: tagID, note_id: noteID, relat: true },
+	      data: { tagging_id: taggingID, relat: true },
 	      success: success,
 	      error: function error(xhr) {
 	        var error = "status: " + xhr.status + " " + xhr.statusText;
@@ -50940,6 +50962,10 @@
 	      break;
 	    case TagConstants.REMOVE_TAG:
 	      _removeTag(payload.tagID);
+	      TagStore.__emitChange();
+	      break;
+	    case TagConstants.UPDATE_NOTE_AND_TAG:
+	      _addTag(payload.tag);
 	      TagStore.__emitChange();
 	      break;
 	    // case NoteConstants.RECEIVE_ALL_NOTES:

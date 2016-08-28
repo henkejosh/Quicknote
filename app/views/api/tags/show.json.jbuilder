@@ -4,7 +4,7 @@ if @tag
   json.created_at @tag.created_at
   json.updated_at @tag.updated_at
   json.user_id @tag.user_id
-  json.notes_tags @tag.notes_tags do |nt|
+  json.taggings @tag.taggings do |nt|
     json.id nt.id
     json.note_id nt.note_id
     json.tag_id nt.tag_id

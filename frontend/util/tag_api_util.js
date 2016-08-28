@@ -34,12 +34,12 @@ const TagApiUtil = {
     });
   },
 
-  destroyRelationship: function(tagID, noteID, success) {
+  destroyRelationship: function(tagID, taggingID, success) {
     $.ajax({
       url: `api/tags/${tagID}`,
       dataType: "json",
       type: "DELETE",
-      data: { tag_id: tagID, note_id: noteID, relat: true },
+      data: { tagging_id: taggingID, relat: true },
       success,
       error: xhr => {
         const error = `status: ${xhr.status} ${xhr.statusText}`;

@@ -86,6 +86,10 @@ const _ensureRightNotebook = function(note) {
   }
 };
 
+const _removeTagNote = function(note) {
+  delete _tagNotes[note.id];
+};
+
 const _handleNewNotebookNote = function(note) {
   Object.keys(_notebookNotes).forEach( id => {
     if(_notebookNotes[id].notebook_id === note.notebook_id) {
@@ -195,6 +199,11 @@ NoteStore.__onDispatch = payload => {
       break;
     case TagConstants.RECEIVE_CURRENT_TAG:
       _chooseTagNotes(payload.tag);
+      NoteStore.__emitChange();
+      break;
+    case TagConstants.UPDATE_NOTE_AND_TAG:
+      _addNote(payload.note);
+      _removeTagNote(payload.note);
       NoteStore.__emitChange();
       break;
   }

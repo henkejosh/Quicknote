@@ -45,15 +45,15 @@ const TagActions = {
     // NoteActions.getAllNotes();
   },
 
-  destroyRelationship: function(tagID, noteID) {
-    TagApiUtil.destroyRelationship(tagID, noteID, this.updateNotesAndTags);
+  destroyRelationship: function(tagID, taggingID) {
+    TagApiUtil.destroyRelationship(tagID, taggingID, this.updateNotesAndTags);
   },
 
-  updateNotesAndTags: function(newNote, newTag) {
+  updateNotesAndTags: function(object) {
     Dispatcher.dispatch({
       actionType: TagConstants.UPDATE_NOTE_AND_TAG,
-      tag: newTag,
-      note: newNote
+      tag: object.object.tag,
+      note: object.object.note
     });
   },
 

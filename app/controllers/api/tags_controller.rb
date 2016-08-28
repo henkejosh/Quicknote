@@ -20,16 +20,21 @@ class Api::TagsController < ApplicationController
     render :show
   end
 
-  def destroy(tag_id = nil, note_id = nil)
-    if params[:tag_id] && params[:note_id] && params[:relat]
+  def destroy
+    if params[:tagging_id] && params[:relat]
       # notes_tag = NotesTag.find_by(note_id: params[:note_id],
       #   tag_id: params[:tag_id])
-      tag = Tag.find(params[:tag_id])
-      notes_tag = tag.notes_tags.find_by(note_id: params[:note_id])
-      if notes_tag
-        byebug
-        tag.notes_tags.delete(notes_tag)
-      end
+      # tag = Tag.find(params[:tag_id])
+      tagging = Tagging.find(params[:tagging_id])
+      @note = Note.find(tagging.note_id)
+      @tag = Tag.find(tagging.tag_id)
+      tagging.destroy!
+      # byebug
+      # render json: { note: note,
+      #   tag: tag
+      # }
+      render "api/tags/tags_and_notes"
+      # notes_tag = tag.notes_tags.find_by(note_id: params[:note_id])
     else
       @tag = Tag.find(params[:id])
       id = @tag.id
