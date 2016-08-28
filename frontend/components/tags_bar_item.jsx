@@ -3,7 +3,7 @@ const TagActions = require('../actions/tag_actions.js');
 
 const TagsBarItem = React.createClass({
   getInitialState: function() {
-    return { selected: false };
+    return { display: "none" };
   },
 
   handleDestroy: function(e) {
@@ -15,17 +15,6 @@ const TagsBarItem = React.createClass({
       }
     });
     e.stopPropagation();
-    // if(this.state.selected && e.key === "Delete") {
-      // TagActions.destroyRelationship(this.props.tag.id,
-      //   this.props.currentNote.id);
-
-            // TODO
-            // kill it (tag actions)
-            // get 1 new note (updated sans tag)
-            //   // update notes store (all 3)
-            // get 1 new tag (updated sans note)
-            //  // update tag store
-    // }
   },
 
   makeSelection: function(e) {
@@ -38,11 +27,29 @@ const TagsBarItem = React.createClass({
     this.setState({ selected: false });
   },
 
+  showDelete: function() {
+    this.setState({ display: "inline-block"});
+  },
+
+  hideDelete: function() {
+    this.setState({ display: "none"});
+  },
+
+  toggleView: function() {
+    if(this.state.display === "none"){
+      this.setState({ display: "inline-block"});
+    } else if(this.state.display === "inline-block") {
+      this.setState({ display: "none"});
+    }
+  },
+
   render: function() {
     return (
-      <li className="current-note-tag"
+      <li className="current-note-tag" onMouseEnter={this.showDelete}
+        onMouseLeave={this.hideDelete}
         >{this.props.title}<p className="tag-relat-delete"
-          onClick={this.handleDestroy}>[[X]]</p></li>
+          style={this.state}
+          onClick={this.handleDestroy}>[x]</p></li>
     );
   }
 });

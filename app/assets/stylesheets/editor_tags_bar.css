@@ -1,0 +1,50 @@
+ul.tag-list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+}
+
+input.tag-creator {
+  /*width: 40px;*/
+  /*width: auto;*/
+  width: 15px;
+  height: 15px;
+  padding: 0px 0px 0px 3px;
+  margin: 0px;
+  min-width: 15px;
+}
+
+li.current-note-tag {
+  /*display: flex;
+  flex-direction: row;*/
+  display: inline-block;
+  justify-content: flex-start;
+  margin-right: 5px;
+  /*overflow-y: hidden;*/
+  overflow-x: visible;
+  height: 17px;
+  padding: 0px 1px;
+  /*width: 100%;*/
+  white-space: nowrap;
+  border-radius: 4px;
+  border-color: #ececec;
+  border: 1px;
+  background-color: #f8f8f8;
+}
+
+li.current-note-tag:hover {
+  background-color: #2DBE60;
+}
+
+p.tag-relat-delete {
+  margin: 0px;
+}
+
+input.tag-creator {
+  margin-right: 5px;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  border-color: #ececec;
+  border: 1px;
+}

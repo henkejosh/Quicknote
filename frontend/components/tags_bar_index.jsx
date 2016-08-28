@@ -1,6 +1,7 @@
 const React = require('react');
 const TagsBarItem = require('./tags_bar_item.jsx');
 const TagActions = require('../actions/tag_actions.js');
+const ReactTags = require('react-tag-input').WithContext;
 
 const TagsBarIndex = React.createClass({
   getInitialState: function() {
@@ -26,12 +27,25 @@ const TagsBarIndex = React.createClass({
   },
 
   handleTitleChange: function(e) {
+    // debugger;
     e.preventDefault();
     this.setState({ title: e.target.value });
+    // this.resizeInput();
     // if(e.keyCode === 13) {
     //   const tag = {title: this.state.title};
     //   TagActions.createTag(tag, this.props.currentNote.id);
     // }
+  },
+
+  handleDelete: function(e) {
+    // debugger;
+    e.preventDefault();
+    this.props.tag.taggings.forEach( tagging => {
+      if(tagging.tag_id === this.props.tag.id &&
+        tagging.note_id ===this.props.currentNote.id) {
+        TagActions.destroyRelationship(this.props.tag.id, tagging.id);
+      }
+    });
   },
 
   createTag: function(e) {
@@ -44,21 +58,40 @@ const TagsBarIndex = React.createClass({
       this.resetTitle();
     }
   },
-// onBlur={this.createTag}
+
+  componentWillUpdate: function() {
+    this.resizeInput();
+  },
+
+  resizeInput: function() {
+    // $(".tag-creator").attr('size', this.state.title.length);
+    $(".tag-creator").width((this.state.title.length + 1) * 7);
+  },
+
+  formatTags: function() {
+    let tags = this.props.currentNote.tags;
+    return tags.map(tag => {
+      return { id: tag.id, text: tag.title };
+    });
+    // debugger;
+  },
+
   render: function() {
     return (
       <section className="tag-bar">
-        <div className="tag-selector">choose tag</div>
+        <div className="tag-selector">Tags: </div>
         <ul className="tag-list">
-          { this.createCurrentNoteTags() }
+
+        <div>
           <input type="text"
             onKeyPress={this.createTag}
-            className="tag-create-button"
+            className="tag-creator"
             onChange={this.handleTitleChange}
             placeholder="+"
             value={this.state.title}
-            currentNote={this.props.currentNote}
             />
+          </div>
+            { this.createCurrentNoteTags() }
         </ul>
       </section>
     );

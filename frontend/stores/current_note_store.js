@@ -34,8 +34,20 @@ const _chooseLastNote = function(notes) {
   _currentNote = notes[lastID];
 };
 
+const _chooseLastNoteFromArray = function(notes_arr) {
+  let lastNote = false;
+  notes_arr.forEach( note => {
+    // debugger;
+    if(lastNote === false || lastNote < new Date(note.updated_at)) {
+      lastNote = note;
+    }
+  });
+  _currentNote = lastNote;
+};
+
 const _bootstrapCurrentNote = function(notes) {
   // if(Object.keys(_currentNote).length === 0) {
+  debugger;
     _chooseLastNote(notes);
   // }
 };
@@ -84,7 +96,7 @@ CurrentNoteStore.__onDispatch = payload => {
       CurrentNoteStore.__emitChange();
       break;
     case NoteConstants.RECEIVE_ALL_NOTES:
-      _bootstrapCurrentNote(payload.notes);
+      _chooseLastNoteFromArray(payload.notes.notes_arr);
       CurrentNoteStore.__emitChange();
       break;
     case NoteConstants.REMOVE_NOTE:
