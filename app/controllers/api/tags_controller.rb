@@ -20,13 +20,23 @@ class Api::TagsController < ApplicationController
     render :show
   end
 
-  def destroy
-    @tag = Tag.find(params[:id])
-    id = @tag.id
-    @tag.destroy!
-    render json: id
-    # render :index
-    # index
+  def destroy(tag_id = nil, note_id = nil)
+    if params[:tag_id] && params[:note_id] && params[:relat]
+      # notes_tag = NotesTag.find_by(note_id: params[:note_id],
+      #   tag_id: params[:tag_id])
+      tag = Tag.find(params[:tag_id])
+      notes_tag = tag.notes_tags.find_by(note_id: params[:note_id])
+      if notes_tag
+        byebug
+        tag.notes_tags.delete(notes_tag)
+      end
+    else
+      @tag = Tag.find(params[:id])
+      id = @tag.id
+      @tag.destroy!
+      render json: id
+    end
+
   end
 
   def add_note_to_tag(tag)

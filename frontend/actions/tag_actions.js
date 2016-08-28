@@ -45,6 +45,18 @@ const TagActions = {
     // NoteActions.getAllNotes();
   },
 
+  destroyRelationship: function(tagID, noteID) {
+    TagApiUtil.destroyRelationship(tagID, noteID, this.updateNotesAndTags);
+  },
+
+  updateNotesAndTags: function(newNote, newTag) {
+    Dispatcher.dispatch({
+      actionType: TagConstants.UPDATE_NOTE_AND_TAG,
+      tag: newTag,
+      note: newNote
+    });
+  },
+
   selectCurrentTag: function(tag, noteID) {
     // TagApiUtil.selectCurrentTag(tag, this.receiveTag);
     Dispatcher.dispatch({

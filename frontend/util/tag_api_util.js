@@ -34,6 +34,21 @@ const TagApiUtil = {
     });
   },
 
+  destroyRelationship: function(tagID, noteID, success) {
+    $.ajax({
+      url: `api/tags/${tagID}`,
+      dataType: "json",
+      type: "DELETE",
+      data: { tag_id: tagID, note_id: noteID, relat: true },
+      success,
+      error: xhr => {
+        const error = `status: ${xhr.status} ${xhr.statusText}`;
+        console.log(error);
+        console.log(xhr.responseText);
+      }
+    });
+  },
+
   // selectCurrentTag: function(tag, success) {
   //   $.ajax({
   //     url: `api/notes/${tag.id}`,

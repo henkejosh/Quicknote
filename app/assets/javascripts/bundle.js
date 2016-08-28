@@ -50256,11 +50256,16 @@
 	  },
 	
 	  createCurrentNoteTags: function createCurrentNoteTags() {
+	    var _this = this;
+	
 	    if (!this.props.currentNote.tags) return;
 	
 	    return this.props.currentNote.tags.map(function (tag) {
 	      return React.createElement(TagsBarItem, { key: tag.id, tag: tag,
-	        className: 'current-note-tag', title: tag.title });
+	        className: 'current-note-tag',
+	        title: tag.title,
+	        currentNote: _this.props.currentNote
+	      });
 	    });
 	  },
 	
@@ -50306,7 +50311,8 @@
 	          className: 'tag-create-button',
 	          onChange: this.handleTitleChange,
 	          placeholder: '+',
-	          value: this.state.title
+	          value: this.state.title,
+	          currentNote: this.props.currentNote
 	        })
 	      )
 	    );
@@ -50319,21 +50325,55 @@
 /* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var React = __webpack_require__(1);
+	var TagActions = __webpack_require__(325);
 	
 	var TagsBarItem = React.createClass({
-	  displayName: "TagsBarItem",
+	  displayName: 'TagsBarItem',
 	
+	  getInitialState: function getInitialState() {
+	    return { selected: false };
+	  },
+	
+	  handleDestroy: function handleDestroy(e) {
+	    e.preventDefault();
+	    // debugger;
+	    // if(this.state.selected && e.key === "Delete") {
+	    TagActions.destroyRelationship(this.props.tag.id, this.props.currentNote.id);
+	
+	    // TODO
+	    // kill it (tag actions)
+	    // get 1 new note (updated sans tag)
+	    //   // update notes store (all 3)
+	    // get 1 new tag (updated sans note)
+	    //  // update tag store
+	    // }
+	  },
+	
+	  makeSelection: function makeSelection(e) {
+	    e.preventDefault();
+	    this.setState({ selected: true });
+	  },
+	
+	  unSelect: function unSelect(e) {
+	    e.preventDefault();
+	    this.setState({ selected: false });
+	  },
 	
 	  render: function render() {
 	    return React.createElement(
-	      "li",
-	      { onClick: this.handleSelection,
-	        className: "current-note-tag"
+	      'li',
+	      { className: 'current-note-tag'
 	      },
-	      this.props.title
+	      this.props.title,
+	      React.createElement(
+	        'p',
+	        { className: 'tag-relat-delete',
+	          onClick: this.handleDestroy },
+	        '[[X]]'
+	      )
 	    );
 	  }
 	});
@@ -50393,6 +50433,18 @@
 	    // NoteActions.getAllNotes();
 	  },
 	
+	  destroyRelationship: function destroyRelationship(tagID, noteID) {
+	    TagApiUtil.destroyRelationship(tagID, noteID, this.updateNotesAndTags);
+	  },
+	
+	  updateNotesAndTags: function updateNotesAndTags(newNote, newTag) {
+	    Dispatcher.dispatch({
+	      actionType: TagConstants.UPDATE_NOTE_AND_TAG,
+	      tag: newTag,
+	      note: newNote
+	    });
+	  },
+	
 	  selectCurrentTag: function selectCurrentTag(tag, noteID) {
 	    // TagApiUtil.selectCurrentTag(tag, this.receiveTag);
 	    Dispatcher.dispatch({
@@ -50439,6 +50491,21 @@
 	      url: "api/tags/" + tag.id,
 	      dataType: "json",
 	      type: "DELETE",
+	      success: success,
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  },
+	
+	  destroyRelationship: function destroyRelationship(tagID, noteID, success) {
+	    $.ajax({
+	      url: "api/tags/" + tagID,
+	      dataType: "json",
+	      type: "DELETE",
+	      data: { tag_id: tagID, note_id: noteID, relat: true },
 	      success: success,
 	      error: function error(xhr) {
 	        var error = "status: " + xhr.status + " " + xhr.statusText;

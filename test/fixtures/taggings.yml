@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  note_id: MyString
+  integer: MyString
+  tag_id: MyString
+  integer: MyString
+
+two:
+  note_id: MyString
+  integer: MyString
+  tag_id: MyString
+  integer: MyString

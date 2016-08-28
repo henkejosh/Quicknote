@@ -13,7 +13,10 @@ const TagsBarIndex = React.createClass({
     return this.props.currentNote.tags.map( tag => {
      return (
          <TagsBarItem key={tag.id} tag={tag}
-          className="current-note-tag" title={tag.title} />
+          className="current-note-tag"
+          title={tag.title}
+          currentNote={this.props.currentNote}
+           />
        );
      });
   },
@@ -54,6 +57,7 @@ const TagsBarIndex = React.createClass({
             onChange={this.handleTitleChange}
             placeholder="+"
             value={this.state.title}
+            currentNote={this.props.currentNote}
             />
         </ul>
       </section>
