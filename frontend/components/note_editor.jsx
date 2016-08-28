@@ -178,7 +178,7 @@ const NoteEditor = React.createClass({
 
         <div className="text-editor-toolbar">Text editor Toolbar</div>
 
-        <ReactQuill theme="snow"
+        <ReactQuill theme='snow'
                   onChange={ this.updateBody }
                   value={ this.state.body }/>
 

@@ -62,12 +62,12 @@
 	var HomePage = __webpack_require__(287);
 	// Stores
 	var SessionStore = __webpack_require__(247);
-	var NotebookStore = __webpack_require__(294);
+	var NotebookStore = __webpack_require__(299);
 	var NotebookActions = __webpack_require__(288);
-	var CurrentNotebookActions = __webpack_require__(307);
-	var CurrentNotebookStore = __webpack_require__(295);
-	var CurrentNoteStore = __webpack_require__(304);
-	var NoteStore = __webpack_require__(303);
+	var CurrentNotebookActions = __webpack_require__(310);
+	var CurrentNotebookStore = __webpack_require__(300);
+	var CurrentNoteStore = __webpack_require__(309);
+	var NoteStore = __webpack_require__(308);
 	var TagStore = __webpack_require__(332);
 	
 	var _ensureNotLoggedIn = function _ensureNotLoggedIn(nextState, replace) {
@@ -36382,21 +36382,21 @@
 	
 	var React = __webpack_require__(1);
 	var NotebookActions = __webpack_require__(288);
-	var NotebookStore = __webpack_require__(294);
-	var CurrentNotebookStore = __webpack_require__(295);
-	var NotesBar = __webpack_require__(297);
-	var LeftNavBar = __webpack_require__(299);
-	var NotebookBar = __webpack_require__(300);
-	var NoteStore = __webpack_require__(303);
+	var NotebookStore = __webpack_require__(299);
+	var CurrentNotebookStore = __webpack_require__(300);
+	var NotesBar = __webpack_require__(302);
+	var LeftNavBar = __webpack_require__(304);
+	var NotebookBar = __webpack_require__(305);
+	var NoteStore = __webpack_require__(308);
 	var NoteActions = __webpack_require__(291);
-	var NoteEditor = __webpack_require__(308);
-	var CurrentNoteStore = __webpack_require__(304);
-	var CurrentNoteActions = __webpack_require__(327);
+	var NoteEditor = __webpack_require__(311);
+	var CurrentNoteStore = __webpack_require__(309);
+	var CurrentNoteActions = __webpack_require__(297);
 	var NotebookCreator = __webpack_require__(328);
 	var NotebookEditor = __webpack_require__(329);
 	var TagModalBar = __webpack_require__(330);
 	var TagStore = __webpack_require__(332);
-	var TagActions = __webpack_require__(325);
+	var TagActions = __webpack_require__(294);
 	var CurrentTagStore = __webpack_require__(333);
 	
 	var HomePage = React.createClass({
@@ -36709,7 +36709,7 @@
 	var NotebookConstants = __webpack_require__(290);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	var NoteActions = __webpack_require__(291);
-	var TagActions = __webpack_require__(325);
+	var TagActions = __webpack_require__(294);
 	
 	var NotebookActions = {
 	  getAllNotebooks: function getAllNotebooks() {
@@ -36898,7 +36898,7 @@
 	var NoteApiUtil = __webpack_require__(292);
 	var NoteConstants = __webpack_require__(293);
 	var hashHistory = __webpack_require__(175).hashHistory;
-	var TagActions = __webpack_require__(325);
+	var TagActions = __webpack_require__(294);
 	
 	var NoteActions = {
 	  getAllNotes: function getAllNotes() {
@@ -37066,13 +37066,235 @@
 /* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(239);
+	var TagApiUtil = __webpack_require__(295);
+	var TagConstants = __webpack_require__(296);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	var CurrentNoteActions = __webpack_require__(297);
+	// const NoteActions = require('./note_actions.js');
+	// import * as NoteActions from "./note_actions.js";
+	
+	var TagActions = {
+	  createTag: function createTag(tag, noteID) {
+	    TagApiUtil.createTag(tag, noteID, this.receiveTag);
+	  },
+	
+	  getAllTags: function getAllTags() {
+	    TagApiUtil.getAllTags(this.receiveTags);
+	  },
+	
+	  receiveTag: function receiveTag(tag, noteID) {
+	    // debugger;
+	    Dispatcher.dispatch({
+	      actionType: TagConstants.RECEIVE_TAG,
+	      tag: tag
+	    });
+	
+	    if (noteID) CurrentNoteActions.selectCurrentNote(noteID);
+	  },
+	
+	  receiveTags: function receiveTags(tags) {
+	    Dispatcher.dispatch({
+	      actionType: TagConstants.RECEIVE_ALL_TAGS,
+	      tags: tags
+	    });
+	  },
+	
+	  deleteTag: function deleteTag(tag) {
+	    TagApiUtil.deleteTag(tag, this.removeTagFromStore);
+	  },
+	
+	  removeTagFromStore: function removeTagFromStore(tagID) {
+	    Dispatcher.dispatch({
+	      actionType: TagConstants.REMOVE_TAG,
+	      tagID: tagID
+	    });
+	    // debugger;
+	    // NoteActions.getAllNotes();
+	  },
+	
+	  destroyRelationship: function destroyRelationship(tagID, taggingID) {
+	    TagApiUtil.destroyRelationship(tagID, taggingID, this.updateNotesAndTags);
+	  },
+	
+	  updateNotesAndTags: function updateNotesAndTags(object) {
+	    Dispatcher.dispatch({
+	      actionType: TagConstants.UPDATE_NOTE_AND_TAG,
+	      tag: object.object.tag,
+	      note: object.object.note
+	    });
+	  },
+	
+	  selectCurrentTag: function selectCurrentTag(tag, noteID) {
+	    // TagApiUtil.selectCurrentTag(tag, this.receiveTag);
+	    Dispatcher.dispatch({
+	      actionType: TagConstants.RECEIVE_CURRENT_TAG,
+	      tag: tag
+	    });
+	
+	    if (noteID) CurrentNoteActions.selectCurrentNote(noteID);
+	  }
+	};
+	
+	module.exports = TagActions;
+
+/***/ },
+/* 295 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	// const NoteActions = require('../actions/note_actions.js');
+	
+	var TagApiUtil = {
+	  // NoteActions: NoteActions,
+	
+	  createTag: function createTag(tag, noteID, _success) {
+	    $.ajax({
+	      url: "api/notes/" + noteID + "/tags",
+	      type: "POST",
+	      dataType: "json",
+	      data: { tag: tag },
+	      success: function success(tag2) {
+	        _success(tag2, noteID);
+	      },
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  },
+	
+	  deleteTag: function deleteTag(tag, success, cb2) {
+	    $.ajax({
+	      url: "api/tags/" + tag.id,
+	      dataType: "json",
+	      type: "DELETE",
+	      success: success,
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  },
+	
+	  destroyRelationship: function destroyRelationship(tagID, taggingID, success) {
+	    $.ajax({
+	      url: "api/tags/" + tagID,
+	      dataType: "json",
+	      type: "DELETE",
+	      data: { tagging_id: taggingID, relat: true },
+	      success: success,
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  },
+	
+	  // selectCurrentTag: function(tag, success) {
+	  //   $.ajax({
+	  //     url: `api/notes/${tag.id}`,
+	  //     data: {tag},
+	  //     dataType: "json",
+	  //     type: "GET",
+	  //     success,
+	  //     error: xhr => {
+	  //       const error = `status: ${xhr.status} ${xhr.statusText}`;
+	  //       console.log(error);
+	  //       console.log(xhr.responseText);
+	  //     }
+	  //   });
+	  // },
+	
+	  getAllTags: function getAllTags(success) {
+	    $.ajax({
+	      url: "api/tags",
+	      type: "GET",
+	      dataType: "json",
+	      success: success,
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = TagApiUtil;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var TagConstants = {
+	  RECEIVE_TAG: "RECEIVE_TAG",
+	  RECEIVE_ALL_TAGS: "RECEIVE_ALL_TAGS",
+	  RECEIVE_CURRENT_TAG: "RECEIVE_CURRENT_TAG",
+	  REMOVE_TAG: "REMOVE_TAG",
+	  UPDATE_NOTE_AND_TAG: "UPDATE_NOTE_AND_TAG"
+	};
+	
+	module.exports = TagConstants;
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Dispatcher = __webpack_require__(239);
+	var NoteApiUtil = __webpack_require__(292);
+	var CurrentNoteConstants = __webpack_require__(298);
+	var hashHistory = __webpack_require__(175).hashHistory;
+	
+	var CurrentNoteActions = {
+	  selectCurrentNote: function selectCurrentNote(noteID) {
+	    NoteApiUtil.selectCurrentNote(noteID, this.receiveCurrentNote);
+	  },
+	
+	  receiveCurrentNote: function receiveCurrentNote(note) {
+	    Dispatcher.dispatch({
+	      actionType: CurrentNoteConstants.RECEIVE_CURRENT_NOTE,
+	      currentNote: note
+	    });
+	  }
+	
+	};
+	
+	module.exports = CurrentNoteActions;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var CurrentNoteConstants = {
+	  RECEIVE_CURRENT_NOTE: "RECEIVE_CURRENT_NOTE"
+	};
+	
+	module.exports = CurrentNoteConstants;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 	
 	var Store = __webpack_require__(248).Store;
 	var Dispatcher = __webpack_require__(239);
 	var NotebookConstants = __webpack_require__(290);
 	var hashHistory = __webpack_require__(175).hashHistory;
-	var CurrentNotebookStore = __webpack_require__(295);
+	var CurrentNotebookStore = __webpack_require__(300);
 	
 	var NotebookStore = new Store(Dispatcher);
 	
@@ -37150,7 +37372,7 @@
 	module.exports = NotebookStore;
 
 /***/ },
-/* 295 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -37158,9 +37380,9 @@
 	var Store = __webpack_require__(248).Store;
 	var Dispatcher = __webpack_require__(239);
 	var NotebookConstants = __webpack_require__(290);
-	var CurrentNotebookConstants = __webpack_require__(296);
+	var CurrentNotebookConstants = __webpack_require__(301);
 	var hashHistory = __webpack_require__(175).hashHistory;
-	var NotebookStore = __webpack_require__(294);
+	var NotebookStore = __webpack_require__(299);
 	
 	var CurrentNotebookStore = new Store(Dispatcher);
 	
@@ -37243,7 +37465,7 @@
 	module.exports = CurrentNotebookStore;
 
 /***/ },
-/* 296 */
+/* 301 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37255,13 +37477,13 @@
 	module.exports = CurrentNotebookConstants;
 
 /***/ },
-/* 297 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var NoteItem = __webpack_require__(298);
+	var NoteItem = __webpack_require__(303);
 	
 	var NotesBar = React.createClass({
 	  displayName: 'NotesBar',
@@ -37364,7 +37586,7 @@
 	module.exports = NotesBar;
 
 /***/ },
-/* 298 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37444,14 +37666,14 @@
 	module.exports = NoteItem;
 
 /***/ },
-/* 299 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
-	var NotebookStore = __webpack_require__(294);
+	var NotebookStore = __webpack_require__(299);
 	var NoteActions = __webpack_require__(291);
 	
 	var LeftNavBar = React.createClass({
@@ -37546,16 +37768,16 @@
 	module.exports = LeftNavBar;
 
 /***/ },
-/* 300 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
-	var NotebookBarModStyle = __webpack_require__(301);
-	var NotebookBarItem = __webpack_require__(302);
-	var NotebookStore = __webpack_require__(294);
+	var NotebookBarModStyle = __webpack_require__(306);
+	var NotebookBarItem = __webpack_require__(307);
+	var NotebookStore = __webpack_require__(299);
 	var NotebookActions = __webpack_require__(288);
 	
 	var NotebookBar = React.createClass({
@@ -37651,7 +37873,7 @@
 	module.exports = NotebookBar;
 
 /***/ },
-/* 301 */
+/* 306 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37705,18 +37927,18 @@
 	// }
 
 /***/ },
-/* 302 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(265);
-	var NotebookBarModStyle = __webpack_require__(301);
-	var NoteStore = __webpack_require__(303);
-	var CurrentNotebookActions = __webpack_require__(307);
+	var NotebookBarModStyle = __webpack_require__(306);
+	var NoteStore = __webpack_require__(308);
+	var CurrentNotebookActions = __webpack_require__(310);
 	var NotebookActions = __webpack_require__(288);
-	var CurrentNotebookStore = __webpack_require__(295);
+	var CurrentNotebookStore = __webpack_require__(300);
 	
 	var NotebookBarItem = React.createClass({
 	  displayName: 'NotebookBarItem',
@@ -37770,7 +37992,7 @@
 	module.exports = NotebookBarItem;
 
 /***/ },
-/* 303 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -37779,11 +38001,11 @@
 	var Dispatcher = __webpack_require__(239);
 	var NoteConstants = __webpack_require__(293);
 	var NotebookConstants = __webpack_require__(290);
-	var CurrentNotebookConstants = __webpack_require__(296);
+	var CurrentNotebookConstants = __webpack_require__(301);
 	var hashHistory = __webpack_require__(175).hashHistory;
-	var CurrentNoteStore = __webpack_require__(304);
-	var CurrentNoteConstants = __webpack_require__(305);
-	var TagConstants = __webpack_require__(306);
+	var CurrentNoteStore = __webpack_require__(309);
+	var CurrentNoteConstants = __webpack_require__(298);
+	var TagConstants = __webpack_require__(296);
 	
 	var NoteStore = new Store(Dispatcher);
 	
@@ -37987,7 +38209,7 @@
 	module.exports = NoteStore;
 
 /***/ },
-/* 304 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -37995,13 +38217,13 @@
 	var Store = __webpack_require__(248).Store;
 	var Dispatcher = __webpack_require__(239);
 	var NoteConstants = __webpack_require__(293);
-	var CurrentNoteConstants = __webpack_require__(305);
+	var CurrentNoteConstants = __webpack_require__(298);
 	var hashHistory = __webpack_require__(175).hashHistory;
-	var NotebookStore = __webpack_require__(294);
-	var CurrentNotebookConstants = __webpack_require__(296);
+	var NotebookStore = __webpack_require__(299);
+	var CurrentNotebookConstants = __webpack_require__(301);
 	var NotebookConstants = __webpack_require__(290);
-	var NoteStore = __webpack_require__(303);
-	var TagConstants = __webpack_require__(306);
+	var NoteStore = __webpack_require__(308);
+	var TagConstants = __webpack_require__(296);
 	
 	var CurrentNoteStore = new Store(Dispatcher);
 	
@@ -38111,42 +38333,14 @@
 	module.exports = CurrentNoteStore;
 
 /***/ },
-/* 305 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var CurrentNoteConstants = {
-	  RECEIVE_CURRENT_NOTE: "RECEIVE_CURRENT_NOTE"
-	};
-	
-	module.exports = CurrentNoteConstants;
-
-/***/ },
-/* 306 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var TagConstants = {
-	  RECEIVE_TAG: "RECEIVE_TAG",
-	  RECEIVE_ALL_TAGS: "RECEIVE_ALL_TAGS",
-	  RECEIVE_CURRENT_TAG: "RECEIVE_CURRENT_TAG",
-	  REMOVE_TAG: "REMOVE_TAG",
-	  UPDATE_NOTE_AND_TAG: "UPDATE_NOTE_AND_TAG"
-	};
-	
-	module.exports = TagConstants;
-
-/***/ },
-/* 307 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var Dispatcher = __webpack_require__(239);
 	var NotebookApiUtil = __webpack_require__(289);
-	var CurrentNotebookConstants = __webpack_require__(296);
+	var CurrentNotebookConstants = __webpack_require__(301);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	
 	var CurrentNotebookActions = {
@@ -38165,17 +38359,17 @@
 	module.exports = CurrentNotebookActions;
 
 /***/ },
-/* 308 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var ReactQuill = __webpack_require__(309);
+	var ReactQuill = __webpack_require__(312);
 	var NoteActions = __webpack_require__(291);
-	var NotebookDropdown = __webpack_require__(319);
-	var NotebookStore = __webpack_require__(294);
-	var TagsBarIndex = __webpack_require__(323);
+	var NotebookDropdown = __webpack_require__(322);
+	var NotebookStore = __webpack_require__(299);
+	var TagsBarIndex = __webpack_require__(326);
 	
 	var NoteEditor = React.createClass({
 	  displayName: 'NoteEditor',
@@ -38365,29 +38559,29 @@
 	module.exports = NoteEditor;
 
 /***/ },
-/* 309 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
 	React-Quill v0.4.1
 	https://github.com/zenoamaro/react-quill
 	*/
-	module.exports = __webpack_require__(310);
-	module.exports.Mixin = __webpack_require__(316);
-	module.exports.Toolbar = __webpack_require__(311);
-	module.exports.Quill = __webpack_require__(317);
+	module.exports = __webpack_require__(313);
+	module.exports.Mixin = __webpack_require__(319);
+	module.exports.Toolbar = __webpack_require__(314);
+	module.exports.Quill = __webpack_require__(320);
 
 
 /***/ },
-/* 310 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1),
 		ReactDOM = __webpack_require__(35),
-		QuillToolbar = __webpack_require__(311),
-		QuillMixin = __webpack_require__(316),
+		QuillToolbar = __webpack_require__(314),
+		QuillMixin = __webpack_require__(319),
 		T = React.PropTypes;
 	
 	// FIXME: Remove with the switch to JSX
@@ -38673,13 +38867,13 @@
 
 
 /***/ },
-/* 311 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1),
-		ReactDOMServer = __webpack_require__(312),
+		ReactDOMServer = __webpack_require__(315),
 		T = React.PropTypes;
 	
 	var defaultColors = [
@@ -38841,16 +39035,16 @@
 
 
 /***/ },
-/* 312 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	module.exports = __webpack_require__(313);
+	module.exports = __webpack_require__(316);
 
 
 /***/ },
-/* 313 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -38867,7 +39061,7 @@
 	'use strict';
 	
 	var ReactDefaultInjection = __webpack_require__(40);
-	var ReactServerRendering = __webpack_require__(314);
+	var ReactServerRendering = __webpack_require__(317);
 	var ReactVersion = __webpack_require__(33);
 	
 	ReactDefaultInjection.inject();
@@ -38881,7 +39075,7 @@
 	module.exports = ReactDOMServer;
 
 /***/ },
-/* 314 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -38904,7 +39098,7 @@
 	var ReactInstrumentation = __webpack_require__(63);
 	var ReactMarkupChecksum = __webpack_require__(170);
 	var ReactReconciler = __webpack_require__(60);
-	var ReactServerBatchingStrategy = __webpack_require__(315);
+	var ReactServerBatchingStrategy = __webpack_require__(318);
 	var ReactServerRenderingTransaction = __webpack_require__(134);
 	var ReactUpdates = __webpack_require__(57);
 	
@@ -38976,7 +39170,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 315 */
+/* 318 */
 /***/ function(module, exports) {
 
 	/**
@@ -39003,12 +39197,12 @@
 	module.exports = ReactServerBatchingStrategy;
 
 /***/ },
-/* 316 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var Quill = __webpack_require__(317);
+	var Quill = __webpack_require__(320);
 	
 	var QuillMixin = {
 	
@@ -39100,14 +39294,14 @@
 
 
 /***/ },
-/* 317 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(318);
+	module.exports = __webpack_require__(321);
 
 
 /***/ },
-/* 318 */
+/* 321 */
 /***/ function(module, exports) {
 
 	/*! Quill Editor v0.20.1
@@ -49861,16 +50055,16 @@
 	});
 
 /***/ },
-/* 319 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var ReactDropdown = __webpack_require__(320).default;
+	var ReactDropdown = __webpack_require__(323).default;
 	var Modal = __webpack_require__(265);
 	var modStyle = __webpack_require__(285);
-	var NotebookSelectee = __webpack_require__(322);
+	var NotebookSelectee = __webpack_require__(325);
 	var NoteActions = __webpack_require__(291);
 	
 	var NotebookDropdown = React.createClass({
@@ -49961,7 +50155,7 @@
 	module.exports = NotebookDropdown;
 
 /***/ },
-/* 320 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49980,7 +50174,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _classnames = __webpack_require__(321);
+	var _classnames = __webpack_require__(324);
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
@@ -50176,7 +50370,7 @@
 	exports.default = Dropdown;
 
 /***/ },
-/* 321 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -50230,7 +50424,7 @@
 
 
 /***/ },
-/* 322 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -50253,14 +50447,14 @@
 	module.exports = NotebookSelectee;
 
 /***/ },
-/* 323 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var TagsBarItem = __webpack_require__(324);
-	var TagActions = __webpack_require__(325);
+	var TagsBarItem = __webpack_require__(327);
+	var TagActions = __webpack_require__(294);
 	
 	var TagsBarIndex = React.createClass({
 	  displayName: 'TagsBarIndex',
@@ -50336,13 +50530,13 @@
 	module.exports = TagsBarIndex;
 
 /***/ },
-/* 324 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var TagActions = __webpack_require__(325);
+	var TagActions = __webpack_require__(294);
 	
 	var TagsBarItem = React.createClass({
 	  displayName: 'TagsBarItem',
@@ -50403,200 +50597,6 @@
 	module.exports = TagsBarItem;
 
 /***/ },
-/* 325 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Dispatcher = __webpack_require__(239);
-	var TagApiUtil = __webpack_require__(326);
-	var TagConstants = __webpack_require__(306);
-	var hashHistory = __webpack_require__(175).hashHistory;
-	var CurrentNoteActions = __webpack_require__(327);
-	// const NoteActions = require('./note_actions.js');
-	// import * as NoteActions from "./note_actions.js";
-	
-	var TagActions = {
-	  createTag: function createTag(tag, noteID) {
-	    TagApiUtil.createTag(tag, noteID, this.receiveTag);
-	  },
-	
-	  getAllTags: function getAllTags() {
-	    TagApiUtil.getAllTags(this.receiveTags);
-	  },
-	
-	  receiveTag: function receiveTag(tag, noteID) {
-	    // debugger;
-	    Dispatcher.dispatch({
-	      actionType: TagConstants.RECEIVE_TAG,
-	      tag: tag
-	    });
-	
-	    if (noteID) CurrentNoteActions.selectCurrentNote(noteID);
-	  },
-	
-	  receiveTags: function receiveTags(tags) {
-	    Dispatcher.dispatch({
-	      actionType: TagConstants.RECEIVE_ALL_TAGS,
-	      tags: tags
-	    });
-	  },
-	
-	  deleteTag: function deleteTag(tag) {
-	    TagApiUtil.deleteTag(tag, this.removeTagFromStore);
-	  },
-	
-	  removeTagFromStore: function removeTagFromStore(tagID) {
-	    Dispatcher.dispatch({
-	      actionType: TagConstants.REMOVE_TAG,
-	      tagID: tagID
-	    });
-	    // debugger;
-	    // NoteActions.getAllNotes();
-	  },
-	
-	  destroyRelationship: function destroyRelationship(tagID, taggingID) {
-	    TagApiUtil.destroyRelationship(tagID, taggingID, this.updateNotesAndTags);
-	  },
-	
-	  updateNotesAndTags: function updateNotesAndTags(object) {
-	    Dispatcher.dispatch({
-	      actionType: TagConstants.UPDATE_NOTE_AND_TAG,
-	      tag: object.object.tag,
-	      note: object.object.note
-	    });
-	  },
-	
-	  selectCurrentTag: function selectCurrentTag(tag, noteID) {
-	    // TagApiUtil.selectCurrentTag(tag, this.receiveTag);
-	    Dispatcher.dispatch({
-	      actionType: TagConstants.RECEIVE_CURRENT_TAG,
-	      tag: tag
-	    });
-	
-	    if (noteID) CurrentNoteActions.selectCurrentNote(noteID);
-	  }
-	};
-	
-	module.exports = TagActions;
-
-/***/ },
-/* 326 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	// const NoteActions = require('../actions/note_actions.js');
-	
-	var TagApiUtil = {
-	  // NoteActions: NoteActions,
-	
-	  createTag: function createTag(tag, noteID, _success) {
-	    $.ajax({
-	      url: "api/notes/" + noteID + "/tags",
-	      type: "POST",
-	      dataType: "json",
-	      data: { tag: tag },
-	      success: function success(tag2) {
-	        _success(tag2, noteID);
-	      },
-	      error: function error(xhr) {
-	        var error = "status: " + xhr.status + " " + xhr.statusText;
-	        console.log(error);
-	        console.log(xhr.responseText);
-	      }
-	    });
-	  },
-	
-	  deleteTag: function deleteTag(tag, success, cb2) {
-	    $.ajax({
-	      url: "api/tags/" + tag.id,
-	      dataType: "json",
-	      type: "DELETE",
-	      success: success,
-	      error: function error(xhr) {
-	        var error = "status: " + xhr.status + " " + xhr.statusText;
-	        console.log(error);
-	        console.log(xhr.responseText);
-	      }
-	    });
-	  },
-	
-	  destroyRelationship: function destroyRelationship(tagID, taggingID, success) {
-	    $.ajax({
-	      url: "api/tags/" + tagID,
-	      dataType: "json",
-	      type: "DELETE",
-	      data: { tagging_id: taggingID, relat: true },
-	      success: success,
-	      error: function error(xhr) {
-	        var error = "status: " + xhr.status + " " + xhr.statusText;
-	        console.log(error);
-	        console.log(xhr.responseText);
-	      }
-	    });
-	  },
-	
-	  // selectCurrentTag: function(tag, success) {
-	  //   $.ajax({
-	  //     url: `api/notes/${tag.id}`,
-	  //     data: {tag},
-	  //     dataType: "json",
-	  //     type: "GET",
-	  //     success,
-	  //     error: xhr => {
-	  //       const error = `status: ${xhr.status} ${xhr.statusText}`;
-	  //       console.log(error);
-	  //       console.log(xhr.responseText);
-	  //     }
-	  //   });
-	  // },
-	
-	  getAllTags: function getAllTags(success) {
-	    $.ajax({
-	      url: "api/tags",
-	      type: "GET",
-	      dataType: "json",
-	      success: success,
-	      error: function error(xhr) {
-	        var error = "status: " + xhr.status + " " + xhr.statusText;
-	        console.log(error);
-	        console.log(xhr.responseText);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = TagApiUtil;
-
-/***/ },
-/* 327 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Dispatcher = __webpack_require__(239);
-	var NoteApiUtil = __webpack_require__(292);
-	var CurrentNoteConstants = __webpack_require__(305);
-	var hashHistory = __webpack_require__(175).hashHistory;
-	
-	var CurrentNoteActions = {
-	  selectCurrentNote: function selectCurrentNote(noteID) {
-	    NoteApiUtil.selectCurrentNote(noteID, this.receiveCurrentNote);
-	  },
-	
-	  receiveCurrentNote: function receiveCurrentNote(note) {
-	    Dispatcher.dispatch({
-	      actionType: CurrentNoteConstants.RECEIVE_CURRENT_NOTE,
-	      currentNote: note
-	    });
-	  }
-	
-	};
-	
-	module.exports = CurrentNoteActions;
-
-/***/ },
 /* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -50604,7 +50604,7 @@
 	
 	var React = __webpack_require__(1);
 	var NotebookActions = __webpack_require__(288);
-	var CurrentNotebookActions = __webpack_require__(307);
+	var CurrentNotebookActions = __webpack_require__(310);
 	
 	var NotebookCreator = React.createClass({
 	  displayName: "NotebookCreator",
@@ -50669,7 +50669,7 @@
 	
 	var React = __webpack_require__(1);
 	var NotebookActions = __webpack_require__(288);
-	var CurrentNotebookActions = __webpack_require__(307);
+	var CurrentNotebookActions = __webpack_require__(310);
 	
 	var NotebookEditor = React.createClass({
 	  displayName: "NotebookEditor",
@@ -50748,7 +50748,7 @@
 	var Modal = __webpack_require__(265);
 	var TagModalCard = __webpack_require__(331);
 	var TagStore = __webpack_require__(332);
-	var TagActions = __webpack_require__(325);
+	var TagActions = __webpack_require__(294);
 	
 	var TagModalBar = React.createClass({
 	  displayName: 'TagModalBar',
@@ -50850,9 +50850,9 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var TagActions = __webpack_require__(325);
+	var TagActions = __webpack_require__(294);
 	var NoteActions = __webpack_require__(291);
-	var CurrentNoteActions = __webpack_require__(327);
+	var CurrentNoteActions = __webpack_require__(297);
 	
 	var TagModalCard = React.createClass({
 	  displayName: 'TagModalCard',
@@ -50923,7 +50923,7 @@
 	
 	var Store = __webpack_require__(248).Store;
 	var Dispatcher = __webpack_require__(239);
-	var TagConstants = __webpack_require__(306);
+	var TagConstants = __webpack_require__(296);
 	var NoteConstants = __webpack_require__(293);
 	
 	var _tags = {};
@@ -50984,7 +50984,7 @@
 	
 	var Store = __webpack_require__(248).Store;
 	var Dispatcher = __webpack_require__(239);
-	var TagConstants = __webpack_require__(306);
+	var TagConstants = __webpack_require__(296);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	
 	var _currentTag = {};
