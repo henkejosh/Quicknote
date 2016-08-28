@@ -63,7 +63,7 @@ const NoteActions = {
       noteID: noteID
     });
     TagActions.getAllTags();
-  }
+  },
 };
 
 module.exports = NoteActions;

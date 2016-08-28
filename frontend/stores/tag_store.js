@@ -19,6 +19,10 @@ const _updateTags = function(tags) {
   });
 };
 
+const _removeTag = function(tagID) {
+  if(_tags[tagID]) delete _tags[tagID];
+};
+
 TagStore.allTags = function() {
   return Object.assign( {}, _tags);
 };
@@ -31,6 +35,10 @@ TagStore.__onDispatch = payload => {
       break;
     case TagConstants.RECEIVE_ALL_TAGS:
       _updateTags(payload.tags);
+      TagStore.__emitChange();
+      break;
+    case TagConstants.REMOVE_TAG:
+      _removeTag(payload.tagID);
       TagStore.__emitChange();
       break;
     // case NoteConstants.RECEIVE_ALL_NOTES:

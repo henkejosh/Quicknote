@@ -8,10 +8,10 @@ Rails.application.routes.draw do
 
     resources :notebooks
     resources :notes do
-      resources :tags, except: [:index, :show]
+      resources :tags, except: [:index, :show, :destroy]
     end
 
-    resources :tags, only: [:index, :show]
+    resources :tags, only: [:index, :show, :destroy]
 
     resources :notes_tags, only: [:create, :destroy]
 

@@ -40,12 +40,6 @@ const HomePage = React.createClass({
   },
 
   componentWillMount: function() {
-    // this.currentNotebookListener =
-    //   CurrentNotebookStore.addListener(this.updateCurrentNotebook);
-    // this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
-    // this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
-    // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
-    // this.noteListener = NoteStore.addListener(this.updateNotes);
     NotebookActions.getAllNotebooks();
     NoteActions.getAllNotes();
     TagActions.getAllTags();
@@ -58,8 +52,6 @@ const HomePage = React.createClass({
     this.noteListener = NoteStore.addListener(this.updateNotes);
     this.tagStoreListener = TagStore.addListener(this.updateTags);
     this.currentTagListener = CurrentTagStore.addListener(this.updateCurrentTag);
-    // NotebookActions.getAllNotebooks();
-    // NoteActions.getAllNotes();
   },
 
   componentWillUnmount: function() {
@@ -190,12 +182,6 @@ const HomePage = React.createClass({
   changeCardColumnToTag: function() {
     this.setState({ cardColumnStyle: "tag" });
   },
-
-  // forceUpdateTagNotes: function() {
-  //   this.setState({
-  //
-  //   })
-  // },
 
   changeCardColumnToNotebook: function() {
     this.setState({ cardColumnStyle: "notebook" });

@@ -1,3 +1,5 @@
+const NoteActions = require('../actions/note_actions.js');
+
 const NoteApiUtil = {
   getAllNotes: function(success) {
     $.ajax({

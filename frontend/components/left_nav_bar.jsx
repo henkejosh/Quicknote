@@ -23,11 +23,13 @@ const LeftNavBar = React.createClass({
     e.preventDefault();
     // debugger;
     if(this.props.tagModalBarIsOpen) {
+      this.props.changeCardColumnToAllCards();
+      this.props.forceUpdateAllNotes();
       this.props.closeSelectTagModal();
     } else {
       this.props.openSelectTagModal();
+      // this.props.forceUpdateTagNotes();
     }
-    this.props.forceUpdateTagNotes();
   },
 
   createNewNote: function() {

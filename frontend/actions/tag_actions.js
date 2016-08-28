@@ -2,7 +2,9 @@ const Dispatcher = require('../dispatcher/dispatcher.js');
 const TagApiUtil = require('../util/tag_api_util');
 const TagConstants = require('../constants/tag_constants.js');
 const hashHistory = require('react-router').hashHistory;
-const CurrentNoteActions = require('./current_note_actions.js');
+const CurrentNoteActions = require('./current_note_actions');
+// const NoteActions = require('./note_actions.js');
+// import * as NoteActions from "./note_actions.js";
 
 const TagActions = {
   createTag: function(tag, noteID) {
@@ -28,6 +30,19 @@ const TagActions = {
       actionType: TagConstants.RECEIVE_ALL_TAGS,
       tags: tags
     });
+  },
+
+  deleteTag: function(tag) {
+    TagApiUtil.deleteTag(tag, this.removeTagFromStore);
+  },
+
+  removeTagFromStore: function(tagID) {
+    Dispatcher.dispatch({
+      actionType: TagConstants.REMOVE_TAG,
+      tagID: tagID
+    });
+    // debugger;
+    // NoteActions.getAllNotes();
   },
 
   selectCurrentTag: function(tag, noteID) {

@@ -22,8 +22,11 @@ class Api::TagsController < ApplicationController
 
   def destroy
     @tag = Tag.find(params[:id])
+    id = @tag.id
     @tag.destroy!
-    render :index
+    render json: id
+    # render :index
+    # index
   end
 
   def add_note_to_tag(tag)

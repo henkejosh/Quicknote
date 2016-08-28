@@ -1,5 +1,6 @@
 const React = require('react');
 const TagActions = require('../actions/tag_actions.js');
+const NoteActions = require('../actions/note_actions.js');
 const CurrentNoteActions = require('../actions/current_note_actions.js');
 
 const TagModalCard = React.createClass({
@@ -28,11 +29,23 @@ const TagModalCard = React.createClass({
     }
   },
 
+  deleteTag: function(e) {
+    e.preventDefault();
+    TagActions.deleteTag(this.props.tag);
+    NoteActions.getAllNotes();
+    this.props.changeCardColumnToAllCards();
+    this.props.closeSelectTagModal();
+  },
+
   render: function() {
     return (
-      <li onClick={this.handleSelection}
+      <li>
+        <div onClick={this.handleSelection}
         className="current-note-tag"
-        >{this.props.title}: [{this.formatNoteCount()}]</li>
+        >{this.props.title}: [{this.formatNoteCount()}]</div>
+
+        <p onClick={this.deleteTag}>DELETE TAG!</p>
+      </li>
     );
   }
 });

@@ -13,7 +13,7 @@ const CurrentNoteActions = {
       actionType: CurrentNoteConstants.RECEIVE_CURRENT_NOTE,
       currentNote: note
     });
-  },
+  }
 
 };
 

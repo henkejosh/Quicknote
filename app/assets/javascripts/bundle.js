@@ -36424,12 +36424,6 @@
 	  },
 	
 	  componentWillMount: function componentWillMount() {
-	    // this.currentNotebookListener =
-	    //   CurrentNotebookStore.addListener(this.updateCurrentNotebook);
-	    // this.currentNotebookListener = CurrentNotebookStore.addListener(this.updateCurrentNotebook);
-	    // this.currentNoteListener = CurrentNoteStore.addListener(this.updateCurrentNote);
-	    // this.notebookListener = NotebookStore.addListener(this.updateNotebooks);
-	    // this.noteListener = NoteStore.addListener(this.updateNotes);
 	    NotebookActions.getAllNotebooks();
 	    NoteActions.getAllNotes();
 	    TagActions.getAllTags();
@@ -36442,8 +36436,6 @@
 	    this.noteListener = NoteStore.addListener(this.updateNotes);
 	    this.tagStoreListener = TagStore.addListener(this.updateTags);
 	    this.currentTagListener = CurrentTagStore.addListener(this.updateCurrentTag);
-	    // NotebookActions.getAllNotebooks();
-	    // NoteActions.getAllNotes();
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
@@ -36569,12 +36561,6 @@
 	  changeCardColumnToTag: function changeCardColumnToTag() {
 	    this.setState({ cardColumnStyle: "tag" });
 	  },
-	
-	  // forceUpdateTagNotes: function() {
-	  //   this.setState({
-	  //
-	  //   })
-	  // },
 	
 	  changeCardColumnToNotebook: function changeCardColumnToNotebook() {
 	    this.setState({ cardColumnStyle: "notebook" });
@@ -36980,9 +36966,11 @@
 
 /***/ },
 /* 292 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	var NoteActions = __webpack_require__(291);
 	
 	var NoteApiUtil = {
 	  getAllNotes: function getAllNotes(success) {
@@ -37487,11 +37475,13 @@
 	    e.preventDefault();
 	    // debugger;
 	    if (this.props.tagModalBarIsOpen) {
+	      this.props.changeCardColumnToAllCards();
+	      this.props.forceUpdateAllNotes();
 	      this.props.closeSelectTagModal();
 	    } else {
 	      this.props.openSelectTagModal();
+	      // this.props.forceUpdateTagNotes();
 	    }
-	    this.props.forceUpdateTagNotes();
 	  },
 	
 	  createNewNote: function createNewNote() {
@@ -38128,7 +38118,8 @@
 	var TagConstants = {
 	  RECEIVE_TAG: "RECEIVE_TAG",
 	  RECEIVE_ALL_TAGS: "RECEIVE_ALL_TAGS",
-	  RECEIVE_CURRENT_TAG: "RECEIVE_CURRENT_TAG"
+	  RECEIVE_CURRENT_TAG: "RECEIVE_CURRENT_TAG",
+	  REMOVE_TAG: "REMOVE_TAG"
 	};
 	
 	module.exports = TagConstants;
@@ -50360,6 +50351,8 @@
 	var TagConstants = __webpack_require__(306);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	var CurrentNoteActions = __webpack_require__(327);
+	// const NoteActions = require('./note_actions.js');
+	// import * as NoteActions from "./note_actions.js";
 	
 	var TagActions = {
 	  createTag: function createTag(tag, noteID) {
@@ -50387,6 +50380,19 @@
 	    });
 	  },
 	
+	  deleteTag: function deleteTag(tag) {
+	    TagApiUtil.deleteTag(tag, this.removeTagFromStore);
+	  },
+	
+	  removeTagFromStore: function removeTagFromStore(tagID) {
+	    Dispatcher.dispatch({
+	      actionType: TagConstants.REMOVE_TAG,
+	      tagID: tagID
+	    });
+	    // debugger;
+	    // NoteActions.getAllNotes();
+	  },
+	
 	  selectCurrentTag: function selectCurrentTag(tag, noteID) {
 	    // TagApiUtil.selectCurrentTag(tag, this.receiveTag);
 	    Dispatcher.dispatch({
@@ -50406,7 +50412,11 @@
 
 	"use strict";
 	
+	// const NoteActions = require('../actions/note_actions.js');
+	
 	var TagApiUtil = {
+	  // NoteActions: NoteActions,
+	
 	  createTag: function createTag(tag, noteID, _success) {
 	    $.ajax({
 	      url: "api/notes/" + noteID + "/tags",
@@ -50416,6 +50426,20 @@
 	      success: function success(tag2) {
 	        _success(tag2, noteID);
 	      },
+	      error: function error(xhr) {
+	        var error = "status: " + xhr.status + " " + xhr.statusText;
+	        console.log(error);
+	        console.log(xhr.responseText);
+	      }
+	    });
+	  },
+	
+	  deleteTag: function deleteTag(tag, success, cb2) {
+	    $.ajax({
+	      url: "api/tags/" + tag.id,
+	      dataType: "json",
+	      type: "DELETE",
+	      success: success,
 	      error: function error(xhr) {
 	        var error = "status: " + xhr.status + " " + xhr.statusText;
 	        console.log(error);
@@ -50738,6 +50762,7 @@
 	
 	var React = __webpack_require__(1);
 	var TagActions = __webpack_require__(325);
+	var NoteActions = __webpack_require__(291);
 	var CurrentNoteActions = __webpack_require__(327);
 	
 	var TagModalCard = React.createClass({
@@ -50768,16 +50793,33 @@
 	    }
 	  },
 	
+	  deleteTag: function deleteTag(e) {
+	    e.preventDefault();
+	    TagActions.deleteTag(this.props.tag);
+	    NoteActions.getAllNotes();
+	    this.props.changeCardColumnToAllCards();
+	    this.props.closeSelectTagModal();
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      'li',
-	      { onClick: this.handleSelection,
-	        className: 'current-note-tag'
-	      },
-	      this.props.title,
-	      ': [',
-	      this.formatNoteCount(),
-	      ']'
+	      null,
+	      React.createElement(
+	        'div',
+	        { onClick: this.handleSelection,
+	          className: 'current-note-tag'
+	        },
+	        this.props.title,
+	        ': [',
+	        this.formatNoteCount(),
+	        ']'
+	      ),
+	      React.createElement(
+	        'p',
+	        { onClick: this.deleteTag },
+	        'DELETE TAG!'
+	      )
 	    );
 	  }
 	});
@@ -50811,6 +50853,10 @@
 	  });
 	};
 	
+	var _removeTag = function _removeTag(tagID) {
+	  if (_tags[tagID]) delete _tags[tagID];
+	};
+	
 	TagStore.allTags = function () {
 	  return Object.assign({}, _tags);
 	};
@@ -50823,6 +50869,10 @@
 	      break;
 	    case TagConstants.RECEIVE_ALL_TAGS:
 	      _updateTags(payload.tags);
+	      TagStore.__emitChange();
+	      break;
+	    case TagConstants.REMOVE_TAG:
+	      _removeTag(payload.tagID);
 	      TagStore.__emitChange();
 	      break;
 	    // case NoteConstants.RECEIVE_ALL_NOTES:
