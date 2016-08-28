@@ -14,11 +14,13 @@ const TagActions = {
   },
 
   receiveTag: function(tag, noteID) {
+    // debugger;
     Dispatcher.dispatch({
       actionType: TagConstants.RECEIVE_TAG,
       tag: tag
     });
-    CurrentNoteActions.selectCurrentNote(noteID);
+
+    if(noteID) CurrentNoteActions.selectCurrentNote(noteID);
   },
 
   receiveTags: function(tags) {
@@ -30,7 +32,12 @@ const TagActions = {
 
   selectCurrentTag: function(tag, noteID) {
     // TagApiUtil.selectCurrentTag(tag, this.receiveTag);
-    this.receiveTag(tag, noteID);
+    Dispatcher.dispatch({
+      actionType: TagConstants.RECEIVE_CURRENT_TAG,
+      tag: tag
+    });
+
+    if(noteID) CurrentNoteActions.selectCurrentNote(noteID);
   }
 };
 

@@ -3,6 +3,7 @@ const NotebookApiUtil = require('../util/notebook_api_util');
 const NotebookConstants = require('../constants/notebook_constants.js');
 const hashHistory = require('react-router').hashHistory;
 const NoteActions = require('./note_actions.js');
+const TagActions = require('./tag_actions.js');
 
 const NotebookActions = {
   getAllNotebooks: function() {
@@ -31,13 +32,18 @@ const NotebookActions = {
     NotebookApiUtil.deleteNotebook(notebookID, this.removeNotebookFromStore);
   },
 
-  removeNotebookFromStore: function(notebookID) {
+  // removeNotebookFromStore: function(notebookID) {
+  removeNotebookFromStore: function(object) {
     Dispatcher.dispatch({
-      actionType: NotebookConstants.REMOVE_NOTEBOOK,
-      notebookID: notebookID
+      // actionType: NotebookConstants.REMOVE_NOTEBOOK,
+      // notebookID: notebookID
+      actionType: NotebookConstants.UPDATE_ALL_NOTEBOOKS_POST_DELETE,
+      notebooks: object.notebooks
     });
-    NoteActions.getAllNotes();
-    NoteActions.updateNotebookNotes(notebookID);
+    // NoteActions.getAllNotes();
+    NoteActions.receiveAllNotes(object.notes);
+    TagActions.getAllTags();
+    // NoteActions.updateNotebookNotes(notebookID);
   },
 
   updateNotebook: function(notebook) {

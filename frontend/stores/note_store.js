@@ -18,7 +18,11 @@ let _tagNotes = {};
 
 const _setNotes = function(notes) {
   _notes = {};
-  notes.notes_arr.forEach( note => {
+  if(notes.notes_arr) {
+    notes = notes.notes_arr;
+  }
+
+  notes.forEach( note => {
     _notes[note.id] = note;
   });
 };
@@ -34,8 +38,9 @@ const _addJustNote = function(note) {
 };
 
 const _chooseTagNotes = function(currentTag) {
-  // debugger;
   if(Object.keys(currentTag).length === 0) return;
+
+  _tagNotes = {};
 
   let note_ids = currentTag.note_ids;
   Object.keys(_notes).forEach( id => {
@@ -60,6 +65,7 @@ const _setNotebookNotes = function(currentNotebook) {
 const _removeNote = function(noteID) {
   delete _notes[noteID];
   if(_notebookNotes[noteID]) delete _notebookNotes[noteID];
+  if(_tagNotes[noteID]) delete _tagNotes[noteID];
 };
 
 const _resetNotebookNotes = function() {
@@ -184,6 +190,10 @@ NoteStore.__onDispatch = payload => {
       NoteStore.__emitChange();
       break;
     case TagConstants.RECEIVE_TAG:
+      _chooseTagNotes(payload.tag);
+      NoteStore.__emitChange();
+      break;
+    case TagConstants.RECEIVE_CURRENT_TAG:
       _chooseTagNotes(payload.tag);
       NoteStore.__emitChange();
       break;

@@ -17,6 +17,7 @@ const NotebookBarItem = React.createClass({
   handleDelete: function(e) {
     e.preventDefault();
     NotebookActions.deleteNotebook(this.props.id);
+    NotebookActions.getAllNotebooks();
     this.props.changeCardColumnToAllCards();
     this.props.closeSelectNotebookModal();
     // CurrentNotebookStore.resetCurrentNotebook(this.props.notebooks);

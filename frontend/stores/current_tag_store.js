@@ -17,8 +17,12 @@ CurrentTagStore.currentTag = function() {
 
 CurrentTagStore.__onDispatch = payload => {
   switch(payload.actionType) {
-    case TagConstants.SELECT_CURRENT_TAG:
-      _updateCurrentTag(payload.currentTag);
+    case TagConstants.RECEIVE_TAG:
+      _updateCurrentTag(payload.tag);
+      CurrentTagStore.__emitChange();
+      break;
+    case TagConstants.RECEIVE_CURRENT_TAG:
+      _updateCurrentTag(payload.tag);
       CurrentTagStore.__emitChange();
       break;
   }

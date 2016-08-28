@@ -21,7 +21,19 @@ const _chooseLastNotebook = function(notebooks) {
   _currentNotebook = notebooks[lastID];
 };
 
+const _chooseLastNotebookFromArr = function(notebooks) {
+  debugger;
+  if(Array.isArray(notebooks.notebooks_arr)) {
+    let newNotebooks = {};
+    notebooks.notebooks_arr.forEach( nb => {
+      newNotebooks[nb.id] = nb;
+    });
+    _chooseLastNotebook(newNotebooks);
+  }
+};
+
 const _bootstrapCurrentNotebook = function(notebooks) {
+  // debugger;
   if(Array.isArray(notebooks.notebooks_arr)) {
     let newNotebooks = {};
     notebooks.notebooks_arr.forEach( nb => {
@@ -60,6 +72,10 @@ CurrentNotebookStore.__onDispatch = payload => {
       break;
     case NotebookConstants.RECEIVE_UPDATED_NOTEBOOK:
       _setCurrentNotebook(payload.notebook);
+      CurrentNotebookStore.__emitChange();
+      break;
+    case NotebookConstants.UPDATE_ALL_NOTEBOOKS_POST_DELETE:
+      _chooseLastNotebook(payload.notebooks);
       CurrentNotebookStore.__emitChange();
       break;
   }

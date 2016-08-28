@@ -96,7 +96,6 @@ CurrentNoteStore.__onDispatch = payload => {
       CurrentNoteStore.__emitChange();
       break;
     case CurrentNotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
-    //
       _bootstrapCurrentNoteFromArray(payload.currentNotebook);
       CurrentNoteStore.__emitChange();
       break;
@@ -104,8 +103,6 @@ CurrentNoteStore.__onDispatch = payload => {
       _resetStore();
       CurrentNoteStore.__emitChange();
       break;
-    // case TagConstants.SELECT_CURRENT_TAG:
-
 
     // case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
     //   _getNotebookNoteFromNoteStore(NoteStore);

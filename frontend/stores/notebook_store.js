@@ -19,7 +19,12 @@ const _setAllNotebooks = function(notebooks) {
   //   notebooks = newNotebooks;
   // }
   // debugger;
-  notebooks.notebooks_arr.forEach( notebook => {
+  _allNotebooks = {};
+  if(notebooks.notebooks_arr) {
+    notebooks = notebooks.notebooks_arr;
+  }
+  
+  notebooks.forEach( notebook => {
     _allNotebooks[notebook.id] = notebook;
   });
 };
@@ -65,6 +70,10 @@ NotebookStore.__onDispatch = payload => {
       break;
     case NotebookConstants.RECEIVE_NOTEBOOK:
       _receiveNotebook(payload.notebook);
+      NotebookStore.__emitChange();
+      break;
+    case NotebookConstants.UPDATE_ALL_NOTEBOOKS_POST_DELETE:
+      _setAllNotebooks(payload.notebooks);
       NotebookStore.__emitChange();
       break;
   }

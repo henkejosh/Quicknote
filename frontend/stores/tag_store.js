@@ -1,7 +1,7 @@
 const Store = require('flux/utils').Store;
 const Dispatcher = require('../dispatcher/dispatcher.js');
 const TagConstants = require('../constants/tag_constants.js');
-const hashHistory = require('react-router').hashHistory;
+const NoteConstants = require('../constants/note_constants.js');
 
 let _tags = {};
 
@@ -12,6 +12,8 @@ const _addTag = function(tag) {
 };
 
 const _updateTags = function(tags) {
+  _tags = {};
+  // debugger;
   tags.tags_arr.forEach( tag => {
     _tags[tag.id] = tag;
   });
@@ -31,6 +33,9 @@ TagStore.__onDispatch = payload => {
       _updateTags(payload.tags);
       TagStore.__emitChange();
       break;
+    // case NoteConstants.RECEIVE_ALL_NOTES:
+    //   _updateTags(payload.notes)
+    //   TagStore.__emitChange();
   }
 };
 

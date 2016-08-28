@@ -49,8 +49,6 @@ const HomePage = React.createClass({
     NotebookActions.getAllNotebooks();
     NoteActions.getAllNotes();
     TagActions.getAllTags();
-    NotebookActions.getAllNotebooks();
-    NoteActions.getAllNotes();
   },
 
   componentDidMount: function() {
@@ -70,6 +68,7 @@ const HomePage = React.createClass({
     this.notebookListener.remove();
     this.currentNoteListener.remove();
     this.tagStoreListener.remove();
+    this.currentTagListener.remove();
   },
 
   updateCurrentTag: function() {
@@ -191,6 +190,12 @@ const HomePage = React.createClass({
   changeCardColumnToTag: function() {
     this.setState({ cardColumnStyle: "tag" });
   },
+
+  // forceUpdateTagNotes: function() {
+  //   this.setState({
+  //
+  //   })
+  // },
 
   changeCardColumnToNotebook: function() {
     this.setState({ cardColumnStyle: "notebook" });

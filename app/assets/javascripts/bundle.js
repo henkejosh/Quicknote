@@ -36433,8 +36433,6 @@
 	    NotebookActions.getAllNotebooks();
 	    NoteActions.getAllNotes();
 	    TagActions.getAllTags();
-	    NotebookActions.getAllNotebooks();
-	    NoteActions.getAllNotes();
 	  },
 	
 	  componentDidMount: function componentDidMount() {
@@ -36454,6 +36452,7 @@
 	    this.notebookListener.remove();
 	    this.currentNoteListener.remove();
 	    this.tagStoreListener.remove();
+	    this.currentTagListener.remove();
 	  },
 	
 	  updateCurrentTag: function updateCurrentTag() {
@@ -36570,6 +36569,12 @@
 	  changeCardColumnToTag: function changeCardColumnToTag() {
 	    this.setState({ cardColumnStyle: "tag" });
 	  },
+	
+	  // forceUpdateTagNotes: function() {
+	  //   this.setState({
+	  //
+	  //   })
+	  // },
 	
 	  changeCardColumnToNotebook: function changeCardColumnToNotebook() {
 	    this.setState({ cardColumnStyle: "notebook" });
@@ -36718,6 +36723,7 @@
 	var NotebookConstants = __webpack_require__(290);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	var NoteActions = __webpack_require__(291);
+	var TagActions = __webpack_require__(325);
 	
 	var NotebookActions = {
 	  getAllNotebooks: function getAllNotebooks() {
@@ -36746,13 +36752,18 @@
 	    NotebookApiUtil.deleteNotebook(notebookID, this.removeNotebookFromStore);
 	  },
 	
-	  removeNotebookFromStore: function removeNotebookFromStore(notebookID) {
+	  // removeNotebookFromStore: function(notebookID) {
+	  removeNotebookFromStore: function removeNotebookFromStore(object) {
 	    Dispatcher.dispatch({
-	      actionType: NotebookConstants.REMOVE_NOTEBOOK,
-	      notebookID: notebookID
+	      // actionType: NotebookConstants.REMOVE_NOTEBOOK,
+	      // notebookID: notebookID
+	      actionType: NotebookConstants.UPDATE_ALL_NOTEBOOKS_POST_DELETE,
+	      notebooks: object.notebooks
 	    });
-	    NoteActions.getAllNotes();
-	    NoteActions.updateNotebookNotes(notebookID);
+	    // NoteActions.getAllNotes();
+	    NoteActions.receiveAllNotes(object.notes);
+	    TagActions.getAllTags();
+	    // NoteActions.updateNotebookNotes(notebookID);
 	  },
 	
 	  updateNotebook: function updateNotebook(notebook) {
@@ -36885,7 +36896,8 @@
 	  GET_ALL_NOTEBOOKS: "GET_ALL_NOTEBOOKS",
 	  REMOVE_NOTEBOOK: "REMOVE_NOTEBOOK",
 	  RECEIVE_NOTEBOOK: "RECEIVE_NOTEBOOK",
-	  RECEIVE_UPDATED_NOTEBOOK: "RECEIVE_UPDATED_NOTEBOOK"
+	  RECEIVE_UPDATED_NOTEBOOK: "RECEIVE_UPDATED_NOTEBOOK",
+	  UPDATE_ALL_NOTEBOOKS_POST_DELETE: "UPDATE_ALL_NOTEBOOKS_POST_DELETE"
 	};
 	
 	module.exports = NotebookConstants;
@@ -36900,6 +36912,7 @@
 	var NoteApiUtil = __webpack_require__(292);
 	var NoteConstants = __webpack_require__(293);
 	var hashHistory = __webpack_require__(175).hashHistory;
+	var TagActions = __webpack_require__(325);
 	
 	var NoteActions = {
 	  getAllNotes: function getAllNotes() {
@@ -36959,6 +36972,7 @@
 	      actionType: NoteConstants.REMOVE_NOTE,
 	      noteID: noteID
 	    });
+	    TagActions.getAllTags();
 	  }
 	};
 	
@@ -37085,7 +37099,12 @@
 	  //   notebooks = newNotebooks;
 	  // }
 	  // debugger;
-	  notebooks.notebooks_arr.forEach(function (notebook) {
+	  _allNotebooks = {};
+	  if (notebooks.notebooks_arr) {
+	    notebooks = notebooks.notebooks_arr;
+	  }
+	
+	  notebooks.forEach(function (notebook) {
 	    _allNotebooks[notebook.id] = notebook;
 	  });
 	};
@@ -37133,6 +37152,10 @@
 	      _receiveNotebook(payload.notebook);
 	      NotebookStore.__emitChange();
 	      break;
+	    case NotebookConstants.UPDATE_ALL_NOTEBOOKS_POST_DELETE:
+	      _setAllNotebooks(payload.notebooks);
+	      NotebookStore.__emitChange();
+	      break;
 	  }
 	};
 	
@@ -37165,7 +37188,21 @@
 	  _currentNotebook = notebooks[lastID];
 	};
 	
+	var _chooseLastNotebookFromArr = function _chooseLastNotebookFromArr(notebooks) {
+	  debugger;
+	  if (Array.isArray(notebooks.notebooks_arr)) {
+	    (function () {
+	      var newNotebooks = {};
+	      notebooks.notebooks_arr.forEach(function (nb) {
+	        newNotebooks[nb.id] = nb;
+	      });
+	      _chooseLastNotebook(newNotebooks);
+	    })();
+	  }
+	};
+	
 	var _bootstrapCurrentNotebook = function _bootstrapCurrentNotebook(notebooks) {
+	  // debugger;
 	  if (Array.isArray(notebooks.notebooks_arr)) {
 	    (function () {
 	      var newNotebooks = {};
@@ -37206,6 +37243,10 @@
 	      break;
 	    case NotebookConstants.RECEIVE_UPDATED_NOTEBOOK:
 	      _setCurrentNotebook(payload.notebook);
+	      CurrentNotebookStore.__emitChange();
+	      break;
+	    case NotebookConstants.UPDATE_ALL_NOTEBOOKS_POST_DELETE:
+	      _chooseLastNotebook(payload.notebooks);
 	      CurrentNotebookStore.__emitChange();
 	      break;
 	  }
@@ -37699,6 +37740,7 @@
 	  handleDelete: function handleDelete(e) {
 	    e.preventDefault();
 	    NotebookActions.deleteNotebook(this.props.id);
+	    NotebookActions.getAllNotebooks();
 	    this.props.changeCardColumnToAllCards();
 	    this.props.closeSelectNotebookModal();
 	    // CurrentNotebookStore.resetCurrentNotebook(this.props.notebooks);
@@ -37760,7 +37802,11 @@
 	
 	var _setNotes = function _setNotes(notes) {
 	  _notes = {};
-	  notes.notes_arr.forEach(function (note) {
+	  if (notes.notes_arr) {
+	    notes = notes.notes_arr;
+	  }
+	
+	  notes.forEach(function (note) {
 	    _notes[note.id] = note;
 	  });
 	};
@@ -37776,8 +37822,9 @@
 	};
 	
 	var _chooseTagNotes = function _chooseTagNotes(currentTag) {
-	  // debugger;
 	  if (Object.keys(currentTag).length === 0) return;
+	
+	  _tagNotes = {};
 	
 	  var note_ids = currentTag.note_ids;
 	  Object.keys(_notes).forEach(function (id) {
@@ -37802,6 +37849,7 @@
 	var _removeNote = function _removeNote(noteID) {
 	  delete _notes[noteID];
 	  if (_notebookNotes[noteID]) delete _notebookNotes[noteID];
+	  if (_tagNotes[noteID]) delete _tagNotes[noteID];
 	};
 	
 	var _resetNotebookNotes = function _resetNotebookNotes() {
@@ -37929,6 +37977,10 @@
 	      _chooseTagNotes(payload.tag);
 	      NoteStore.__emitChange();
 	      break;
+	    case TagConstants.RECEIVE_CURRENT_TAG:
+	      _chooseTagNotes(payload.tag);
+	      NoteStore.__emitChange();
+	      break;
 	  }
 	};
 	
@@ -38038,7 +38090,6 @@
 	      CurrentNoteStore.__emitChange();
 	      break;
 	    case CurrentNotebookConstants.RECEIVE_CURRENT_NOTEBOOK:
-	      //
 	      _bootstrapCurrentNoteFromArray(payload.currentNotebook);
 	      CurrentNoteStore.__emitChange();
 	      break;
@@ -38046,8 +38097,6 @@
 	      _resetStore();
 	      CurrentNoteStore.__emitChange();
 	      break;
-	    // case TagConstants.SELECT_CURRENT_TAG:
-	
 	
 	    // case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
 	    //   _getNotebookNoteFromNoteStore(NoteStore);
@@ -38079,7 +38128,7 @@
 	var TagConstants = {
 	  RECEIVE_TAG: "RECEIVE_TAG",
 	  RECEIVE_ALL_TAGS: "RECEIVE_ALL_TAGS",
-	  SELECT_CURRENT_TAG: "SELECT_CURRENT_TAG"
+	  RECEIVE_CURRENT_TAG: "RECEIVE_CURRENT_TAG"
 	};
 	
 	module.exports = TagConstants;
@@ -50322,11 +50371,13 @@
 	  },
 	
 	  receiveTag: function receiveTag(tag, noteID) {
+	    // debugger;
 	    Dispatcher.dispatch({
 	      actionType: TagConstants.RECEIVE_TAG,
 	      tag: tag
 	    });
-	    CurrentNoteActions.selectCurrentNote(noteID);
+	
+	    if (noteID) CurrentNoteActions.selectCurrentNote(noteID);
 	  },
 	
 	  receiveTags: function receiveTags(tags) {
@@ -50338,7 +50389,12 @@
 	
 	  selectCurrentTag: function selectCurrentTag(tag, noteID) {
 	    // TagApiUtil.selectCurrentTag(tag, this.receiveTag);
-	    this.receiveTag(tag, noteID);
+	    Dispatcher.dispatch({
+	      actionType: TagConstants.RECEIVE_CURRENT_TAG,
+	      tag: tag
+	    });
+	
+	    if (noteID) CurrentNoteActions.selectCurrentNote(noteID);
 	  }
 	};
 	
@@ -50690,14 +50746,18 @@
 	  handleSelection: function handleSelection(e) {
 	    e.preventDefault();
 	    // this.props.selectCurrentTag(this.props.tag);
+	    // this.props.changeCardColumnToTag();
 	    var noteID = void 0;
-	    if (this.props.tag.note_ids) {
+	    if (this.props.tag.note_ids.length > 0) {
 	      noteID = this.props.tag.note_ids[0].id;
 	    }
 	    // CurrentNoteActions.selectCurrentNote(noteID);
 	    TagActions.selectCurrentTag(this.props.tag, noteID);
-	    this.props.changeCardColumnToTag();
 	    this.props.closeSelectTagModal();
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.props.changeCardColumnToTag();
 	  },
 	
 	  formatNoteCount: function formatNoteCount() {
@@ -50733,7 +50793,7 @@
 	var Store = __webpack_require__(248).Store;
 	var Dispatcher = __webpack_require__(239);
 	var TagConstants = __webpack_require__(306);
-	var hashHistory = __webpack_require__(175).hashHistory;
+	var NoteConstants = __webpack_require__(293);
 	
 	var _tags = {};
 	
@@ -50744,6 +50804,8 @@
 	};
 	
 	var _updateTags = function _updateTags(tags) {
+	  _tags = {};
+	  // debugger;
 	  tags.tags_arr.forEach(function (tag) {
 	    _tags[tag.id] = tag;
 	  });
@@ -50763,6 +50825,9 @@
 	      _updateTags(payload.tags);
 	      TagStore.__emitChange();
 	      break;
+	    // case NoteConstants.RECEIVE_ALL_NOTES:
+	    //   _updateTags(payload.notes)
+	    //   TagStore.__emitChange();
 	  }
 	};
 	
@@ -50793,8 +50858,12 @@
 	
 	CurrentTagStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
-	    case TagConstants.SELECT_CURRENT_TAG:
-	      _updateCurrentTag(payload.currentTag);
+	    case TagConstants.RECEIVE_TAG:
+	      _updateCurrentTag(payload.tag);
+	      CurrentTagStore.__emitChange();
+	      break;
+	    case TagConstants.RECEIVE_CURRENT_TAG:
+	      _updateCurrentTag(payload.tag);
 	      CurrentTagStore.__emitChange();
 	      break;
 	  }

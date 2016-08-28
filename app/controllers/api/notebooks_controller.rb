@@ -6,11 +6,6 @@ class Api::NotebooksController < ApplicationController
     render :index
   end
 
-  def user_index
-    @notebooks = Notebook.where(user_id: current_user.id)
-    render json: @noteboks
-  end
-
   def new
     @notebook = Notebook.new
     render json: @notebook
@@ -23,11 +18,28 @@ class Api::NotebooksController < ApplicationController
     render :show
   end
 
+  def update_everything
+    @notebooks = Notebook.where(user_id: current_user.id)
+    @notes = []
+    @tags = []
+    @notebooks.each do |notebook|
+      @notes += notebook.notes
+    end
+    @notes.each do |note|
+      @tags += note.tags
+    end
+    render "api/notebooks/everything"
+  end
+
   def destroy
     @notebook = Notebook.find(params[:id])
     id = @notebook.id
     @notebook.destroy!
-    render json: id
+    # render json: id
+    # @notebooks = Notebook.where
+    # render :index
+    # index
+    update_everything
   end
 
   def create

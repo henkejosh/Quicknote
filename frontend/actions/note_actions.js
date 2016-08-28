@@ -2,6 +2,7 @@ const Dispatcher = require('../dispatcher/dispatcher.js');
 const NoteApiUtil = require('../util/note_api_util');
 const NoteConstants = require('../constants/note_constants.js');
 const hashHistory = require('react-router').hashHistory;
+const TagActions = require('./tag_actions.js');
 
 const NoteActions = {
   getAllNotes: function() {
@@ -61,6 +62,7 @@ const NoteActions = {
       actionType: NoteConstants.REMOVE_NOTE,
       noteID: noteID
     });
+    TagActions.getAllTags();
   }
 };
 
