@@ -37916,16 +37916,7 @@
 	            closeSelectNotebookModal: _this.props.closeSelectNotebookModal,
 	            notebooks: _this.state.notebooks
 	          });
-	        }),
-	        React.createElement(
-	          'div',
-	          { className: 'cancel-button' },
-	          React.createElement(
-	            'button',
-	            { type: 'cancel', onClick: this.props.closeSelectNotebookModal },
-	            'Exit'
-	          )
-	        )
+	        })
 	      )
 	    );
 	  }
@@ -59630,7 +59621,7 @@
 	
 	  openTagCreator: function openTagCreator(e) {
 	    e.preventDefault();
-	    // this.props.openTagCreator();
+	    this.props.openTagCreator();
 	  },
 	
 	  render: function render() {
@@ -59651,34 +59642,24 @@
 	            { className: 'modal-type' },
 	            'TAGS'
 	          ),
-	          React.createElement(
-	            'a',
-	            { onClick: this.openTagCreator,
-	              className: 'new-tag' },
-	            'CREATE NEW'
-	          )
+	          React.createElement('div', { className: 'tag-line-break' })
 	        ),
-	        Object.keys(that.props.tags).map(function (id) {
-	          var tag = that.props.tags[id];
-	          return React.createElement(TagModalCard, { key: id,
-	            title: tag.title,
-	            id: tag.id,
-	            changeCardColumnToNotebook: _this.props.changeCardColumnToNotebook,
-	            changeCardColumnToAllCards: _this.props.changeCardColumnToAllCards,
-	            changeCardColumnToTag: _this.props.changeCardColumnToTag,
-	            closeSelectTagModal: _this.props.closeSelectTagModal,
-	            tag: tag,
-	            selectCurrentTag: _this.props.selectCurrentTag
-	          });
-	        }),
 	        React.createElement(
 	          'div',
-	          { className: 'cancel-button' },
-	          React.createElement(
-	            'button',
-	            { type: 'cancel', onClick: this.props.closeSelectTagModal },
-	            'Exit'
-	          )
+	          { className: 'tag-modal-body' },
+	          Object.keys(that.props.tags).map(function (id) {
+	            var tag = that.props.tags[id];
+	            return React.createElement(TagModalCard, { key: id,
+	              title: tag.title,
+	              id: tag.id,
+	              changeCardColumnToNotebook: _this.props.changeCardColumnToNotebook,
+	              changeCardColumnToAllCards: _this.props.changeCardColumnToAllCards,
+	              changeCardColumnToTag: _this.props.changeCardColumnToTag,
+	              closeSelectTagModal: _this.props.closeSelectTagModal,
+	              tag: tag,
+	              selectCurrentTag: _this.props.selectCurrentTag
+	            });
+	          })
 	        )
 	      )
 	    );
@@ -59748,11 +59729,9 @@
 	        this.formatNoteCount(),
 	        ']'
 	      ),
-	      React.createElement(
-	        'p',
-	        { onClick: this.deleteTag },
-	        'DELETE TAG!'
-	      )
+	      React.createElement('i', { className: 'fa fa-trash-o delete-tag-modal-icon',
+	        onClick: this.deleteTag,
+	        'aria-hidden': 'true' })
 	    );
 	  }
 	});

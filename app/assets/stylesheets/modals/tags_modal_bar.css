@@ -14,14 +14,139 @@ div.tag-modal > div.tag-header {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 2% 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /*padding: 2% 5%;*/
+  /*padding: 2% 5%;*/
 }
 
-div.tag-modal {
+div.tag-modal-body {
   -webkit-transition: -webkit-transform 0.4s ease-in-out;
   transition: width 0.2s ease-in-out, left 0.2s ease-in-out 0.3s;
     transition-property: width, left;
     transition-duration: 0.2s, 0.2s;
     transition-timing-function: ease-in-out, ease-in-out;
     transition-delay: initial, 0.3s;
+  margin-left: 36px;
+}
+
+div.tag-line-break {
+  margin: 0px 10px 10px 10px;
+  border-bottom: 1px solid;
+  /*margin: 0px 16px;*/
+  border-bottom: 1px solid #e7e7e7;
+  /*position: absolute;*/
+  bottom: 0px;
+  width: 440px;
+}
+
+div.outer-tag {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+div.outer-tag:hover div.current-note-tag{
+  background-color: #2DBE60;
+}
+
+div.outer-tag:hover i.fa-trash-o.delete-tag-modal-icon{
+  color: #9b9b9b;
+}
+
+div.outer-tag:hover i.fa-trash-o.delete-tag-modal-icon:hover {
+  color: #2DBE60;
+}
+
+i.fa-trash-o.delete-tag-modal-icon {
+  color: white;
+  position: absolute;
+  top: 0px;
+  right: 24px;
+  /*display: inline-block;
+  margin: 0px;*/
+}
+
+div.current-note-tag {
+  max-width: 258px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: gotham,helvetica,arial,sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #4a4a4a;
+  cursor: pointer;
+  margin-left: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  -webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+font-family: gotham,helvetica,arial,sans-serif;
+font-size: 13px;
+font-weight: 400;
+background: #f8f8f8;
+color: #4a4a4a;
+height: 22px;
+line-height: 22px;
+margin: 0;
+padding: 0;
+outline: 0;
+vertical-align: top;
+width: 100%;
+display: inline-block;
+border: 1px solid #d1d1d1;
+border-radius: 4px;
+transition: background-color .2s ease-in-out,border-color .2s ease-in-out,width .5s ease-in-out,margin .5s ease-in-out;
+    transition-property: background-color, border-color, width, margin;
+    transition-duration: 0.2s, 0.2s, 0.5s, 0.5s;
+    transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+    transition-delay: initial, initial, initial, initial;
+    white-space: nowrap;
+}
+
+div.tag-modal {
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+div.tag-header > a.modal-type {
+  /*font-size: 1em;
+  -webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+font-family: gotham,helvetica,arial,sans-serif;
+font-size: 21px;
+font-weight: 300;
+text-transform: uppercase;
+letter-spacing: .5px;
+color: #878787;
+margin: 21px 24px 32px;
+margin-top: 21px;
+margin-right: 24px;
+margin-bottom: 32px;
+margin-left: 24px;
+margin: 0;
+padding: 0;
+border: 0;
+outline: 0;
+/*font-size: 100%;*/
+/*font: inherit;
+vertical-align: baseline;*/
+padding: 21px 24px 32px;
+  padding-top: 21px;
+  padding-right: 24px;
+  padding-bottom: 32px;
+  padding-left: 24px;
+  color: #878787;
+text-transform: uppercase;
+font-family: gotham, helvetica, arial, sans-serif;
+font-size: 21px;
+font-weight: 300;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.delete-tag-modal-icon {
+
 }

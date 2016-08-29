@@ -44,7 +44,9 @@ const TagModalCard = React.createClass({
         className="current-note-tag"
         >{this.props.title}: [{this.formatNoteCount()}]</div>
 
-        <p onClick={this.deleteTag}>DELETE TAG!</p>
+        <i className="fa fa-trash-o delete-tag-modal-icon"
+          onClick={this.deleteTag}
+          aria-hidden="true" />
       </div>
     );
   }

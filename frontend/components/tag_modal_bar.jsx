@@ -38,7 +38,7 @@ const TagModalBar = React.createClass({
 
   openTagCreator: function(e) {
     e.preventDefault();
-    // this.props.openTagCreator();
+    this.props.openTagCreator();
   },
 
   render: function() {
@@ -49,9 +49,11 @@ const TagModalBar = React.createClass({
         <div className="tag-modal">
           <div className="tag-header">
             <a className="modal-type">TAGS</a>
-            <a onClick={this.openTagCreator}
-              className="new-tag">CREATE NEW</a>
+
+            <div className="tag-line-break" />
           </div>
+
+          <div className="tag-modal-body">
 
           { Object.keys(that.props.tags).map( id => {
               let tag = that.props.tags[id];
@@ -70,9 +72,7 @@ const TagModalBar = React.createClass({
             })
           }
 
-          <div className="cancel-button">
-            <button type="cancel" onClick={this.props.closeSelectTagModal}>Exit</button>
-          </div>
+        </div>
 
         </div>
       </div>

@@ -76,10 +76,6 @@ const NotebookBar = React.createClass({
             })
           }
 
-          <div className="cancel-button">
-            <button type="cancel" onClick={this.props.closeSelectNotebookModal}>Exit</button>
-          </div>
-
         </div>
       </div>
     );
