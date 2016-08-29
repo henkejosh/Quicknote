@@ -152,7 +152,6 @@ const NoteEditor = React.createClass({
   },
 
   handleNotebookSelectorClose: function(e) {
-    debugger;
     e.preventDefault();
     this.closeNotebookSelector();
   },
@@ -178,7 +177,8 @@ const NoteEditor = React.createClass({
             <img className="down-arrow" src="/"/>
           </div>
 
-          <div className="dropdown-placeholder">
+          <div onMouseLeave={this.handleNotebookSelectorClose}
+            className="dropdown-placeholder">
             { this.createNotebookDropdownSelector() }
           </div>
 

@@ -1,0 +1,100 @@
+div.notes-bar {
+  height: 100%;
+  border: 1px solid green;
+  overflow-y: scroll;
+}
+
+/*HEAD CARD*/
+div.current-notebook-card {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 24px 20px 24px 24px;
+  text-align: left;
+  position: absolute;
+  width: 350px;
+}
+
+div.card-title {
+  color: #878787;
+  font-size: 21px;
+  letter-spacing: 0.5px;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  overflow: hidden;
+  padding-right: 6px;
+  white-space: nowrap;
+  font-family: gotham, helvetica, arial, sans-serif;
+  font-weight: 300;
+  text-align: center;
+  vertical-align: baseline;
+  text-align: left;
+}
+
+div.count-holder {
+  position: absolute;
+  bottom: 5px;
+}
+
+span.note-count {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: gotham,helvetica,arial,sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #ababab;
+}
+
+img.edit-nb-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+/**/
+
+/* note-CARDS*/
+div.note-cards {
+  top: 120px;
+  position: relative;
+  overflow-y: scroll;
+}
+
+div.note-card {
+  height: 120px;
+  width: 350px;
+  border: 1px solid black;
+  margin: 0px;
+  padding: 0px;
+  top: 120px;
+}
+
+.current-notebook-card {
+  height: 120px;
+  width: 350px;
+  border: 1px solid black;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  z-index: 1;
+  opacity: 1;
+  background-color: white;
+}
+
+div.note-card:hover {
+  cursor: pointer;
+  background-color: #2DBE60;
+  color: white;
+}
+
+ul.note-card {
+  list-style: none;
+}
+
+li.delete-icon {
+  width: 20%;
+}
+
+li.delete-icon:hover {
+  background-color: grey;
+  border: 1px solid blue;
+}
+/*note-cards*/

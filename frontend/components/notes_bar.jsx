@@ -15,10 +15,11 @@ const NotesBar = React.createClass({
   formatCardColumnHeader: function() {
     if(this.props.cardColumnStyle === "notebook") {
       return (
-        <div key={`nb-${this.props.currentNotebook.id}`}
+        <img src="/" key={`nb-${this.props.currentNotebook.id}`}
           onClick={this.openNotebookEditor}
-          className="edit-nb-icon">EDIT NB!!!</div>
+          className="edit-nb-icon" />
       );
+      // className="edit-nb-icon">EDIT NB!!!</div>
     }
     // } else if(this.props.cardColumnStyle === "tag") {
     //   return (
@@ -58,8 +59,11 @@ const NotesBar = React.createClass({
           { this.formatCardColumnHeader() }
 
           <div className="notebook-card-title">
-            <div>{this.formatCardColumnType()}</div>
-            <span>{this.formatNotesLength()}</span>
+            <div className="card-title">{this.formatCardColumnType()}</div>
+          </div>
+
+          <div className="count-holder">
+            <span className="note-count">{this.formatNotesLength()}</span>
           </div>
         </div>
 

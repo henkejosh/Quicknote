@@ -31,7 +31,7 @@ li.current-note-tag {
   /*overflow-y: hidden;*/
   overflow-x: visible;
   height: 17px;
-  padding: 0px 1px;
+  padding: 0px 3px;
   /*width: 100%;*/
   white-space: nowrap;
   border-radius: 4px;
@@ -42,6 +42,7 @@ li.current-note-tag {
 
 li.current-note-tag:hover {
   background-color: #2DBE60;
+  color: white;
 }
 
 p.tag-relat-delete {

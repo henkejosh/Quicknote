@@ -10,10 +10,15 @@ div.curr-notebook-selector {
   float: left;
   white-space: nowrap;
   padding: 0px 2px;
-  border: 1px solid orange;
+  /*border: 1px solid orange;*/
   margin: 5px;
   display: flex;
   flex-direction: row;
+}
+
+div.curr-notebook-selector:hover {
+  box-shadow: 1px 1px 1px #ececec;
+  cursor: pointer;
 }
 
 section.tag-bar {
@@ -23,7 +28,7 @@ section.tag-bar {
   flex-direction: row;
   margin: 5px;
   padding: 0px 2px;
-  border: 1px solid red;
+  /*border: 1px solid red;*/
 }
 
 p.curr-nb-title {
@@ -34,25 +39,30 @@ p.curr-nb-title {
 /*DROP DOWN*/
 section.notebook-selector {
   position: absolute;
-  top: 30px;
+  top: 35px;
   left: 5px;
   background-color: #fff;
-  padding: 16px;
   z-index: 10;
   border: 3px solid rgba(217, 217, 217, 0.4);
 }
 
+div.keep-row-green {
+  padding: 16px;
+}
+
 div.nb-selector-option {
   font-size: 1.5em;
+  padding: 0px;
 }
 
 div.nb-selector-option:hover {
   cursor: pointer;
   background-color: #2DBE60;
+  color: white;
 }
 
 div.line-break {
-  padding: 0px 16px;
+  margin: 0px 16px;
   border-bottom: 1px solid #ececec;
 }
 /*DD END*/

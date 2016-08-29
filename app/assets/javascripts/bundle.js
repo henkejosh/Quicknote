@@ -37500,13 +37500,10 @@
 	
 	  formatCardColumnHeader: function formatCardColumnHeader() {
 	    if (this.props.cardColumnStyle === "notebook") {
-	      return React.createElement(
-	        'div',
-	        { key: 'nb-' + this.props.currentNotebook.id,
-	          onClick: this.openNotebookEditor,
-	          className: 'edit-nb-icon' },
-	        'EDIT NB!!!'
-	      );
+	      return React.createElement('img', { src: '/', key: 'nb-' + this.props.currentNotebook.id,
+	        onClick: this.openNotebookEditor,
+	        className: 'edit-nb-icon' });
+	      // className="edit-nb-icon">EDIT NB!!!</div>
 	    }
 	    // } else if(this.props.cardColumnStyle === "tag") {
 	    //   return (
@@ -37553,12 +37550,16 @@
 	          { className: 'notebook-card-title' },
 	          React.createElement(
 	            'div',
-	            null,
+	            { className: 'card-title' },
 	            this.formatCardColumnType()
-	          ),
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'count-holder' },
 	          React.createElement(
 	            'span',
-	            null,
+	            { className: 'note-count' },
 	            this.formatNotesLength()
 	          )
 	        )
@@ -38530,7 +38531,6 @@
 	  },
 	
 	  handleNotebookSelectorClose: function handleNotebookSelectorClose(e) {
-	    debugger;
 	    e.preventDefault();
 	    this.closeNotebookSelector();
 	  },
@@ -38563,7 +38563,8 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'dropdown-placeholder' },
+	          { onMouseLeave: this.handleNotebookSelectorClose,
+	            className: 'dropdown-placeholder' },
 	          this.createNotebookDropdownSelector()
 	        ),
 	        React.createElement(TagsBarIndex, { currentUserID: this.props.currentUserID,
@@ -50474,8 +50475,13 @@
 	      React.createElement("div", { className: "line-break" }),
 	      React.createElement(
 	        "div",
-	        { onClick: this.props.onSelect },
-	        this.props.title
+	        { className: "keep-row-green" },
+	        React.createElement(
+	          "div",
+	          { className: "title-card",
+	            onClick: this.props.onSelect },
+	          this.props.title
+	        )
 	      )
 	    );
 	  }
