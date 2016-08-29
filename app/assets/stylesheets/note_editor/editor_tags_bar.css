@@ -1,8 +1,15 @@
+/*section.tag-bar {
+  display: flex;
+  flex-direction: row;
+}*/
+
 ul.tag-list {
   list-style: none;
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
+  margin: 0px;
+  padding: 0px;
 }
 
 input.tag-creator {
@@ -28,9 +35,9 @@ li.current-note-tag {
   /*width: 100%;*/
   white-space: nowrap;
   border-radius: 4px;
-  border-color: #ececec;
+  border-color: #e7e7e7;
   border: 1px;
-  background-color: #f8f8f8;
+  background-color: #f6f6f6;
 }
 
 li.current-note-tag:hover {
@@ -44,7 +51,11 @@ p.tag-relat-delete {
 input.tag-creator {
   margin-right: 5px;
   border-radius: 4px;
-  background-color: #f8f8f8;
-  border-color: #ececec;
+  border-color: #e7e7e7;
   border: 1px;
+  background-color: #f6f6f6;
+}
+
+div.tag-namer {
+  display: inline-block;
 }

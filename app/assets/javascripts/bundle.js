@@ -38529,6 +38529,17 @@
 	    this.openNotebookSelector();
 	  },
 	
+	  handleNotebookSelectorClose: function handleNotebookSelectorClose(e) {
+	    debugger;
+	    e.preventDefault();
+	    this.closeNotebookSelector();
+	  },
+	
+	  toggleNotebookSelector: function toggleNotebookSelector(e) {
+	    e.preventDefault();
+	    this.state.notebookSelectorOpen ? this.closeNotebookSelector() : this.openNotebookSelector();
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      'form',
@@ -38540,10 +38551,15 @@
 	        { className: 'top-toolbar' },
 	        React.createElement(
 	          'div',
-	          { className: 'curr-notebook-name',
-	            onClick: this.handleNotebookSelectorOpen
-	          },
-	          this.state.notebookTitle
+	          { className: 'curr-notebook-selector',
+	            onClick: this.toggleNotebookSelector },
+	          React.createElement('img', { className: 'nb-icon', src: '/' }),
+	          React.createElement(
+	            'p',
+	            { className: 'curr-nb-title' },
+	            this.state.notebookTitle
+	          ),
+	          React.createElement('img', { className: 'down-arrow', src: '/' })
 	        ),
 	        React.createElement(
 	          'div',
@@ -38553,14 +38569,9 @@
 	        React.createElement(TagsBarIndex, { currentUserID: this.props.currentUserID,
 	          currentNote: this.props.currentNote })
 	      ),
-	      React.createElement('input', { className: 'note-name',
+	      React.createElement('input', { className: 'note-title',
 	        onChange: this.updateTitle,
 	        value: this.state.title }),
-	      React.createElement(
-	        'div',
-	        { className: 'text-editor-toolbar' },
-	        'Text editor Toolbar'
-	      ),
 	      React.createElement(ReactQuill, { theme: 'snow',
 	        onChange: this.updateBody,
 	        value: this.state.body })
@@ -50142,10 +50153,8 @@
 	    var _this3 = this;
 	
 	    return React.createElement(
-	      Modal,
-	      { className: 'notebook-selector',
-	        isOpen: this.props.notebookSelectorOpen,
-	        style: modStyle },
+	      'section',
+	      { className: 'notebook-selector' },
 	      Object.keys(this.props.notebooks).map(function (id) {
 	        var notebook = _this3.props.notebooks[id];
 	        return React.createElement(NotebookSelectee, { key: id,
@@ -50154,16 +50163,28 @@
 	          closeNotebookSelector: _this3.props.closeNotebookSelector
 	
 	        });
-	      }),
-	      React.createElement(
-	        'button',
-	        { onClick: this.handleCancel },
-	        'Cancel'
-	      )
+	      })
 	    );
 	  }
 	});
 	
+	// <Modal className="notebook-selector"
+	//   isOpen={this.props.notebookSelectorOpen}
+	//   style={modStyle}>
+	//     {  Object.keys(this.props.notebooks).map( id => {
+	//         let notebook = this.props.notebooks[id];
+	//         return (
+	//           <NotebookSelectee key={id}
+	//             title={notebook.title}
+	//             onSelect={this.onSelect}
+	//             closeNotebookSelector={this.props.closeNotebookSelector}
+	//
+	//             />
+	//         );
+	//       })
+	//     }
+	//     <button onClick={this.handleCancel}>Cancel</button>
+	// </Modal>
 	module.exports = NotebookDropdown;
 
 /***/ },
@@ -50449,9 +50470,13 @@
 	  render: function render() {
 	    return React.createElement(
 	      "div",
-	      { onClick: this.props.onSelect,
-	        className: "nb-selector-option" },
-	      this.props.title
+	      { className: "nb-selector-option" },
+	      React.createElement("div", { className: "line-break" }),
+	      React.createElement(
+	        "div",
+	        { onClick: this.props.onSelect },
+	        this.props.title
+	      )
 	    );
 	  }
 	});
@@ -50552,14 +50577,14 @@
 	      React.createElement(
 	        'div',
 	        { className: 'tag-selector' },
-	        'Tags: '
+	        React.createElement('img', { src: '/', className: 'tag-icon-editor' })
 	      ),
 	      React.createElement(
 	        'ul',
 	        { className: 'tag-list' },
 	        React.createElement(
 	          'div',
-	          null,
+	          { className: 'tag-namer' },
 	          React.createElement('input', { type: 'text',
 	            onKeyPress: this.createTag,
 	            className: 'tag-creator',

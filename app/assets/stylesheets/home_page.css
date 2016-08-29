@@ -1,7 +1,9 @@
 div.home-page-content {
   display: flex;
   flex-direction: row;
-
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }
 
 div.page-content {

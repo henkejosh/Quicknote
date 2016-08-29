@@ -1,0 +1,58 @@
+div.top-toolbar {
+  /*display: flex;
+  flex-direction: row;*/
+  /*float: left;
+  white-space: nowrap;*/
+  height: 35px;
+}
+
+div.curr-notebook-selector {
+  float: left;
+  white-space: nowrap;
+  padding: 0px 2px;
+  border: 1px solid orange;
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+section.tag-bar {
+  float: left;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  padding: 0px 2px;
+  border: 1px solid red;
+}
+
+p.curr-nb-title {
+  margin: 0px;
+  padding: 0px 0px 0px 5px;
+}
+
+/*DROP DOWN*/
+section.notebook-selector {
+  position: absolute;
+  top: 30px;
+  left: 5px;
+  background-color: #fff;
+  padding: 16px;
+  z-index: 10;
+  border: 3px solid rgba(217, 217, 217, 0.4);
+}
+
+div.nb-selector-option {
+  font-size: 1.5em;
+}
+
+div.nb-selector-option:hover {
+  cursor: pointer;
+  background-color: #2DBE60;
+}
+
+div.line-break {
+  padding: 0px 16px;
+  border-bottom: 1px solid #ececec;
+}
+/*DD END*/

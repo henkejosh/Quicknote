@@ -79,10 +79,12 @@ const TagsBarIndex = React.createClass({
   render: function() {
     return (
       <section className="tag-bar">
-        <div className="tag-selector">Tags: </div>
+        <div className="tag-selector">
+          <img src="/" className="tag-icon-editor" />
+        </div>
         <ul className="tag-list">
 
-        <div>
+        <div className="tag-namer">
           <input type="text"
             onKeyPress={this.createTag}
             className="tag-creator"

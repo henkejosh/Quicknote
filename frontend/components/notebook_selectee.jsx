@@ -3,8 +3,10 @@ const React = require('react');
 const NotebookSelectee = React.createClass({
   render: function() {
     return (
-        <div onClick={this.props.onSelect}
-          className="nb-selector-option">{this.props.title}</div>
+        <div className="nb-selector-option">
+          <div className="line-break"/>
+          <div onClick={this.props.onSelect}>{this.props.title}</div>
+        </div>
     );
   }
 });

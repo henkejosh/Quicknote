@@ -151,6 +151,18 @@ const NoteEditor = React.createClass({
     this.openNotebookSelector();
   },
 
+  handleNotebookSelectorClose: function(e) {
+    debugger;
+    e.preventDefault();
+    this.closeNotebookSelector();
+  },
+
+  toggleNotebookSelector: function(e) {
+    e.preventDefault();
+    this.state.notebookSelectorOpen ? this.closeNotebookSelector() :
+      this.openNotebookSelector();
+  },
+
   render: function() {
     return (
       <form className="note-editor-page"
@@ -159,24 +171,25 @@ const NoteEditor = React.createClass({
 
 
         <div className="top-toolbar">
-          <div className="curr-notebook-name"
-            onClick={this.handleNotebookSelectorOpen}
-            >{this.state.notebookTitle}</div>
+          <div className="curr-notebook-selector"
+            onClick={this.toggleNotebookSelector}>
+            <img className="nb-icon" src="/"/>
+            <p className="curr-nb-title">{this.state.notebookTitle}</p>
+            <img className="down-arrow" src="/"/>
+          </div>
 
-            <div className="dropdown-placeholder">
-              { this.createNotebookDropdownSelector() }
-            </div>
+          <div className="dropdown-placeholder">
+            { this.createNotebookDropdownSelector() }
+          </div>
 
           <TagsBarIndex currentUserID={this.props.currentUserID}
             currentNote={this.props.currentNote}/>
 
         </div>
 
-        <input className="note-name"
+        <input className="note-title"
           onChange={this.updateTitle}
           value={this.state.title} />
-
-        <div className="text-editor-toolbar">Text editor Toolbar</div>
 
         <ReactQuill theme='snow'
                   onChange={ this.updateBody }

@@ -62,9 +62,7 @@ const NotebookDropdown = React.createClass({
 
   render: function() {
     return (
-        <Modal className="notebook-selector"
-          isOpen={this.props.notebookSelectorOpen}
-          style={modStyle}>
+        <section className="notebook-selector" >
             {  Object.keys(this.props.notebooks).map( id => {
                 let notebook = this.props.notebooks[id];
                 return (
@@ -77,11 +75,26 @@ const NotebookDropdown = React.createClass({
                 );
               })
             }
-            <button onClick={this.handleCancel}>Cancel</button>
-        </Modal>
+        </section>
     );
   }
 });
 
-
+// <Modal className="notebook-selector"
+//   isOpen={this.props.notebookSelectorOpen}
+//   style={modStyle}>
+//     {  Object.keys(this.props.notebooks).map( id => {
+//         let notebook = this.props.notebooks[id];
+//         return (
+//           <NotebookSelectee key={id}
+//             title={notebook.title}
+//             onSelect={this.onSelect}
+//             closeNotebookSelector={this.props.closeNotebookSelector}
+//
+//             />
+//         );
+//       })
+//     }
+//     <button onClick={this.handleCancel}>Cancel</button>
+// </Modal>
 module.exports = NotebookDropdown;
