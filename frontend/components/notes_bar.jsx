@@ -15,9 +15,10 @@ const NotesBar = React.createClass({
   formatCardColumnHeader: function() {
     if(this.props.cardColumnStyle === "notebook") {
       return (
-        <img src="/" key={`nb-${this.props.currentNotebook.id}`}
+        <i key={`nb-${this.props.currentNotebook.id}`}
           onClick={this.openNotebookEditor}
-          className="edit-nb-icon" />
+          className="fa fa-pencil-square-o edit-nb-icon"
+          aria-hidden="true"></i>
       );
       // className="edit-nb-icon">EDIT NB!!!</div>
     }

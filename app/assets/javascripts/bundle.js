@@ -37500,9 +37500,10 @@
 	
 	  formatCardColumnHeader: function formatCardColumnHeader() {
 	    if (this.props.cardColumnStyle === "notebook") {
-	      return React.createElement('img', { src: '/', key: 'nb-' + this.props.currentNotebook.id,
+	      return React.createElement('i', { key: 'nb-' + this.props.currentNotebook.id,
 	        onClick: this.openNotebookEditor,
-	        className: 'edit-nb-icon' });
+	        className: 'fa fa-pencil-square-o edit-nb-icon',
+	        'aria-hidden': 'true' });
 	      // className="edit-nb-icon">EDIT NB!!!</div>
 	    }
 	    // } else if(this.props.cardColumnStyle === "tag") {
