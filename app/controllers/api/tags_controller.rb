@@ -1,8 +1,5 @@
-require 'byebug'
-
 class Api::TagsController < ApplicationController
   def index
-    # byebug
     # @tags = Tag.where(user_id: current_user.id)
     @tags = current_user.tags
     # render json: @tags
@@ -29,7 +26,6 @@ class Api::TagsController < ApplicationController
       @note = Note.find(tagging.note_id)
       @tag = Tag.find(tagging.tag_id)
       tagging.destroy!
-      # byebug
       # render json: { note: note,
       #   tag: tag
       # }
@@ -51,11 +47,9 @@ class Api::TagsController < ApplicationController
   end
 
   def create
-    # byebug
     # @tag = Tag.joins("JOIN notes_tags nt on nt. notes n on n.tag_id = tag.id JOIN notebooks nb on nb.id = n.notebook_id JOIN users u on  u.id = nb.user_id").where(title: tag_params[:title])
     # tag_id = Tag.where(title: tag_params[:title], user_id: current_user.id).id
     @tag = Tag.where(title: tag_params[:title], user_id: current_user.id).first
-    # byebug
     @tag ||= Tag.new(tag_params)
     # if tag_id
     #   @tag = Tag.find(tag_id)
@@ -65,7 +59,6 @@ class Api::TagsController < ApplicationController
     # p @tag
 
     if @tag.save
-      # byebug
       note = Note.find(params["note_id"])
       @tag.notes << note
       @tag.save

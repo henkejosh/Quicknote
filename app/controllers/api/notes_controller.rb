@@ -1,5 +1,3 @@
-require 'byebug'
-
 class Api::NotesController < ApplicationController
   def index
     @notes = Note.all
@@ -13,7 +11,6 @@ class Api::NotesController < ApplicationController
   end
 
   def show
-    # byebug
     @note = Note.find(params[:id])
     # render json: @note
     render :show
