@@ -59492,16 +59492,21 @@
 	        "CREATE NOTEBOOK"
 	      ),
 	      React.createElement("input", { onChange: this.handleTextChange,
-	        type: "text", value: this.state.title }),
+	        type: "text", value: this.state.title,
+	        className: "create-notebook-title" }),
 	      React.createElement(
-	        "button",
-	        { onClick: this.handleCancel },
-	        "Cancel"
-	      ),
-	      React.createElement(
-	        "button",
-	        { onClick: this.handleCreate },
-	        "Create notebook"
+	        "div",
+	        { className: "nb-buttons" },
+	        React.createElement(
+	          "button",
+	          { onClick: this.handleCancel },
+	          "Cancel"
+	        ),
+	        React.createElement(
+	          "button",
+	          { onClick: this.handleCreate },
+	          "Create notebook"
+	        )
 	      )
 	    );
 	  }

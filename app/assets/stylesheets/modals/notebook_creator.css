@@ -28,9 +28,10 @@ font-size: 32px;
 font-weight: 300;
 line-height: 44px;
 font-family: caecilia, times, serif;
+text-align: center;
 }
 
 div.nb-buttons {
-  display: flex;
+  display: block;
   flex-direction: row;
 }
