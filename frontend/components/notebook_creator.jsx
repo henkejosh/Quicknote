@@ -35,7 +35,7 @@ const NotebookCreator = React.createClass({
         <input onChange={this.handleTextChange}
           type='text' value={this.state.title}
           className="create-notebook-title"/>
-        <div className="nb-buttons"
+        <div className="nb-buttons">
           <button onClick={this.handleCancel}>Cancel</button>
           <button onClick={this.handleCreate}>Create notebook</button>
         </div>
