@@ -1,0 +1,36 @@
+div.notebook-creator-modal {
+  z-index: 50;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background: white;
+  opacity: 1;
+  vertical-align: middle;
+  text-align: center;
+  padding: 100px 0px;
+}
+
+div.notebook-creator-modal > h3 {
+  font-family: gotham, helvetica, arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  text-align: center;
+}
+
+input.create-notebook-title {
+  display: inline-block;
+color: #c4c4c4;
+font-size: 32px;
+font-weight: 300;
+line-height: 44px;
+font-family: caecilia, times, serif;
+}
+
+div.nb-buttons {
+  display: flex;
+  flex-direction: row;
+}

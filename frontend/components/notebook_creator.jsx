@@ -33,9 +33,12 @@ const NotebookCreator = React.createClass({
       <div className="notebook-creator-modal">
         <h3>CREATE NOTEBOOK</h3>
         <input onChange={this.handleTextChange}
-          type='text' value={this.state.title}/>
-        <button onClick={this.handleCancel}>Cancel</button>
-        <button onClick={this.handleCreate}>Create notebook</button>
+          type='text' value={this.state.title}
+          className="create-notebook-title"/>
+        <div className="nb-buttons"
+          <button onClick={this.handleCancel}>Cancel</button>
+          <button onClick={this.handleCreate}>Create notebook</button>
+        </div>
       </div>
     );
   }
