@@ -36512,7 +36512,7 @@
 	  },
 	
 	  makeNoteEditorOpaque: function makeNoteEditorOpaque() {
-	    $(".note-editor-page").css("opacity", 0.5);
+	    $(".note-editor-page").css("opacity", 0.2);
 	  },
 	
 	  removeNoteEditorOpacity: function removeNoteEditorOpacity() {
@@ -37765,7 +37765,7 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'icon-holder', onClick: this.createNewNote },
+	          { className: 'icon-holder add-note-icon', onClick: this.createNewNote },
 	          React.createElement('i', { className: 'fa fa-plus', 'aria-hidden': 'true' }),
 	          React.createElement('img', { src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg==',
 	            className: 'hover-tag-arrow add-note' }),
@@ -37784,7 +37784,7 @@
 	          React.createElement(
 	            'span',
 	            { className: 'icon-hover-tag all-notes-tag' },
-	            'New Note'
+	            'Notes'
 	          ),
 	          this.formatSelectedNotesIcon()
 	        ),
@@ -37900,14 +37900,15 @@
 	          { className: 'notebook-header' },
 	          React.createElement(
 	            'a',
-	            { className: 'modal-type' },
+	            { className: 'modal-type notebook' },
 	            'NOTEBOOKS'
 	          ),
 	          React.createElement(
-	            'a',
-	            { onClick: this.openNotebookCreator,
-	              className: 'new-notebook' },
-	            'CREATE NEW'
+	            'div',
+	            { className: 'create-notebook-icon',
+	              onClick: this.openNotebookCreator },
+	            React.createElement('i', { className: 'fa fa-book add-book', 'aria-hidden': 'true' }),
+	            React.createElement('i', { className: 'fa fa-plus add-book', 'aria-hidden': 'true' })
 	          )
 	        ),
 	        Object.keys(that.state.notebooks).map(function (id) {
@@ -38029,28 +38030,26 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'outer-notebook-card' },
 	      React.createElement(
 	        'ul',
 	        { className: 'notebook-card', onClick: this.handleClick },
 	        React.createElement(
 	          'li',
-	          null,
+	          { className: 'nb-title' },
 	          this.props.title
 	        ),
 	        React.createElement(
 	          'li',
-	          null,
+	          { className: 'notes-length' },
 	          NoteStore.count(this.props.id),
 	          ' notes'
-	        ),
-	        React.createElement(
-	          'li',
-	          { className: 'notebook-delete-icon',
-	            onClick: this.handleDelete },
-	          'DELETE'
 	        )
-	      )
+	      ),
+	      React.createElement('i', { className: 'fa fa-trash-o nb-bar',
+	        onClick: this.handleDelete,
+	        'aria-hidden': 'true' }),
+	      React.createElement('div', { className: 'line-break' })
 	    );
 	  }
 	});

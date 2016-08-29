@@ -73,6 +73,12 @@ i.green-tag {
   margin: 9px 0px 1px 2px;
 }
 
+div.icon-holder.add-note-icon {
+  background-color: white;
+  border-radius: 19px;
+  border: 1px solid #bcbcbc;
+}
+
 div.icon-holder {
   display: inline-block;
   width: 36px;
@@ -92,13 +98,14 @@ div.icon-holder:hover i.green-tag {
 
 div.selected-icon {
   background-color: transparent;
-  width: 32px;
-  height: 32px;
-  border-radius: 18px;
-  border: 2px solid #2DBE60;
+  width: 36px;
+  height: 36px;
+  border-radius: 19px;
+  border: 1px solid #2DBE60;
   z-index: 100px;
   position: absolute;
-  top: 0;
+  top: -1px;
+  left: -1px;
 }
 /*icons_en*/
 
@@ -115,6 +122,17 @@ img.hover-tag-arrow {
 
 div.icon-holder:hover img.hover-tag-arrow {
   display: block;
+  transition: opacity 0.2s ease-in 0.3s;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+    transition-delay: 0.3s;
+
+  transition: opacity 0s ease-out 0s;
+    transition-property: opacity;
+    transition-duration: 0s;
+    transition-timing-function: ease-out;
+    transition-delay: 0s;
 }
 
 span.icon-hover-tag {
@@ -148,4 +166,9 @@ span.icon-hover-tag {
 
 div.icon-holder:hover span.icon-hover-tag {
   display: flex;
+  transition: opacity 0.2s ease-in 0.3s;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+    transition-delay: 0.3s;
 }

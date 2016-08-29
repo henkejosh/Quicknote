@@ -1,0 +1,160 @@
+div.outer-notebook-card {
+  box-sizing: border-box;
+height: 61px;
+overflow: hidden;
+position: relative;
+transition: height 0.2s ease-in-out, border linear 0.2s, background-color 0.1s ease-in-out;
+transition-property: height, border, background-color;
+transition-duration: 0.2s, 0.2s, 0.1s;
+transition-timing-function: ease-in-out, linear, ease-in-out;
+transition-delay: initial, initial, initial;
+cursor: pointer;
+outline: none;
+outline-color: initial;
+outline-style: none;
+outline-width: initial;
+}
+
+ul.notebook-card {
+  white-space: nowrap;
+  color: #4a4a4a;
+  margin: 12px 80px 6px 24px;
+  cursor: pointer;
+  /*overflow: hidden;*/
+  text-overflow: ellipsis;
+  height: 18px;
+  display: inline-block;
+  width: 300px;
+  transition: color 0.1s ease-in-out;
+  transition-property: color;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+  transition-delay: initial;
+  font-family: gotham, helvetica, arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  list-style: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0px;
+  margin: 0px;
+}
+
+div.line-break {
+  margin: 0px 4px;
+  border-bottom: 1px solid;
+  /*margin: 0px 16px;*/
+  border-bottom: 1px solid #e7e7e7;
+  position: absolute;
+  bottom: 0px;
+  width: 440px;
+}
+
+li.nb-title {
+  white-space: nowrap;
+color: #4a4a4a;
+margin: 12px 80px 6px 24px;
+margin-top: 12px;
+margin-right: 80px;
+margin-bottom: 6px;
+margin-left: 24px;
+cursor: pointer;
+overflow: hidden;
+text-overflow: ellipsis;
+height: 18px;
+display: inline-block;
+width: 300px;
+transition: color 0.1s ease-in-out;
+transition-property: color;
+transition-duration: 0.1s;
+transition-timing-function: ease-in-out;
+transition-delay: initial;
+/*font-family: caecilia, times, serif;*/
+font-family: gotham, helvetica,arial,sans-serif;
+font-size: 16px;
+font-weight: 400;
+}
+
+li.notes-length {
+  color: #878787;
+  margin: 0 0 12px 24px;
+  height: 12px;
+  transition: color 0.1s ease-in-out;
+  transition-property: color;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+  transition-delay: initial;
+  font-family: gotham, helvetica, arial, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+a.modal-type.notebook {
+  padding: 21px 24px 32px;
+    padding-top: 21px;
+    padding-right: 24px;
+    padding-bottom: 32px;
+    padding-left: 24px;
+    color: #878787;
+  text-transform: uppercase;
+  font-family: gotham, helvetica, arial, sans-serif;
+font-size: 21px;
+font-weight: 300;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+i.fa-trash-o.nb-bar {
+  color: white;
+  position: absolute;
+  top: 12px;
+  right: 24px;
+}
+
+div.outer-notebook-card:hover {
+  background-color: #2DBE60;
+}
+
+div.outer-notebook-card:hover > ul > li {
+  color: white;
+}
+
+div.notebook-modal > div.notebook-header {
+  padding: 0px;
+  margin: 0px;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+/*create new notebook icon*/
+div.create-notebook-icon {
+  top: 21px;
+  right: 24px;
+  padding: 2px 2px 4px 6px;
+  position: absolute;
+}
+
+div.create-notebook-icon:hover {
+  cursor: pointer;
+}
+
+div.create-notebook-icon:hover i.add-book {
+  color: #2DBE60;
+}
+
+i.add-book {
+  color: #9b9b9b;
+  position: relative;
+}
+
+i.fa-plus.add-book {
+  font-size: 15px;
+  top: 5px;
+  right: 6px;
+}
+
+i.fa-book.add-book {
+  font-size: 21px;
+
+}
+/*end create notebook icon*/

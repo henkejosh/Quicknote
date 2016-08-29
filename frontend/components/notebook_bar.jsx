@@ -49,9 +49,15 @@ const NotebookBar = React.createClass({
 
         <div className="notebook-modal">
           <div className="notebook-header">
-            <a className="modal-type">NOTEBOOKS</a>
-            <a onClick={this.openNotebookCreator}
-              className="new-notebook">CREATE NEW</a>
+            <a className="modal-type notebook">NOTEBOOKS</a>
+
+            <div className="create-notebook-icon"
+              onClick={this.openNotebookCreator}>
+
+              <i className="fa fa-book add-book" aria-hidden="true"></i>
+              <i className="fa fa-plus add-book" aria-hidden="true" />
+            </div>
+
           </div>
 
           { Object.keys(that.state.notebooks).map( id => {

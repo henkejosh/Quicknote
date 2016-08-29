@@ -26,15 +26,17 @@ const NotebookBarItem = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className="outer-notebook-card">
         <ul className="notebook-card" onClick={this.handleClick}>
-          <li>{this.props.title}</li>
-          <li>{NoteStore.count(this.props.id)} notes</li>
-
-          <li className="notebook-delete-icon"
-            onClick={this.handleDelete}>DELETE</li>
+          <li className="nb-title">{this.props.title}</li>
+          <li className="notes-length">{NoteStore.count(this.props.id)} notes</li>
 
         </ul>
+        <i className="fa fa-trash-o nb-bar"
+          onClick={this.handleDelete}
+          aria-hidden="true">
+        </i>
+        <div className="line-break" />
       </div>
     );
   }

@@ -69,7 +69,7 @@ const LeftNavBar = React.createClass({
         <div>Current User: {this.props.currentUser}</div>
 
 
-      <div className="icon-holder" onClick={this.createNewNote}>
+      <div className="icon-holder add-note-icon" onClick={this.createNewNote}>
           <i className="fa fa-plus" aria-hidden="true" />
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg=="
             className="hover-tag-arrow add-note"/>
@@ -80,7 +80,7 @@ const LeftNavBar = React.createClass({
           <i className="fa fa-file-text" aria-hidden="true" />
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg=="
             className="hover-tag-arrow all-notes" />
-          <span className="icon-hover-tag all-notes-tag" >New Note</span>
+          <span className="icon-hover-tag all-notes-tag" >Notes</span>
           { this.formatSelectedNotesIcon() }
         </div>
 

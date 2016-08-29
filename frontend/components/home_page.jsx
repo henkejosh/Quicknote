@@ -129,7 +129,7 @@ const HomePage = React.createClass({
   },
 
   makeNoteEditorOpaque: function() {
-    $(".note-editor-page").css("opacity", 0.5);
+    $(".note-editor-page").css("opacity", 0.2);
   },
 
   removeNoteEditorOpacity: function() {
