@@ -29,6 +29,25 @@ note3 = Note.create!(
   body: "<div>Learn more about <a href=\"https://facebook.github.io/flux/docs/overview.html\">flux</a>!</div><div><img src=\"https://res.cloudinary.com/dg2yejdpt/image/upload/v1472462057/flux-diagram-white-background_dfpasw.png\"></div>"
 )
 
+note4 = Note.create!(
+  notebook_id: notebook2.id,
+  title: "Try deleting this note...",
+  body: "<div>hover over this note in the bar to the left and click the trash can icon</div>"
+)
+
+note5 = Note.create!(
+  notebook_id: notebook2.id,
+  title: "Add a tag to this note!",
+  body: "<div>at the top of the note editor above, type a tag name into the 'New tag' box</div>
+    <div>and press [enter] to create a tag!</div>"
+)
+
+note6 = Note.create!(
+  notebook_id: notebook1.id,
+  title: "Create a new notebook and move this note to it",
+  body: "<ol><li><span style=\"color: rgb(0, 102, 204);\">Click the notebooks icon on the left navigation bar to bring up the notebooks screen. </span></li><li><span style=\"color: rgb(255, 153, 0);\">Then click the \"add notebook\" icon and type in a title.</span></li><li><span style=\"color: rgb(102, 185, 102);\">Navigate back to this note then click the notebook dropdown menu at the top of the note editor.</span></li><li><span style=\"background-color: rgb(255, 255, 0);\"><i><span style=\"font-family: monospace;\">Select your new notebook!</span></i></span></li></ol>"
+)
+
 tag1 = Tag.create!(
   title: "to-do",
   user_id: guest.id
@@ -48,3 +67,6 @@ note1.tags << tag1
 note2.tags << tag2
 note2.tags << tag3
 note3.tags << tag1
+note4.tags << tag1
+note5.tags << tag1
+note6.tags << tag1

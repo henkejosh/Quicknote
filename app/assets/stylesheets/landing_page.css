@@ -3,6 +3,8 @@ div.landing-page {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   height: 100%;
   width: 100%;
 }
@@ -77,4 +79,9 @@ h2.landing-title {
   text-align: left;
   line-height: 26px;
 
+}
+
+div.right-panel {
+  color: #717171;
+  font-family: 'Gotham_SSm_3r',Helvetica,Arial,sans-serif;
 }
