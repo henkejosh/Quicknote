@@ -200,6 +200,7 @@ const HomePage = React.createClass({
         selectCurrentNote={this.selectCurrentNote}
         openNotebookEditor={this.openNotebookEditor}
         currentTag={this.state.currentTag}
+        currentNote={this.state.currentNote}
         />
     );
   },

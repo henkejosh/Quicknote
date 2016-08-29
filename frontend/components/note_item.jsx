@@ -11,10 +11,25 @@ const NoteItem = React.createClass({
     }
   },
 
+  // componentWillReceiveProps: function(nextProps) {
+  //   if(!nextProps.currentNote) return;
+  //   if(nextProps.currentNote.id === this.props.id) {
+  //     $(".note-card").;
+  //   }
+  // },
+
   deleteNote: function(e) {
     e.preventDefault();
     NoteActions.deleteNote(this.props.id);
     e.stopPropagation();
+  },
+
+  formatIfCurrentNote: function() {
+    if(!this.props.currentNote) return false;
+    // debugger;
+    if(this.props.currentNote.id === this.props.id) {
+      return <div className="selected-note-card" />;
+    }
   },
 
   handleSelection: function(e) {
@@ -32,7 +47,7 @@ const NoteItem = React.createClass({
     return (
       <div onClick={this.handleSelection}
         className="note-card">
-
+        { this.formatIfCurrentNote() }
         <ul>
           <li className="card-title">{this.props.title}</li>
           <li className="card-timestamp">{this.formatLastUpdated()}</li>

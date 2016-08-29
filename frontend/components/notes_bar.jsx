@@ -81,6 +81,7 @@ const NotesBar = React.createClass({
                     created_at={note.created_at}
                     updated_at={note.updated_at}
                     selectCurrentNote={this.props.selectCurrentNote}
+                    currentNote={this.props.currentNote}
                   />
               );
             })

@@ -36577,7 +36577,8 @@
 	      cardColumnStyle: this.state.cardColumnStyle,
 	      selectCurrentNote: this.selectCurrentNote,
 	      openNotebookEditor: this.openNotebookEditor,
-	      currentTag: this.state.currentTag
+	      currentTag: this.state.currentTag,
+	      currentNote: this.state.currentNote
 	    });
 	  },
 	
@@ -37577,7 +37578,8 @@
 	            id: note.id,
 	            created_at: note.created_at,
 	            updated_at: note.updated_at,
-	            selectCurrentNote: _this.props.selectCurrentNote
+	            selectCurrentNote: _this.props.selectCurrentNote,
+	            currentNote: _this.props.currentNote
 	          });
 	        })
 	      )
@@ -37608,10 +37610,25 @@
 	    }
 	  },
 	
+	  // componentWillReceiveProps: function(nextProps) {
+	  //   if(!nextProps.currentNote) return;
+	  //   if(nextProps.currentNote.id === this.props.id) {
+	  //     $(".note-card").;
+	  //   }
+	  // },
+	
 	  deleteNote: function deleteNote(e) {
 	    e.preventDefault();
 	    NoteActions.deleteNote(this.props.id);
 	    e.stopPropagation();
+	  },
+	
+	  formatIfCurrentNote: function formatIfCurrentNote() {
+	    if (!this.props.currentNote) return false;
+	    // debugger;
+	    if (this.props.currentNote.id === this.props.id) {
+	      return React.createElement('div', { className: 'selected-note-card' });
+	    }
 	  },
 	
 	  handleSelection: function handleSelection(e) {
@@ -37630,6 +37647,7 @@
 	      'div',
 	      { onClick: this.handleSelection,
 	        className: 'note-card' },
+	      this.formatIfCurrentNote(),
 	      React.createElement(
 	        'ul',
 	        null,
