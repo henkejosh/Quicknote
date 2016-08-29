@@ -38457,6 +38457,7 @@
 	  },
 	
 	  saveChanges: function saveChanges() {
+	    // debugger;
 	    var note = this.props.currentNote;
 	    note.body = this.state.body;
 	    note.title = this.state.title;
@@ -38485,8 +38486,9 @@
 	  },
 	
 	  updateBody: function updateBody(text) {
-	    if (this.saveTimeout) clearTimeout(this.saveTimeout);
+	    // debugger;
 	    this.setState({ "body": text });
+	    if (this.saveTimeout) clearTimeout(this.saveTimeout);
 	    this.autoSave();
 	  },
 	
@@ -38527,12 +38529,12 @@
 	    this.state.notebookSelectorOpen ? this.closeNotebookSelector() : this.openNotebookSelector();
 	  },
 	
+	  // onSubmit={this.handleSubmit}
+	  // onBlur={this.saveChanges}>
 	  render: function render() {
 	    return React.createElement(
 	      'form',
-	      { className: 'note-editor-page',
-	        onSubmit: this.handleSubmit,
-	        onBlur: this.saveChanges },
+	      { className: 'note-editor-page' },
 	      React.createElement(
 	        'div',
 	        { className: 'top-toolbar' },

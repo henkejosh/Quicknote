@@ -89,6 +89,7 @@ const NoteEditor = React.createClass({
   },
 
   saveChanges: function() {
+    // debugger;
     let note = this.props.currentNote;
     note.body = this.state.body;
     note.title = this.state.title;
@@ -117,8 +118,9 @@ const NoteEditor = React.createClass({
   },
 
   updateBody: function(text) {
-    if(this.saveTimeout) clearTimeout(this.saveTimeout);
+    // debugger;
     this.setState({ "body": text});
+    if(this.saveTimeout) clearTimeout(this.saveTimeout);
     this.autoSave();
   },
 
@@ -162,11 +164,11 @@ const NoteEditor = React.createClass({
       this.openNotebookSelector();
   },
 
+  // onSubmit={this.handleSubmit}
+  // onBlur={this.saveChanges}>
   render: function() {
     return (
-      <form className="note-editor-page"
-        onSubmit={this.handleSubmit}
-        onBlur={this.saveChanges}>
+      <form className="note-editor-page">
 
 
         <div className="top-toolbar">
