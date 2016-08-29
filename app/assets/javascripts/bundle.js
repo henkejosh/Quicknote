@@ -37759,12 +37759,6 @@
 	        { className: 'left-container' },
 	        React.createElement(
 	          'div',
-	          null,
-	          'Current User: ',
-	          this.props.currentUser
-	        ),
-	        React.createElement(
-	          'div',
 	          { className: 'icon-holder add-note-icon', onClick: this.createNewNote },
 	          React.createElement('i', { className: 'fa fa-plus', 'aria-hidden': 'true' }),
 	          React.createElement('img', { src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg==',
@@ -37816,7 +37810,7 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'icon-holder', onClick: this.props.logout },
+	          { className: 'icon-holder sign-out', onClick: this.props.logout },
 	          React.createElement('i', { className: 'fa fa-sign-out', 'aria-hidden': 'true' }),
 	          React.createElement('img', { src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg==',
 	            className: 'hover-tag-arrow log-out-icon' }),
@@ -59645,13 +59639,13 @@
 	    var that = this;
 	    return React.createElement(
 	      'div',
-	      { className: 'notebook-modal-anim', display: this.handleDisplay },
+	      { className: 'tag-modal-anim', display: this.handleDisplay },
 	      React.createElement(
 	        'div',
-	        { className: 'notebook-modal' },
+	        { className: 'tag-modal' },
 	        React.createElement(
 	          'div',
-	          { className: 'notebook-header' },
+	          { className: 'tag-header' },
 	          React.createElement(
 	            'a',
 	            { className: 'modal-type' },
@@ -59660,7 +59654,7 @@
 	          React.createElement(
 	            'a',
 	            { onClick: this.openTagCreator,
-	              className: 'new-notebook' },
+	              className: 'new-tag' },
 	            'CREATE NEW'
 	          )
 	        ),
@@ -59742,8 +59736,8 @@
 	
 	  render: function render() {
 	    return React.createElement(
-	      'li',
-	      null,
+	      'div',
+	      { className: 'outer-tag' },
 	      React.createElement(
 	        'div',
 	        { onClick: this.handleSelection,

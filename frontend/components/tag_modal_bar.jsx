@@ -44,13 +44,13 @@ const TagModalBar = React.createClass({
   render: function() {
     const that = this;
     return (
-      <div className="notebook-modal-anim" display={this.handleDisplay}>
+      <div className="tag-modal-anim" display={this.handleDisplay}>
 
-        <div className="notebook-modal">
-          <div className="notebook-header">
+        <div className="tag-modal">
+          <div className="tag-header">
             <a className="modal-type">TAGS</a>
             <a onClick={this.openTagCreator}
-              className="new-notebook">CREATE NEW</a>
+              className="new-tag">CREATE NEW</a>
           </div>
 
           { Object.keys(that.props.tags).map( id => {

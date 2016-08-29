@@ -39,13 +39,13 @@ const TagModalCard = React.createClass({
 
   render: function() {
     return (
-      <li>
+      <div className="outer-tag">
         <div onClick={this.handleSelection}
         className="current-note-tag"
         >{this.props.title}: [{this.formatNoteCount()}]</div>
 
         <p onClick={this.deleteTag}>DELETE TAG!</p>
-      </li>
+      </div>
     );
   }
 });
