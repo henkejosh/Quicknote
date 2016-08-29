@@ -3,7 +3,9 @@ div.top-toolbar {
   flex-direction: row;*/
   /*float: left;
   white-space: nowrap;*/
+  padding-top: 10px;
   height: 35px;
+  /*overflow: hidden;*/
 }
 
 div.curr-notebook-selector {
@@ -18,12 +20,12 @@ div.curr-notebook-selector {
   font-weight: 300;
 }
 /*ICONS*/
-i.fa-tag {
+i.grey-tag {
   padding-right: 3px;
   color: #9b9b9b;
 }
 
-i.fa-book {
+i.grey-book {
   padding-right: 3px;
   color: #9b9b9b;
 }

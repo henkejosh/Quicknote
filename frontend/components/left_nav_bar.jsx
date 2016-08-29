@@ -44,30 +44,31 @@ const LeftNavBar = React.createClass({
   render: function() {
     return (
       <nav className="left-nav">
+        <div className="left-container">
         <div>Current User: {this.props.currentUser}</div>
-          <br/>
-        <div className="add-note-icon nav-icon"
-          onClick={this.createNewNote}>Add Note</div>
-
-          <br/>
 
 
-<br/>
-        <div onClick={this.handleNoteIconClick}
-          className="note-icon nav-icon">Note Icon</div>
+      <div className="icon-holder" onClick={this.createNewNote}>
+          <i className="fa fa-plus" aria-hidden="true" />
+      </div>
 
-          <br/>
-        <div onClick={this.handleNBClick}
-          className="notebook-icon nav-icon">NB Icon</div>
-          <br/>
+        <div onClick={this.handleNoteIconClick} className="icon-holder">
+          <i className="fa fa-file-text" aria-hidden="true"></i>
+        </div>
 
-          <div onClick={this.handleTagIconClick}
-            className="tag-icon nav-icon">Tag Icon</div>
-            <br/>
+        <div onClick={this.handleNBClick} className="icon-holder">
+          <i className="fa fa-book green-book" aria-hidden="true"></i>
+        </div>
 
-        <p className="log-out"
-          onClick={this.props.logout}>Log Out</p>
+          <div className="icon-holder" onClick={this.handleTagIconClick}>
+            <i className="fa fa-tag green-tag" aria-hidden="true"></i>
+          </div>
 
+        <div className="icon-holder" onClick={this.props.logout}>
+          <i className="fa fa-sign-out" aria-hidden="true"></i>
+        </div>
+
+        </div>
       </nav>
     );
   }

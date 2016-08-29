@@ -32,16 +32,18 @@ const NoteItem = React.createClass({
     return (
       <div onClick={this.handleSelection}
         className="note-card">
+
         <ul>
           <li className="card-title">{this.props.title}</li>
           <li className="card-timestamp">{this.formatLastUpdated()}</li>
           <li className="card-body">{this.formatBody()}</li>
-          <li>NB_ID: {this.props.notebook_id}</li>
-          
         </ul>
+
         <i className="fa fa-trash-o"
           onClick={this.deleteNote}
-          aria-hidden="true"></i>
+          aria-hidden="true">
+        </i>
+
         <div className="note-card-line-break" />
       </div>
     );

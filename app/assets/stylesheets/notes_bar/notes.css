@@ -12,12 +12,10 @@ div.current-notebook-card {
   text-align: left;
   position: absolute;
   width: 350px;
-  height: 120px;
-  /*width: 350px;*/
+  /*height: 120px;*/
+  height: 100px;
   border-bottom: 1px solid #e7e7e7;
   margin: 0px;
-  /*padding: 0px;*/
-  /*position: absolute;*/
   z-index: 1;
   opacity: 1;
   background-color: white;
@@ -57,8 +55,8 @@ span.note-count {
 i.fa-trash-o {
   color: white;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 13px;
   /*width: 24px;
   height: 24px;*/
   font-size: 1.5em;
@@ -78,7 +76,7 @@ img.edit-nb-icon {
 
 /* note-CARDS*/
 div.note-cards {
-  top: 120px;
+  top: 100px;
   position: relative;
   overflow-y: scroll;
 }

@@ -1,11 +1,15 @@
 
 ul.tag-list {
   list-style: none;
-  display: flex;
-  flex-direction: row;
-  overflow-x: scroll;
+  display: inline-block;
+  /*display: flex;*/
+  /*flex-direction: row;*/
+  /*overflow-x: scroll;*/
+  overflow: hidden;
   margin: 0px;
   padding: 0px;
+  width: 100%;
+  white-space: nowrap;
 }
 
 input.tag-creator {

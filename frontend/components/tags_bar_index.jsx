@@ -80,8 +80,8 @@ const TagsBarIndex = React.createClass({
     return (
       <section className="tag-bar">
         <div className="tag-selector">
-          <i id="tag" 
-            className="fa fa-tag" aria-hidden="true"></i>
+          <i id="tag"
+            className="fa fa-tag grey-tag" aria-hidden="true"></i>
         </div>
         <ul className="tag-list">
 

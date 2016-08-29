@@ -37646,12 +37646,6 @@
 	          'li',
 	          { className: 'card-body' },
 	          this.formatBody()
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          'NB_ID: ',
-	          this.props.notebook_id
 	        )
 	      ),
 	      React.createElement('i', { className: 'fa fa-trash-o',
@@ -37721,45 +37715,38 @@
 	      { className: 'left-nav' },
 	      React.createElement(
 	        'div',
-	        null,
-	        'Current User: ',
-	        this.props.currentUser
-	      ),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'div',
-	        { className: 'add-note-icon nav-icon',
-	          onClick: this.createNewNote },
-	        'Add Note'
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'div',
-	        { onClick: this.handleNoteIconClick,
-	          className: 'note-icon nav-icon' },
-	        'Note Icon'
-	      ),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'div',
-	        { onClick: this.handleNBClick,
-	          className: 'notebook-icon nav-icon' },
-	        'NB Icon'
-	      ),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'div',
-	        { onClick: this.handleTagIconClick,
-	          className: 'tag-icon nav-icon' },
-	        'Tag Icon'
-	      ),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'p',
-	        { className: 'log-out',
-	          onClick: this.props.logout },
-	        'Log Out'
+	        { className: 'left-container' },
+	        React.createElement(
+	          'div',
+	          null,
+	          'Current User: ',
+	          this.props.currentUser
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'icon-holder', onClick: this.createNewNote },
+	          React.createElement('i', { className: 'fa fa-plus', 'aria-hidden': 'true' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { onClick: this.handleNoteIconClick, className: 'icon-holder' },
+	          React.createElement('i', { className: 'fa fa-file-text', 'aria-hidden': 'true' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { onClick: this.handleNBClick, className: 'icon-holder' },
+	          React.createElement('i', { className: 'fa fa-book green-book', 'aria-hidden': 'true' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'icon-holder', onClick: this.handleTagIconClick },
+	          React.createElement('i', { className: 'fa fa-tag green-tag', 'aria-hidden': 'true' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'icon-holder', onClick: this.props.logout },
+	          React.createElement('i', { className: 'fa fa-sign-out', 'aria-hidden': 'true' })
+	        )
 	      )
 	    );
 	  }
@@ -38552,7 +38539,7 @@
 	          'div',
 	          { className: 'curr-notebook-selector',
 	            onClick: this.toggleNotebookSelector },
-	          React.createElement('i', { className: 'fa fa-book', 'aria-hidden': 'true' }),
+	          React.createElement('i', { className: 'fa fa-book grey-book', 'aria-hidden': 'true' }),
 	          React.createElement(
 	            'p',
 	            { className: 'curr-nb-title' },
@@ -50583,7 +50570,7 @@
 	        'div',
 	        { className: 'tag-selector' },
 	        React.createElement('i', { id: 'tag',
-	          className: 'fa fa-tag', 'aria-hidden': 'true' })
+	          className: 'fa fa-tag grey-tag', 'aria-hidden': 'true' })
 	      ),
 	      React.createElement(
 	        'ul',
