@@ -37659,7 +37659,8 @@
 	            onClick: this.deleteNote },
 	          'DELETE'
 	        )
-	      )
+	      ),
+	      React.createElement('div', { className: 'note-card-line-break' })
 	    );
 	  }
 	});

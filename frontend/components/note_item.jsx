@@ -40,6 +40,7 @@ const NoteItem = React.createClass({
           <li className="delete-icon"
             onClick={this.deleteNote}>DELETE</li>
         </ul>
+        <div className="note-card-line-break" />
       </div>
     );
   }
