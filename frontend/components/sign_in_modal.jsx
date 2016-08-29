@@ -60,6 +60,13 @@ const SignInModal = React.createClass({
     this.props.makeModalSignUp();
   },
 
+  guestLogin: function(e) {
+    e.preventDefault();
+    SessionActions.login({ email: "guest_user",
+      password: "password"});
+    this.props.closeSignInModal();
+  },
+
   createNewAccountElements: function() {
     if(this.props.modalType === "Sign in") {
       return (
@@ -93,6 +100,11 @@ const SignInModal = React.createClass({
             <input type="password" id="password" value={this.state.password}
               onChange={this.update("password")}></input>
 
+          </div>
+
+          <div onClick={this.guestLogin}
+            className="guest-login-button">
+            <input type="submit" value="Guest Login"></input>
           </div>
 
           <div className="submit-button">

@@ -27741,6 +27741,13 @@
 	    this.props.makeModalSignUp();
 	  },
 	
+	  guestLogin: function guestLogin(e) {
+	    e.preventDefault();
+	    SessionActions.login({ email: "guest_user",
+	      password: "password" });
+	    this.props.closeSignInModal();
+	  },
+	
 	  createNewAccountElements: function createNewAccountElements() {
 	    if (this.props.modalType === "Sign in") {
 	      return React.createElement(
@@ -27798,6 +27805,12 @@
 	            ),
 	            React.createElement('input', { type: 'password', id: 'password', value: this.state.password,
 	              onChange: this.update("password") })
+	          ),
+	          React.createElement(
+	            'div',
+	            { onClick: this.guestLogin,
+	              className: 'guest-login-button' },
+	            React.createElement('input', { type: 'submit', value: 'Guest Login' })
 	          ),
 	          React.createElement(
 	            'div',
@@ -36271,9 +36284,9 @@
 	  content: {
 	    position: 'absolute',
 	    top: '150px',
-	    left: '300px',
-	    right: '300px',
-	    bottom: '300px',
+	    left: '200px',
+	    right: '200px',
+	    bottom: '250px',
 	    border: '2px solid #ccc',
 	    padding: '50px 100px 50px 100px'
 	  }
@@ -36354,7 +36367,7 @@
 	        { className: 'landing-body-content' },
 	        React.createElement(
 	          'h2',
-	          null,
+	          { className: 'landing-title' },
 	          'Remember Everything'
 	        ),
 	        React.createElement(

@@ -1,5 +1,10 @@
 div.landing-page {
   background-color: #EFF2F3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
 }
 
 header {
@@ -38,4 +43,38 @@ section.app-expl > p {
   padding: 5% 5%;
   margin: 10% 5%;
   background-color: #EFF2F3;
+  font-family: gotham, helvetica,arial,sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #4a4a4a;
+  margin-bottom: 4px;
+  max-height: 40px;
+  /*overflow: hidden;*/
+  overflow-x: auto;
+  /*overflow-wrap: break-word;*/
+  /*text-overflow: w;*/
+  /*white-space: nowrap;*/
+  word-wrap: break-word;
+  line-height: 20px;
+  width: 302px;
+}
+
+
+h2.landing-title {
+  /*color: #878787;*/
+  color: #2DBE60;
+  font-size: 30px;
+  letter-spacing: 0.5px;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  overflow: hidden;
+  padding-right: 6px;
+  white-space: nowrap;
+  font-family: gotham, helvetica, arial, sans-serif;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: baseline;
+  text-align: left;
+  line-height: 26px;
+
 }

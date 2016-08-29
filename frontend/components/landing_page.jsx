@@ -23,7 +23,7 @@ const LandingPage = React.createClass({
         </header>
 
         <div className="landing-body-content">
-          <h2>Remember Everything</h2>
+          <h2 className="landing-title">Remember Everything</h2>
           <section className="app-expl">
             <p>Use Quicknote to track to-do&#39;s, take notes in meetings, or plan your next adventure!</p>
             <img src="https://res.cloudinary.com/dg2yejdpt/image/upload/v1471819122/to_do_list_sraefc.png"/>

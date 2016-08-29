@@ -12,9 +12,9 @@ module.exports = {
   content : {
     position        : 'absolute',
     top             : '150px',
-    left            : '300px',
-    right           : '300px',
-    bottom          : '300px',
+    left            : '200px',
+    right           : '200px',
+    bottom          : '250px',
     border          : '2px solid #ccc',
     padding         : '50px 100px 50px 100px',
   }
