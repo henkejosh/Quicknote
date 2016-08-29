@@ -11,4 +11,5 @@ div.page-content {
   left: 73px;
   position: fixed;
   height: 100%;
+  z-index: -1;
 }

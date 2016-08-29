@@ -296,6 +296,7 @@ const HomePage = React.createClass({
       <div className="home-page-content">
 
         <LeftNavBar
+          cardColumnStyle={this.state.cardColumnStyle}
           SelectNotebookModalOpen={this.state.SelectNotebookModalOpen}
           openSelectNotebookModal={this.openSelectNotebookModal}
           closeSelectNotebookModal={this.closeSelectNotebookModal}

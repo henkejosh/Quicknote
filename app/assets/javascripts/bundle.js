@@ -36667,6 +36667,7 @@
 	      'div',
 	      { className: 'home-page-content' },
 	      React.createElement(LeftNavBar, {
+	        cardColumnStyle: this.state.cardColumnStyle,
 	        SelectNotebookModalOpen: this.state.SelectNotebookModalOpen,
 	        openSelectNotebookModal: this.openSelectNotebookModal,
 	        closeSelectNotebookModal: this.closeSelectNotebookModal,
@@ -37719,6 +37720,27 @@
 	    }
 	  },
 	
+	  formatSelectedNotesIcon: function formatSelectedNotesIcon() {
+	    if (!this.props.cardColumnStyle) return;
+	    if (this.props.cardColumnStyle === "all") {
+	      return React.createElement('div', { className: 'selected-icon-all selected-icon' });
+	    }
+	  },
+	
+	  formatSelectedNotebookIcon: function formatSelectedNotebookIcon() {
+	    if (!this.props.cardColumnStyle) return;
+	    if (this.props.cardColumnStyle === "notebook") {
+	      return React.createElement('div', { className: 'selected-icon-notebook selected-icon' });
+	    }
+	  },
+	
+	  formatSelectedTagIcon: function formatSelectedTagIcon() {
+	    if (!this.props.cardColumnStyle) return;
+	    if (this.props.cardColumnStyle === "tag") {
+	      return React.createElement('div', { className: 'selected-icon-tag selected-icon' });
+	    }
+	  },
+	
 	  createNewNote: function createNewNote() {
 	    var note = {
 	      title: "New Note",
@@ -37744,27 +37766,65 @@
 	        React.createElement(
 	          'div',
 	          { className: 'icon-holder', onClick: this.createNewNote },
-	          React.createElement('i', { className: 'fa fa-plus', 'aria-hidden': 'true' })
+	          React.createElement('i', { className: 'fa fa-plus', 'aria-hidden': 'true' }),
+	          React.createElement('img', { src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg==',
+	            className: 'hover-tag-arrow add-note' }),
+	          React.createElement(
+	            'span',
+	            { className: 'icon-hover-tag add-note-tag' },
+	            'New Note'
+	          )
 	        ),
 	        React.createElement(
 	          'div',
 	          { onClick: this.handleNoteIconClick, className: 'icon-holder' },
-	          React.createElement('i', { className: 'fa fa-file-text', 'aria-hidden': 'true' })
+	          React.createElement('i', { className: 'fa fa-file-text', 'aria-hidden': 'true' }),
+	          React.createElement('img', { src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg==',
+	            className: 'hover-tag-arrow all-notes' }),
+	          React.createElement(
+	            'span',
+	            { className: 'icon-hover-tag all-notes-tag' },
+	            'New Note'
+	          ),
+	          this.formatSelectedNotesIcon()
 	        ),
 	        React.createElement(
 	          'div',
 	          { onClick: this.handleNBClick, className: 'icon-holder' },
-	          React.createElement('i', { className: 'fa fa-book green-book', 'aria-hidden': 'true' })
+	          React.createElement('i', { className: 'fa fa-book green-book', 'aria-hidden': 'true' }),
+	          React.createElement('img', { src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg==',
+	            className: 'hover-tag-arrow notebook-notes' }),
+	          React.createElement(
+	            'span',
+	            { className: 'icon-hover-tag notebooks-tag' },
+	            'Notebooks'
+	          ),
+	          this.formatSelectedNotebookIcon()
 	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'icon-holder', onClick: this.handleTagIconClick },
-	          React.createElement('i', { className: 'fa fa-tag green-tag', 'aria-hidden': 'true' })
+	          React.createElement('i', { className: 'fa fa-tag green-tag', 'aria-hidden': 'true' }),
+	          React.createElement('img', { src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg==',
+	            className: 'hover-tag-arrow tag-notes' }),
+	          React.createElement(
+	            'span',
+	            { className: 'icon-hover-tag tags-tag' },
+	            'TAGS'
+	          ),
+	          this.formatSelectedTagIcon()
 	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'icon-holder', onClick: this.props.logout },
-	          React.createElement('i', { className: 'fa fa-sign-out', 'aria-hidden': 'true' })
+	          React.createElement('i', { className: 'fa fa-sign-out', 'aria-hidden': 'true' }),
+	          React.createElement('img', { src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg==',
+	            className: 'hover-tag-arrow log-out-icon' }),
+	          React.createElement(
+	            'span',
+	            { className: 'icon-hover-tag add-note-tag' },
+	            'Log Out'
+	          )
 	        )
 	      )
 	    );
