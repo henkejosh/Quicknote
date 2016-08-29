@@ -172,9 +172,9 @@ const NoteEditor = React.createClass({
         <div className="top-toolbar">
           <div className="curr-notebook-selector"
             onClick={this.toggleNotebookSelector}>
-            <img className="nb-icon" src="/"/>
+            <i className="fa fa-book" aria-hidden="true"></i>
             <p className="curr-nb-title">{this.state.notebookTitle}</p>
-            <img className="down-arrow" src="/"/>
+            <i className="fa fa-angle-down" aria-hidden="true"></i>
           </div>
 
           <div onMouseLeave={this.handleNotebookSelectorClose}

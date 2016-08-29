@@ -50,6 +50,9 @@ const LeftNavBar = React.createClass({
           onClick={this.createNewNote}>Add Note</div>
 
           <br/>
+
+
+<br/>
         <div onClick={this.handleNoteIconClick}
           className="note-icon nav-icon">Note Icon</div>
 

@@ -59,7 +59,8 @@ const NotesBar = React.createClass({
           { this.formatCardColumnHeader() }
 
           <div className="notebook-card-title">
-            <div className="card-title">{this.formatCardColumnType()}</div>
+            <div className="notes-bar-title">{this.formatCardColumnType()}</div>
+
           </div>
 
           <div className="count-holder">

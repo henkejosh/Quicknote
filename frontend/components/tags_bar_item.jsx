@@ -47,9 +47,11 @@ const TagsBarItem = React.createClass({
     return (
       <li className="current-note-tag" onMouseEnter={this.showDelete}
         onMouseLeave={this.hideDelete}
-        >{this.props.title}<p className="tag-relat-delete"
+        >{this.props.title} <i className="tag-relat-delete fa fa-times"
+          aria-hidden="true"
           style={this.state}
-          onClick={this.handleDestroy}>[x]</p></li>
+          onClick={this.handleDestroy}></i>
+        </li>
     );
   }
 });

@@ -80,7 +80,8 @@ const TagsBarIndex = React.createClass({
     return (
       <section className="tag-bar">
         <div className="tag-selector">
-          <img src="/" className="tag-icon-editor" />
+          <i id="tag" 
+            className="fa fa-tag" aria-hidden="true"></i>
         </div>
         <ul className="tag-list">
 
@@ -89,7 +90,7 @@ const TagsBarIndex = React.createClass({
             onKeyPress={this.createTag}
             className="tag-creator"
             onChange={this.handleTitleChange}
-            placeholder="+"
+            placeholder="New tag..."
             value={this.state.title}
             />
           </div>

@@ -12,9 +12,18 @@ div.current-notebook-card {
   text-align: left;
   position: absolute;
   width: 350px;
+  height: 120px;
+  /*width: 350px;*/
+  border-bottom: 1px solid #e7e7e7;
+  margin: 0px;
+  /*padding: 0px;*/
+  /*position: absolute;*/
+  z-index: 1;
+  opacity: 1;
+  background-color: white;
 }
 
-div.card-title {
+div.notes-bar-title {
   color: #878787;
   font-size: 21px;
   letter-spacing: 0.5px;
@@ -28,6 +37,7 @@ div.card-title {
   text-align: center;
   vertical-align: baseline;
   text-align: left;
+  line-height: 26px;
 }
 
 div.count-holder {
@@ -44,6 +54,21 @@ span.note-count {
   color: #ababab;
 }
 
+i.fa-trash-o {
+  color: white;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  /*width: 24px;
+  height: 24px;*/
+  font-size: 1.5em;
+}
+
+i.fa-trash-o:hover {
+  color: #747474;
+  cursor: pointer;
+}
+
 img.edit-nb-icon {
   position: absolute;
   top: 5px;
@@ -56,18 +81,6 @@ div.note-cards {
   top: 120px;
   position: relative;
   overflow-y: scroll;
-}
-
-.current-notebook-card {
-  height: 120px;
-  width: 350px;
-  border: 1px solid black;
-  margin: 0px;
-  padding: 0px;
-  position: absolute;
-  z-index: 1;
-  opacity: 1;
-  background-color: white;
 }
 
 div.note-card {
@@ -85,6 +98,10 @@ div.note-card:hover {
   color: white;
 }
 
+div.note-card:hover > ul > li {
+  color: white;
+}
+
 li.delete-icon {
   width: 20%;
 }
@@ -97,25 +114,78 @@ li.delete-icon:hover {
 div.note-card > ul {
   margin: 0px;
   list-style: none;
-}
-
-div.note-card > ul > li {
-  /*overflow-x: ellipsis;*/
-  transition: color .1s ease-in-out,width 0s ease-in-out .1s;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-font-family: caecilia,times,serif;
-font-size: 16px;
-font-weight: 400;
-color: #4a4a4a;
-margin-bottom: 4px;
-max-height: 40px;
+  left: 24px;
 overflow: hidden;
 overflow-wrap: break-word;
-text-overflow: ellipsis;
-white-space: nowrap;
+position: absolute;
+right: 24px;
+top: 12px;
 word-wrap: break-word;
-line-height: 20px;
+bottom: 15px;
+padding: 0px;
+}
+/*
+div.note-card > ul {
+  /*overflow-x: ellipsis;*/
+  /*-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+font-family: gotham,helvetica,arial,sans-serif;
+font-size: 11px;
+font-weight: 400;
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-bottom: 8px;*/
+/*border-bottom: 1px solid #e7e7e7;*/
+  /*padding:
+}*/
+
+li.card-body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: gotham, helvetica,arial,sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 17px;
+  transition: color .1s ease-in-out;
+    transition-property: color;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
+    transition-delay: initial;
+    color: #878787;
+left: 24px;
+overflow: hidden;
+overflow-wrap: break-word;
+/*position: absolute;*/
+right: 24px;
+top: 12px;
+word-wrap: break-word;
+bottom: 15px;
+}
+
+li.card-timestamp {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: gotham,helvetica,arial,sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  color: #878787;
+  transition: color .1s ease-in-out;
+    transition-property: color;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
+    transition-delay: initial;
+    color: #878787;
+left: 24px;
+overflow: hidden;
+overflow-wrap: break-word;
+/*position: absolute;*/
+right: 24px;
+top: 12px;
+word-wrap: break-word;
+bottom: 15px;
 }
 
 div.note-card-line-break {
@@ -125,4 +195,27 @@ div.note-card-line-break {
   bottom: 0px;
   width: 318px;
 }
+
+li.card-title {
+  transition: color .1s ease-in-out,width 0s ease-in-out .1s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /*font-family: caecilia,times,serif;*/
+  font-family: gotham, helvetica,arial,sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #4a4a4a;
+  margin-bottom: 4px;
+  max-height: 40px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  line-height: 20px;
+  width: 302px;
+}
+/*li.card-timestamp:hover, li.card-body:hover, li.card-title:hover {
+  color: white;
+}*/
 /**/

@@ -37550,7 +37550,7 @@
 	          { className: 'notebook-card-title' },
 	          React.createElement(
 	            'div',
-	            { className: 'card-title' },
+	            { className: 'notes-bar-title' },
 	            this.formatCardColumnType()
 	          )
 	        ),
@@ -37634,17 +37634,17 @@
 	        null,
 	        React.createElement(
 	          'li',
-	          null,
+	          { className: 'card-title' },
 	          this.props.title
 	        ),
 	        React.createElement(
 	          'li',
-	          null,
+	          { className: 'card-timestamp' },
 	          this.formatLastUpdated()
 	        ),
 	        React.createElement(
 	          'li',
-	          null,
+	          { className: 'card-body' },
 	          this.formatBody()
 	        ),
 	        React.createElement(
@@ -37652,14 +37652,11 @@
 	          null,
 	          'NB_ID: ',
 	          this.props.notebook_id
-	        ),
-	        React.createElement(
-	          'li',
-	          { className: 'delete-icon',
-	            onClick: this.deleteNote },
-	          'DELETE'
 	        )
 	      ),
+	      React.createElement('i', { className: 'fa fa-trash-o',
+	        onClick: this.deleteNote,
+	        'aria-hidden': 'true' }),
 	      React.createElement('div', { className: 'note-card-line-break' })
 	    );
 	  }
@@ -37735,6 +37732,7 @@
 	          onClick: this.createNewNote },
 	        'Add Note'
 	      ),
+	      React.createElement('br', null),
 	      React.createElement('br', null),
 	      React.createElement(
 	        'div',
@@ -38554,13 +38552,13 @@
 	          'div',
 	          { className: 'curr-notebook-selector',
 	            onClick: this.toggleNotebookSelector },
-	          React.createElement('img', { className: 'nb-icon', src: '/' }),
+	          React.createElement('i', { className: 'fa fa-book', 'aria-hidden': 'true' }),
 	          React.createElement(
 	            'p',
 	            { className: 'curr-nb-title' },
 	            this.state.notebookTitle
 	          ),
-	          React.createElement('img', { className: 'down-arrow', src: '/' })
+	          React.createElement('i', { className: 'fa fa-angle-down', 'aria-hidden': 'true' })
 	        ),
 	        React.createElement(
 	          'div',
@@ -50584,7 +50582,8 @@
 	      React.createElement(
 	        'div',
 	        { className: 'tag-selector' },
-	        React.createElement('img', { src: '/', className: 'tag-icon-editor' })
+	        React.createElement('i', { id: 'tag',
+	          className: 'fa fa-tag', 'aria-hidden': 'true' })
 	      ),
 	      React.createElement(
 	        'ul',
@@ -50596,7 +50595,7 @@
 	            onKeyPress: this.createTag,
 	            className: 'tag-creator',
 	            onChange: this.handleTitleChange,
-	            placeholder: '+',
+	            placeholder: 'New tag...',
 	            value: this.state.title
 	          })
 	        ),
@@ -50669,13 +50668,11 @@
 	        onMouseLeave: this.hideDelete
 	      },
 	      this.props.title,
-	      React.createElement(
-	        'p',
-	        { className: 'tag-relat-delete',
-	          style: this.state,
-	          onClick: this.handleDestroy },
-	        '[x]'
-	      )
+	      ' ',
+	      React.createElement('i', { className: 'tag-relat-delete fa fa-times',
+	        'aria-hidden': 'true',
+	        style: this.state,
+	        onClick: this.handleDestroy })
 	    );
 	  }
 	});

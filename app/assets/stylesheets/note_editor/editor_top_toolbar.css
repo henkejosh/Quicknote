@@ -9,11 +9,31 @@ div.top-toolbar {
 div.curr-notebook-selector {
   float: left;
   white-space: nowrap;
-  padding: 0px 2px;
+  padding: 0px;
   /*border: 1px solid orange;*/
   margin: 5px;
   display: flex;
   flex-direction: row;
+  font-family: gotham,helvetica,arial,sans-serif;
+  font-weight: 300;
+}
+/*ICONS*/
+i.fa-tag {
+  padding-right: 3px;
+  color: #9b9b9b;
+}
+
+i.fa-book {
+  padding-right: 3px;
+  color: #9b9b9b;
+}
+
+/*.fa-chevron-down {
+  padding: 0px 3px;
+}*/
+
+i.fa-angle-down {
+  padding: 0px 3px;
 }
 
 div.curr-notebook-selector:hover {
@@ -44,6 +64,8 @@ section.notebook-selector {
   background-color: #fff;
   z-index: 10;
   border: 3px solid rgba(217, 217, 217, 0.4);
+  font-family: gotham,helvetica,arial,sans-serif;
+  font-weight: 300;
 }
 
 div.keep-row-green {
@@ -66,3 +88,18 @@ div.line-break {
   border-bottom: 1px solid #ececec;
 }
 /*DD END*/
+
+div.quill > div.quill-toolbar {
+  padding-left: 0px;
+  border-bottom: 1px solid #ececec;
+  /*margin-right: 48px;*/
+  display: inline-block;
+}
+
+div.quill-toolbar > span.ql-format-group > span.ql-font > span.ql-picker-label {
+  padding-left: 0px !important;
+}
+
+div.quill > div.quill-contents {
+  padding-left: 0px;
+}

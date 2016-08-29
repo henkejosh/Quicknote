@@ -3,12 +3,12 @@ form.note-editor-page {
   position: fixed;
   height: 100%;
   width: 100%;
-  border: 1px solid blue;
+  /*border: 1px solid blue;*/
   /*margin-left: 15px;*/
   z-index: -1;
   display: flex;
   flex-direction: column;
-  padding: 5px 10px;
+  padding: 5px 48px;
 }
 
 div.quill {
@@ -16,9 +16,42 @@ div.quill {
 }
 
 input.note-title {
+  background: none;
+    background-image: none;
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-repeat-x: initial;
+    background-repeat-y: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    border: none;
+    outline: none;
+    padding: 0;
+    font-family: gotham, helvetica,arial,sans-serif;
+    width: 100%;
+    /*font-family: caecilia, times, serif;*/
+    /*font-family: 'Montserrat', sans-serif;*/
+    /*font-family: 'Gentium Basic', serif;
+    font-family: 'Fira Sans', sans-serif;*/
+    /*font-family: 'Josefin Sans', sans-serif;*/
   font-size: 28px;
-  color: #2DBE60;
-  border-left: 0px;
-  border-right: 0px;
-  border-top: 0px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 300;
+  height: 32px;
+  top: 0;
+  left: 0;
+  margin-top: -1px;
+  color: #2dbe60;
+  line-height: 32px;
+  outline: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-style: normal;
+  font-variant-ligatures: normal;
+  font-variant-caps: normal;
+  font-variant-numeric: normal;
 }
