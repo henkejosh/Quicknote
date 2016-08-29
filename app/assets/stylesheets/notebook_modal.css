@@ -22,7 +22,7 @@ div.notebook-modal {
 
 div.notebook-header {
   display: flex;
-  flex-direction; column;
+  flex-direction: column;
   justify-content: space-between;
   padding: 2% 5%;
 }
