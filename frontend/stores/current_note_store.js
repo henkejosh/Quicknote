@@ -36,6 +36,10 @@ const _chooseLastNote = function(notes) {
 
 const _chooseLastNoteFromArray = function(notes_arr) {
   let lastNote = false;
+  if(notes_arr.notes_arr) {
+    notes_arr = notes_arr.notes_arr;
+  }
+
   notes_arr.forEach( note => {
     // debugger;
     if(lastNote === false || lastNote < new Date(note.updated_at)) {
@@ -96,7 +100,8 @@ CurrentNoteStore.__onDispatch = payload => {
       CurrentNoteStore.__emitChange();
       break;
     case NoteConstants.RECEIVE_ALL_NOTES:
-      _chooseLastNoteFromArray(payload.notes.notes_arr);
+      // debugger;
+      _chooseLastNoteFromArray(payload.notes);
       CurrentNoteStore.__emitChange();
       break;
     case NoteConstants.REMOVE_NOTE:

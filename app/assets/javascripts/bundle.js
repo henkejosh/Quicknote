@@ -38315,6 +38315,10 @@
 	
 	var _chooseLastNoteFromArray = function _chooseLastNoteFromArray(notes_arr) {
 	  var lastNote = false;
+	  if (notes_arr.notes_arr) {
+	    notes_arr = notes_arr.notes_arr;
+	  }
+	
 	  notes_arr.forEach(function (note) {
 	    // debugger;
 	    if (lastNote === false || lastNote < new Date(note.updated_at)) {
@@ -38375,7 +38379,8 @@
 	      CurrentNoteStore.__emitChange();
 	      break;
 	    case NoteConstants.RECEIVE_ALL_NOTES:
-	      _chooseLastNoteFromArray(payload.notes.notes_arr);
+	      // debugger;
+	      _chooseLastNoteFromArray(payload.notes);
 	      CurrentNoteStore.__emitChange();
 	      break;
 	    case NoteConstants.REMOVE_NOTE:
