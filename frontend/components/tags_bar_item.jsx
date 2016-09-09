@@ -10,7 +10,7 @@ const TagsBarItem = React.createClass({
     e.preventDefault();
     this.props.tag.taggings.forEach( tagging => {
       if(tagging.tag_id === this.props.tag.id &&
-        tagging.note_id ===this.props.currentNote.id) {
+        tagging.note_id === this.props.currentNote.id) {
         TagActions.destroyRelationship(this.props.tag.id, tagging.id);
       }
     });
@@ -44,6 +44,7 @@ const TagsBarItem = React.createClass({
   },
 
   render: function() {
+
     return (
       <li className="current-note-tag" onMouseEnter={this.showDelete}
         onMouseLeave={this.hideDelete}

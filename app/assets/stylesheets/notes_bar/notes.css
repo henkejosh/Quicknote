@@ -52,7 +52,7 @@ span.note-count {
   color: #ababab;
 }
 
-i.fa-trash-o {
+i.fa-trash-o.note {
   color: white;
   position: absolute;
   top: 10px;
@@ -62,7 +62,7 @@ i.fa-trash-o {
   font-size: 1.5em;
 }
 
-i.fa-trash-o:hover {
+i.fa-trash-o.note:hover {
   color: #747474;
   cursor: pointer;
 }
@@ -113,11 +113,6 @@ div.note-card:hover > ul > li {
 
 li.delete-icon {
   width: 20%;
-}
-
-li.delete-icon:hover {
-  background-color: grey;
-  border: 1px solid blue;
 }
 
 div.note-card > ul {
@@ -209,8 +204,8 @@ li.card-title {
   transition: color .1s ease-in-out,width 0s ease-in-out .1s;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*font-family: caecilia,times,serif;*/
-  font-family: gotham, helvetica,arial,sans-serif;
+  font-family: caecilia, times, serif;
+  /*font-family: gotham, helvetica,arial,sans-serif;*/
   font-size: 16px;
   font-weight: 400;
   color: #4a4a4a;

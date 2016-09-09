@@ -16,7 +16,8 @@ div.curr-notebook-selector {
   margin: 5px;
   display: flex;
   flex-direction: row;
-  font-family: gotham,helvetica,arial,sans-serif;
+  /*font-family: gotham,helvetica,arial,sans-serif;*/
+  font-family: caecilia, times, serif;
   font-weight: 300;
 }
 /*ICONS*/
@@ -61,12 +62,13 @@ p.curr-nb-title {
 /*DROP DOWN*/
 section.notebook-selector {
   position: absolute;
-  top: 35px;
+  top: 40px;
   left: 5px;
   background-color: #fff;
   z-index: 10;
   border: 3px solid rgba(217, 217, 217, 0.4);
-  font-family: gotham,helvetica,arial,sans-serif;
+  /*font-family: gotham,helvetica,arial,sans-serif;*/
+  font-family: caecilia, times, serif;
   font-weight: 300;
 }
 

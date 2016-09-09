@@ -100,7 +100,6 @@ CurrentNoteStore.__onDispatch = payload => {
       CurrentNoteStore.__emitChange();
       break;
     case NoteConstants.RECEIVE_ALL_NOTES:
-      // debugger;
       _chooseLastNoteFromArray(payload.notes);
       CurrentNoteStore.__emitChange();
       break;

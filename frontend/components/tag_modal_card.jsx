@@ -33,8 +33,8 @@ const TagModalCard = React.createClass({
     e.preventDefault();
     TagActions.deleteTag(this.props.tag);
     NoteActions.getAllNotes();
-    this.props.changeCardColumnToAllCards();
-    this.props.closeSelectTagModal();
+    // this.props.changeCardColumnToAllCards();
+    // this.props.closeSelectTagModal();
   },
 
   render: function() {
@@ -42,7 +42,8 @@ const TagModalCard = React.createClass({
       <div className="outer-tag">
         <div onClick={this.handleSelection}
         className="current-note-tag"
-        >{this.props.title}: [{this.formatNoteCount()}]</div>
+        >{this.props.title}<p
+          className="tag-note-count">{this.formatNoteCount()}</p></div>
 
         <i className="fa fa-trash-o delete-tag-modal-icon"
           onClick={this.deleteTag}

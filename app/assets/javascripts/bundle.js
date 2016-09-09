@@ -37681,7 +37681,7 @@
 	          this.formatBody()
 	        )
 	      ),
-	      React.createElement('i', { className: 'fa fa-trash-o',
+	      React.createElement('i', { className: 'fa fa-trash-o note',
 	        onClick: this.deleteNote,
 	        'aria-hidden': 'true' }),
 	      React.createElement('div', { className: 'note-card-line-break' })
@@ -38379,7 +38379,6 @@
 	      CurrentNoteStore.__emitChange();
 	      break;
 	    case NoteConstants.RECEIVE_ALL_NOTES:
-	      // debugger;
 	      _chooseLastNoteFromArray(payload.notes);
 	      CurrentNoteStore.__emitChange();
 	      break;
@@ -50732,6 +50731,7 @@
 	  },
 	
 	  render: function render() {
+	
 	    return React.createElement(
 	      'li',
 	      { className: 'current-note-tag', onMouseEnter: this.showDelete,
@@ -59734,8 +59734,8 @@
 	    e.preventDefault();
 	    TagActions.deleteTag(this.props.tag);
 	    NoteActions.getAllNotes();
-	    this.props.changeCardColumnToAllCards();
-	    this.props.closeSelectTagModal();
+	    // this.props.changeCardColumnToAllCards();
+	    // this.props.closeSelectTagModal();
 	  },
 	
 	  render: function render() {
@@ -59748,9 +59748,12 @@
 	          className: 'current-note-tag'
 	        },
 	        this.props.title,
-	        ': [',
-	        this.formatNoteCount(),
-	        ']'
+	        React.createElement(
+	          'p',
+	          {
+	            className: 'tag-note-count' },
+	          this.formatNoteCount()
+	        )
 	      ),
 	      React.createElement('i', { className: 'fa fa-trash-o delete-tag-modal-icon',
 	        onClick: this.deleteTag,

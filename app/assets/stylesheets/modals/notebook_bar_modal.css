@@ -62,7 +62,8 @@ ul.notebook-card {
   transition-duration: 0.1s;
   transition-timing-function: ease-in-out;
   transition-delay: initial;
-  font-family: gotham, helvetica, arial, sans-serif;
+  /*font-family: gotham, helvetica, arial, sans-serif;*/
+  /*font-family: caecilia, times, serif;*/
   font-size: 16px;
   font-weight: 400;
   list-style: none;
@@ -102,8 +103,8 @@ transition-property: color;
 transition-duration: 0.1s;
 transition-timing-function: ease-in-out;
 transition-delay: initial;
-/*font-family: caecilia, times, serif;*/
-font-family: gotham, helvetica,arial,sans-serif;
+font-family: caecilia, times, serif;
+/*font-family: gotham, helvetica,arial,sans-serif;*/
 font-size: 16px;
 font-weight: 400;
 }

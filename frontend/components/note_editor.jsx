@@ -172,20 +172,21 @@ const NoteEditor = React.createClass({
 
 
         <div className="top-toolbar">
-          <div className="curr-notebook-selector"
-            onClick={this.toggleNotebookSelector}>
-            <i className="fa fa-book grey-book" aria-hidden="true"></i>
-            <p className="curr-nb-title">{this.state.notebookTitle}</p>
-            <i className="fa fa-angle-down" aria-hidden="true"></i>
-          </div>
 
-          <div onMouseLeave={this.handleNotebookSelectorClose}
-            className="dropdown-placeholder">
-            { this.createNotebookDropdownSelector() }
-          </div>
+            <div className="curr-notebook-selector"
+              onClick={this.toggleNotebookSelector}>
+              <i className="fa fa-book grey-book" aria-hidden="true"></i>
+              <p className="curr-nb-title">{this.state.notebookTitle}</p>
+              <i className="fa fa-angle-down" aria-hidden="true"></i>
+            </div>
 
-          <TagsBarIndex currentUserID={this.props.currentUserID}
-            currentNote={this.props.currentNote}/>
+            <div onMouseLeave={this.handleNotebookSelectorClose}
+              className="dropdown-placeholder">
+              { this.createNotebookDropdownSelector() }
+            </div>
+
+            <TagsBarIndex currentUserID={this.props.currentUserID}
+              currentNote={this.props.currentNote}/>
 
         </div>
 

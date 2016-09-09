@@ -54,7 +54,7 @@ const NoteItem = React.createClass({
           <li className="card-body">{this.formatBody()}</li>
         </ul>
 
-        <i className="fa fa-trash-o"
+        <i className="fa fa-trash-o note"
           onClick={this.deleteNote}
           aria-hidden="true">
         </i>

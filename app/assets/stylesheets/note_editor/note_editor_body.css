@@ -1,5 +1,7 @@
 form.note-editor-page {
   left: 425px;
+  right: 0px;
+  bottom: 0px;
   position: fixed;
   height: 100%;
   width: 100%;
@@ -31,9 +33,9 @@ input.note-title {
     border: none;
     outline: none;
     padding: 0;
-    font-family: gotham, helvetica,arial,sans-serif;
+    /*font-family: gotham, helvetica,arial,sans-serif;*/
     width: 100%;
-    /*font-family: caecilia, times, serif;*/
+    font-family: caecilia, times, serif;
     /*font-family: 'Montserrat', sans-serif;*/
     /*font-family: 'Gentium Basic', serif;
     font-family: 'Fira Sans', sans-serif;*/
