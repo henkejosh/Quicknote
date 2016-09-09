@@ -4,7 +4,7 @@ const CurrentNotebookActions = require("../actions/current_notebook_actions.js")
 
 const NotebookCreator = React.createClass({
   getInitialState: function() {
-    return { title: "Title your notebook"};
+    return { title: ""};
   },
 
   handleCancel: function(e) {
@@ -31,13 +31,25 @@ const NotebookCreator = React.createClass({
   render: function () {
     return (
       <div className="notebook-creator-modal">
+        <i className="fa fa-book create" aria-hidden="true"></i>
+
         <h3>CREATE NOTEBOOK</h3>
-        <input onChange={this.handleTextChange}
-          type='text' value={this.state.title}
-          className="create-notebook-title"/>
+
+        <div className="notebook-creator-break" />
+
+        <input type='text'
+          onChange={this.handleTextChange}
+          value={this.state.title}
+          className="create-notebook-title"
+          placeholder="Title your notebook"
+          />
+
         <div className="nb-buttons">
-          <button onClick={this.handleCancel}>Cancel</button>
-          <button onClick={this.handleCreate}>Create notebook</button>
+          <div className="nb-cancel-button"
+            onClick={this.handleCancel}>Cancel</div>
+
+          <div className="nb-create-button"
+            onClick={this.handleCreate}>Create notebook</div>
         </div>
       </div>
     );

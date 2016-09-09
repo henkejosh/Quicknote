@@ -51,6 +51,8 @@ div.tag-line-break {
 div.outer-tag {
   position: relative;
   margin-bottom: 10px;
+  /*max-width: 90%;*/
+  height: 24px;
 }
 
 div.outer-tag:hover div.current-note-tag{
@@ -84,7 +86,8 @@ i.fa-trash-o.delete-tag-modal-icon {
 }
 
 div.current-note-tag {
-  max-width: 258px;
+  /*max-width: 258px;*/
+  max-width: 90%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: gotham,helvetica,arial,sans-serif;

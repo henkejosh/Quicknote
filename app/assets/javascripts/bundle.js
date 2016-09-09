@@ -59463,7 +59463,7 @@
 	  displayName: "NotebookCreator",
 	
 	  getInitialState: function getInitialState() {
-	    return { title: "Title your notebook" };
+	    return { title: "" };
 	  },
 	
 	  handleCancel: function handleCancel(e) {
@@ -59491,25 +59491,32 @@
 	    return React.createElement(
 	      "div",
 	      { className: "notebook-creator-modal" },
+	      React.createElement("i", { className: "fa fa-book create", "aria-hidden": "true" }),
 	      React.createElement(
 	        "h3",
 	        null,
 	        "CREATE NOTEBOOK"
 	      ),
-	      React.createElement("input", { onChange: this.handleTextChange,
-	        type: "text", value: this.state.title,
-	        className: "create-notebook-title" }),
+	      React.createElement("div", { className: "notebook-creator-break" }),
+	      React.createElement("input", { type: "text",
+	        onChange: this.handleTextChange,
+	        value: this.state.title,
+	        className: "create-notebook-title",
+	        placeholder: "Title your notebook"
+	      }),
 	      React.createElement(
 	        "div",
 	        { className: "nb-buttons" },
 	        React.createElement(
-	          "button",
-	          { onClick: this.handleCancel },
+	          "div",
+	          { className: "nb-cancel-button",
+	            onClick: this.handleCancel },
 	          "Cancel"
 	        ),
 	        React.createElement(
-	          "button",
-	          { onClick: this.handleCreate },
+	          "div",
+	          { className: "nb-create-button",
+	            onClick: this.handleCreate },
 	          "Create notebook"
 	        )
 	      )
