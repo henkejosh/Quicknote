@@ -59478,6 +59478,8 @@
 	
 	  handleCreate: function handleCreate(e) {
 	    e.preventDefault();
+	    if (this.state.title === "") return;
+	
 	    var notebook = {};
 	    notebook["title"] = this.state.title;
 	    notebook["user_id"] = this.props.currentUserID;

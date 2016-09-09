@@ -57,6 +57,7 @@ input.create-notebook-title:focus {
 div.nb-buttons {
   display: block;
   flex-direction: row;
+  margin-top: 70px;
 }
 
 i.fa-book.create {
