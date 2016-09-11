@@ -4,11 +4,11 @@ form.note-editor-page {
   bottom: 0px;
   position: fixed;
   height: 100%;
-  width: 100%;
+  width: calc(100% - 96px - 425px);
   /*border: 1px solid blue;*/
   /*margin-left: 15px;*/
   z-index: -3;
-  display: flex;
+  display: block;
   flex-direction: column;
   padding: 5px 48px;
 }

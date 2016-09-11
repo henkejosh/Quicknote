@@ -5,7 +5,10 @@ div.top-toolbar {
   white-space: nowrap;*/
   padding-top: 10px;
   height: 35px;
-  /*overflow: hidden;*/
+  min-width: 350px;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
 }
 
 div.curr-notebook-selector {
@@ -98,6 +101,8 @@ div.quill > div.quill-toolbar {
   border-bottom: 1px solid #ececec;
   /*margin-right: 48px;*/
   display: inline-block;
+  width: 100%;
+  min-width: 578px;
 }
 
 div.quill-toolbar > span.ql-format-group > span.ql-font > span.ql-picker-label {
