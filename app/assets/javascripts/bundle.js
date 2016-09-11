@@ -36497,7 +36497,7 @@
 	      tagModalBarIsOpen: false,
 	      SelectNotebookModalOpen: false
 	    });
-	    this.removeNoteEditorOpacity();
+	    // this.removeNoteEditorOpacity();
 	  },
 	
 	  forceUpdateNotebookNotes: function forceUpdateNotebookNotes() {
@@ -36703,7 +36703,8 @@
 	        updateNotes: this.updateNotes,
 	        forceUpdateAllNotes: this.forceUpdateAllNotes,
 	        changeCardColumnToTag: this.changeCardColumnToTag,
-	        forceUpdateTagNotes: this.forceUpdateTagNotes
+	        forceUpdateTagNotes: this.forceUpdateTagNotes,
+	        removeNoteEditorOpacity: this.removeNoteEditorOpacity
 	      }),
 	      React.createElement(
 	        'div',
@@ -37717,6 +37718,7 @@
 	    e.preventDefault();
 	    if (this.props.SelectNotebookModalOpen) {
 	      this.props.closeSelectNotebookModal();
+	      this.props.removeNoteEditorOpacity();
 	    } else {
 	      this.props.openSelectNotebookModal();
 	    }
@@ -37726,6 +37728,7 @@
 	    e.preventDefault();
 	    this.props.changeCardColumnToAllCards();
 	    this.props.forceUpdateAllNotes();
+	    this.props.removeNoteEditorOpacity();
 	  },
 	
 	  handleTagIconClick: function handleTagIconClick(e) {
@@ -37735,6 +37738,7 @@
 	      this.props.changeCardColumnToAllCards();
 	      this.props.forceUpdateAllNotes();
 	      this.props.closeSelectTagModal();
+	      this.props.removeNoteEditorOpacity();
 	    } else {
 	      this.props.openSelectTagModal();
 	      // this.props.forceUpdateTagNotes();
@@ -59579,33 +59583,55 @@
 	      "div",
 	      { className: "notebook-editor-modal" },
 	      React.createElement(
-	        "h3",
-	        null,
-	        "NOTEBOOK INFO"
-	      ),
-	      React.createElement(
-	        "p",
-	        null,
-	        "Title: ",
-	        React.createElement("input", { onChange: this.handleTextChange,
-	          type: "text", value: this.state.title })
-	      ),
-	      React.createElement(
-	        "p",
-	        null,
-	        "Creator: ",
-	        this.props.currentUser
-	      ),
-	      React.createElement("br", null),
-	      React.createElement(
-	        "button",
-	        { onClick: this.handleCancel },
-	        "Cancel"
-	      ),
-	      React.createElement(
-	        "button",
-	        { onClick: this.handleCreate },
-	        "Update notebook"
+	        "div",
+	        { className: "notebook-modal-body" },
+	        React.createElement(
+	          "h3",
+	          null,
+	          "NOTEBOOK INFO"
+	        ),
+	        React.createElement(
+	          "span",
+	          { className: "nb-editor-title-card" },
+	          React.createElement(
+	            "p",
+	            {
+	              className: "title-word" },
+	            "Title: "
+	          ),
+	          React.createElement("input", {
+	            className: "edit-notebook-title",
+	            onChange: this.handleTextChange,
+	            type: "text", value: this.state.title })
+	        ),
+	        React.createElement(
+	          "span",
+	          { className: "nb-editor-creator-card"
+	          },
+	          "Creator: ",
+	          React.createElement(
+	            "p",
+	            null,
+	            this.props.currentUser
+	          )
+	        ),
+	        React.createElement("div", { className: "notebook-editor-break" }),
+	        React.createElement(
+	          "div",
+	          { className: "nb-buttons-editor" },
+	          React.createElement(
+	            "div",
+	            { className: "nb-cancel-button",
+	              onClick: this.handleCancel },
+	            "Cancel"
+	          ),
+	          React.createElement(
+	            "div",
+	            { className: "nb-create-button",
+	              onClick: this.handleCreate },
+	            "Update notebook"
+	          )
+	        )
 	      )
 	    );
 	  }

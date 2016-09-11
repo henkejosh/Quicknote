@@ -101,7 +101,7 @@ const HomePage = React.createClass({
       tagModalBarIsOpen: false,
       SelectNotebookModalOpen: false
     });
-    this.removeNoteEditorOpacity();
+    // this.removeNoteEditorOpacity();
   },
 
   forceUpdateNotebookNotes: function() {
@@ -320,6 +320,7 @@ const HomePage = React.createClass({
           forceUpdateAllNotes={this.forceUpdateAllNotes}
           changeCardColumnToTag={this.changeCardColumnToTag}
           forceUpdateTagNotes={this.forceUpdateTagNotes}
+          removeNoteEditorOpacity={this.removeNoteEditorOpacity}
           />
 
         <div className="page-content">

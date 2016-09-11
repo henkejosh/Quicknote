@@ -31,17 +31,30 @@ const NotebookEditor = React.createClass({
   render: function() {
     return (
       <div className="notebook-editor-modal">
+        <div className="notebook-modal-body">
           <h3>NOTEBOOK INFO</h3>
-          <p>Title: <input onChange={this.handleTextChange}
+          <span className="nb-editor-title-card"><p
+            className="title-word">Title: <
+            /p><input
+            className="edit-notebook-title"
+            onChange={this.handleTextChange}
             type='text' value={this.state.title}/>
-          </p>
-          <p>Creator: {this.props.currentUser}</p>
+          </span>
 
-            <br/>
+          <span className="nb-editor-creator-card"
+            >Creator: <p>{this.props.currentUser}</p></span>
 
-          <button onClick={this.handleCancel}>Cancel</button>
-          <button onClick={this.handleCreate}>Update notebook</button>
+          <div className="notebook-editor-break" />
+
+          <div className="nb-buttons-editor">
+            <div className="nb-cancel-button"
+              onClick={this.handleCancel}>Cancel</div>
+
+            <div className="nb-create-button"
+              onClick={this.handleCreate}>Update notebook</div>
+          </div>
         </div>
+      </div>
     );
   }
 });

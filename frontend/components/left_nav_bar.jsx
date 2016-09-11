@@ -8,6 +8,7 @@ const LeftNavBar = React.createClass({
     e.preventDefault();
     if(this.props.SelectNotebookModalOpen) {
       this.props.closeSelectNotebookModal();
+      this.props.removeNoteEditorOpacity();
     } else {
       this.props.openSelectNotebookModal();
     }
@@ -17,6 +18,7 @@ const LeftNavBar = React.createClass({
     e.preventDefault();
     this.props.changeCardColumnToAllCards();
     this.props.forceUpdateAllNotes();
+    this.props.removeNoteEditorOpacity();
   },
 
   handleTagIconClick: function(e) {
@@ -26,6 +28,7 @@ const LeftNavBar = React.createClass({
       this.props.changeCardColumnToAllCards();
       this.props.forceUpdateAllNotes();
       this.props.closeSelectTagModal();
+      this.props.removeNoteEditorOpacity();
     } else {
       this.props.openSelectTagModal();
       // this.props.forceUpdateTagNotes();

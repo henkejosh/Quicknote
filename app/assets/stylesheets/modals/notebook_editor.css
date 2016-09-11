@@ -4,6 +4,183 @@ div.notebook-editor-modal {
   left: 0px;
   top: 0px;
   height: 100%;
-  width: 100%;
-  background: orange;
+  width: 90%;
+  background: white;
+  opacity: 1;
+  vertical-align: middle;
+  /*text-align: center;*/
+  padding: 10% 5%;
 }
+
+div.notebook-modal-body {
+  /*border: 1px solid blue;*/
+  display: flex;
+  flex-direction: column;
+}
+
+div.notebook-modal-body > h3 {
+  font-family: gotham, helvetica, arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #878787;
+  text-align: center;
+}
+
+p.title-word {
+  margin: 2px;
+  padding: 0 2px;
+  border: 1px solid #878787;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+span.nb-editor-title-card {
+  font-family: gotham, helvetica, arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #878787;
+  margin: 0 20%;
+  border: 1px solid #878787;
+  border-radius: 2px;
+  line-height: 20px;
+  display: block;
+}
+
+span.nb-editor-creator-card {
+  font-family: gotham, helvetica, arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #878787;
+  padding: 0 20%;
+}
+
+span.nb-editor-creator-card > p {
+  display: inline-block;
+  color: black;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 44px;
+  font-family: caecilia, times, serif;
+  text-align: center;
+  border: none;
+  text-transform: none;
+  padding-left: 2px;
+}
+
+input.edit-notebook-title::-webkit-input-placeholder {
+   color: #c9c9c9;
+}
+
+input.edit-notebook-title:-moz-placeholder {
+   color: #c9c9c9;
+}
+
+input.edit-notebook-title::-moz-placeholder {
+   color: #c9c9c9;
+}
+
+input.edit-notebook-title:-ms-input-placeholder {
+   color: #c9c9c9;
+}
+
+input.edit-notebook-title {
+  display: inline-block;
+  color: black;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 20px;
+  font-family: caecilia, times, serif;
+  /*text-align: center;*/
+  /*border: 1px solid #878787;
+  border-radius: 2px;*/
+  border: none;
+}
+
+input.edit-notebook-title:focus {
+  border: none;
+  outline: none;
+}
+
+div.nb-buttons-editor {
+  display: block;
+  flex-direction: row;
+  margin-top: 70px;
+  text-align: center;
+}
+/*
+i.fa-book.create {
+  color: #c4c4c4;
+  font-size: 35px;
+}
+
+div.notebook-creator-break {
+  border-bottom: 1px solid #d0d0d0;
+  width: 7%;
+  margin: 5px 46.5% 2% 46.5%;
+  margin-left: 46.5%;
+  margin-right: 46.5%;
+}
+
+div.nb-cancel-button {
+  cursor: default;
+    opacity: 0.5;
+    font-family: gotham, helvetica, arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 0 4px;
+    padding: 9px 14px;
+    min-width: 160px;
+    transition: opacity 0.2s ease-in-out;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    transition-delay: initial;
+    background-color: #ececec;
+    border: 1px solid #d9d9d9;
+    color: #606060;
+}
+
+div.nb-cancel-button:hover {
+  font-family: gotham, helvetica, arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    background-color: #d9d9d9;
+border: 1px solid #d1d1d1;
+cursor: pointer;
+opacity: 1;
+}
+
+div.nb-create-button:hover {
+  color: WHITE;
+      background-color: #2dbe60;
+      border: 1px solid #2dbe60;
+      opacity: 1;
+      cursor: pointer;
+}
+
+div.nb-create-button {
+  cursor: default;
+    opacity: 0.5;
+    font-family: gotham, helvetica, arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 0 4px;
+    padding: 9px 14px;
+    min-width: 160px;
+    transition: opacity 0.2s ease-in-out;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    transition-delay: initial;
+    color: WHITE;
+    background-color: #2dbe60;
+    border: 1px solid #2dbe60;
+}*/
