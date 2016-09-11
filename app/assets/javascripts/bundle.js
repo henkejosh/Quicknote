@@ -27599,6 +27599,20 @@
 	    this.setState({ signInModal: true });
 	  },
 	
+	  openSignUpModal: function openSignUpModal() {
+	    this.setState({
+	      signInModal: true,
+	      modalType: "Sign up"
+	    });
+	  },
+	
+	  closeSignUpModal: function closeSignUpModal() {
+	    this.setState({
+	      signInModal: false,
+	      modalType: "Sign in"
+	    });
+	  },
+	
 	  closeSignInModal: function closeSignInModal() {
 	    this.setState({ signInModal: false });
 	  },
@@ -27617,7 +27631,8 @@
 	        closeSignInModal: this.closeSignInModal,
 	        modalType: this.state.modalType,
 	        makeModalSignUp: this.makeModalSignUp,
-	        makeModalSignIn: this.makeModalSignIn });
+	        makeModalSignIn: this.makeModalSignIn,
+	        closeSignUpModal: this.closeSignUpModal });
 	    }
 	  },
 	
@@ -27653,7 +27668,9 @@
 	        openSignInModal: _this.openSignInModal,
 	        currentUser: cUser,
 	        logout: _this.logout,
-	        currentUserID: cUserID
+	        currentUserID: cUserID,
+	        closeSignUpModal: _this.closeSignUpModal,
+	        openSignUpModal: _this.openSignUpModal
 	      });
 	    });
 	
@@ -27771,7 +27788,7 @@
 	      Modal,
 	      { style: modStyle,
 	        isOpen: this.props.isOpen,
-	        onRequestClose: this.props.closeSignInModal
+	        onRequestClose: this.props.closeSignUpModal
 	      },
 	      React.createElement(
 	        'div',
@@ -36334,6 +36351,10 @@
 	var LandingPage = React.createClass({
 	  displayName: 'LandingPage',
 	
+	  handleSignupOpen: function handleSignupOpen(e) {
+	    e.preventDefault();
+	    this.props.openSignUpModal();
+	  },
 	
 	  render: function render() {
 	    var _React$createElement;
@@ -36378,6 +36399,16 @@
 	            'p',
 	            { className: 'sub-copy' },
 	            'Inspiration strikes anywhere. Evernote lets you capture, nurture, and share your ideas across any device.'
+	          ),
+	          React.createElement(
+	            'div',
+	            { onClick: this.handleSignupOpen,
+	              className: 'signup-button-container' },
+	            React.createElement(
+	              'button',
+	              { name: 'register', className: 'signup-button-landing' },
+	              'Sign Up for Free'
+	            )
 	          )
 	        ),
 	        React.createElement('div', { className: 'video-overlay' }),

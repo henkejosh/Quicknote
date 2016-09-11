@@ -31,6 +31,20 @@ const App = React.createClass({
     this.setState({ signInModal: true });
   },
 
+  openSignUpModal: function() {
+    this.setState({
+      signInModal: true,
+      modalType: "Sign up"
+    });
+  },
+
+  closeSignUpModal: function() {
+    this.setState({
+      signInModal: false,
+      modalType: "Sign in"
+    });
+  },
+
   closeSignInModal: function() {
     this.setState({ signInModal: false });
   },
@@ -49,7 +63,8 @@ const App = React.createClass({
         closeSignInModal={this.closeSignInModal}
         modalType={this.state.modalType}
         makeModalSignUp={this.makeModalSignUp}
-        makeModalSignIn={this.makeModalSignIn} />;
+        makeModalSignIn={this.makeModalSignIn}
+        closeSignUpModal={this.closeSignUpModal}/>;
     }
   },
 
@@ -83,7 +98,9 @@ const App = React.createClass({
         openSignInModal: this.openSignInModal,
         currentUser: cUser,
         logout: this.logout,
-        currentUserID: cUserID
+        currentUserID: cUserID,
+        closeSignUpModal: this.closeSignUpModal,
+        openSignUpModal: this.openSignUpModal
       })
     );
 

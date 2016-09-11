@@ -85,7 +85,7 @@ const SignInModal = React.createClass({
     return (
       <Modal style={modStyle}
         isOpen={this.props.isOpen}
-        onRequestClose={this.props.closeSignInModal}
+        onRequestClose={this.props.closeSignUpModal}
         >
         <div>
           <h2 className="modal-type">{this.props.modalType}</h2>

@@ -6,6 +6,10 @@ const SessionStore = require('../stores/session_store.js');
 const hashHistory = require('react-router').hashHistory;
 
 const LandingPage = React.createClass({
+  handleSignupOpen: function(e) {
+    e.preventDefault();
+    this.props.openSignUpModal();
+  },
 
   render: function() {
     return (
@@ -31,6 +35,12 @@ const LandingPage = React.createClass({
             <p className="sub-copy">
               Inspiration strikes anywhere. Evernote lets you capture, nurture, and share your ideas across any device.
             </p>
+
+            <div onClick={this.handleSignupOpen}
+              className="signup-button-container">
+              <button name="register" className="signup-button-landing">Sign Up for Free</button>
+            </div>
+
           </div>
 
           <div className="video-overlay" />
@@ -45,7 +55,7 @@ const LandingPage = React.createClass({
           <div className="row">
             <p>Join <span className="green">millions</span> of people who rely on Evernote to get more things done every day.</p>
           </div>
-      </section>
+        </section>
 
       </div>
 
