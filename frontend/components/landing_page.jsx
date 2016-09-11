@@ -45,6 +45,7 @@ const LandingPage = React.createClass({
 
           <div className="video-overlay" />
           <video autoPlay loop
+            poster="https://cdn1.evernote.com/evernote.com/img/homepage/homepage-hero-video-desktop-still.jpg"
             type="video/webm" src="https://cdn1.evernote.com/evernote.com/video/homepage/homepage-hero-video.webm"
             type="video/mp4" src="https://cdn1.evernote.com/evernote.com/video/homepage/homepage-hero-video.mp4">
           </video>

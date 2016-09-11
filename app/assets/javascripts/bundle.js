@@ -27749,7 +27749,11 @@
 	
 	  handleModalChange: function handleModalChange(e) {
 	    e.preventDefault();
-	    this.props.makeModalSignUp();
+	    if (this.props.modalType === "Sign up") {
+	      this.props.makeModalSignIn();
+	    } else if (this.props.modalType === "Sign in") {
+	      this.props.makeModalSignUp();
+	    }
 	  },
 	
 	  guestLogin: function guestLogin(e) {
@@ -27770,6 +27774,18 @@
 	            className: 'create-account'
 	          },
 	          'Don\'t have an account? Sign up FREE'
+	        )
+	      );
+	    } else if (this.props.modalType === "Sign up") {
+	      return React.createElement(
+	        'section',
+	        { className: 'no-account' },
+	        React.createElement(
+	          'p',
+	          { onClick: this.handleModalChange,
+	            className: 'create-account'
+	          },
+	          'Already have an account? Log in'
 	        )
 	      );
 	    }
@@ -36413,6 +36429,7 @@
 	        ),
 	        React.createElement('div', { className: 'video-overlay' }),
 	        React.createElement('video', (_React$createElement = { autoPlay: true, loop: true,
+	          poster: 'https://cdn1.evernote.com/evernote.com/img/homepage/homepage-hero-video-desktop-still.jpg',
 	          type: 'video/webm', src: 'https://cdn1.evernote.com/evernote.com/video/homepage/homepage-hero-video.webm'
 	        }, _defineProperty(_React$createElement, 'type', 'video/mp4'), _defineProperty(_React$createElement, 'src', 'https://cdn1.evernote.com/evernote.com/video/homepage/homepage-hero-video.mp4'), _React$createElement))
 	      ),

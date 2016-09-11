@@ -51,7 +51,11 @@ const SignInModal = React.createClass({
 
   handleModalChange: function(e) {
     e.preventDefault();
-    this.props.makeModalSignUp();
+    if(this.props.modalType === "Sign up") {
+      this.props.makeModalSignIn();
+    } else if(this.props.modalType === "Sign in") {
+      this.props.makeModalSignUp();
+    }
   },
 
   guestLogin: function(e) {
@@ -68,6 +72,14 @@ const SignInModal = React.createClass({
           <p onClick={ this.handleModalChange }
             className="create-account"
             >Don&#39;t have an account? Sign up FREE</p>
+        </section>
+      );
+    } else if(this.props.modalType === "Sign up") {
+      return (
+        <section className="no-account">
+          <p onClick={ this.handleModalChange }
+            className="create-account"
+            >Already have an account? Log in</p>
         </section>
       );
     }
