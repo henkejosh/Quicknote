@@ -113,10 +113,10 @@ const HomePage = React.createClass({
 
   openSelectNotebookModal: function() {
     this.setState({ SelectNotebookModalOpen: true });
-    this.makeNoteEditorOpaque();
     this.closeNotebookCreator();
     this.closeSelectTagModal();
     this.closeNotebookEditor();
+    this.makeNoteEditorOpaque();
   },
 
   closeSelectNotebookModal: function() {
@@ -129,6 +129,7 @@ const HomePage = React.createClass({
   },
 
   makeNoteEditorOpaque: function() {
+    // debugger;
     $(".note-editor-page").css("opacity", 0.2);
   },
 
@@ -253,6 +254,7 @@ const HomePage = React.createClass({
 
   closeSelectTagModal: function() {
     this.setState({ tagModalBarIsOpen: false });
+    this.removeNoteEditorOpacity();
   },
 
   openSelectTagModal: function() {
@@ -260,6 +262,7 @@ const HomePage = React.createClass({
     this.closeNotebookCreator();
     this.closeNotebookEditor();
     this.closeSelectNotebookModal();
+    this.makeNoteEditorOpaque();
   },
 
   renderNotebookEditor: function() {

@@ -36509,10 +36509,10 @@
 	
 	  openSelectNotebookModal: function openSelectNotebookModal() {
 	    this.setState({ SelectNotebookModalOpen: true });
-	    this.makeNoteEditorOpaque();
 	    this.closeNotebookCreator();
 	    this.closeSelectTagModal();
 	    this.closeNotebookEditor();
+	    this.makeNoteEditorOpaque();
 	  },
 	
 	  closeSelectNotebookModal: function closeSelectNotebookModal() {
@@ -36525,6 +36525,7 @@
 	  },
 	
 	  makeNoteEditorOpaque: function makeNoteEditorOpaque() {
+	    // debugger;
 	    $(".note-editor-page").css("opacity", 0.2);
 	  },
 	
@@ -36641,6 +36642,7 @@
 	
 	  closeSelectTagModal: function closeSelectTagModal() {
 	    this.setState({ tagModalBarIsOpen: false });
+	    this.removeNoteEditorOpacity();
 	  },
 	
 	  openSelectTagModal: function openSelectTagModal() {
@@ -36648,6 +36650,7 @@
 	    this.closeNotebookCreator();
 	    this.closeNotebookEditor();
 	    this.closeSelectNotebookModal();
+	    this.makeNoteEditorOpaque();
 	  },
 	
 	  renderNotebookEditor: function renderNotebookEditor() {

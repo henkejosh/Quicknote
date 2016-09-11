@@ -155,9 +155,9 @@ div.notebook-modal > div.notebook-header {
   padding: 0px;
   margin: 0px;
   border-bottom: 1px solid #e7e7e7;
-
+}
 /*create new notebook icon*/
-div.create-notebook-icon {
+.create-notebook-icon {
   top: 21px;
   right: 24px;
   padding: 2px 2px 4px 6px;
