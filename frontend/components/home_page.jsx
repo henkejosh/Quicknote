@@ -30,6 +30,7 @@ const HomePage = React.createClass({
       notebookCreatorOpen: false,
       notebookEditorOpen: false,
       tagModalBarIsOpen: false,
+      SelectNotebookModalOpen: false,
     //   tags: ,
     //   current_note: ,
     //   create_note_modal_open: false,
@@ -96,7 +97,11 @@ const HomePage = React.createClass({
   },
 
   forceUpdateAllNotes: function() {
-    this.setState({ notes: NoteStore.allNotes("all") });
+    this.setState({ notes: NoteStore.allNotes("all"),
+      tagModalBarIsOpen: false,
+      SelectNotebookModalOpen: false
+    });
+    this.removeNoteEditorOpacity();
   },
 
   forceUpdateNotebookNotes: function() {
