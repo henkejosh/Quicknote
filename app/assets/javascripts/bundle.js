@@ -36347,15 +36347,14 @@
 	        React.createElement(
 	          'div',
 	          { className: 'logo-container' },
+	          React.createElement('img', { className: 'landing-logo',
+	            src: 'https://res.cloudinary.com/dg2yejdpt/image/upload/v1473575193/logo_pwwbfg.png' }),
 	          React.createElement(
-	            'a',
-	            { href: '/', className: 'header-sprite' },
-	            React.createElement(
-	              'span',
-	              null,
-	              '(logo image) Quicknote'
-	            )
-	          )
+	            'span',
+	            { className: 'landing-logo-title' },
+	            'Quicknote'
+	          ),
+	          React.createElement('div', { className: 'watermark-cover' })
 	        ),
 	        React.createElement(
 	          'div',
@@ -36385,6 +36384,25 @@
 	        React.createElement('video', (_React$createElement = { autoPlay: true, loop: true,
 	          type: 'video/webm', src: 'https://cdn1.evernote.com/evernote.com/video/homepage/homepage-hero-video.webm'
 	        }, _defineProperty(_React$createElement, 'type', 'video/mp4'), _defineProperty(_React$createElement, 'src', 'https://cdn1.evernote.com/evernote.com/video/homepage/homepage-hero-video.mp4'), _React$createElement))
+	      ),
+	      React.createElement(
+	        'section',
+	        { className: 'social-proof' },
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'p',
+	            null,
+	            'Join ',
+	            React.createElement(
+	              'span',
+	              { className: 'green' },
+	              'millions'
+	            ),
+	            ' of people who rely on Evernote to get more things done every day.'
+	          )
+	        )
 	      )
 	    );
 	  }

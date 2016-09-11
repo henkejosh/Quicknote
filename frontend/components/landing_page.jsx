@@ -13,9 +13,11 @@ const LandingPage = React.createClass({
         <header>
           <div className="logo-container">
 
-            <a href="/" className="header-sprite">
-              <span>(logo image) Quicknote</span>
-            </a>
+            <img className="landing-logo"
+              src="https://res.cloudinary.com/dg2yejdpt/image/upload/v1473575193/logo_pwwbfg.png"/>
+            <span className="landing-logo-title">Quicknote</span>
+
+            <div className='watermark-cover' />
           </div>
 
           <div onClick={this.props.openSignInModal}
@@ -38,6 +40,12 @@ const LandingPage = React.createClass({
           </video>
 
         </div>
+
+        <section className="social-proof">
+          <div className="row">
+            <p>Join <span className="green">millions</span> of people who rely on Evernote to get more things done every day.</p>
+          </div>
+      </section>
 
       </div>
 

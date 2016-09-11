@@ -15,6 +15,7 @@ header {
   justify-content: space-between;
   height: 45px;
   padding: 20px 15px;
+  min-width: 330px;
 }
 
 div.landing-body-content > video {
@@ -40,6 +41,7 @@ div.landing-body-content {
   /*background-color: white;*/
   position: relative;
   width: 100%;
+  min-width: 440px;
   height: auto;
 }
 
@@ -63,10 +65,16 @@ h2.landing-title {
 }
 
 div.right-panel {
+  position: absolute;
+  top: 30px;
+  right: 20px;
   color: #717171;
   font-family: 'Gotham_SSm_3r',Helvetica,Arial,sans-serif;
 }
 
+div.right-panel:hover {
+  cursor: pointer;
+}
 
 /*experimental */
 
@@ -100,4 +108,76 @@ height: 100%;
 background: rgba(0,0,0,0.3);
 z-index: 2;
 box-sizing: border-box;
+}
+
+div.logo-container {
+  position: absolute;
+  top: 0;
+}
+
+a.header-sprite {
+  /*display: flex;
+  flex-direction: row;*/
+}
+
+img.landing-logo {
+  position: relative;
+  top: 8px;
+  width: 50px;
+  height: auto;
+}
+
+div.watermark-cover {
+  position: relative;
+  top: -7px;
+  background-color: #EFF2F3;
+  width: 100%;
+  height: 15px;
+}
+
+span.landing-logo-title {
+  position: absolute;
+  left: 45px;
+  top: 25px;
+  text-transform: uppercase;
+  font-family: caecilia, times, serif;
+  padding: 0;
+  font-size: 25px;
+  color: #2dbe60;
+}
+
+section.social-proof {
+  width: 100%;
+  background: #414141;
+  margin: 0 auto;
+  padding: 20px 0;
+  box-sizing: border-box;
+  display: block;
+}
+
+section.social-proof > div.row {
+  padding: 0 20px;
+width: 1160px;
+max-width: 100%;
+margin: 0 auto;
+box-sizing: border-box;
+}
+
+section.social-proof > div.row > p {
+      box-sizing: border-box;
+      font-family: 'Gotham_SSm_4r',Helvetica,Arial,sans-serif;
+font-size: 16px;
+font-size: 1rem;
+line-height: 24px;
+line-height: 1.5rem;
+-webkit-font-smoothing: antialiased;
+text-align: center;
+color: #fff;
+}
+
+section.social-proof > div.row > p > span.green {
+font-family: 'Gotham_SSm_5r',Helvetica,Arial,sans-serif;
+color: #2dbe60;
+min-width: 300px;
+overflow: hidden;
 }
