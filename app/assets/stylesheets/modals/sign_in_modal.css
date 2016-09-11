@@ -70,7 +70,7 @@ input#email {
 font-size: 16px;
 height: 40px;
 width: calc(100% - 20px);
-margin-top: 20px;
+/*margin-top: 20px;*/
 margin-left: auto;
 margin-right: auto;
 border-radius: 4px;
@@ -82,7 +82,7 @@ padding-bottom: 1px;
 }
 
 div.submit-button {
-  margin-top: 10px;
+  margin-top: 25px;
   box-sizing: border-box;
   width:  350px;
 }
@@ -157,7 +157,39 @@ width: 350px;
     font-size: 0.9375rem;
 }
 
+div.sign-in-break1 {
+  width: 40%;
+  border-bottom: 1px solid black;
+  display: inline-block;
+}
 
-span.sign-in-or {
-  
+div.sign-in-break2 {
+  width: 40%;
+  border-bottom: 1px solid black;
+  display: inline-block;
+  margin-left: 1px;
+}
+
+p.sign-in-or {
+  text-transform: uppercase;
+  /*font-family: 'Gotham_SSm_3r',Helvetica,Arial,sans-serif;*/
+  font-family: caecilia, times, serif;
+  margin: 20px 0;
+    padding: 0;
+    font-size: 20px;
+    color: #586062;
+    text-align: center;
+}
+
+p.create-account {
+  font-family: caecilia, times, serif;
+  text-align: center;
+  color: #2dbe60;
+  font-size: 14px;
+  margin-top: 17px;
+}
+
+p.create-account:hover {
+  color: #28a956;
+  cursor: pointer;
 }

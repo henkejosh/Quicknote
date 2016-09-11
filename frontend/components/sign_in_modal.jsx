@@ -23,12 +23,6 @@ const SignInModal = React.createClass({
     this.props.makeModalSignIn();
   },
 
-  // isUserLoggedIn: function() {
-  //   if(SessionStore.isUserLoggedIn()) {
-  //     hashHistory.push(`/songs`);
-  //   }
-  // },
-
   update: function(prop) {
     return (e) => {
       this.setState({
@@ -71,17 +65,28 @@ const SignInModal = React.createClass({
     if(this.props.modalType === "Sign in") {
       return (
         <section className="no-account">
-          <p>Don&#39;t have an account?</p>
           <p onClick={ this.handleModalChange }
-            className="create-account">Create account</p>
+            className="create-account"
+            >Don&#39;t have an account? Sign up FREE</p>
         </section>
       );
     }
   },
 
+  formatSubmitButton: function() {
+    if(this.props.modalType === "Sign up") {
+      return "sign up";
+    } else if(this.props.modalType === "Sign in") {
+      return "sign in";
+    }
+  },
+
   render: function() {
     return (
-      <Modal style={modStyle} isOpen={this.props.isOpen}>
+      <Modal style={modStyle}
+        isOpen={this.props.isOpen}
+        onRequestClose={this.props.closeSignInModal}
+        >
         <div>
           <h2 className="modal-type">{this.props.modalType}</h2>
           <br/>
@@ -94,11 +99,11 @@ const SignInModal = React.createClass({
               type="submit" value="Guest Login"></input>
           </div>
 
-          <span className="sign-in-or">
+          <p className="sign-in-or">
             <div className="sign-in-break1"/>
             OR
             <div className="sign-in-break2"/>
-          </span>
+          </p>
 
 
           <div className="signup-email">
@@ -121,16 +126,10 @@ const SignInModal = React.createClass({
 
           <div className="submit-button">
             <input className="sign-in-submit"
-              type="submit" value="Sign in"></input>
+              type="submit" value={this.props.modalType}></input>
           </div>
 
           </form>
-
-          <div className="cancel-button">
-            <div className="sign-in-cancel"
-              type="cancel"
-              onClick={this.props.closeSignInModal}>Cancel</div>
-          </div>
 
           { this.createNewAccountElements() }
 

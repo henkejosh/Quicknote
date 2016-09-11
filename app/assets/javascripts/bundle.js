@@ -27704,12 +27704,6 @@
 	  },
 	
 	
-	  // isUserLoggedIn: function() {
-	  //   if(SessionStore.isUserLoggedIn()) {
-	  //     hashHistory.push(`/songs`);
-	  //   }
-	  // },
-	
 	  update: function update(prop) {
 	    var _this = this;
 	
@@ -27755,23 +27749,30 @@
 	        { className: 'no-account' },
 	        React.createElement(
 	          'p',
-	          null,
-	          'Don\'t have an account?'
-	        ),
-	        React.createElement(
-	          'p',
 	          { onClick: this.handleModalChange,
-	            className: 'create-account' },
-	          'Create account'
+	            className: 'create-account'
+	          },
+	          'Don\'t have an account? Sign up FREE'
 	        )
 	      );
+	    }
+	  },
+	
+	  formatSubmitButton: function formatSubmitButton() {
+	    if (this.props.modalType === "Sign up") {
+	      return "sign up";
+	    } else if (this.props.modalType === "Sign in") {
+	      return "sign in";
 	    }
 	  },
 	
 	  render: function render() {
 	    return React.createElement(
 	      Modal,
-	      { style: modStyle, isOpen: this.props.isOpen },
+	      { style: modStyle,
+	        isOpen: this.props.isOpen,
+	        onRequestClose: this.props.closeSignInModal
+	      },
 	      React.createElement(
 	        'div',
 	        null,
@@ -27792,7 +27793,7 @@
 	              type: 'submit', value: 'Guest Login' })
 	          ),
 	          React.createElement(
-	            'span',
+	            'p',
 	            { className: 'sign-in-or' },
 	            React.createElement('div', { className: 'sign-in-break1' }),
 	            'OR',
@@ -27820,18 +27821,7 @@
 	            'div',
 	            { className: 'submit-button' },
 	            React.createElement('input', { className: 'sign-in-submit',
-	              type: 'submit', value: 'Sign in' })
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'cancel-button' },
-	          React.createElement(
-	            'div',
-	            { className: 'sign-in-cancel',
-	              type: 'cancel',
-	              onClick: this.props.closeSignInModal },
-	            'Cancel'
+	              type: 'submit', value: this.props.modalType })
 	          )
 	        ),
 	        this.createNewAccountElements()
