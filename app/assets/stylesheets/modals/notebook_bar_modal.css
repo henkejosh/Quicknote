@@ -10,6 +10,7 @@ div.notebook-modal-anim {
   z-index: 20;
 }
 
+
 div.notebook-modal {
   -webkit-transition: -webkit-transform 0.4s ease-in-out;
   transition: width 0.2s ease-in-out, left 0.2s ease-in-out 0.3s;
@@ -52,7 +53,6 @@ ul.notebook-card {
   color: #4a4a4a;
   margin: 12px 80px 6px 24px;
   cursor: pointer;
-  /*overflow: hidden;*/
   text-overflow: ellipsis;
   height: 18px;
   display: inline-block;
@@ -62,8 +62,7 @@ ul.notebook-card {
   transition-duration: 0.1s;
   transition-timing-function: ease-in-out;
   transition-delay: initial;
-  /*font-family: gotham, helvetica, arial, sans-serif;*/
-  /*font-family: caecilia, times, serif;*/
+  font-family: gotham, helvetica, arial, sans-serif;
   font-size: 16px;
   font-weight: 400;
   list-style: none;
@@ -77,7 +76,6 @@ ul.notebook-card {
 div.line-break {
   margin: 0px 4px;
   border-bottom: 1px solid;
-  /*margin: 0px 16px;*/
   border-bottom: 1px solid #e7e7e7;
   position: absolute;
   bottom: 0px;
@@ -103,8 +101,7 @@ transition-property: color;
 transition-duration: 0.1s;
 transition-timing-function: ease-in-out;
 transition-delay: initial;
-font-family: caecilia, times, serif;
-/*font-family: gotham, helvetica,arial,sans-serif;*/
+font-family: gotham, helvetica,arial,sans-serif;
 font-size: 16px;
 font-weight: 400;
 }
@@ -149,6 +146,7 @@ div.outer-notebook-card:hover {
   background-color: #2DBE60;
 }
 
+
 div.outer-notebook-card:hover > ul > li {
   color: white;
 }
@@ -157,7 +155,6 @@ div.notebook-modal > div.notebook-header {
   padding: 0px;
   margin: 0px;
   border-bottom: 1px solid #e7e7e7;
-}
 
 /*create new notebook icon*/
 div.create-notebook-icon {
