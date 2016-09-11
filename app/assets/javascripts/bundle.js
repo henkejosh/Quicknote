@@ -27826,7 +27826,7 @@
 	              type: 'submit', value: 'Guest Login' })
 	          ),
 	          React.createElement(
-	            'p',
+	            'div',
 	            { className: 'sign-in-or' },
 	            React.createElement('div', { className: 'sign-in-break1' }),
 	            'OR',
@@ -36414,7 +36414,7 @@
 	          React.createElement(
 	            'p',
 	            { className: 'sub-copy' },
-	            'Inspiration strikes anywhere. Evernote lets you capture, nurture, and share your ideas across any device.'
+	            'Inspiration strikes anywhere. Quicknote lets you capture, nurture, and share your ideas across any device.'
 	          ),
 	          React.createElement(
 	            'div',
@@ -36448,7 +36448,34 @@
 	              { className: 'green' },
 	              'millions'
 	            ),
-	            ' of people who rely on Evernote to get more things done every day.'
+	            ' of people who rely on Quicknote to get more things done every day.'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'section',
+	        { className: 'new-story' },
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'story-item image-on-right' },
+	            React.createElement('div', { className: 'story-image note' }),
+	            React.createElement(
+	              'div',
+	              { className: 'story-content' },
+	              React.createElement(
+	                'h2',
+	                null,
+	                'Make a note of it'
+	              ),
+	              React.createElement(
+	                'p',
+	                null,
+	                'Create a project to-do list. Jot down a reminder. Or snap a picture of a sketch. A note can be anything you want it to be. And once you make a note, it’s accessible wherever you go, forever.'
+	              )
+	            )
 	          )
 	        )
 	      )
@@ -37407,6 +37434,8 @@
 	  _allNotebooks = {};
 	  if (notebooks.notebooks_arr) {
 	    notebooks = notebooks.notebooks_arr;
+	  } else if (Object.keys(notebooks).length === 0) {
+	    return {};
 	  }
 	
 	  notebooks.forEach(function (notebook) {
@@ -37704,13 +37733,6 @@
 	    }
 	  },
 	
-	  // componentWillReceiveProps: function(nextProps) {
-	  //   if(!nextProps.currentNote) return;
-	  //   if(nextProps.currentNote.id === this.props.id) {
-	  //     $(".note-card").;
-	  //   }
-	  // },
-	
 	  deleteNote: function deleteNote(e) {
 	    e.preventDefault();
 	    NoteActions.deleteNote(this.props.id);
@@ -37719,7 +37741,6 @@
 	
 	  formatIfCurrentNote: function formatIfCurrentNote() {
 	    if (!this.props.currentNote) return false;
-	    // debugger;
 	    if (this.props.currentNote.id === this.props.id) {
 	      return React.createElement('div', { className: 'selected-note-card' });
 	    }
@@ -37739,7 +37760,7 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { onClick: this.handleSelection,
+	      { id: 'note-card-' + this.props.id, onClick: this.handleSelection,
 	        className: 'note-card' },
 	      this.formatIfCurrentNote(),
 	      React.createElement(
@@ -38400,10 +38421,11 @@
 	  var lastNote = false;
 	  if (notes_arr.notes_arr) {
 	    notes_arr = notes_arr.notes_arr;
+	  } else if (Object.keys(notes_arr).length === 0) {
+	    return {};
 	  }
 	
 	  notes_arr.forEach(function (note) {
-	    // debugger;
 	    if (lastNote === false || lastNote < new Date(note.updated_at)) {
 	      lastNote = note;
 	    }
@@ -50246,16 +50268,26 @@
 	  displayName: 'NotebookDropdown',
 	
 	  formatNotebooks: function formatNotebooks() {
-	    var _this = this;
-	
 	    var notebooks = [];
-	
-	    Object.keys(this.props.notebooks).forEach(function (id) {
-	      if (_this.props.notebooks[id].title !== _this.props.currentNotebook.title) {
-	        notebooks.push(_this.props.notebooks[id].title);
+	    // Object.keys(this.props.notebooks).forEach( id => {
+	    //   if(this.props.notebooks[id].title !== this.props.currentNotebook.title) {
+	    //     notebooks.push(this.props.notebooks[id].title);
+	    //   }
+	    // });
+	    var that = this;
+	    return Object.keys(this.props.notebooks).map(function (id) {
+	      if (that.props.notebooks[id].title !== that.props.currentNotebook) {
+	        // debugger;
+	        var notebook = that.props.notebooks[id];
+	        return React.createElement(NotebookSelectee, { key: id,
+	          title: notebook.title,
+	          onSelect: that.onSelect,
+	          closeNotebookSelector: that.props.closeNotebookSelector
+	        });
 	      }
 	    });
-	    return notebooks;
+	
+	    // return notebooks;
 	  },
 	
 	  formatCurrentNotebookTitle: function formatCurrentNotebookTitle() {
@@ -50283,15 +50315,15 @@
 	  },
 	
 	  onSelect: function onSelect(e) {
-	    var _this2 = this;
+	    var _this = this;
 	
 	    e.preventDefault();
 	    var title = e.target.innerHTML;
 	    // debugger;
 	    var notebook = void 0;
 	    Object.keys(this.props.notebooks).forEach(function (id) {
-	      if (_this2.props.notebooks[id].title === title) {
-	        notebook = _this2.props.notebooks[id];
+	      if (_this.props.notebooks[id].title === title) {
+	        notebook = _this.props.notebooks[id];
 	      }
 	    });
 	    var note = this.props.currentNote;
@@ -50301,42 +50333,28 @@
 	    this.props.closeNotebookSelector();
 	  },
 	
-	  render: function render() {
-	    var _this3 = this;
+	  // this.formatNotebooks().map( id => {
+	  //     let notebook = this.props.notebooks[id];
+	  //     return (
+	  //       <NotebookSelectee key={id}
+	  //         title={notebook.title}
+	  //         onSelect={this.onSelect}
+	  //         closeNotebookSelector={this.props.closeNotebookSelector}
+	  //
+	  //         />
+	  //     );
+	  //   })
 	
+	
+	  render: function render() {
 	    return React.createElement(
 	      'section',
 	      { className: 'notebook-selector' },
-	      Object.keys(this.props.notebooks).map(function (id) {
-	        var notebook = _this3.props.notebooks[id];
-	        return React.createElement(NotebookSelectee, { key: id,
-	          title: notebook.title,
-	          onSelect: _this3.onSelect,
-	          closeNotebookSelector: _this3.props.closeNotebookSelector
-	
-	        });
-	      })
+	      this.formatNotebooks()
 	    );
 	  }
 	});
 	
-	// <Modal className="notebook-selector"
-	//   isOpen={this.props.notebookSelectorOpen}
-	//   style={modStyle}>
-	//     {  Object.keys(this.props.notebooks).map( id => {
-	//         let notebook = this.props.notebooks[id];
-	//         return (
-	//           <NotebookSelectee key={id}
-	//             title={notebook.title}
-	//             onSelect={this.onSelect}
-	//             closeNotebookSelector={this.props.closeNotebookSelector}
-	//
-	//             />
-	//         );
-	//       })
-	//     }
-	//     <button onClick={this.handleCancel}>Cancel</button>
-	// </Modal>
 	module.exports = NotebookDropdown;
 
 /***/ },

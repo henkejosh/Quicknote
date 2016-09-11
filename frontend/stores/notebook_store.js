@@ -22,8 +22,10 @@ const _setAllNotebooks = function(notebooks) {
   _allNotebooks = {};
   if(notebooks.notebooks_arr) {
     notebooks = notebooks.notebooks_arr;
+  } else if(Object.keys(notebooks).length === 0) {
+    return {};
   }
-  
+
   notebooks.forEach( notebook => {
     _allNotebooks[notebook.id] = notebook;
   });

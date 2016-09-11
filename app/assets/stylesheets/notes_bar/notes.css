@@ -81,11 +81,13 @@ i.edit-nb-icon {
 div.selected-note-card {
   background-color: transparent;
   border: 3px solid #D0D0D0;
+  /*border-bottom: 3px solid #D0D0D0;*/
   height: 114px;
   width: 344px;
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 
 div.note-cards {

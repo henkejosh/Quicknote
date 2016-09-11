@@ -8,13 +8,28 @@ const NoteActions = require('../actions/note_actions.js');
 const NotebookDropdown = React.createClass({
   formatNotebooks: function() {
     let notebooks = [];
-
-    Object.keys(this.props.notebooks).forEach( id => {
-      if(this.props.notebooks[id].title !== this.props.currentNotebook.title) {
-        notebooks.push(this.props.notebooks[id].title);
+    // Object.keys(this.props.notebooks).forEach( id => {
+    //   if(this.props.notebooks[id].title !== this.props.currentNotebook.title) {
+    //     notebooks.push(this.props.notebooks[id].title);
+    //   }
+    // });
+    let that = this;
+    return Object.keys(this.props.notebooks).map( id => {
+      if(that.props.notebooks[id].title !== that.props.currentNotebook) {
+        // debugger;
+        let notebook = that.props.notebooks[id];
+        return (
+          <NotebookSelectee key={id}
+            title={notebook.title}
+            onSelect={that.onSelect}
+            closeNotebookSelector={that.props.closeNotebookSelector}
+            />
+        );
       }
     });
-    return notebooks;
+
+
+    // return notebooks;
   },
 
   formatCurrentNotebookTitle: function() {
@@ -60,41 +75,26 @@ const NotebookDropdown = React.createClass({
     this.props.closeNotebookSelector();
   },
 
+  // this.formatNotebooks().map( id => {
+  //     let notebook = this.props.notebooks[id];
+  //     return (
+  //       <NotebookSelectee key={id}
+  //         title={notebook.title}
+  //         onSelect={this.onSelect}
+  //         closeNotebookSelector={this.props.closeNotebookSelector}
+  //
+  //         />
+  //     );
+  //   })
+
+
   render: function() {
     return (
         <section className="notebook-selector" >
-            {  Object.keys(this.props.notebooks).map( id => {
-                let notebook = this.props.notebooks[id];
-                return (
-                  <NotebookSelectee key={id}
-                    title={notebook.title}
-                    onSelect={this.onSelect}
-                    closeNotebookSelector={this.props.closeNotebookSelector}
-
-                    />
-                );
-              })
-            }
+            {  this.formatNotebooks() }
         </section>
     );
   }
 });
 
-// <Modal className="notebook-selector"
-//   isOpen={this.props.notebookSelectorOpen}
-//   style={modStyle}>
-//     {  Object.keys(this.props.notebooks).map( id => {
-//         let notebook = this.props.notebooks[id];
-//         return (
-//           <NotebookSelectee key={id}
-//             title={notebook.title}
-//             onSelect={this.onSelect}
-//             closeNotebookSelector={this.props.closeNotebookSelector}
-//
-//             />
-//         );
-//       })
-//     }
-//     <button onClick={this.handleCancel}>Cancel</button>
-// </Modal>
 module.exports = NotebookDropdown;

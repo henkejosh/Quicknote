@@ -170,7 +170,7 @@ div.sign-in-break2 {
   margin-left: 1px;
 }
 
-p.sign-in-or {
+div.sign-in-or {
   text-transform: uppercase;
   /*font-family: 'Gotham_SSm_3r',Helvetica,Arial,sans-serif;*/
   font-family: caecilia, times, serif;

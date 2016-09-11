@@ -16,6 +16,7 @@ div.curr-notebook-selector {
   flex-direction: row;
   font-family: caecilia, times, serif;
   font-weight: 300;
+  font-size: 16px;
 }
 /*ICONS*/
 i.grey-tag {
@@ -33,9 +34,17 @@ i.fa-angle-down {
 }
 
 div.curr-notebook-selector:hover {
-  box-shadow: 1px 1px 1px #ececec;
   cursor: pointer;
 }
+
+div.curr-notebook-selector:hover i.grey-book {
+  color: #2DBE60;
+}
+
+div.curr-notebook-selector:hover i.fa-angle-down {
+  color: #2DBE60;
+}
+
 
 section.tag-bar {
   float: left;
@@ -56,7 +65,7 @@ p.curr-nb-title {
 section.notebook-selector {
   position: absolute;
   top: 40px;
-  left: 5px;
+  left: 49px;
   background-color: #fff;
   z-index: 10;
   border: 3px solid rgba(217, 217, 217, 0.4);
@@ -69,7 +78,8 @@ div.keep-row-green {
 }
 
 div.nb-selector-option {
-  font-size: 1.5em;
+  /*font-size: 1em;*/
+  font-size: 16px;
   padding: 0px;
 }
 

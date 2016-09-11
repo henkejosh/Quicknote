@@ -38,10 +38,11 @@ const _chooseLastNoteFromArray = function(notes_arr) {
   let lastNote = false;
   if(notes_arr.notes_arr) {
     notes_arr = notes_arr.notes_arr;
+  } else if(Object.keys(notes_arr).length === 0) {
+    return {};
   }
 
   notes_arr.forEach( note => {
-    // debugger;
     if(lastNote === false || lastNote < new Date(note.updated_at)) {
       lastNote = note;
     }

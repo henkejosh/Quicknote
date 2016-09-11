@@ -17,6 +17,10 @@ div.quill {
   height: 100%;
 }
 
+div.ql-editor {
+  min-width: 300px;
+}
+
 
 input.note-title {
   background: none;

@@ -111,11 +111,11 @@ const SignInModal = React.createClass({
               type="submit" value="Guest Login"></input>
           </div>
 
-          <p className="sign-in-or">
+          <div className="sign-in-or">
             <div className="sign-in-break1"/>
             OR
             <div className="sign-in-break2"/>
-          </p>
+          </div>
 
 
           <div className="signup-email">
