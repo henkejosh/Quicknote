@@ -6,13 +6,10 @@ const CurrentNoteActions = require('../actions/current_note_actions.js');
 const TagModalCard = React.createClass({
   handleSelection: function(e) {
     e.preventDefault();
-    // this.props.selectCurrentTag(this.props.tag);
-    // this.props.changeCardColumnToTag();
     let noteID;
     if(this.props.tag.note_ids.length > 0) {
       noteID = this.props.tag.note_ids[0].id;
     }
-    // CurrentNoteActions.selectCurrentNote(noteID);
     TagActions.selectCurrentTag(this.props.tag, noteID);
     this.props.closeSelectTagModal();
   },

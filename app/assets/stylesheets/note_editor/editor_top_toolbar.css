@@ -1,11 +1,7 @@
 div.top-toolbar {
-  /*display: flex;
-  flex-direction: row;*/
-  /*float: left;
-  white-space: nowrap;*/
   padding-top: 10px;
   height: 35px;
-  min-width: 350px;
+  min-width: 578px;
   display: flex;
   flex-direction: row;
   overflow: hidden;
@@ -15,11 +11,9 @@ div.curr-notebook-selector {
   float: left;
   white-space: nowrap;
   padding: 0px;
-  /*border: 1px solid orange;*/
   margin: 5px;
   display: flex;
   flex-direction: row;
-  /*font-family: gotham,helvetica,arial,sans-serif;*/
   font-family: caecilia, times, serif;
   font-weight: 300;
 }
@@ -33,10 +27,6 @@ i.grey-book {
   padding-right: 3px;
   color: #9b9b9b;
 }
-
-/*.fa-chevron-down {
-  padding: 0px 3px;
-}*/
 
 i.fa-angle-down {
   padding: 0px 3px;
@@ -54,7 +44,6 @@ section.tag-bar {
   flex-direction: row;
   margin: 5px;
   padding: 0px 2px;
-  /*border: 1px solid red;*/
 }
 
 p.curr-nb-title {
@@ -70,7 +59,6 @@ section.notebook-selector {
   background-color: #fff;
   z-index: 10;
   border: 3px solid rgba(217, 217, 217, 0.4);
-  /*font-family: gotham,helvetica,arial,sans-serif;*/
   font-family: caecilia, times, serif;
   font-weight: 300;
 }
@@ -99,7 +87,6 @@ div.line-break {
 div.quill > div.quill-toolbar {
   padding-left: 0px;
   border-bottom: 1px solid #ececec;
-  /*margin-right: 48px;*/
   display: inline-block;
   width: 100%;
   min-width: 578px;

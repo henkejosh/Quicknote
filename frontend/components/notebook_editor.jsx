@@ -21,10 +21,8 @@ const NotebookEditor = React.createClass({
     e.preventDefault();
     let notebook = this.props.currentNotebook;
     notebook["title"] = this.state.title;
-    // notebook["user_id"] = this.props.currentUserID;
     NotebookActions.updateNotebook(notebook);
     this.props.closeNotebookEditor();
-    // this.props.closeSelectNotebookModal();
     this.props.changeCardColumnToNotebook();
   },
 
@@ -32,7 +30,9 @@ const NotebookEditor = React.createClass({
     return (
       <div className="notebook-editor-modal">
         <div className="notebook-modal-body">
+
           <h3>NOTEBOOK INFO</h3>
+
           <span className="nb-editor-title-card"><p
             className="title-word">Title: <
             /p><input

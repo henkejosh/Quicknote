@@ -59571,10 +59571,8 @@
 	    e.preventDefault();
 	    var notebook = this.props.currentNotebook;
 	    notebook["title"] = this.state.title;
-	    // notebook["user_id"] = this.props.currentUserID;
 	    NotebookActions.updateNotebook(notebook);
 	    this.props.closeNotebookEditor();
-	    // this.props.closeSelectNotebookModal();
 	    this.props.changeCardColumnToNotebook();
 	  },
 	
@@ -59750,13 +59748,10 @@
 	
 	  handleSelection: function handleSelection(e) {
 	    e.preventDefault();
-	    // this.props.selectCurrentTag(this.props.tag);
-	    // this.props.changeCardColumnToTag();
 	    var noteID = void 0;
 	    if (this.props.tag.note_ids.length > 0) {
 	      noteID = this.props.tag.note_ids[0].id;
 	    }
-	    // CurrentNoteActions.selectCurrentNote(noteID);
 	    TagActions.selectCurrentTag(this.props.tag, noteID);
 	    this.props.closeSelectTagModal();
 	  },
