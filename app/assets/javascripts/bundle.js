@@ -27786,44 +27786,51 @@
 	          { className: 'signup', onSubmit: this.handleForm },
 	          React.createElement(
 	            'div',
+	            { onClick: this.guestLogin,
+	              className: 'guest-login-button' },
+	            React.createElement('input', { className: 'guest-login-button',
+	              type: 'submit', value: 'Guest Login' })
+	          ),
+	          React.createElement(
+	            'span',
+	            { className: 'sign-in-or' },
+	            React.createElement('div', { className: 'sign-in-break1' }),
+	            'OR',
+	            React.createElement('div', { className: 'sign-in-break2' })
+	          ),
+	          React.createElement(
+	            'div',
 	            { className: 'signup-email' },
-	            React.createElement(
-	              'label',
-	              { name: 'email' },
-	              'Email: '
-	            ),
-	            React.createElement('input', { type: 'text', id: 'email', value: this.state.email,
+	            React.createElement('label', { name: 'email' }),
+	            React.createElement('input', { type: 'text', id: 'email',
+	              placeholder: 'Email or username',
+	              value: this.state.email,
 	              onChange: this.update("email") })
 	          ),
 	          React.createElement(
 	            'div',
 	            { className: 'signup-password' },
-	            React.createElement(
-	              'label',
-	              { name: 'password' },
-	              'Password: '
-	            ),
-	            React.createElement('input', { type: 'password', id: 'password', value: this.state.password,
+	            React.createElement('label', { name: 'password' }),
+	            React.createElement('input', { type: 'password',
+	              id: 'password', value: this.state.password,
+	              placeholder: 'password',
 	              onChange: this.update("password") })
 	          ),
 	          React.createElement(
 	            'div',
-	            { onClick: this.guestLogin,
-	              className: 'guest-login-button' },
-	            React.createElement('input', { type: 'submit', value: 'Guest Login' })
-	          ),
-	          React.createElement(
-	            'div',
 	            { className: 'submit-button' },
-	            React.createElement('input', { type: 'submit', value: 'Submit' })
+	            React.createElement('input', { className: 'sign-in-submit',
+	              type: 'submit', value: 'Sign in' })
 	          )
 	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'cancel-button' },
 	          React.createElement(
-	            'button',
-	            { type: 'cancel', onClick: this.props.closeSignInModal },
+	            'div',
+	            { className: 'sign-in-cancel',
+	              type: 'cancel',
+	              onClick: this.props.closeSignInModal },
 	            'Cancel'
 	          )
 	        ),
@@ -36278,17 +36285,18 @@
 	    left: 0,
 	    right: 0,
 	    bottom: 0,
-	    backgroundColor: 'rgba(243, 243, 243, 0.75)'
+	    backgroundColor: 'rgba(5, 5, 5, 0.55)'
 	  },
 	
 	  content: {
-	    position: 'absolute',
-	    top: '150px',
-	    left: '200px',
-	    right: '200px',
-	    bottom: '250px',
+	    position: 'fixed',
+	    top: '20%',
+	    left: '0',
+	    right: '0',
+	    bottom: '20%',
+	    width: '530',
 	    border: '2px solid #ccc',
-	    padding: '50px 100px 50px 100px'
+	    padding: '30px 0px'
 	  }
 	};
 	
@@ -36324,6 +36332,8 @@
 
 	'use strict';
 	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
 	var React = __webpack_require__(1);
 	var SignInModal = __webpack_require__(246);
 	var Modal = __webpack_require__(265);
@@ -36336,6 +36346,8 @@
 	
 	
 	  render: function render() {
+	    var _React$createElement;
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'landing-page' },
@@ -36366,20 +36378,23 @@
 	        'div',
 	        { className: 'landing-body-content' },
 	        React.createElement(
-	          'h2',
-	          { className: 'landing-title' },
-	          'Remember Everything'
-	        ),
-	        React.createElement(
-	          'section',
-	          { className: 'app-expl' },
+	          'div',
+	          { className: 'landing-content-container' },
+	          React.createElement(
+	            'h2',
+	            { className: 'landing-title' },
+	            'Remember Everything'
+	          ),
 	          React.createElement(
 	            'p',
-	            null,
-	            'Use Quicknote to track to-do\'s, take notes in meetings, or plan your next adventure!'
-	          ),
-	          React.createElement('img', { src: 'https://res.cloudinary.com/dg2yejdpt/image/upload/v1471819122/to_do_list_sraefc.png' })
-	        )
+	            { className: 'sub-copy' },
+	            'Inspiration strikes anywhere. Evernote lets you capture, nurture, and share your ideas across any device.'
+	          )
+	        ),
+	        React.createElement('div', { className: 'video-overlay' }),
+	        React.createElement('video', (_React$createElement = { autoPlay: true, loop: true,
+	          type: 'video/webm', src: 'https://cdn1.evernote.com/evernote.com/video/homepage/homepage-hero-video.webm'
+	        }, _defineProperty(_React$createElement, 'type', 'video/mp4'), _defineProperty(_React$createElement, 'src', 'https://cdn1.evernote.com/evernote.com/video/homepage/homepage-hero-video.mp4'), _React$createElement))
 	      )
 	    );
 	  }

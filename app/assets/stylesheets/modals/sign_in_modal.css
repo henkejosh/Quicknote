@@ -1,4 +1,13 @@
-/*div.openModal {
+form.signup {
+  width: 350px;
+margin-left: auto;
+margin-right: auto;
+font-size: 14px;
+font-family: 'Gotham_SSm_4r',Helvetica,Arial,sans-serif;
+box-sizing: border-box;
+}
+
+div.openModal {
   background: green;
   width: 50px;
   height: 20px;
@@ -19,5 +28,136 @@ p.log-out:hover {
 }
 
 h2.modal-type {
-  color: #2DBE60;
-}*/
+  /*color: #2DBE60;*/
+  font-family: caecilia, times, serif;
+  margin-top: 16px;
+    margin-bottom: 15px;
+    padding: 0;
+    font-size: 30px;
+    color: #586062;
+    text-align: center;
+}
+
+div.ReactModal__Overlay {
+  z-index: 4;
+}
+
+div.ReactModal__Content {
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+  box-shadow: 2px 2px 20px 0 rgba(0,0,0,0.5);
+}
+
+input#password {
+  display: block;
+font-size: 16px;
+height: 40px;
+width: calc(100% - 20px);
+margin-top: 20px;
+margin-left: auto;
+margin-right: auto;
+border-radius: 4px;
+border: solid 1px #d7dcdd;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 1px;
+padding-bottom: 1px;
+}
+
+input#email {
+  display: block;
+font-size: 16px;
+height: 40px;
+width: calc(100% - 20px);
+margin-top: 20px;
+margin-left: auto;
+margin-right: auto;
+border-radius: 4px;
+border: solid 1px #d7dcdd;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 1px;
+padding-bottom: 1px;
+}
+
+div.submit-button {
+  margin-top: 10px;
+  box-sizing: border-box;
+  width:  350px;
+}
+
+div.signup-password {
+  width: 350px;
+}
+
+div.signup-email {
+  width: 350px;
+}
+
+input.sign-in-submit {
+  background: #2dbe60;
+  text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: normal;
+    color: #fff;
+    border: 0;
+    padding: 15px 15px 12px;
+    padding: 0.9375rem 0.9375rem 0.75rem;
+    font-family: 'Gotham_SSm_3r',Helvetica,Arial,sans-serif;
+text-transform: uppercase;
+border-radius: 4px;
+display: inline-block;
+box-sizing: border-box;
+text-align: center;
+text-decoration: none;
+width: 350px;
+    height: 50px;
+    font-size: 0.9375rem;
+}
+
+input.sign-in-submit:hover {
+  background: #28a956;
+  cursor: pointer;
+}
+
+div.sign-in-cancel {
+
+}
+
+div.guest-login-button {
+  margin-top: 10px;
+  box-sizing: border-box;
+  width:  350px;
+}
+
+input.guest-login-button:hover {
+  background: #28a956;
+  cursor: pointer;
+}
+
+input.guest-login-button {
+  background: #2dbe60;
+  text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: normal;
+    color: #fff;
+    border: 0;
+    padding: 15px 15px 12px;
+    padding: 0.9375rem 0.9375rem 0.75rem;
+    font-family: 'Gotham_SSm_3r',Helvetica,Arial,sans-serif;
+text-transform: uppercase;
+border-radius: 4px;
+display: inline-block;
+box-sizing: border-box;
+text-align: center;
+text-decoration: none;
+width: 350px;
+    height: 50px;
+    font-size: 0.9375rem;
+}
+
+
+span.sign-in-or {
+  
+}

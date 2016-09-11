@@ -88,33 +88,48 @@ const SignInModal = React.createClass({
 
           <form className="signup" onSubmit={ this.handleForm }>
 
+          <div onClick={this.guestLogin}
+            className="guest-login-button">
+            <input className="guest-login-button"
+              type="submit" value="Guest Login"></input>
+          </div>
+
+          <span className="sign-in-or">
+            <div className="sign-in-break1"/>
+            OR
+            <div className="sign-in-break2"/>
+          </span>
+
+
           <div className="signup-email">
-            <label name="email">Email: </label>
-            <input type="text" id="email" value={this.state.email}
+            <label name="email"></label>
+            <input type="text" id="email"
+              placeholder="Email or username"
+              value={this.state.email}
               onChange={this.update("email")}></input>
 
           </div>
 
           <div className="signup-password">
-            <label name="password">Password: </label>
-            <input type="password" id="password" value={this.state.password}
+            <label name="password"></label>
+            <input type="password"
+              id="password" value={this.state.password}
+              placeholder="password"
               onChange={this.update("password")}></input>
 
           </div>
 
-          <div onClick={this.guestLogin}
-            className="guest-login-button">
-            <input type="submit" value="Guest Login"></input>
-          </div>
-
           <div className="submit-button">
-            <input type="submit" value="Submit"></input>
+            <input className="sign-in-submit"
+              type="submit" value="Sign in"></input>
           </div>
 
           </form>
 
           <div className="cancel-button">
-            <button type="cancel" onClick={this.props.closeSignInModal}>Cancel</button>
+            <div className="sign-in-cancel"
+              type="cancel"
+              onClick={this.props.closeSignInModal}>Cancel</div>
           </div>
 
           { this.createNewAccountElements() }

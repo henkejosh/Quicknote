@@ -5,18 +5,19 @@ module.exports = {
     left            : 0,
     right           : 0,
     bottom          : 0,
-    backgroundColor : 'rgba(243, 243, 243, 0.75)',
+    backgroundColor : 'rgba(5, 5, 5, 0.55)',
     // opacity: .5
   },
 
   content : {
-    position        : 'absolute',
-    top             : '150px',
-    left            : '200px',
-    right           : '200px',
-    bottom          : '250px',
+    position        : 'fixed',
+    top             : '20%',
+    left            : '0',
+    right           : '0',
+    bottom          : '20%',
+    width           : '530',
     border          : '2px solid #ccc',
-    padding         : '50px 100px 50px 100px',
+    padding         : '30px 0px'
   }
 };
 

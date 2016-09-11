@@ -7,12 +7,12 @@ const hashHistory = require('react-router').hashHistory;
 
 const LandingPage = React.createClass({
 
-
   render: function() {
     return (
       <div className="landing-page">
         <header>
           <div className="logo-container">
+
             <a href="/" className="header-sprite">
               <span>(logo image) Quicknote</span>
             </a>
@@ -23,11 +23,20 @@ const LandingPage = React.createClass({
         </header>
 
         <div className="landing-body-content">
-          <h2 className="landing-title">Remember Everything</h2>
-          <section className="app-expl">
-            <p>Use Quicknote to track to-do&#39;s, take notes in meetings, or plan your next adventure!</p>
-            <img src="https://res.cloudinary.com/dg2yejdpt/image/upload/v1471819122/to_do_list_sraefc.png"/>
-          </section>
+          <div className="landing-content-container">
+
+            <h2 className="landing-title">Remember Everything</h2>
+            <p className="sub-copy">
+              Inspiration strikes anywhere. Evernote lets you capture, nurture, and share your ideas across any device.
+            </p>
+          </div>
+
+          <div className="video-overlay" />
+          <video autoPlay loop
+            type="video/webm" src="https://cdn1.evernote.com/evernote.com/video/homepage/homepage-hero-video.webm"
+            type="video/mp4" src="https://cdn1.evernote.com/evernote.com/video/homepage/homepage-hero-video.mp4">
+          </video>
+
         </div>
 
       </div>
