@@ -1,10 +1,7 @@
 div.notebook-modal-anim {
-  transform: translate(450px, 0);
-  transition: transform 1s ease;
-
   position: absolute;
   /*left: 0;*/
-  left: -450px;
+  left: -470px;
   width: 459px;
   border: 1px solid #EFF2F3;
   background-color: #FFFFFF;
@@ -12,6 +9,11 @@ div.notebook-modal-anim {
   top: 0px;
   bottom: 0px;
   z-index: 20;
+  transition: transform .4s ease-in-out;
+}
+
+div.notebook-modal-anim.revealed {
+  transform: translate(459px, 0);
 }
 
 

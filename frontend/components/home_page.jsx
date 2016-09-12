@@ -163,16 +163,21 @@ const HomePage = React.createClass({
 
   controlSelectNotebookModal: function() {
     if(this.state.SelectNotebookModalOpen) {
-      return (
-        <NotebookBar
-          notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
-          closeSelectNotebookModal={ this.closeSelectNotebookModal }
-          changeCardColumnToNotebook={this.changeCardColumnToNotebook}
-          changeCardColumnToAllCards={this.changeCardColumnToAllCards}
-          openNotebookCreator={this.openNotebookCreator}
-          />
-      );
+      $(".notebook-modal-anim").addClass("revealed");
+    } else {
+      $(".notebook-modal-anim").removeClass("revealed");
     }
+
+    //   return (
+    //     <NotebookBar
+    //       notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
+    //       closeSelectNotebookModal={ this.closeSelectNotebookModal }
+    //       changeCardColumnToNotebook={this.changeCardColumnToNotebook}
+    //       changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+    //       openNotebookCreator={this.openNotebookCreator}
+    //       />
+    //   );
+    // }
   },
 
   controlNotesProps: function() {
@@ -325,7 +330,16 @@ const HomePage = React.createClass({
 
         <div className="page-content">
           { this.createNotesBar() }
+
+          <NotebookBar
+            notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
+            closeSelectNotebookModal={ this.closeSelectNotebookModal }
+            changeCardColumnToNotebook={this.changeCardColumnToNotebook}
+            changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+            openNotebookCreator={this.openNotebookCreator}
+            />
           { this.controlSelectNotebookModal() }
+
           { this.controlSelectTagModal() }
         </div>
 

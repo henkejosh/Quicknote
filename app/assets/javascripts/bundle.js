@@ -36655,14 +36655,21 @@
 	
 	  controlSelectNotebookModal: function controlSelectNotebookModal() {
 	    if (this.state.SelectNotebookModalOpen) {
-	      return React.createElement(NotebookBar, {
-	        notebookBarIsOpen: this.state.SelectNotebookModalOpen,
-	        closeSelectNotebookModal: this.closeSelectNotebookModal,
-	        changeCardColumnToNotebook: this.changeCardColumnToNotebook,
-	        changeCardColumnToAllCards: this.changeCardColumnToAllCards,
-	        openNotebookCreator: this.openNotebookCreator
-	      });
+	      $(".notebook-modal-anim").addClass("revealed");
+	    } else {
+	      $(".notebook-modal-anim").removeClass("revealed");
 	    }
+	
+	    //   return (
+	    //     <NotebookBar
+	    //       notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
+	    //       closeSelectNotebookModal={ this.closeSelectNotebookModal }
+	    //       changeCardColumnToNotebook={this.changeCardColumnToNotebook}
+	    //       changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+	    //       openNotebookCreator={this.openNotebookCreator}
+	    //       />
+	    //   );
+	    // }
 	  },
 	
 	  controlNotesProps: function controlNotesProps() {
@@ -36808,6 +36815,13 @@
 	        'div',
 	        { className: 'page-content' },
 	        this.createNotesBar(),
+	        React.createElement(NotebookBar, {
+	          notebookBarIsOpen: this.state.SelectNotebookModalOpen,
+	          closeSelectNotebookModal: this.closeSelectNotebookModal,
+	          changeCardColumnToNotebook: this.changeCardColumnToNotebook,
+	          changeCardColumnToAllCards: this.changeCardColumnToAllCards,
+	          openNotebookCreator: this.openNotebookCreator
+	        }),
 	        this.controlSelectNotebookModal(),
 	        this.controlSelectTagModal()
 	      ),
