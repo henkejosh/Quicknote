@@ -7,21 +7,12 @@ const TagsBarIndex = require('./tags_bar_index.jsx');
 
 const NoteEditor = React.createClass({
   getInitialState: function() {
-    // const notebook = this.findNotebook();
     return {
       title: this.props.currentNote.title,
       body: this.props.currentNote.body,
       notebookSelectorOpen: false,
       notebookTitle: "",
       notebook_id: ""
-      // notebook_id: this.props.currentNote.notebook_id,
-
-      // notebook_id: this.props.currentNotebook.id
-
-      // title: this.props.currentNote.title,
-      // body: this.props.currentNote.body,
-      // id: this.props.currentNote.id,
-      // notebook_id: this.props.currentNote.notebook_id
     };
   },
 
@@ -40,34 +31,7 @@ const NoteEditor = React.createClass({
 
   findNotebook: function() {
     return NotebookStore.findNotebook(this.props.currentNote.notebook_id);
-    // debugger;
-    // debugger;
-    // const notebooks = this.props.notebooks;
-    // const that = this;
-    // let returnNotebook;
-    // if(Object.keys(notebooks).length > 0) {
-    //   Object.keys(notebooks).forEach( id => {
-    //     // debugger;
-    //     if(parseInt(id) === that.props.currentNote.notebook_id) {
-    //       returnNotebook = notebooks[id];
-    //     }
-    //   });
-    // }
-    // if(returnNotebook) return returnNotebook;
   },
-
-  // createNotebookTitle: function() {
-  //   const notebooks = this.props.notebooks;
-  //   const that = this;
-  //   if(Object.keys(notebooks).length > 0) {
-  //     Object.keys(notebooks).forEach( id => {
-  //       debugger;
-  //       if(parseInt(id) === that.props.currentNote.notebook_id) {
-  //         return notebooks[id].title;
-  //       }
-  //     });
-  //   }
-  // },
 
   handleSubmit: function(e) {
     e.preventDefault();

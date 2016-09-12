@@ -216,6 +216,11 @@ NoteStore.__onDispatch = payload => {
     case SessionConstants.LOGOUT:
       _resetStore();
       break;
+    case NotebookConstants.RECEIVE_UPDATED_NOTEBOOK:
+      debugger;
+      NoteStore.__emitChange();
+      break;
+
   }
 };
 

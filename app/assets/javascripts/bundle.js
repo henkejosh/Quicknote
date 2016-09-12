@@ -36911,7 +36911,7 @@
 	
 	  receiveUpdatedNotebook: function receiveUpdatedNotebook(notebook) {
 	    Dispatcher.dispatch({
-	      actionType: NotebookConstants.RECIEVE_UPDATED_NOTEBOOK,
+	      actionType: NotebookConstants.RECEIVE_UPDATED_NOTEBOOK,
 	      notebook: notebook
 	    });
 	  }
@@ -37529,6 +37529,10 @@
 	    case SessionConstants.LOGOUT:
 	      _resetStore();
 	      break;
+	    case NotebookConstants.RECEIVE_UPDATED_NOTEBOOK:
+	      _receiveNotebook(payload.notebook);
+	      NotebookStore.__emitChange();
+	      break;
 	  }
 	};
 	
@@ -37562,7 +37566,6 @@
 	};
 	
 	var _chooseLastNotebookFromArr = function _chooseLastNotebookFromArr(notebooks) {
-	  debugger;
 	  if (Array.isArray(notebooks.notebooks_arr)) {
 	    (function () {
 	      var newNotebooks = {};
@@ -38459,6 +38462,11 @@
 	    case SessionConstants.LOGOUT:
 	      _resetStore();
 	      break;
+	    case NotebookConstants.RECEIVE_UPDATED_NOTEBOOK:
+	      debugger;
+	      NoteStore.__emitChange();
+	      break;
+	
 	  }
 	};
 	
@@ -38651,21 +38659,12 @@
 	  displayName: 'NoteEditor',
 	
 	  getInitialState: function getInitialState() {
-	    // const notebook = this.findNotebook();
 	    return {
 	      title: this.props.currentNote.title,
 	      body: this.props.currentNote.body,
 	      notebookSelectorOpen: false,
 	      notebookTitle: "",
 	      notebook_id: ""
-	      // notebook_id: this.props.currentNote.notebook_id,
-	
-	      // notebook_id: this.props.currentNotebook.id
-	
-	      // title: this.props.currentNote.title,
-	      // body: this.props.currentNote.body,
-	      // id: this.props.currentNote.id,
-	      // notebook_id: this.props.currentNote.notebook_id
 	    };
 	  },
 	
@@ -38684,34 +38683,7 @@
 	
 	  findNotebook: function findNotebook() {
 	    return NotebookStore.findNotebook(this.props.currentNote.notebook_id);
-	    // debugger;
-	    // debugger;
-	    // const notebooks = this.props.notebooks;
-	    // const that = this;
-	    // let returnNotebook;
-	    // if(Object.keys(notebooks).length > 0) {
-	    //   Object.keys(notebooks).forEach( id => {
-	    //     // debugger;
-	    //     if(parseInt(id) === that.props.currentNote.notebook_id) {
-	    //       returnNotebook = notebooks[id];
-	    //     }
-	    //   });
-	    // }
-	    // if(returnNotebook) return returnNotebook;
 	  },
-	
-	  // createNotebookTitle: function() {
-	  //   const notebooks = this.props.notebooks;
-	  //   const that = this;
-	  //   if(Object.keys(notebooks).length > 0) {
-	  //     Object.keys(notebooks).forEach( id => {
-	  //       debugger;
-	  //       if(parseInt(id) === that.props.currentNote.notebook_id) {
-	  //         return notebooks[id].title;
-	  //       }
-	  //     });
-	  //   }
-	  // },
 	
 	  handleSubmit: function handleSubmit(e) {
 	    e.preventDefault();

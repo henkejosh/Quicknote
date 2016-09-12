@@ -52,7 +52,7 @@ const NotebookActions = {
 
   receiveUpdatedNotebook: function(notebook) {
     Dispatcher.dispatch({
-      actionType: NotebookConstants.RECIEVE_UPDATED_NOTEBOOK,
+      actionType: NotebookConstants.RECEIVE_UPDATED_NOTEBOOK,
       notebook: notebook
     });
   }

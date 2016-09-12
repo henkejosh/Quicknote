@@ -86,6 +86,10 @@ NotebookStore.__onDispatch = payload => {
     case SessionConstants.LOGOUT:
       _resetStore();
       break;
+    case NotebookConstants.RECEIVE_UPDATED_NOTEBOOK:
+      _receiveNotebook(payload.notebook);
+      NotebookStore.__emitChange();
+      break;
   }
 };
 
