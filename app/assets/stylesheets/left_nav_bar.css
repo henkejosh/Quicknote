@@ -1,4 +1,4 @@
-nav.left-nav {
+/*nav.left-nav {
   position: fixed;
   left: 0;
   width: 73px;
@@ -20,11 +20,10 @@ div.left-container {
   justify-content: center;
   height: 100%;
   position: relative;
-  /*padding-top: 50%*/
-}
+}*/
 
 /*____ICONS____*/
-i.fa-sign-out {
+/*i.fa-sign-out {
   color: #2DBE60;
   font-size: 20px;
   margin: 8px 0px 1px 3px;
@@ -76,6 +75,201 @@ i.green-tag {
   color: #2DBE60;
   font-size: 20px;
   margin: 9px 0px 1px 2px;
+}
+
+div.icon-holder.add-note-icon {
+  background-color: white;
+  border-radius: 19px;
+  border: 1px solid #bcbcbc;
+  margin-bottom: 200px;
+  margin-top: 0px;
+}
+
+div.icon-holder {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  margin-top: 30%;
+  position: relative;
+}
+
+div.icon-holder:hover {
+  background: #2DBE60;
+}
+
+div.icon-holder:hover i.green-tag {
+  color: white;
+}
+
+div.selected-icon {
+  background-color: transparent;
+  width: 36px;
+  height: 36px;
+  border-radius: 19px;
+  border: 1px solid #2DBE60;
+  z-index: 100px;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+}*/
+/*icons_en*/
+
+/*img.hover-tag-arrow {
+  position: absolute;
+  left: 40px;
+  top: 16px;
+  width: 4px;
+  height: 8px;
+  display: none;
+  z-index: 100;
+}
+
+div.icon-holder:hover img.hover-tag-arrow {
+  display: block;
+  transition: opacity 0.2s ease-in 0.3s;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+    transition-delay: 0.3s;
+
+  transition: opacity 0s ease-out 0s;
+    transition-property: opacity;
+    transition-duration: 0s;
+    transition-timing-function: ease-out;
+    transition-delay: 0s;
+}
+
+span.icon-hover-tag {
+  position: absolute;
+  left: 44px;
+  top: 11px;
+  display: none;
+  background-color: #4d4d4e;
+  color: #d0d0d0;
+
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  overflow: hidden;
+  padding-right: 6px;
+  white-space: nowrap;
+  font-family: gotham, helvetica, arial, sans-serif;
+  font-weight: 300;
+  text-align: center;
+  vertical-align: baseline;
+  text-align: left;
+  line-height: 12px;
+  z-index: 1001;
+  height: 15px;
+  padding: 3px 5px;
+  border-radius: 2px;
+  align-items: center;
+}
+
+div.icon-holder:hover span.icon-hover-tag {
+  display: flex;
+  transition: opacity 0.2s ease-in 0.3s;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+    transition-delay: 0.3s;
+}*/
+
+
+
+
+
+/*bottom is css-transitions*/
+
+
+
+
+nav.left-nav {
+  position: fixed;
+  left: 0;
+  width: 73px;
+  -webkit-transition: -webkit-transform 0.4s ease-in-out;
+  /*transition: width 0.2s ease-in-out, left 0.2s ease-in-out 0.3s;
+    transition-property: width, left;
+    transition-duration: 0.2s, 0.2s;
+    transition-timing-function: ease-in-out, ease-in-out;
+    transition-delay: initial, 0.3s;*/
+  background-color: #f8f8f8;
+  height: 100%;
+  text-align: center;
+}
+
+div.left-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  /*padding-top: 50%*/
+}
+
+/*____ICONS____*/
+i.fa-sign-out {
+  color: #2DBE60;
+  font-size: 20px;
+  margin: 8px 0px 1px 3px;
+  transition: color .15s ease-in;
+}
+
+div.icon-holder:hover i.fa-sign-out {
+  color: white;
+}
+
+div.icon-holder.sign-out {
+  margin-top: 200px;
+  transition: color 1s ease-in-out;
+}
+
+i.fa-plus {
+  color: #2DBE60;
+  font-size: 20px;
+  margin: 9px 0px 1px 2px;
+  transition: color .15s ease-in;
+}
+
+div.icon-holder:hover i.fa-plus {
+  color: white;
+}
+
+i.fa-file-text {
+  color: #2DBE60;
+  font-size: 20px;
+  margin: 7px 0px 1px 2px;
+  transition: color .15s ease-in;
+}
+
+div.icon-holder:hover i.fa-file-text {
+  color: white;
+}
+
+div.icon-holder:hover {
+  cursor: pointer;
+}
+
+i.green-book {
+  color: #2DBE60;
+  font-size: 20px;
+  margin: 8px 0px 1px 1px;
+  transition: color .15s ease-in;
+}
+
+div.icon-holder:hover i.green-book {
+  color: white;
+}
+
+i.green-tag {
+  color: #2DBE60;
+  font-size: 20px;
+  margin: 9px 0px 1px 2px;
+  transition: color .15s ease-in;
 }
 
 div.icon-holder.add-note-icon {
