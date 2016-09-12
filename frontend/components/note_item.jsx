@@ -6,7 +6,8 @@ const NoteItem = React.createClass({
     const difference = Date.now() - Date.parse(this.props.updated_at);
     const seconds = Math.floor(difference / 1000);
     const minutes = Math.floor(seconds / 60);
-    const days = Math.floor(minutes / 1440);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
     if(days > 31) {
       return "MONTHS AGO";
     } else if(days > 13) {
@@ -15,6 +16,10 @@ const NoteItem = React.createClass({
       return `${Math.floor(days)} DAYS AGO`;
     } else if(days === 1) {
       return "1 DAY AGO";
+    } else if(hours > 1) {
+      return `${Math.floor(hours)} HOURS AGO`;
+    } else if(hours === 1) {
+      return "1 HOUR AGO";
     } else if (minutes > 1) {
       return `${Math.floor(minutes)} MINUTES AGO`;
     } else if(minutes === 1){

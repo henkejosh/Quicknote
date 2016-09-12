@@ -71,6 +71,12 @@ const LeftNavBar = React.createClass({
       <nav className="left-nav">
         <div className="left-container">
 
+          <div className="icon-holder-left-nav-logo">
+            <img className="left-nav-logo"
+            src="https://res.cloudinary.com/dg2yejdpt/image/upload/v1473575193/logo_pwwbfg.png"/>
+            <div className='left-nav-watermark-cover' />
+          </div>
+
           <div className="icon-holder add-note-icon" onClick={this.createNewNote}>
               <i className="fa fa-plus" aria-hidden="true" />
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAYAAADeM14FAAAALklEQVR42mNgQAIJCQn1KJyEhMT/KBywADIHKpDUgCIA0YIQRDIUIsiAam1SAwDY1SaFYcC7cwAAAABJRU5ErkJggg=="

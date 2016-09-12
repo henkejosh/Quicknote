@@ -185,3 +185,31 @@ div.icon-holder:hover span.icon-hover-tag {
     transition-timing-function: ease-in;
     transition-delay: 0.3s;
 }
+
+div.icon-holder-left-nav-logo {
+  margin: 0 auto 50px auto;
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  /*margin-top: 30%;*/
+  position: relative;
+  top: -20px;
+  left: -6px;
+}
+
+img.left-nav-logo {
+  position: relative;
+  top: 8px;
+  width: 50px;
+  height: auto;
+}
+
+div.left-nav-watermark-cover {
+  position: relative;
+  top: -7px;
+  background-color: #f8f8f8;;
+  width: 100%;
+  height: 15px;
+  padding-right: 10px;
+}

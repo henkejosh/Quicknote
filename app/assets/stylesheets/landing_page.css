@@ -35,14 +35,10 @@ div.landing-content-container {
 }
 
 div.landing-body-content {
-  /*top: 50%;*/
-  /*left: 50%;*/
   display: block;
-  /*background-color: white;*/
   position: relative;
   width: 100%;
   min-width: 530px;
-  /*min-height: 100%;*/
   height: auto;
 }
 

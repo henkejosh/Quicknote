@@ -37771,7 +37771,8 @@
 	    var difference = Date.now() - Date.parse(this.props.updated_at);
 	    var seconds = Math.floor(difference / 1000);
 	    var minutes = Math.floor(seconds / 60);
-	    var days = Math.floor(minutes / 1440);
+	    var hours = Math.floor(minutes / 60);
+	    var days = Math.floor(hours / 24);
 	    if (days > 31) {
 	      return "MONTHS AGO";
 	    } else if (days > 13) {
@@ -37780,6 +37781,10 @@
 	      return Math.floor(days) + ' DAYS AGO';
 	    } else if (days === 1) {
 	      return "1 DAY AGO";
+	    } else if (hours > 1) {
+	      return Math.floor(hours) + ' HOURS AGO';
+	    } else if (hours === 1) {
+	      return "1 HOUR AGO";
 	    } else if (minutes > 1) {
 	      return Math.floor(minutes) + ' MINUTES AGO';
 	    } else if (minutes === 1) {
@@ -37933,6 +37938,13 @@
 	      React.createElement(
 	        'div',
 	        { className: 'left-container' },
+	        React.createElement(
+	          'div',
+	          { className: 'icon-holder-left-nav-logo' },
+	          React.createElement('img', { className: 'left-nav-logo',
+	            src: 'https://res.cloudinary.com/dg2yejdpt/image/upload/v1473575193/logo_pwwbfg.png' }),
+	          React.createElement('div', { className: 'left-nav-watermark-cover' })
+	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'icon-holder add-note-icon', onClick: this.createNewNote },
@@ -60026,10 +60038,6 @@
 	    case SessionConstants.LOGOUT:
 	      _resetStore();
 	      break;
-	
-	    // case NoteConstants.RECEIVE_ALL_NOTES:
-	    //   _updateTags(payload.notes)
-	    //   TagStore.__emitChange();
 	  }
 	};
 	

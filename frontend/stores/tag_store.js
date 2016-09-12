@@ -52,10 +52,6 @@ TagStore.__onDispatch = payload => {
     case SessionConstants.LOGOUT:
       _resetStore();
       break;
-
-    // case NoteConstants.RECEIVE_ALL_NOTES:
-    //   _updateTags(payload.notes)
-    //   TagStore.__emitChange();
   }
 };
 

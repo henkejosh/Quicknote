@@ -67,13 +67,13 @@ class User < ApplicationRecord
     note1 = Note.create!(
       notebook_id: notebook1.id,
       title: "How to create a note:",
-      body: "<ol><li>Type your things.</li><li><i><span style=\"background-color: rgb(153, 51, 255);\"><span style=\"color: rgb(255, 255, 0);\">Style your text  </span></span></i></li><li><span style=\"font-size: 18px;\"><s>Start crossing things off your list</s></span></li></ol>"
+      body: "<ol><li>Type your content.</li><li><i><span style=\"background-color: rgb(153, 51, 255);\"><span style=\"color: rgb(255, 255, 0);\">Style your text  </span></span></i></li><li><span style=\"font-size: 18px;\"><s>Start crossing things off your list</s></span></li></ol>"
     )
 
     note2 = Note.create!(
       notebook_id: notebook2.id,
-      title: "8/28 to-do's",
-      body: "<div><span style=\"font-family: monospace;\">Edit</span><span style=\"font-family: sans-serif;\"> your note in here!s s</span></div>"
+      title: "Today's to-do's",
+      body: "<div><span style=\"font-family: monospace;\">Edit</span><span style=\"font-family: sans-serif;\"> your note in here!</span></div>"
     )
 
     note3 = Note.create!(
@@ -103,7 +103,7 @@ class User < ApplicationRecord
     note7 = Note.create!(
       notebook_id: notebook.id,
       title: "Jot down ideas",
-      body: "<div>on paper and take a picture!</div><div><img width=\"425\" height=\"282\" src=\"http://www.directpropertygroup.net.au/wp-content/uploads/2016/02/free-office-move-checklist.bmp\" class=\"attachment-full size-full wp-post-image\" alt=\"free-office-move-checklist\" title=\"\"></div><div><br></div><ol><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Or</i></b></span></li><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Create a checklist inside a note!</i></b></span></li></ol>"
+      body: "<div>on paper and take a picture!</div><div><img width=\"425\" height=\"282\" src=\"http://www.directpropertygroup.net.au/wp-content/uploads/2016/02/free-office-move-checklist.bmp\" class=\"attachment-full size-full wp-post-image\" alt=\"free-office-move-checklist\" title=\"\"></div><div><br></div><ol><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Or</i></b></span></li><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Create a checklist inside a note just like this!</i></b></span></li></ol>"
     )
 
     tag1 = Tag.create!(
