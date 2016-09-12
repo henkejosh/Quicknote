@@ -36457,27 +36457,20 @@
 	        { className: 'new-story' },
 	        React.createElement(
 	          'div',
-	          { className: 'row' },
+	          { className: 'story-content' },
 	          React.createElement(
-	            'div',
-	            { className: 'story-item image-on-right' },
-	            React.createElement('div', { className: 'story-image note' }),
-	            React.createElement(
-	              'div',
-	              { className: 'story-content' },
-	              React.createElement(
-	                'h2',
-	                null,
-	                'Make a note of it'
-	              ),
-	              React.createElement(
-	                'p',
-	                null,
-	                'Create a project to-do list. Jot down a reminder. Or snap a picture of a sketch. A note can be anything you want it to be. And once you make a note, it’s accessible wherever you go, forever.'
-	              )
-	            )
+	            'h2',
+	            null,
+	            'Make a note of it'
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            'Create a project to-do list. Jot down a reminder. Or snap a picture of a sketch. A note can be anything you want it to be. And once you make a note, it’s accessible wherever you go, forever.'
 	          )
-	        )
+	        ),
+	        React.createElement('img', { src: 'https://res.cloudinary.com/dg2yejdpt/image/upload/v1473659732/checklist_q905ba.jpg',
+	          className: 'story-image note' })
 	      )
 	    );
 	  }

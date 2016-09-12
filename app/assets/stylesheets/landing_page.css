@@ -226,6 +226,49 @@ button.signup-button-landing:hover {
 
 
 /*TIPS at bottom*/
+section.new-story {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  padding: 10%;
+  min-width: 530px;
+  justify-content: space-around;
+}
+
+img.story-image.note {
+  width: 35%;
+  height: 80%;
+  border-radius: 4px;
+  min-width: 265px;
+  max-width: 450px;
+  margin: auto 0px;
+}
+
+div.story-content {
+  width: 50%;
+  margin-right: 10px;
+  min-width: 265px;
+  max-width: 450px;
+}
+
+div.story-content > p {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-family: caecilia, times, serif;
+  color: #586062;
+}
+
+div.story-content > h2 {
+  font-size: 2rem;
+  font-family: caecilia, times, serif;
+  line-height: 2rem;
+  color: #586062;
+-webkit-font-smoothing: antialiased;
+margin-bottom: 5px;
+}
+
+/*copy and pase bs below*/
+/*
 .new-story {
     margin-top: 40px;
     margin-bottom: 40px;
@@ -278,10 +321,14 @@ button.signup-button-landing:hover {
 }
 .story-image.note {
     padding-top: 28%;
-    background-image: url(../img/homepage-redesign/new-story/NOTE.jpg);
+    background-image: url(https://res.cloudinary.com/dg2yejdpt/image/upload/v1473659732/checklist_q905ba.jpg);
 }
 .image-on-right .story-image {
     float: right;
+    padding: 10% 0;
+    position: relative;
+    overflow: hidden;
+    display: block;
 }
 .story-image {
     width: 50%;
@@ -377,6 +424,6 @@ button.signup-button-landing:hover {
     -webkit-margin-start: 0px;
     -webkit-margin-end: 0px;
 }
-
+*/
 
 /**/
