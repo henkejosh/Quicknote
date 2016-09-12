@@ -3,11 +3,26 @@ const NoteActions = require('../actions/note_actions.js');
 
 const NoteItem = React.createClass({
   formatLastUpdated: function() {
-    let difference = Date.now() - Date.parse(this.props.updated_at);
-    if(difference < 0.6) {
-      return "JUST NOW";
+    const difference = Date.now() - Date.parse(this.props.updated_at);
+    const seconds = Math.floor(difference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const days = Math.floor(minutes / 1440);
+    if(days > 31) {
+      return "MONTHS AGO";
+    } else if(days > 13) {
+      return `${Math.floor(days / 7)} WEEKS AGO`;
+    } else if(days > 1) {
+      return `${Math.floor(days)} DAYS AGO`;
+    } else if(days === 1) {
+      return "1 DAY AGO";
+    } else if (minutes > 1) {
+      return `${Math.floor(minutes)} MINUTES AGO`;
+    } else if(minutes === 1){
+      return "1 MINUTE AGO";
+    } else if(seconds > 10) {
+      return `${Math.floor(seconds)} SECONDS AGO`;
     } else {
-      return `${Math.ceil(difference / 86400000)} DAYS AGO`;
+      return "JUST NOW";
     }
   },
 
