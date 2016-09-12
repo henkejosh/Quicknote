@@ -143,8 +143,14 @@ letter-spacing: 0.5px;
 i.fa-trash-o.nb-bar {
   color: white;
   position: absolute;
-  top: 12px;
+  top: 16px;
   right: 24px;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+i.fa-trash-o.nb-bar:hover {
+  color: #747474;
 }
 
 div.outer-notebook-card:hover {
