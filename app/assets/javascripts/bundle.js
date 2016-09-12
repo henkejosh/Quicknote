@@ -37671,15 +37671,7 @@
 	        onClick: this.openNotebookEditor,
 	        className: 'fa fa-pencil-square-o edit-nb-icon',
 	        'aria-hidden': 'true' });
-	      // className="edit-nb-icon">EDIT NB!!!</div>
 	    }
-	    // } else if(this.props.cardColumnStyle === "tag") {
-	    //   return (
-	    //     <div key={`tag-${this.props.currentTag.id}`}
-	    //       onClick={this.openNotebookEditor}
-	    //       className="edit-nb-icon">EDIT NB!!!</div>
-	    //   );
-	    // }
 	  },
 	
 	  formatNotesLength: function formatNotesLength() {
@@ -37691,7 +37683,6 @@
 	        notesLength = 0;
 	      }
 	    } else {
-	      // if(this.props.cardColumnStyle === "notebook") {
 	      notesLength = Object.keys(this.props.notes).length;
 	    }
 	    return notesLength + ' notes';
@@ -37702,10 +37693,27 @@
 	    this.props.openNotebookEditor();
 	  },
 	
-	  render: function render() {
+	  sortNotes: function sortNotes() {
 	    var _this = this;
 	
+	    var sortedIDs = Object.keys(this.props.notes);
+	
+	    sortedIDs.sort(function (idA, idB) {
+	      var a = _this.props.notes[idA];
+	      var b = _this.props.notes[idB];
+	      if (a.updated_at < b.updated_at) return 1;
+	      if (a.updated_at > b.updated_at) return -1;
+	      return 0;
+	    });
+	    return sortedIDs;
+	  },
+	
+	  render: function render() {
+	    var _this2 = this;
+	
+	    var sortedIDs = this.sortNotes();
 	    var that = this;
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'notes-bar' },
@@ -37735,7 +37743,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'note-cards' },
-	        Object.keys(that.props.notes).map(function (id) {
+	        sortedIDs.map(function (id) {
 	          var note = that.props.notes[id];
 	          return React.createElement(NoteItem, { key: id,
 	            body: note.body,
@@ -37744,8 +37752,8 @@
 	            id: note.id,
 	            created_at: note.created_at,
 	            updated_at: note.updated_at,
-	            selectCurrentNote: _this.props.selectCurrentNote,
-	            currentNote: _this.props.currentNote
+	            selectCurrentNote: _this2.props.selectCurrentNote,
+	            currentNote: _this2.props.currentNote
 	          });
 	        })
 	      )

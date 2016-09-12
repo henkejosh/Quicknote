@@ -24,15 +24,7 @@ const NotesBar = React.createClass({
           className="fa fa-pencil-square-o edit-nb-icon"
           aria-hidden="true"></i>
       );
-      // className="edit-nb-icon">EDIT NB!!!</div>
     }
-    // } else if(this.props.cardColumnStyle === "tag") {
-    //   return (
-    //     <div key={`tag-${this.props.currentTag.id}`}
-    //       onClick={this.openNotebookEditor}
-    //       className="edit-nb-icon">EDIT NB!!!</div>
-    //   );
-    // }
   },
 
   formatNotesLength: function() {
@@ -44,7 +36,6 @@ const NotesBar = React.createClass({
         notesLength = 0;
       }
     } else {
-    // if(this.props.cardColumnStyle === "notebook") {
       notesLength = Object.keys(this.props.notes).length;
     }
     return `${notesLength} notes`;
@@ -55,8 +46,23 @@ const NotesBar = React.createClass({
     this.props.openNotebookEditor();
   },
 
+  sortNotes: function() {
+    let sortedIDs = Object.keys(this.props.notes);
+
+    sortedIDs.sort((idA, idB) => {
+      let a = this.props.notes[idA];
+      let b = this.props.notes[idB];
+      if(a.updated_at < b.updated_at) return 1;
+      if(a.updated_at > b.updated_at) return -1;
+      return 0;
+    });
+    return sortedIDs;
+  },
+
   render: function() {
+    let sortedIDs =this.sortNotes();
     const that = this;
+
     return (
       <div className="notes-bar">
         <div className="current-notebook-card">
@@ -74,7 +80,7 @@ const NotesBar = React.createClass({
         </div>
 
         <div className="note-cards">
-          { Object.keys(that.props.notes).map( id => {
+          { sortedIDs.map( id => {
               let note = that.props.notes[id];
               return (
                 < NoteItem key={id}
