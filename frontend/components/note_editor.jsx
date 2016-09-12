@@ -78,6 +78,7 @@ const NoteEditor = React.createClass({
     if(this.saveTimeout) clearTimeout(this.saveTimeout);
     const note = this.props.currentNote;
     // this.props.currentNote.notebook_id = this.state.notebook_id;
+    // debugger;
     NoteActions.changeNoteNotebook(note);
   },
 

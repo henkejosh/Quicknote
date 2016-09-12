@@ -38344,6 +38344,8 @@
 	      return;
 	    }
 	  });
+	  // should i undo below comment?? (9/12/16)
+	  debugger;
 	  Object.keys(_notebookNotes).forEach(function (id) {
 	    if (parseInt(id) === note.id) {
 	      delete _notebookNotes[note.id];
@@ -38730,6 +38732,7 @@
 	    if (this.saveTimeout) clearTimeout(this.saveTimeout);
 	    var note = this.props.currentNote;
 	    // this.props.currentNote.notebook_id = this.state.notebook_id;
+	    // debugger;
 	    NoteActions.changeNoteNotebook(note);
 	  },
 	
@@ -50383,7 +50386,6 @@
 	
 	    e.preventDefault();
 	    var title = e.target.innerHTML;
-	    // debugger;
 	    var notebook = void 0;
 	    Object.keys(this.props.notebooks).forEach(function (id) {
 	      if (_this.props.notebooks[id].title === title) {
@@ -50396,19 +50398,6 @@
 	    // NoteActions.changeNoteNotebook(note);
 	    this.props.closeNotebookSelector();
 	  },
-	
-	  // this.formatNotebooks().map( id => {
-	  //     let notebook = this.props.notebooks[id];
-	  //     return (
-	  //       <NotebookSelectee key={id}
-	  //         title={notebook.title}
-	  //         onSelect={this.onSelect}
-	  //         closeNotebookSelector={this.props.closeNotebookSelector}
-	  //
-	  //         />
-	  //     );
-	  //   })
-	
 	
 	  render: function render() {
 	    return React.createElement(
@@ -50704,15 +50693,15 @@
 	  render: function render() {
 	    return React.createElement(
 	      "div",
-	      { className: "nb-selector-option" },
+	      { className: "nb-selector-option",
+	        onClick: this.props.onSelect },
 	      React.createElement("div", { className: "line-break" }),
 	      React.createElement(
 	        "div",
 	        { className: "keep-row-green" },
 	        React.createElement(
 	          "div",
-	          { className: "title-card",
-	            onClick: this.props.onSelect },
+	          { className: "title-card" },
 	          this.props.title
 	        )
 	      )

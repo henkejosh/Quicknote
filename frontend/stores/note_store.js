@@ -98,6 +98,8 @@ const _handleNewNotebookNote = function(note) {
       return;
     }
   });
+  // should i undo below comment?? (9/12/16)
+  debugger;
   Object.keys(_notebookNotes).forEach( id => {
     if(parseInt(id) === note.id) {
       delete _notebookNotes[note.id];

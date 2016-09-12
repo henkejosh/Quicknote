@@ -61,7 +61,6 @@ const NotebookDropdown = React.createClass({
   onSelect: function(e) {
     e.preventDefault();
     let title = e.target.innerHTML;
-    // debugger;
     let notebook;
     Object.keys(this.props.notebooks).forEach( id => {
       if(this.props.notebooks[id].title === title) {
@@ -74,19 +73,6 @@ const NotebookDropdown = React.createClass({
     // NoteActions.changeNoteNotebook(note);
     this.props.closeNotebookSelector();
   },
-
-  // this.formatNotebooks().map( id => {
-  //     let notebook = this.props.notebooks[id];
-  //     return (
-  //       <NotebookSelectee key={id}
-  //         title={notebook.title}
-  //         onSelect={this.onSelect}
-  //         closeNotebookSelector={this.props.closeNotebookSelector}
-  //
-  //         />
-  //     );
-  //   })
-
 
   render: function() {
     return (
