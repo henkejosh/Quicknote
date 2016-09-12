@@ -9,6 +9,7 @@ const hashHistory = require('react-router').hashHistory;
 const CurrentNoteStore = require("./current_note_store.js");
 const CurrentNoteConstants = require("../constants/current_note_constants.js");
 const TagConstants = require('../constants/tag_constants.js');
+const SessionConstants = require('../constants/session_constants.js');
 
 const NoteStore = new Store(Dispatcher);
 
@@ -114,6 +115,12 @@ const _createNotebookNotes = function(notebookID) {
   // _setNotebookNotes(notes);
 };
 
+const _resetStore = function() {
+  _notes = {};
+  _notebookNotes = {};
+  _tagNotes = {};
+};
+
 NoteStore.tagNotes = function(tag) {
   if(Object.keys(tag).length === 0) return;
 
@@ -205,6 +212,9 @@ NoteStore.__onDispatch = payload => {
       _addNote(payload.note);
       _removeTagNote(payload.note);
       NoteStore.__emitChange();
+      break;
+    case SessionConstants.LOGOUT:
+      _resetStore();
       break;
   }
 };

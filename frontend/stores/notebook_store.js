@@ -5,6 +5,7 @@ const Dispatcher = require('../dispatcher/dispatcher.js');
 const NotebookConstants = require('../constants/notebook_constants.js');
 const hashHistory = require('react-router').hashHistory;
 const CurrentNotebookStore = require('./current_notebook_store.js');
+const SessionConstants = require('../constants/session_constants.js');
 
 const NotebookStore = new Store(Dispatcher);
 
@@ -38,6 +39,10 @@ const _removeNotebook = function(notebookID) {
 
 const _receiveNotebook = function(notebook) {
   _allNotebooks[notebook.id] = notebook;
+};
+
+const _resetStore = function() {
+  _allNotebooks = {};
 };
 
 NotebookStore.findNotebook = function(notebookID) {
@@ -77,6 +82,9 @@ NotebookStore.__onDispatch = payload => {
     case NotebookConstants.UPDATE_ALL_NOTEBOOKS_POST_DELETE:
       _setAllNotebooks(payload.notebooks);
       NotebookStore.__emitChange();
+      break;
+    case SessionConstants.LOGOUT:
+      _resetStore();
       break;
   }
 };

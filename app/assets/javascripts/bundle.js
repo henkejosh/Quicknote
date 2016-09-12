@@ -36513,18 +36513,12 @@
 	      currentNote: CurrentNoteStore.currentNote(),
 	      currentTag: {},
 	      tags: {},
-	      // current_notebook_open: false
 	      notes: NoteStore.allNotes("all"),
 	      notebookCreatorOpen: false,
 	      notebookEditorOpen: false,
 	      tagModalBarIsOpen: false,
 	      SelectNotebookModalOpen: false,
-	      //   tags: ,
-	      //   current_note: ,
-	      //   create_note_modal_open: false,
-	      //   tags_modal_open: false,
 	      cardColumnStyle: "all"
-	      // cardColumnNotebook: false
 	    };
 	  },
 	
@@ -37454,6 +37448,7 @@
 	var NotebookConstants = __webpack_require__(290);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	var CurrentNotebookStore = __webpack_require__(300);
+	var SessionConstants = __webpack_require__(244);
 	
 	var NotebookStore = new Store(Dispatcher);
 	
@@ -37487,6 +37482,10 @@
 	
 	var _receiveNotebook = function _receiveNotebook(notebook) {
 	  _allNotebooks[notebook.id] = notebook;
+	};
+	
+	var _resetStore = function _resetStore() {
+	  _allNotebooks = {};
 	};
 	
 	NotebookStore.findNotebook = function (notebookID) {
@@ -37526,6 +37525,9 @@
 	    case NotebookConstants.UPDATE_ALL_NOTEBOOKS_POST_DELETE:
 	      _setAllNotebooks(payload.notebooks);
 	      NotebookStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _resetStore();
 	      break;
 	  }
 	};
@@ -38215,6 +38217,7 @@
 	var CurrentNoteStore = __webpack_require__(309);
 	var CurrentNoteConstants = __webpack_require__(298);
 	var TagConstants = __webpack_require__(296);
+	var SessionConstants = __webpack_require__(244);
 	
 	var NoteStore = new Store(Dispatcher);
 	
@@ -38320,6 +38323,12 @@
 	  // _setNotebookNotes(notes);
 	};
 	
+	var _resetStore = function _resetStore() {
+	  _notes = {};
+	  _notebookNotes = {};
+	  _tagNotes = {};
+	};
+	
 	NoteStore.tagNotes = function (tag) {
 	  if (Object.keys(tag).length === 0) return;
 	
@@ -38412,6 +38421,9 @@
 	      _removeTagNote(payload.note);
 	      NoteStore.__emitChange();
 	      break;
+	    case SessionConstants.LOGOUT:
+	      _resetStore();
+	      break;
 	  }
 	};
 	
@@ -38433,6 +38445,7 @@
 	var NotebookConstants = __webpack_require__(290);
 	var NoteStore = __webpack_require__(308);
 	var TagConstants = __webpack_require__(296);
+	var SessionConstants = __webpack_require__(244);
 	
 	var CurrentNoteStore = new Store(Dispatcher);
 	
@@ -38477,7 +38490,6 @@
 	
 	var _bootstrapCurrentNote = function _bootstrapCurrentNote(notes) {
 	  // if(Object.keys(_currentNote).length === 0) {
-	  debugger;
 	  _chooseLastNote(notes);
 	  // }
 	};
@@ -38548,6 +38560,9 @@
 	    case TagConstants.UPDATE_NOTE_AND_TAG:
 	      _setCurrentNote(payload.note);
 	      CurrentNoteStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _resetStore();
 	      break;
 	    // case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
 	    //   _getNotebookNoteFromNoteStore(NoteStore);
@@ -59946,6 +59961,7 @@
 	var Dispatcher = __webpack_require__(239);
 	var TagConstants = __webpack_require__(296);
 	var NoteConstants = __webpack_require__(293);
+	var SessionConstants = __webpack_require__(244);
 	
 	var _tags = {};
 	
@@ -59957,7 +59973,6 @@
 	
 	var _updateTags = function _updateTags(tags) {
 	  _tags = {};
-	  // debugger;
 	  tags.tags_arr.forEach(function (tag) {
 	    _tags[tag.id] = tag;
 	  });
@@ -59965,6 +59980,10 @@
 	
 	var _removeTag = function _removeTag(tagID) {
 	  if (_tags[tagID]) delete _tags[tagID];
+	};
+	
+	var _resetStore = function _resetStore() {
+	  _tags = {};
 	};
 	
 	TagStore.allTags = function () {
@@ -59989,6 +60008,10 @@
 	      _addTag(payload.tag);
 	      TagStore.__emitChange();
 	      break;
+	    case SessionConstants.LOGOUT:
+	      _resetStore();
+	      break;
+	
 	    // case NoteConstants.RECEIVE_ALL_NOTES:
 	    //   _updateTags(payload.notes)
 	    //   TagStore.__emitChange();
@@ -60007,6 +60030,7 @@
 	var Dispatcher = __webpack_require__(239);
 	var TagConstants = __webpack_require__(296);
 	var hashHistory = __webpack_require__(175).hashHistory;
+	var SessionConstants = __webpack_require__(244);
 	
 	var _currentTag = {};
 	
@@ -60014,6 +60038,10 @@
 	
 	var _updateCurrentTag = function _updateCurrentTag(tag) {
 	  _currentTag = tag;
+	};
+	
+	var _resetStore = function _resetStore() {
+	  _currentTag = {};
 	};
 	
 	CurrentTagStore.currentTag = function () {
@@ -60030,6 +60058,10 @@
 	      _updateCurrentTag(payload.tag);
 	      CurrentTagStore.__emitChange();
 	      break;
+	    case SessionConstants.LOGOUT:
+	      _resetStore();
+	      break;
+	
 	  }
 	};
 	

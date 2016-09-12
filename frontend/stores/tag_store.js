@@ -2,6 +2,7 @@ const Store = require('flux/utils').Store;
 const Dispatcher = require('../dispatcher/dispatcher.js');
 const TagConstants = require('../constants/tag_constants.js');
 const NoteConstants = require('../constants/note_constants.js');
+const SessionConstants = require('../constants/session_constants.js');
 
 let _tags = {};
 
@@ -13,7 +14,6 @@ const _addTag = function(tag) {
 
 const _updateTags = function(tags) {
   _tags = {};
-  // debugger;
   tags.tags_arr.forEach( tag => {
     _tags[tag.id] = tag;
   });
@@ -21,6 +21,10 @@ const _updateTags = function(tags) {
 
 const _removeTag = function(tagID) {
   if(_tags[tagID]) delete _tags[tagID];
+};
+
+const _resetStore = function() {
+  _tags = {};
 };
 
 TagStore.allTags = function() {
@@ -45,6 +49,10 @@ TagStore.__onDispatch = payload => {
       _addTag(payload.tag);
       TagStore.__emitChange();
       break;
+    case SessionConstants.LOGOUT:
+      _resetStore();
+      break;
+
     // case NoteConstants.RECEIVE_ALL_NOTES:
     //   _updateTags(payload.notes)
     //   TagStore.__emitChange();

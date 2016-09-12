@@ -10,6 +10,7 @@ const CurrentNotebookConstants = require("../constants/current_notebook_constant
 const NotebookConstants = require("../constants/notebook_constants.js");
 const NoteStore = require("./note_store.js");
 const TagConstants = require('../constants/tag_constants.js');
+const SessionConstants = require('../constants/session_constants.js');
 
 const CurrentNoteStore = new Store(Dispatcher);
 
@@ -52,7 +53,6 @@ const _chooseLastNoteFromArray = function(notes_arr) {
 
 const _bootstrapCurrentNote = function(notes) {
   // if(Object.keys(_currentNote).length === 0) {
-  debugger;
     _chooseLastNote(notes);
   // }
 };
@@ -123,6 +123,9 @@ CurrentNoteStore.__onDispatch = payload => {
     case TagConstants.UPDATE_NOTE_AND_TAG:
       _setCurrentNote(payload.note);
       CurrentNoteStore.__emitChange();
+      break;
+    case SessionConstants.LOGOUT:
+      _resetStore();
       break;
     // case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
     //   _getNotebookNoteFromNoteStore(NoteStore);

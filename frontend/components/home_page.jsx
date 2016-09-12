@@ -25,18 +25,12 @@ const HomePage = React.createClass({
       currentNote: CurrentNoteStore.currentNote(),
       currentTag: {},
       tags: {},
-    // current_notebook_open: false
       notes: NoteStore.allNotes("all"),
       notebookCreatorOpen: false,
       notebookEditorOpen: false,
       tagModalBarIsOpen: false,
       SelectNotebookModalOpen: false,
-    //   tags: ,
-    //   current_note: ,
-    //   create_note_modal_open: false,
-    //   tags_modal_open: false,
       cardColumnStyle: "all"
-      // cardColumnNotebook: false
     };
   },
 
