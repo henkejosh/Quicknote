@@ -134,7 +134,6 @@ const HomePage = React.createClass({
   },
 
   makeNoteEditorOpaque: function() {
-    // debugger;
     $(".note-editor-page").css("opacity", 0.2);
   },
 
@@ -193,7 +192,6 @@ const HomePage = React.createClass({
   },
 
   changeCardColumnToTag: function() {
-    debugger;
     this.setState({ cardColumnStyle: "tag" });
   },
 

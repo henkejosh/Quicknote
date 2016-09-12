@@ -23,7 +23,6 @@ const LeftNavBar = React.createClass({
 
   handleTagIconClick: function(e) {
     e.preventDefault();
-    // debugger;
     if(this.props.tagModalBarIsOpen) {
       this.props.changeCardColumnToAllCards();
       this.props.forceUpdateAllNotes();
@@ -31,7 +30,9 @@ const LeftNavBar = React.createClass({
       this.props.removeNoteEditorOpacity();
     } else {
       this.props.openSelectTagModal();
-      // this.props.forceUpdateTagNotes();
+
+      this.props.changeCardColumnToTag();
+      this.props.forceUpdateTagNotes();
     }
   },
 

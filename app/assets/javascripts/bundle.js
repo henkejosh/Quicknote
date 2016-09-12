@@ -36628,7 +36628,6 @@
 	  },
 	
 	  makeNoteEditorOpaque: function makeNoteEditorOpaque() {
-	    // debugger;
 	    $(".note-editor-page").css("opacity", 0.2);
 	  },
 	
@@ -36687,7 +36686,6 @@
 	  },
 	
 	  changeCardColumnToTag: function changeCardColumnToTag() {
-	    debugger;
 	    this.setState({ cardColumnStyle: "tag" });
 	  },
 	
@@ -37875,7 +37873,6 @@
 	
 	  handleTagIconClick: function handleTagIconClick(e) {
 	    e.preventDefault();
-	    // debugger;
 	    if (this.props.tagModalBarIsOpen) {
 	      this.props.changeCardColumnToAllCards();
 	      this.props.forceUpdateAllNotes();
@@ -37883,7 +37880,9 @@
 	      this.props.removeNoteEditorOpacity();
 	    } else {
 	      this.props.openSelectTagModal();
-	      // this.props.forceUpdateTagNotes();
+	
+	      this.props.changeCardColumnToTag();
+	      this.props.forceUpdateTagNotes();
 	    }
 	  },
 	
