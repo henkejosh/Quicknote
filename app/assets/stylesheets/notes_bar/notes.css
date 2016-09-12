@@ -103,6 +103,8 @@ div.note-card {
   padding: 0px;
   /*top: 120px;*/
   position: relative;
+  transition: color .15s ease-in;
+  transition: background-color .15s ease-in;
 }
 
 div.note-card:hover {

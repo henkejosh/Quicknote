@@ -1,6 +1,7 @@
 div.tag-modal-anim {
   position: absolute;
-  left: 0;
+  /*left: 0;*/
+  left: -470px;
   width: 459px;
   border: 1px solid #EFF2F3;
   background-color: #FFFFFF;
@@ -8,6 +9,11 @@ div.tag-modal-anim {
   top: 0px;
   bottom: 0px;
   z-index: 20;
+  transition: transform .4s ease-in-out;
+}
+
+div.tag-modal-anim.revealed {
+  transform: translate(459px, 0);
 }
 
 div.tag-modal > div.tag-header {
@@ -17,8 +23,6 @@ div.tag-modal > div.tag-header {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /*padding: 2% 5%;*/
-  /*padding: 2% 5%;*/
 }
 
 p.tag-note-count {

@@ -40,11 +40,11 @@ const TagModalBar = React.createClass({
     e.preventDefault();
     this.props.openTagCreator();
   },
-
+// display={this.handleDisplay}
   render: function() {
     const that = this;
     return (
-      <div className="tag-modal-anim" display={this.handleDisplay}>
+      <div className="tag-modal-anim" >
 
         <div className="tag-modal">
           <div className="tag-header">
@@ -61,12 +61,14 @@ const TagModalBar = React.createClass({
                 < TagModalCard key={id}
                     title={tag.title}
                     id={tag.id}
+                    selectTagAndClose={this.props.selectTagAndClose}
                     changeCardColumnToNotebook={this.props.changeCardColumnToNotebook}
                     changeCardColumnToAllCards={this.props.changeCardColumnToAllCards}
                     changeCardColumnToTag={this.props.changeCardColumnToTag}
                     closeSelectTagModal={this.props.closeSelectTagModal}
                     tag={tag}
                     selectCurrentTag={this.props.selectCurrentTag}
+                    tagModalIsOpen={this.props.tagModalIsOpen}
                   />
               );
             })

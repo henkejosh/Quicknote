@@ -8,7 +8,11 @@ const NotesBar = React.createClass({
     } else if(this.props.cardColumnStyle === "notebook"){
       return `NOTEBOOK: ${this.props.currentNotebook.title}`;
     } else if(this.props.cardColumnStyle === "tag") {
-      return `TAG: ${this.props.currentTag.title}`;
+      if(this.props.currentTag.title) {
+        return `TAG: ${this.props.currentTag.title}`;
+      } else {
+        return "NOTES";
+      }
     }
   },
 

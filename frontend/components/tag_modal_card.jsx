@@ -14,9 +14,10 @@ const TagModalCard = React.createClass({
     this.props.closeSelectTagModal();
   },
 
-  componentDidMount: function() {
-    this.props.changeCardColumnToTag();
-  },
+  // componentDidMount: function() {
+  //   this.props.changeCardColumnToTag();
+  // },
+
 
   formatNoteCount: function() {
     if(this.props.tag.note_ids) {

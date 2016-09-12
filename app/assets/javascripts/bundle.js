@@ -36638,31 +36638,42 @@
 	
 	  controlSelectTagModal: function controlSelectTagModal() {
 	    if (this.state.tagModalBarIsOpen) {
-	      return React.createElement(TagModalBar, {
-	        tagModalBarIsOpen: this.state.tagModalBarIsOpen,
-	        closeSelectTagModal: this.closeSelectTagModal,
-	        openSelectTagModal: this.openSelectTagModal,
-	        changeCardColumnToTag: this.changeCardColumnToTag,
-	        changeCardColumnToAllCards: this.changeCardColumnToAllCards,
-	        notes: this.state.notes,
-	        selectCurrentTag: this.selectCurrentTag,
-	        currentTag: this.currentTag,
-	        tags: this.state.tags
-	        // openTagCreator={this.openTagCreator}
-	      });
+	      $(".tag-modal-anim").addClass("revealed");
+	    } else {
+	      $(".tag-modal-anim").removeClass("revealed");
 	    }
+	    // return (
+	    //   <TagModalBar
+	    //     tagModalBarIsOpen={ this.state.tagModalBarIsOpen }
+	    //     closeSelectTagModal={ this.closeSelectTagModal }
+	    //     openSelectTagModal={ this.openSelectTagModal }
+	    //     changeCardColumnToTag={this.changeCardColumnToTag}
+	    //     changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+	    //     notes={this.state.notes}
+	    //     selectCurrentTag={this.selectCurrentTag}
+	    //     currentTag={this.currentTag}
+	    //     tags={this.state.tags}
+	    //     />
+	    // );
 	  },
 	
 	  controlSelectNotebookModal: function controlSelectNotebookModal() {
 	    if (this.state.SelectNotebookModalOpen) {
-	      return React.createElement(NotebookBar, {
-	        notebookBarIsOpen: this.state.SelectNotebookModalOpen,
-	        closeSelectNotebookModal: this.closeSelectNotebookModal,
-	        changeCardColumnToNotebook: this.changeCardColumnToNotebook,
-	        changeCardColumnToAllCards: this.changeCardColumnToAllCards,
-	        openNotebookCreator: this.openNotebookCreator
-	      });
+	      $(".notebook-modal-anim").addClass("revealed");
+	    } else {
+	      $(".notebook-modal-anim").removeClass("revealed");
 	    }
+	
+	    //   return (
+	    //     <NotebookBar
+	    //       notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
+	    //       closeSelectNotebookModal={ this.closeSelectNotebookModal }
+	    //       changeCardColumnToNotebook={this.changeCardColumnToNotebook}
+	    //       changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+	    //       openNotebookCreator={this.openNotebookCreator}
+	    //       />
+	    //   );
+	    // }
 	  },
 	
 	  controlNotesProps: function controlNotesProps() {
@@ -36676,6 +36687,7 @@
 	  },
 	
 	  changeCardColumnToTag: function changeCardColumnToTag() {
+	    debugger;
 	    this.setState({ cardColumnStyle: "tag" });
 	  },
 	
@@ -36743,16 +36755,30 @@
 	    this.closeSelectNotebookModal();
 	  },
 	
+	  selectTagAndClose: function selectTagAndClose() {
+	    this.setState({
+	      tagModalBarIsOpen: false,
+	      cardColumnStyle: 'tag'
+	    });
+	  },
+	
 	  closeSelectTagModal: function closeSelectTagModal() {
+	    // this.setState({ tagModalBarIsOpen: false });
 	    this.setState({ tagModalBarIsOpen: false });
 	    this.removeNoteEditorOpacity();
 	  },
 	
 	  openSelectTagModal: function openSelectTagModal() {
-	    this.setState({ tagModalBarIsOpen: true });
-	    this.closeNotebookCreator();
-	    this.closeNotebookEditor();
-	    this.closeSelectNotebookModal();
+	    this.setState({ tagModalBarIsOpen: true,
+	      notebookCreatorOpen: false,
+	      notebookEditorOpen: false,
+	      SelectNotebookModalOpen: false
+	      // cardColumnStyle: 'tag'
+	    });
+	
+	    // this.closeNotebookCreator();
+	    // this.closeNotebookEditor();
+	    // this.closeSelectNotebookModal();
 	    this.makeNoteEditorOpaque();
 	  },
 	
@@ -36786,6 +36812,7 @@
 	      'div',
 	      { className: 'home-page-content' },
 	      React.createElement(LeftNavBar, {
+	        selectTagAndClose: this.selectTagAndClose,
 	        cardColumnStyle: this.state.cardColumnStyle,
 	        SelectNotebookModalOpen: this.state.SelectNotebookModalOpen,
 	        openSelectNotebookModal: this.openSelectNotebookModal,
@@ -36808,7 +36835,26 @@
 	        'div',
 	        { className: 'page-content' },
 	        this.createNotesBar(),
+	        React.createElement(NotebookBar, {
+	          notebookBarIsOpen: this.state.SelectNotebookModalOpen,
+	          closeSelectNotebookModal: this.closeSelectNotebookModal,
+	          changeCardColumnToNotebook: this.changeCardColumnToNotebook,
+	          changeCardColumnToAllCards: this.changeCardColumnToAllCards,
+	          openNotebookCreator: this.openNotebookCreator
+	        }),
 	        this.controlSelectNotebookModal(),
+	        React.createElement(TagModalBar, {
+	          selectTagAndClose: this.selectTagAndClose,
+	          tagModalBarIsOpen: this.state.tagModalBarIsOpen,
+	          closeSelectTagModal: this.closeSelectTagModal,
+	          openSelectTagModal: this.openSelectTagModal,
+	          changeCardColumnToTag: this.changeCardColumnToTag,
+	          changeCardColumnToAllCards: this.changeCardColumnToAllCards,
+	          notes: this.state.notes,
+	          selectCurrentTag: this.selectCurrentTag,
+	          currentTag: this.currentTag,
+	          tags: this.state.tags
+	        }),
 	        this.controlSelectTagModal()
 	      ),
 	      this.renderNoteEditor(),
@@ -37618,7 +37664,11 @@
 	    } else if (this.props.cardColumnStyle === "notebook") {
 	      return 'NOTEBOOK: ' + this.props.currentNotebook.title;
 	    } else if (this.props.cardColumnStyle === "tag") {
-	      return 'TAG: ' + this.props.currentTag.title;
+	      if (this.props.currentTag.title) {
+	        return 'TAG: ' + this.props.currentTag.title;
+	      } else {
+	        return "NOTES";
+	      }
 	    }
 	  },
 	
@@ -59776,14 +59826,14 @@
 	    e.preventDefault();
 	    this.props.openTagCreator();
 	  },
-	
+	  // display={this.handleDisplay}
 	  render: function render() {
 	    var _this = this;
 	
 	    var that = this;
 	    return React.createElement(
 	      'div',
-	      { className: 'tag-modal-anim', display: this.handleDisplay },
+	      { className: 'tag-modal-anim' },
 	      React.createElement(
 	        'div',
 	        { className: 'tag-modal' },
@@ -59805,12 +59855,14 @@
 	            return React.createElement(TagModalCard, { key: id,
 	              title: tag.title,
 	              id: tag.id,
+	              selectTagAndClose: _this.props.selectTagAndClose,
 	              changeCardColumnToNotebook: _this.props.changeCardColumnToNotebook,
 	              changeCardColumnToAllCards: _this.props.changeCardColumnToAllCards,
 	              changeCardColumnToTag: _this.props.changeCardColumnToTag,
 	              closeSelectTagModal: _this.props.closeSelectTagModal,
 	              tag: tag,
-	              selectCurrentTag: _this.props.selectCurrentTag
+	              selectCurrentTag: _this.props.selectCurrentTag,
+	              tagModalIsOpen: _this.props.tagModalIsOpen
 	            });
 	          })
 	        )
@@ -59845,9 +59897,10 @@
 	    this.props.closeSelectTagModal();
 	  },
 	
-	  componentDidMount: function componentDidMount() {
-	    this.props.changeCardColumnToTag();
-	  },
+	  // componentDidMount: function() {
+	  //   this.props.changeCardColumnToTag();
+	  // },
+	
 	
 	  formatNoteCount: function formatNoteCount() {
 	    if (this.props.tag.note_ids) {

@@ -144,35 +144,42 @@ const HomePage = React.createClass({
 
   controlSelectTagModal: function() {
     if(this.state.tagModalBarIsOpen) {
-      return (
-        <TagModalBar
-          tagModalBarIsOpen={ this.state.tagModalBarIsOpen }
-          closeSelectTagModal={ this.closeSelectTagModal }
-          openSelectTagModal={ this.openSelectTagModal }
-          changeCardColumnToTag={this.changeCardColumnToTag}
-          changeCardColumnToAllCards={this.changeCardColumnToAllCards}
-          notes={this.state.notes}
-          selectCurrentTag={this.selectCurrentTag}
-          currentTag={this.currentTag}
-          tags={this.state.tags}
-          // openTagCreator={this.openTagCreator}
-          />
-      );
+      $(".tag-modal-anim").addClass("revealed");
+    } else {
+      $(".tag-modal-anim").removeClass("revealed");
     }
+      // return (
+      //   <TagModalBar
+      //     tagModalBarIsOpen={ this.state.tagModalBarIsOpen }
+      //     closeSelectTagModal={ this.closeSelectTagModal }
+      //     openSelectTagModal={ this.openSelectTagModal }
+      //     changeCardColumnToTag={this.changeCardColumnToTag}
+      //     changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+      //     notes={this.state.notes}
+      //     selectCurrentTag={this.selectCurrentTag}
+      //     currentTag={this.currentTag}
+      //     tags={this.state.tags}
+      //     />
+      // );
   },
 
   controlSelectNotebookModal: function() {
     if(this.state.SelectNotebookModalOpen) {
-      return (
-        <NotebookBar
-          notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
-          closeSelectNotebookModal={ this.closeSelectNotebookModal }
-          changeCardColumnToNotebook={this.changeCardColumnToNotebook}
-          changeCardColumnToAllCards={this.changeCardColumnToAllCards}
-          openNotebookCreator={this.openNotebookCreator}
-          />
-      );
+      $(".notebook-modal-anim").addClass("revealed");
+    } else {
+      $(".notebook-modal-anim").removeClass("revealed");
     }
+
+    //   return (
+    //     <NotebookBar
+    //       notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
+    //       closeSelectNotebookModal={ this.closeSelectNotebookModal }
+    //       changeCardColumnToNotebook={this.changeCardColumnToNotebook}
+    //       changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+    //       openNotebookCreator={this.openNotebookCreator}
+    //       />
+    //   );
+    // }
   },
 
   controlNotesProps: function() {
@@ -186,6 +193,7 @@ const HomePage = React.createClass({
   },
 
   changeCardColumnToTag: function() {
+    debugger;
     this.setState({ cardColumnStyle: "tag" });
   },
 
@@ -257,16 +265,31 @@ const HomePage = React.createClass({
     this.closeSelectNotebookModal();
   },
 
+  selectTagAndClose: function() {
+    this.setState({
+      tagModalBarIsOpen: false,
+      cardColumnStyle: 'tag'
+    });
+  },
+
   closeSelectTagModal: function() {
+    // this.setState({ tagModalBarIsOpen: false });
     this.setState({ tagModalBarIsOpen: false });
     this.removeNoteEditorOpacity();
   },
 
   openSelectTagModal: function() {
-    this.setState({ tagModalBarIsOpen: true });
-    this.closeNotebookCreator();
-    this.closeNotebookEditor();
-    this.closeSelectNotebookModal();
+    this.setState({ tagModalBarIsOpen: true,
+      notebookCreatorOpen: false,
+      notebookEditorOpen: false,
+      SelectNotebookModalOpen: false
+      // cardColumnStyle: 'tag'
+    });
+
+
+    // this.closeNotebookCreator();
+    // this.closeNotebookEditor();
+    // this.closeSelectNotebookModal();
     this.makeNoteEditorOpaque();
   },
 
@@ -304,6 +327,7 @@ const HomePage = React.createClass({
       <div className="home-page-content">
 
         <LeftNavBar
+          selectTagAndClose={this.selectTagAndClose}
           cardColumnStyle={this.state.cardColumnStyle}
           SelectNotebookModalOpen={this.state.SelectNotebookModalOpen}
           openSelectNotebookModal={this.openSelectNotebookModal}
@@ -325,7 +349,28 @@ const HomePage = React.createClass({
 
         <div className="page-content">
           { this.createNotesBar() }
+
+          <NotebookBar
+            notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
+            closeSelectNotebookModal={ this.closeSelectNotebookModal }
+            changeCardColumnToNotebook={this.changeCardColumnToNotebook}
+            changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+            openNotebookCreator={this.openNotebookCreator}
+            />
           { this.controlSelectNotebookModal() }
+
+          <TagModalBar
+            selectTagAndClose={this.selectTagAndClose}
+            tagModalBarIsOpen={ this.state.tagModalBarIsOpen }
+            closeSelectTagModal={ this.closeSelectTagModal }
+            openSelectTagModal={ this.openSelectTagModal }
+            changeCardColumnToTag={this.changeCardColumnToTag}
+            changeCardColumnToAllCards={this.changeCardColumnToAllCards}
+            notes={this.state.notes}
+            selectCurrentTag={this.selectCurrentTag}
+            currentTag={this.currentTag}
+            tags={this.state.tags}
+            />
           { this.controlSelectTagModal() }
         </div>
 
