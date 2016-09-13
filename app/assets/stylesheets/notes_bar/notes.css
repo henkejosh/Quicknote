@@ -116,6 +116,10 @@ div.note-card:hover > ul > li {
   color: white;
 }
 
+div.note-card:hover > div.note-card-line-break {
+  border: none;
+}
+
 li.delete-icon {
   width: 20%;
 }
