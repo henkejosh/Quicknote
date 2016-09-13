@@ -95,7 +95,7 @@ class User < ApplicationRecord
     )
 
     note6 = Note.create!(
-      notebook_id: notebook1.id,
+      notebook_id: notebook2.id,
       title: "Create a new notebook and move this note to it",
       body: "<ol><li><span style=\"color: rgb(0, 102, 204);\">Click the notebooks icon on the left navigation bar to bring up the notebooks screen. </span></li><li><span style=\"color: rgb(255, 153, 0);\">Then click the \"add notebook\" icon and type in a title.</span></li><li><span style=\"color: rgb(102, 185, 102);\">Navigate back to this note then click the notebook dropdown menu at the top of the note editor.</span></li><li><span style=\"background-color: rgb(255, 255, 0);\"><i><span style=\"font-family: monospace;\">Select your new notebook!</span></i></span></li></ol>"
     )
