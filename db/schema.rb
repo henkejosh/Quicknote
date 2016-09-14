@@ -46,8 +46,10 @@ ActiveRecord::Schema.define(version: 20160828032247) do
     t.integer  "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["note_id", "tag_id"], name: "index_taggings_on_note_id_and_tag_id", unique: true, using: :btree
-    t.index ["tag_id", "note_id"], name: "index_taggings_on_tag_id_and_note_id", unique: true, using: :btree
+    t.index ["note_id", "tag_id"], name: "index_taggings_on_note_id_and_tag_id",
+      unique: true, using: :btree
+    t.index ["tag_id", "note_id"], name: "index_taggings_on_tag_id_and_note_id",
+      unique: true, using: :btree
   end
 
   create_table "tags", force: :cascade do |t|
