@@ -9,7 +9,7 @@
   },
   "scripts": {
     "webpack": "webpack",
-    "postinstall": "./node_modules/.bin/webpack"
+    "heroku-postbuild": "webpack --config webpack.config.prod.js"
   },
   "keywords": [],
   "author": "",
