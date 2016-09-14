@@ -1,10 +1,10 @@
-# README
+# QUICKNOTE
 
 [Quicknote live] (https://quickernote.herokuapp.com/)
 
 Quicknote is a full-stack, single page web app inspired by Evernote. It's built on a Ruby on Rails backend, uses a Puma web server and PostgreSQL database, and features a React.js frontend utilizing the Flux architectural framework.
 
-Quicknote's UI is based directly on Evernote's for a professional look and intuitive interactions.
+Quicknote's UI is based directly on Evernote's for a professional look and a quick, intuitive experience.
 
 ![home page view](./lib/pictures/home_page.png)
 
