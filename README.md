@@ -62,7 +62,7 @@ Quicknote uses the Quill.js library to edit notes, allowing for an intuitive, Wo
 ### Auto-Save
 Notes are saved to the database as they're edited via background API calls, ensuring a great user experience (content is never lost, and you never have to worry about saving).
 
-## Quicknote Roadmap
+## ROADMAP
 ### Search
 Make users, notes, notebooks, and tags searchable.
 
