@@ -2,8 +2,6 @@ const React = require('react');
 const hashHistory = require('react-router').hashHistory;
 const SessionActions = require('../actions/session_actions.js');
 const SessionStore = require('../stores/session_store.js');
-// const ErrorStore = require('../stores/error_store.js');
-// const ErrorActions = require('../actions/error_actions.js');
 const Modal = require('react-modal');
 const modStyle = require('../misc/modal_styles.js');
 
@@ -14,11 +12,9 @@ const SignInModal = React.createClass({
 
   componentDidMount: function() {
     this.sessionListener = SessionStore.addListener(this.isUserLoggedIn);
-    // this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
   },
 
   componentWillUnmount() {
-    // this.errorListener.remove();
     this.sessionListener.remove();
     this.props.makeModalSignIn();
   },

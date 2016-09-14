@@ -12,22 +12,6 @@ const TagModalBar = React.createClass({
     };
   },
 
-  // componentDidMount: function() {
-  //   // this.tagStoreListener = TagStore.addListener(this.updateTags);
-  // },
-
-  // updateTags: function() {
-  //   this.setState({ tags: TagStore.allTags() });
-  // },
-
-  // componentWillMount: function() {
-  //   TagActions.getAllTags();
-  // },
-
-  // componentWillUnmount: function() {
-  //   // this.tagStoreListener.remove();
-  // },
-
   handleDisplay: function() {
     if(this.props.tagModalIsOpen) {
       return "block";
@@ -40,7 +24,7 @@ const TagModalBar = React.createClass({
     e.preventDefault();
     this.props.openTagCreator();
   },
-// display={this.handleDisplay}
+  
   render: function() {
     const that = this;
     return (

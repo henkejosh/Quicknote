@@ -1,8 +1,4 @@
-// const NoteActions = require('../actions/note_actions.js');
-
 const TagApiUtil = {
-  // NoteActions: NoteActions,
-
   createTag: function(tag, noteID, success) {
     $.ajax({
       url: `api/notes/${noteID}/tags`,
@@ -48,21 +44,6 @@ const TagApiUtil = {
       }
     });
   },
-
-  // selectCurrentTag: function(tag, success) {
-  //   $.ajax({
-  //     url: `api/notes/${tag.id}`,
-  //     data: {tag},
-  //     dataType: "json",
-  //     type: "GET",
-  //     success,
-  //     error: xhr => {
-  //       const error = `status: ${xhr.status} ${xhr.statusText}`;
-  //       console.log(error);
-  //       console.log(xhr.responseText);
-  //     }
-  //   });
-  // },
 
   getAllTags: function(success) {
     $.ajax({

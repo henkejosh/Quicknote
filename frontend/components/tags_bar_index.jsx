@@ -27,18 +27,11 @@ const TagsBarIndex = React.createClass({
   },
 
   handleTitleChange: function(e) {
-    // debugger;
     e.preventDefault();
     this.setState({ title: e.target.value });
-    // this.resizeInput();
-    // if(e.keyCode === 13) {
-    //   const tag = {title: this.state.title};
-    //   TagActions.createTag(tag, this.props.currentNote.id);
-    // }
   },
 
   handleDelete: function(e) {
-    // debugger;
     e.preventDefault();
     this.props.tag.taggings.forEach( tagging => {
       if(tagging.tag_id === this.props.tag.id &&
@@ -64,7 +57,6 @@ const TagsBarIndex = React.createClass({
   },
 
   resizeInput: function() {
-    // $(".tag-creator").attr('size', this.state.title.length);
     $(".tag-creator").width((this.state.title.length + 1) * 7);
   },
 
@@ -73,7 +65,6 @@ const TagsBarIndex = React.createClass({
     return tags.map(tag => {
       return { id: tag.id, text: tag.title };
     });
-    // debugger;
   },
 
   render: function() {

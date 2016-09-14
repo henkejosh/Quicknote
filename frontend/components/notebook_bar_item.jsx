@@ -20,7 +20,6 @@ const NotebookBarItem = React.createClass({
     NotebookActions.getAllNotebooks();
     this.props.changeCardColumnToAllCards();
     this.props.closeSelectNotebookModal();
-    // CurrentNotebookStore.resetCurrentNotebook(this.props.notebooks);
     e.stopPropagation();
   },
 

@@ -10,14 +10,10 @@ const TagModalCard = React.createClass({
     if(this.props.tag.note_ids.length > 0) {
       noteID = this.props.tag.note_ids[0].id;
     }
+    
     TagActions.selectCurrentTag(this.props.tag, noteID);
     this.props.closeSelectTagModal();
   },
-
-  // componentDidMount: function() {
-  //   this.props.changeCardColumnToTag();
-  // },
-
 
   formatNoteCount: function() {
     if(this.props.tag.note_ids) {
@@ -31,8 +27,6 @@ const TagModalCard = React.createClass({
     e.preventDefault();
     TagActions.deleteTag(this.props.tag);
     NoteActions.getAllNotes();
-    // this.props.changeCardColumnToAllCards();
-    // this.props.closeSelectTagModal();
   },
 
   render: function() {

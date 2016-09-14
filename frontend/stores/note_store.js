@@ -30,7 +30,6 @@ const _setNotes = function(notes) {
 
 const _addNote = function(note) {
   _notes[note.id] = note;
-  // _notebookNotes[note.id] = note;
   _ensureRightNotebook(note);
 };
 
@@ -60,7 +59,6 @@ const _setNotebookNotes = function(currentNotebook) {
     note.notebook_id = currentNotebook.id;
     _notebookNotes[note.id] = note;
   });
-  // CurrentNoteStore.resetCurrentNote(notes);
 };
 
 const _removeNote = function(noteID) {
@@ -74,10 +72,8 @@ const _resetNotebookNotes = function() {
 };
 
 const _ensureRightNotebook = function(note) {
-  // debugger;
   if(Object.keys(_notebookNotes).length === 0) {
     _notebookNotes[note.id] = note;
-    // return;
   } else {
     Object.keys(_notebookNotes).forEach( id => {
       if(_notebookNotes[id].notebook_id === note.notebook_id) {
@@ -98,8 +94,6 @@ const _handleNewNotebookNote = function(note) {
       return;
     }
   });
-  // should i undo below comment?? (9/12/16)
-  debugger;
   Object.keys(_notebookNotes).forEach( id => {
     if(parseInt(id) === note.id) {
       delete _notebookNotes[note.id];
@@ -114,7 +108,6 @@ const _createNotebookNotes = function(notebookID) {
   Object.keys(notes).forEach( id => {
     _notebookNotes[id] = notes[id];
   });
-  // _setNotebookNotes(notes);
 };
 
 const _resetStore = function() {
@@ -219,10 +212,8 @@ NoteStore.__onDispatch = payload => {
       _resetStore();
       break;
     case NotebookConstants.RECEIVE_UPDATED_NOTEBOOK:
-      debugger;
       NoteStore.__emitChange();
       break;
-
   }
 };
 

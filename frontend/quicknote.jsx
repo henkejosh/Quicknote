@@ -55,10 +55,3 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("root")
   );
 });
-
-window.TagStore = TagStore;
-window.NoteStore = NoteStore;
-window.CurrentNoteStore = CurrentNoteStore;
-window.NotebookStore = NotebookStore;
-window.CurrentNotebookStore = CurrentNotebookStore;
-window.CurrentNotebookActions = CurrentNotebookActions;

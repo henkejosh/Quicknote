@@ -3,8 +3,6 @@ const TagApiUtil = require('../util/tag_api_util');
 const TagConstants = require('../constants/tag_constants.js');
 const hashHistory = require('react-router').hashHistory;
 const CurrentNoteActions = require('./current_note_actions');
-// const NoteActions = require('./note_actions.js');
-// import * as NoteActions from "./note_actions.js";
 
 const TagActions = {
   createTag: function(tag, noteID) {
@@ -16,7 +14,6 @@ const TagActions = {
   },
 
   receiveTag: function(tag, noteID) {
-    // debugger;
     Dispatcher.dispatch({
       actionType: TagConstants.RECEIVE_TAG,
       tag: tag
@@ -41,8 +38,6 @@ const TagActions = {
       actionType: TagConstants.REMOVE_TAG,
       tagID: tagID
     });
-    // debugger;
-    // NoteActions.getAllNotes();
   },
 
   destroyRelationship: function(tagID, taggingID) {
@@ -58,7 +53,6 @@ const TagActions = {
   },
 
   selectCurrentTag: function(tag, noteID) {
-    // TagApiUtil.selectCurrentTag(tag, this.receiveTag);
     Dispatcher.dispatch({
       actionType: TagConstants.RECEIVE_CURRENT_TAG,
       tag: tag

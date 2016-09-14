@@ -32,7 +32,6 @@ const _chooseLastNotebookFromArr = function(notebooks) {
 };
 
 const _bootstrapCurrentNotebook = function(notebooks) {
-  // debugger;
   if(Array.isArray(notebooks.notebooks_arr)) {
     let newNotebooks = {};
     notebooks.notebooks_arr.forEach( nb => {

@@ -75,7 +75,6 @@ const HomePage = React.createClass({
   },
 
   updateNotes: function() {
-    // this.setState({ notes: this.controlNotesProps() });
     this.setState({ notes:
       NoteStore.allNotes(this.state.cardColumnStyle) });
   },
@@ -95,7 +94,6 @@ const HomePage = React.createClass({
       tagModalBarIsOpen: false,
       SelectNotebookModalOpen: false
     });
-    // this.removeNoteEditorOpacity();
   },
 
   forceUpdateNotebookNotes: function() {
@@ -141,19 +139,6 @@ const HomePage = React.createClass({
     } else {
       $(".tag-modal-anim").removeClass("revealed");
     }
-      // return (
-      //   <TagModalBar
-      //     tagModalBarIsOpen={ this.state.tagModalBarIsOpen }
-      //     closeSelectTagModal={ this.closeSelectTagModal }
-      //     openSelectTagModal={ this.openSelectTagModal }
-      //     changeCardColumnToTag={this.changeCardColumnToTag}
-      //     changeCardColumnToAllCards={this.changeCardColumnToAllCards}
-      //     notes={this.state.notes}
-      //     selectCurrentTag={this.selectCurrentTag}
-      //     currentTag={this.currentTag}
-      //     tags={this.state.tags}
-      //     />
-      // );
   },
 
   controlSelectNotebookModal: function() {
@@ -162,17 +147,6 @@ const HomePage = React.createClass({
     } else {
       $(".notebook-modal-anim").removeClass("revealed");
     }
-
-    //   return (
-    //     <NotebookBar
-    //       notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
-    //       closeSelectNotebookModal={ this.closeSelectNotebookModal }
-    //       changeCardColumnToNotebook={this.changeCardColumnToNotebook}
-    //       changeCardColumnToAllCards={this.changeCardColumnToAllCards}
-    //       openNotebookCreator={this.openNotebookCreator}
-    //       />
-    //   );
-    // }
   },
 
   controlNotesProps: function() {
@@ -198,7 +172,6 @@ const HomePage = React.createClass({
   },
 
   createNotesBar: function() {
-    // if(Object.keys(this.state.notes).length > 0) {
     return (
       <NotesBar notes={this.state.notes}
         currentNotebook={this.state.currentNotebook}
@@ -265,7 +238,6 @@ const HomePage = React.createClass({
   },
 
   closeSelectTagModal: function() {
-    // this.setState({ tagModalBarIsOpen: false });
     this.setState({ tagModalBarIsOpen: false });
     this.removeNoteEditorOpacity();
   },
@@ -275,13 +247,7 @@ const HomePage = React.createClass({
       notebookCreatorOpen: false,
       notebookEditorOpen: false,
       SelectNotebookModalOpen: false
-      // cardColumnStyle: 'tag'
     });
-
-
-    // this.closeNotebookCreator();
-    // this.closeNotebookEditor();
-    // this.closeSelectNotebookModal();
     this.makeNoteEditorOpaque();
   },
 

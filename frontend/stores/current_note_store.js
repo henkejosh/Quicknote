@@ -17,12 +17,10 @@ const CurrentNoteStore = new Store(Dispatcher);
 let _currentNote = {};
 
 const _setCurrentNote = function(note) {
-  // _currentNote[note.id] = note;
   _currentNote = note;
 };
 
 const _getNotebookNoteFromNoteStore = function(notestore) {
-  // debugger;
   const notes = notestore.allNotebookNotes();
   if(Object.keys(notes).length === 0) { return {};}
   _bootstrapCurrentNote(notes);
@@ -31,7 +29,6 @@ const _getNotebookNoteFromNoteStore = function(notestore) {
 const _chooseLastNote = function(notes) {
   const ids = Object.keys(notes);
   const lastID = Math.max.apply(null, ids);
-  // _currentNote[lastID] = notes[lastID];
   _currentNote = notes[lastID];
 };
 
@@ -52,9 +49,7 @@ const _chooseLastNoteFromArray = function(notes_arr) {
 };
 
 const _bootstrapCurrentNote = function(notes) {
-  // if(Object.keys(_currentNote).length === 0) {
-    _chooseLastNote(notes);
-  // }
+  _chooseLastNote(notes);
 };
 
 const _bootstrapCurrentNoteFromArray = function(currentNotebook) {
@@ -77,7 +72,6 @@ const _resetStore = function() {
 };
 
 const _updateNoteFromTag = function(tag) {
-  // if(_currentNote.id === tag.)
 };
 
 CurrentNoteStore.forceUpdateCurrentNote = function(notes) {
@@ -86,7 +80,6 @@ CurrentNoteStore.forceUpdateCurrentNote = function(notes) {
 
 CurrentNoteStore.resetCurrentNote = function(notes) {
   _currentNote = {};
-  // debugger;
   _bootstrapCurrentNoteFromArray(notes);
 };
 
@@ -127,10 +120,6 @@ CurrentNoteStore.__onDispatch = payload => {
     case SessionConstants.LOGOUT:
       _resetStore();
       break;
-    // case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
-    //   _getNotebookNoteFromNoteStore(NoteStore);
-    //   CurrentNoteStore.__emitChange();
-    //   break;
   }
 };
 

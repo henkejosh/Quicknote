@@ -102,13 +102,6 @@
 	
 	  ReactDOM.render(appRouter, document.getElementById("root"));
 	});
-	
-	window.TagStore = TagStore;
-	window.NoteStore = NoteStore;
-	window.CurrentNoteStore = CurrentNoteStore;
-	window.NotebookStore = NotebookStore;
-	window.CurrentNotebookStore = CurrentNotebookStore;
-	window.CurrentNotebookActions = CurrentNotebookActions;
 
 /***/ },
 /* 1 */
@@ -27148,17 +27141,14 @@
 	var SessionActions = {
 	  signup: function signup(params) {
 	    SessionApiUtil.signup(params, SessionActions.receiveCurrentUser);
-	    // ErrorActions.setErrors);
 	  },
 	
 	  login: function login(params) {
 	    SessionApiUtil.login(params, SessionActions.receiveCurrentUser);
-	    // ErrorActions.setErrors);
 	  },
 	
 	  logout: function logout() {
 	    SessionApiUtil.logout(SessionActions.removeCurrentUser);
-	    // CurrentSongActions.clearCurrentSong();
 	  },
 	
 	  receiveCurrentUser: function receiveCurrentUser(user) {
@@ -27697,8 +27687,6 @@
 	var hashHistory = __webpack_require__(175).hashHistory;
 	var SessionActions = __webpack_require__(238);
 	var SessionStore = __webpack_require__(247);
-	// const ErrorStore = require('../stores/error_store.js');
-	// const ErrorActions = require('../actions/error_actions.js');
 	var Modal = __webpack_require__(265);
 	var modStyle = __webpack_require__(285);
 	
@@ -27711,11 +27699,9 @@
 	
 	  componentDidMount: function componentDidMount() {
 	    this.sessionListener = SessionStore.addListener(this.isUserLoggedIn);
-	    // this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
-	    // this.errorListener.remove();
 	    this.sessionListener.remove();
 	    this.props.makeModalSignIn();
 	  },
@@ -36322,32 +36308,6 @@
 	    padding: '30px 0px'
 	  }
 	};
-	
-	// {
-	//   overlay : {
-	//     position          : 'fixed',
-	//     top               : 0,
-	//     left              : 0,
-	//     right             : 0,
-	//     bottom            : 0,
-	//     backgroundColor   : 'rgba(255, 255, 255, 0.75)'
-	//   },
-	//   content : {
-	//     position                   : 'absolute',
-	//     top                        : '40px',
-	//     left                       : '40px',
-	//     right                      : '40px',
-	//     bottom                     : '40px',
-	//     border                     : '1px solid #ccc',
-	//     background                 : '#fff',
-	//     overflow                   : 'auto',
-	//     WebkitOverflowScrolling    : 'touch',
-	//     borderRadius               : '4px',
-	//     outline                    : 'none',
-	//     padding                    : '20px'
-	//
-	//   }
-	// }
 
 /***/ },
 /* 286 */
@@ -36563,7 +36523,6 @@
 	  },
 	
 	  updateNotes: function updateNotes() {
-	    // this.setState({ notes: this.controlNotesProps() });
 	    this.setState({ notes: NoteStore.allNotes(this.state.cardColumnStyle) });
 	  },
 	
@@ -36582,7 +36541,6 @@
 	      tagModalBarIsOpen: false,
 	      SelectNotebookModalOpen: false
 	    });
-	    // this.removeNoteEditorOpacity();
 	  },
 	
 	  forceUpdateNotebookNotes: function forceUpdateNotebookNotes() {
@@ -36628,19 +36586,6 @@
 	    } else {
 	      $(".tag-modal-anim").removeClass("revealed");
 	    }
-	    // return (
-	    //   <TagModalBar
-	    //     tagModalBarIsOpen={ this.state.tagModalBarIsOpen }
-	    //     closeSelectTagModal={ this.closeSelectTagModal }
-	    //     openSelectTagModal={ this.openSelectTagModal }
-	    //     changeCardColumnToTag={this.changeCardColumnToTag}
-	    //     changeCardColumnToAllCards={this.changeCardColumnToAllCards}
-	    //     notes={this.state.notes}
-	    //     selectCurrentTag={this.selectCurrentTag}
-	    //     currentTag={this.currentTag}
-	    //     tags={this.state.tags}
-	    //     />
-	    // );
 	  },
 	
 	  controlSelectNotebookModal: function controlSelectNotebookModal() {
@@ -36649,17 +36594,6 @@
 	    } else {
 	      $(".notebook-modal-anim").removeClass("revealed");
 	    }
-	
-	    //   return (
-	    //     <NotebookBar
-	    //       notebookBarIsOpen={ this.state.SelectNotebookModalOpen }
-	    //       closeSelectNotebookModal={ this.closeSelectNotebookModal }
-	    //       changeCardColumnToNotebook={this.changeCardColumnToNotebook}
-	    //       changeCardColumnToAllCards={this.changeCardColumnToAllCards}
-	    //       openNotebookCreator={this.openNotebookCreator}
-	    //       />
-	    //   );
-	    // }
 	  },
 	
 	  controlNotesProps: function controlNotesProps() {
@@ -36685,7 +36619,6 @@
 	  },
 	
 	  createNotesBar: function createNotesBar() {
-	    // if(Object.keys(this.state.notes).length > 0) {
 	    return React.createElement(NotesBar, { notes: this.state.notes,
 	      currentNotebook: this.state.currentNotebook,
 	      cardColumnStyle: this.state.cardColumnStyle,
@@ -36748,7 +36681,6 @@
 	  },
 	
 	  closeSelectTagModal: function closeSelectTagModal() {
-	    // this.setState({ tagModalBarIsOpen: false });
 	    this.setState({ tagModalBarIsOpen: false });
 	    this.removeNoteEditorOpacity();
 	  },
@@ -36758,12 +36690,7 @@
 	      notebookCreatorOpen: false,
 	      notebookEditorOpen: false,
 	      SelectNotebookModalOpen: false
-	      // cardColumnStyle: 'tag'
 	    });
-	
-	    // this.closeNotebookCreator();
-	    // this.closeNotebookEditor();
-	    // this.closeSelectNotebookModal();
 	    this.makeNoteEditorOpaque();
 	  },
 	
@@ -36891,18 +36818,13 @@
 	    NotebookApiUtil.deleteNotebook(notebookID, this.removeNotebookFromStore);
 	  },
 	
-	  // removeNotebookFromStore: function(notebookID) {
 	  removeNotebookFromStore: function removeNotebookFromStore(object) {
 	    Dispatcher.dispatch({
-	      // actionType: NotebookConstants.REMOVE_NOTEBOOK,
-	      // notebookID: notebookID
 	      actionType: NotebookConstants.UPDATE_ALL_NOTEBOOKS_POST_DELETE,
 	      notebooks: object.notebooks
 	    });
-	    // NoteActions.getAllNotes();
 	    NoteActions.receiveAllNotes(object.notes);
 	    TagActions.getAllTags();
-	    // NoteActions.updateNotebookNotes(notebookID);
 	  },
 	
 	  updateNotebook: function updateNotebook(notebook) {
@@ -36915,34 +36837,6 @@
 	      notebook: notebook
 	    });
 	  }
-	
-	  // signup: function(params) {
-	  //   SessionApiUtil.signup(params, SessionActions.receiveCurrentUser);
-	  //     // ErrorActions.setErrors);
-	  // },
-	  //
-	  // login: function(params) {
-	  //   SessionApiUtil.login(params, SessionActions.receiveCurrentUser);
-	  //     // ErrorActions.setErrors);
-	  // },
-	  //
-	  // logout: function() {
-	  //   SessionApiUtil.logout(SessionActions.removeCurrentUser);
-	  //   // CurrentSongActions.clearCurrentSong();
-	  // },
-	  //
-	  // receiveCurrentUser: function(user) {
-	  //   Dispatcher.dispatch({
-	  //     actionType: SessionConstants.LOGIN,
-	  //     currentUser: user
-	  //   });
-	  // },
-	  //
-	  // removeCurrentUser: function(user) {
-	  //   Dispatcher.dispatch({
-	  //     actionType: SessionConstants.LOGOUT
-	  //   });
-	  // }
 	};
 	
 	module.exports = NotebookActions;
@@ -37226,8 +37120,6 @@
 	var TagConstants = __webpack_require__(296);
 	var hashHistory = __webpack_require__(175).hashHistory;
 	var CurrentNoteActions = __webpack_require__(297);
-	// const NoteActions = require('./note_actions.js');
-	// import * as NoteActions from "./note_actions.js";
 	
 	var TagActions = {
 	  createTag: function createTag(tag, noteID) {
@@ -37239,7 +37131,6 @@
 	  },
 	
 	  receiveTag: function receiveTag(tag, noteID) {
-	    // debugger;
 	    Dispatcher.dispatch({
 	      actionType: TagConstants.RECEIVE_TAG,
 	      tag: tag
@@ -37264,8 +37155,6 @@
 	      actionType: TagConstants.REMOVE_TAG,
 	      tagID: tagID
 	    });
-	    // debugger;
-	    // NoteActions.getAllNotes();
 	  },
 	
 	  destroyRelationship: function destroyRelationship(tagID, taggingID) {
@@ -37281,7 +37170,6 @@
 	  },
 	
 	  selectCurrentTag: function selectCurrentTag(tag, noteID) {
-	    // TagApiUtil.selectCurrentTag(tag, this.receiveTag);
 	    Dispatcher.dispatch({
 	      actionType: TagConstants.RECEIVE_CURRENT_TAG,
 	      tag: tag
@@ -37299,11 +37187,7 @@
 
 	"use strict";
 	
-	// const NoteActions = require('../actions/note_actions.js');
-	
 	var TagApiUtil = {
-	  // NoteActions: NoteActions,
-	
 	  createTag: function createTag(tag, noteID, _success) {
 	    $.ajax({
 	      url: "api/notes/" + noteID + "/tags",
@@ -37349,21 +37233,6 @@
 	      }
 	    });
 	  },
-	
-	  // selectCurrentTag: function(tag, success) {
-	  //   $.ajax({
-	  //     url: `api/notes/${tag.id}`,
-	  //     data: {tag},
-	  //     dataType: "json",
-	  //     type: "GET",
-	  //     success,
-	  //     error: xhr => {
-	  //       const error = `status: ${xhr.status} ${xhr.statusText}`;
-	  //       console.log(error);
-	  //       console.log(xhr.responseText);
-	  //     }
-	  //   });
-	  // },
 	
 	  getAllTags: function getAllTags(success) {
 	    $.ajax({
@@ -37455,15 +37324,8 @@
 	var _allNotebooks = {};
 	
 	var _setAllNotebooks = function _setAllNotebooks(notebooks) {
-	  // if(Array.isArray(notebooks.notebooks_arr)) {
-	  //   let newNotebooks = {};
-	  //   notebooks.notebooks_arr.forEach( nb => {
-	  //     newNotebooks[nb.id] = nb;
-	  //   });
-	  //   notebooks = newNotebooks;
-	  // }
-	  // debugger;
 	  _allNotebooks = {};
+	
 	  if (notebooks.notebooks_arr) {
 	    notebooks = notebooks.notebooks_arr;
 	  } else if (Object.keys(notebooks).length === 0) {
@@ -37578,7 +37440,6 @@
 	};
 	
 	var _bootstrapCurrentNotebook = function _bootstrapCurrentNotebook(notebooks) {
-	  // debugger;
 	  if (Array.isArray(notebooks.notebooks_arr)) {
 	    (function () {
 	      var newNotebooks = {};
@@ -38150,32 +38011,6 @@
 	
 	  }
 	};
-	
-	// {
-	//   overlay : {
-	//     position          : 'fixed',
-	//     top               : 0,
-	//     left              : 0,
-	//     right             : 0,
-	//     bottom            : 0,
-	//     backgroundColor   : 'rgba(255, 255, 255, 0.75)'
-	//   },
-	//   content : {
-	//     position                   : 'absolute',
-	//     top                        : '40px',
-	//     left                       : '40px',
-	//     right                      : '40px',
-	//     bottom                     : '40px',
-	//     border                     : '1px solid #ccc',
-	//     background                 : '#fff',
-	//     overflow                   : 'auto',
-	//     WebkitOverflowScrolling    : 'touch',
-	//     borderRadius               : '4px',
-	//     outline                    : 'none',
-	//     padding                    : '20px'
-	//
-	//   }
-	// }
 
 /***/ },
 /* 307 */
@@ -38207,7 +38042,6 @@
 	    NotebookActions.getAllNotebooks();
 	    this.props.changeCardColumnToAllCards();
 	    this.props.closeSelectNotebookModal();
-	    // CurrentNotebookStore.resetCurrentNotebook(this.props.notebooks);
 	    e.stopPropagation();
 	  },
 	
@@ -38276,7 +38110,6 @@
 	
 	var _addNote = function _addNote(note) {
 	  _notes[note.id] = note;
-	  // _notebookNotes[note.id] = note;
 	  _ensureRightNotebook(note);
 	};
 	
@@ -38306,7 +38139,6 @@
 	    note.notebook_id = currentNotebook.id;
 	    _notebookNotes[note.id] = note;
 	  });
-	  // CurrentNoteStore.resetCurrentNote(notes);
 	};
 	
 	var _removeNote = function _removeNote(noteID) {
@@ -38320,10 +38152,8 @@
 	};
 	
 	var _ensureRightNotebook = function _ensureRightNotebook(note) {
-	  // debugger;
 	  if (Object.keys(_notebookNotes).length === 0) {
 	    _notebookNotes[note.id] = note;
-	    // return;
 	  } else {
 	    Object.keys(_notebookNotes).forEach(function (id) {
 	      if (_notebookNotes[id].notebook_id === note.notebook_id) {
@@ -38344,8 +38174,6 @@
 	      return;
 	    }
 	  });
-	  // should i undo below comment?? (9/12/16)
-	  debugger;
 	  Object.keys(_notebookNotes).forEach(function (id) {
 	    if (parseInt(id) === note.id) {
 	      delete _notebookNotes[note.id];
@@ -38360,7 +38188,6 @@
 	  Object.keys(notes).forEach(function (id) {
 	    _notebookNotes[id] = notes[id];
 	  });
-	  // _setNotebookNotes(notes);
 	};
 	
 	var _resetStore = function _resetStore() {
@@ -38465,10 +38292,8 @@
 	      _resetStore();
 	      break;
 	    case NotebookConstants.RECEIVE_UPDATED_NOTEBOOK:
-	      debugger;
 	      NoteStore.__emitChange();
 	      break;
-	
 	  }
 	};
 	
@@ -38497,12 +38322,10 @@
 	var _currentNote = {};
 	
 	var _setCurrentNote = function _setCurrentNote(note) {
-	  // _currentNote[note.id] = note;
 	  _currentNote = note;
 	};
 	
 	var _getNotebookNoteFromNoteStore = function _getNotebookNoteFromNoteStore(notestore) {
-	  // debugger;
 	  var notes = notestore.allNotebookNotes();
 	  if (Object.keys(notes).length === 0) {
 	    return {};
@@ -38513,7 +38336,6 @@
 	var _chooseLastNote = function _chooseLastNote(notes) {
 	  var ids = Object.keys(notes);
 	  var lastID = Math.max.apply(null, ids);
-	  // _currentNote[lastID] = notes[lastID];
 	  _currentNote = notes[lastID];
 	};
 	
@@ -38534,9 +38356,7 @@
 	};
 	
 	var _bootstrapCurrentNote = function _bootstrapCurrentNote(notes) {
-	  // if(Object.keys(_currentNote).length === 0) {
 	  _chooseLastNote(notes);
-	  // }
 	};
 	
 	var _bootstrapCurrentNoteFromArray = function _bootstrapCurrentNoteFromArray(currentNotebook) {
@@ -38558,9 +38378,7 @@
 	  _currentNote = {};
 	};
 	
-	var _updateNoteFromTag = function _updateNoteFromTag(tag) {
-	  // if(_currentNote.id === tag.)
-	};
+	var _updateNoteFromTag = function _updateNoteFromTag(tag) {};
 	
 	CurrentNoteStore.forceUpdateCurrentNote = function (notes) {
 	  _bootstrapCurrentNote(notes);
@@ -38568,7 +38386,6 @@
 	
 	CurrentNoteStore.resetCurrentNote = function (notes) {
 	  _currentNote = {};
-	  // debugger;
 	  _bootstrapCurrentNoteFromArray(notes);
 	};
 	
@@ -38609,10 +38426,6 @@
 	    case SessionConstants.LOGOUT:
 	      _resetStore();
 	      break;
-	    // case NoteConstants.RECEIVE_NOTE_NEW_NOTEBOOK:
-	    //   _getNotebookNoteFromNoteStore(NoteStore);
-	    //   CurrentNoteStore.__emitChange();
-	    //   break;
 	  }
 	};
 	
@@ -38689,8 +38502,6 @@
 	
 	  handleSubmit: function handleSubmit(e) {
 	    e.preventDefault();
-	    // make this autosave by doing an "onChange" and having body
-	    // content tied to state
 	  },
 	
 	  componentDidMount: function componentDidMount() {
@@ -38707,14 +38518,10 @@
 	  },
 	
 	  saveChanges: function saveChanges() {
-	    // debugger;
 	    var note = this.props.currentNote;
 	    note.body = this.state.body;
 	    note.title = this.state.title;
 	    note.notebook_id = this.state.notebook_id;
-	    // delete note["tags"];
-	    // delete note["created_at"];
-	    // delete note["updated_at"];
 	    note = note;
 	    NoteActions.updateNote(note);
 	  },
@@ -38725,26 +38532,24 @@
 	
 	  updateTitle: function updateTitle(e) {
 	    e.preventDefault();
+	    if (this.saveTimeout) clearTimeout(this.saveTimeout);
 	    this.setState({ title: e.target.value });
+	    this.autoSave();
 	  },
 	
 	  updateNotebook: function updateNotebook() {
 	    if (this.saveTimeout) clearTimeout(this.saveTimeout);
 	    var note = this.props.currentNote;
-	    // this.props.currentNote.notebook_id = this.state.notebook_id;
-	    // debugger;
 	    NoteActions.changeNoteNotebook(note);
 	  },
 	
 	  updateBody: function updateBody(text) {
-	    // debugger;
 	    this.setState({ "body": text });
 	    if (this.saveTimeout) clearTimeout(this.saveTimeout);
 	    this.autoSave();
 	  },
 	
 	  createNotebookDropdownSelector: function createNotebookDropdownSelector() {
-	    // <NotebookDropdown currentNotebook={this.props.currentNotebook}
 	    if (this.state.notebookSelectorOpen) {
 	      return React.createElement(NotebookDropdown, { currentNotebook: this.state.notebookTitle,
 	        notebooks: this.props.notebooks,
@@ -38780,8 +38585,6 @@
 	    this.state.notebookSelectorOpen ? this.closeNotebookSelector() : this.openNotebookSelector();
 	  },
 	
-	  // onSubmit={this.handleSubmit}
-	  // onBlur={this.saveChanges}>
 	  render: function render() {
 	    return React.createElement(
 	      'form',
@@ -50336,15 +50139,10 @@
 	
 	  formatNotebooks: function formatNotebooks() {
 	    var notebooks = [];
-	    // Object.keys(this.props.notebooks).forEach( id => {
-	    //   if(this.props.notebooks[id].title !== this.props.currentNotebook.title) {
-	    //     notebooks.push(this.props.notebooks[id].title);
-	    //   }
-	    // });
 	    var that = this;
+	
 	    return Object.keys(this.props.notebooks).map(function (id) {
 	      if (that.props.notebooks[id].title !== that.props.currentNotebook) {
-	        // debugger;
 	        var notebook = that.props.notebooks[id];
 	        return React.createElement(NotebookSelectee, { key: id,
 	          title: notebook.title,
@@ -50353,8 +50151,6 @@
 	        });
 	      }
 	    });
-	
-	    // return notebooks;
 	  },
 	
 	  formatCurrentNotebookTitle: function formatCurrentNotebookTitle() {
@@ -50392,10 +50188,10 @@
 	        notebook = _this.props.notebooks[id];
 	      }
 	    });
+	
 	    var note = this.props.currentNote;
 	    note.notebook_id = notebook.id;
 	    this.props.updateNotebook();
-	    // NoteActions.changeNoteNotebook(note);
 	    this.props.closeNotebookSelector();
 	  },
 	
@@ -50748,20 +50544,13 @@
 	  },
 	
 	  handleTitleChange: function handleTitleChange(e) {
-	    // debugger;
 	    e.preventDefault();
 	    this.setState({ title: e.target.value });
-	    // this.resizeInput();
-	    // if(e.keyCode === 13) {
-	    //   const tag = {title: this.state.title};
-	    //   TagActions.createTag(tag, this.props.currentNote.id);
-	    // }
 	  },
 	
 	  handleDelete: function handleDelete(e) {
 	    var _this2 = this;
 	
-	    // debugger;
 	    e.preventDefault();
 	    this.props.tag.taggings.forEach(function (tagging) {
 	      if (tagging.tag_id === _this2.props.tag.id && tagging.note_id === _this2.props.currentNote.id) {
@@ -50786,7 +50575,6 @@
 	  },
 	
 	  resizeInput: function resizeInput() {
-	    // $(".tag-creator").attr('size', this.state.title.length);
 	    $(".tag-creator").width((this.state.title.length + 1) * 7);
 	  },
 	
@@ -50795,7 +50583,6 @@
 	    return tags.map(function (tag) {
 	      return { id: tag.id, text: tag.title };
 	    });
-	    // debugger;
 	  },
 	
 	  render: function render() {
@@ -59801,22 +59588,6 @@
 	    };
 	  },
 	
-	  // componentDidMount: function() {
-	  //   // this.tagStoreListener = TagStore.addListener(this.updateTags);
-	  // },
-	
-	  // updateTags: function() {
-	  //   this.setState({ tags: TagStore.allTags() });
-	  // },
-	
-	  // componentWillMount: function() {
-	  //   TagActions.getAllTags();
-	  // },
-	
-	  // componentWillUnmount: function() {
-	  //   // this.tagStoreListener.remove();
-	  // },
-	
 	  handleDisplay: function handleDisplay() {
 	    if (this.props.tagModalIsOpen) {
 	      return "block";
@@ -59829,7 +59600,7 @@
 	    e.preventDefault();
 	    this.props.openTagCreator();
 	  },
-	  // display={this.handleDisplay}
+	
 	  render: function render() {
 	    var _this = this;
 	
@@ -59896,14 +59667,10 @@
 	    if (this.props.tag.note_ids.length > 0) {
 	      noteID = this.props.tag.note_ids[0].id;
 	    }
+	
 	    TagActions.selectCurrentTag(this.props.tag, noteID);
 	    this.props.closeSelectTagModal();
 	  },
-	
-	  // componentDidMount: function() {
-	  //   this.props.changeCardColumnToTag();
-	  // },
-	
 	
 	  formatNoteCount: function formatNoteCount() {
 	    if (this.props.tag.note_ids) {
@@ -59917,8 +59684,6 @@
 	    e.preventDefault();
 	    TagActions.deleteTag(this.props.tag);
 	    NoteActions.getAllNotes();
-	    // this.props.changeCardColumnToAllCards();
-	    // this.props.closeSelectTagModal();
 	  },
 	
 	  render: function render() {

@@ -12,15 +12,8 @@ const NotebookStore = new Store(Dispatcher);
 let _allNotebooks = {};
 
 const _setAllNotebooks = function(notebooks) {
-  // if(Array.isArray(notebooks.notebooks_arr)) {
-  //   let newNotebooks = {};
-  //   notebooks.notebooks_arr.forEach( nb => {
-  //     newNotebooks[nb.id] = nb;
-  //   });
-  //   notebooks = newNotebooks;
-  // }
-  // debugger;
   _allNotebooks = {};
+  
   if(notebooks.notebooks_arr) {
     notebooks = notebooks.notebooks_arr;
   } else if(Object.keys(notebooks).length === 0) {

@@ -35,8 +35,6 @@ const NoteEditor = React.createClass({
 
   handleSubmit: function(e) {
     e.preventDefault();
-    // make this autosave by doing an "onChange" and having body
-    // content tied to state
   },
 
   componentDidMount: function() {
@@ -53,14 +51,10 @@ const NoteEditor = React.createClass({
   },
 
   saveChanges: function() {
-    // debugger;
     let note = this.props.currentNote;
     note.body = this.state.body;
     note.title = this.state.title;
     note.notebook_id = this.state.notebook_id;
-    // delete note["tags"];
-    // delete note["created_at"];
-    // delete note["updated_at"];
     note = note;
     NoteActions.updateNote(note);
   },
@@ -71,26 +65,24 @@ const NoteEditor = React.createClass({
 
   updateTitle: function(e) {
     e.preventDefault();
+    if(this.saveTimeout) clearTimeout(this.saveTimeout);
     this.setState({ title: e.target.value});
+    this.autoSave();
   },
 
   updateNotebook: function() {
     if(this.saveTimeout) clearTimeout(this.saveTimeout);
     const note = this.props.currentNote;
-    // this.props.currentNote.notebook_id = this.state.notebook_id;
-    // debugger;
     NoteActions.changeNoteNotebook(note);
   },
 
   updateBody: function(text) {
-    // debugger;
     this.setState({ "body": text});
     if(this.saveTimeout) clearTimeout(this.saveTimeout);
     this.autoSave();
   },
 
   createNotebookDropdownSelector: function() {
-    // <NotebookDropdown currentNotebook={this.props.currentNotebook}
     if(this.state.notebookSelectorOpen) {
       return (
         <NotebookDropdown currentNotebook={this.state.notebookTitle}
@@ -129,8 +121,6 @@ const NoteEditor = React.createClass({
       this.openNotebookSelector();
   },
 
-  // onSubmit={this.handleSubmit}
-  // onBlur={this.saveChanges}>
   render: function() {
     return (
       <form className="note-editor-page">

@@ -8,15 +8,10 @@ const NoteActions = require('../actions/note_actions.js');
 const NotebookDropdown = React.createClass({
   formatNotebooks: function() {
     let notebooks = [];
-    // Object.keys(this.props.notebooks).forEach( id => {
-    //   if(this.props.notebooks[id].title !== this.props.currentNotebook.title) {
-    //     notebooks.push(this.props.notebooks[id].title);
-    //   }
-    // });
     let that = this;
+
     return Object.keys(this.props.notebooks).map( id => {
       if(that.props.notebooks[id].title !== that.props.currentNotebook) {
-        // debugger;
         let notebook = that.props.notebooks[id];
         return (
           <NotebookSelectee key={id}
@@ -27,9 +22,6 @@ const NotebookDropdown = React.createClass({
         );
       }
     });
-
-
-    // return notebooks;
   },
 
   formatCurrentNotebookTitle: function() {
@@ -67,10 +59,10 @@ const NotebookDropdown = React.createClass({
         notebook = this.props.notebooks[id];
       }
     });
+    
     let note = this.props.currentNote;
     note.notebook_id = notebook.id;
     this.props.updateNotebook();
-    // NoteActions.changeNoteNotebook(note);
     this.props.closeNotebookSelector();
   },
 

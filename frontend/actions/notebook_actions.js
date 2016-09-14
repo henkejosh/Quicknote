@@ -32,18 +32,13 @@ const NotebookActions = {
     NotebookApiUtil.deleteNotebook(notebookID, this.removeNotebookFromStore);
   },
 
-  // removeNotebookFromStore: function(notebookID) {
   removeNotebookFromStore: function(object) {
     Dispatcher.dispatch({
-      // actionType: NotebookConstants.REMOVE_NOTEBOOK,
-      // notebookID: notebookID
       actionType: NotebookConstants.UPDATE_ALL_NOTEBOOKS_POST_DELETE,
       notebooks: object.notebooks
     });
-    // NoteActions.getAllNotes();
     NoteActions.receiveAllNotes(object.notes);
     TagActions.getAllTags();
-    // NoteActions.updateNotebookNotes(notebookID);
   },
 
   updateNotebook: function(notebook) {
@@ -56,35 +51,6 @@ const NotebookActions = {
       notebook: notebook
     });
   }
-
-
-  // signup: function(params) {
-  //   SessionApiUtil.signup(params, SessionActions.receiveCurrentUser);
-  //     // ErrorActions.setErrors);
-  // },
-  //
-  // login: function(params) {
-  //   SessionApiUtil.login(params, SessionActions.receiveCurrentUser);
-  //     // ErrorActions.setErrors);
-  // },
-  //
-  // logout: function() {
-  //   SessionApiUtil.logout(SessionActions.removeCurrentUser);
-  //   // CurrentSongActions.clearCurrentSong();
-  // },
-  //
-  // receiveCurrentUser: function(user) {
-  //   Dispatcher.dispatch({
-  //     actionType: SessionConstants.LOGIN,
-  //     currentUser: user
-  //   });
-  // },
-  //
-  // removeCurrentUser: function(user) {
-  //   Dispatcher.dispatch({
-  //     actionType: SessionConstants.LOGOUT
-  //   });
-  // }
 };
 
 module.exports = NotebookActions;
