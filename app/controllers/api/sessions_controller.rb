@@ -6,6 +6,10 @@ class Api::SessionsController < ApplicationController
     )
 
     if @user
+      if @user.email == "guest_user"
+        @user.setup_new_account
+      end
+      
       login(@user)
       render "api/users/show"
     else
