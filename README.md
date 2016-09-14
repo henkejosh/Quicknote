@@ -56,10 +56,10 @@ end
 
 Further, all foreign keys are indexed, allowing for lightning quick lookups.
 
-### RICH-TEXT EDITING
+### Rich-Text Editing
 Quicknote uses the Quill.js library to edit notes, allowing for an intuitive, Word-processor like user-experience.
 
-### AUTO-SAVE
+### Auto-Save
 Notes are saved to the database as they're edited via background API calls, ensuring a great user experience (content is never lost, and you never have to worry about saving).
 
 ## Quicknote Roadmap
