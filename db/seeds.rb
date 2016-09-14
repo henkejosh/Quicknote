@@ -57,7 +57,7 @@ note6 = Note.create!(
 note7 = Note.create!(
   notebook_id: notebook.id,
   title: "Jot down ideas",
-  body: "<div>on paper and take a picture!</div><div><img width=\"425\" height=\"282\" src=\"http://www.directpropertygroup.net.au/wp-content/uploads/2016/02/free-office-move-checklist.bmp\" class=\"attachment-full size-full wp-post-image\" alt=\"free-office-move-checklist\" title=\"\"></div><div><br></div><ol><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Or</i></b></span></li><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Create a checklist inside a note just like this!</i></b></span></li></ol>"
+  body: "<div>on paper and take a picture!</div><div><img width=\"425\" height=\"282\" src=\"https://res.cloudinary.com/dg2yejdpt/image/upload/v1473664061/free-office-move-checklist_eqbtki.bmp\" class=\"attachment-full size-full wp-post-image\" alt=\"free-office-move-checklist\" title=\"\"></div><div><br></div><ol><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Or</i></b></span></li><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Create a checklist inside a note just like this!</i></b></span></li></ol>"
 )
 
 tag1 = Tag.create!(
