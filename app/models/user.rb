@@ -53,6 +53,11 @@ class User < ApplicationRecord
 	end
 
   public
+  def reset_guest_account
+    self.notebooks.destroy_all
+    self.tags.destroy_all
+  end
+
   def setup_new_account
     notebook = Notebook.create!(title: "Welcome Notebook", user_id: self.id)
     notebook1 = Notebook.create!(title: "Sample Notebook", user_id: self.id)
