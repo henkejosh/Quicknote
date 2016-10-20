@@ -1,5 +1,3 @@
-require 'byebug'
-
 class User < ApplicationRecord
   attr_reader :password
 
@@ -88,7 +86,6 @@ class User < ApplicationRecord
       title: "Flux Cycle",
       body: "<div>Learn more about <a href=\"https://facebook.github.io/flux/docs/overview.html\">flux</a>!</div><div><img src=\"https://res.cloudinary.com/dg2yejdpt/image/upload/v1472462057/flux-diagram-white-background_dfpasw.png\"></div>"
     )
-    debugger
 
     note4 = Note.create!(
       notebook_id: notebook2.id,
