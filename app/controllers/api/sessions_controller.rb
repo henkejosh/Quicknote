@@ -6,7 +6,10 @@ class Api::SessionsController < ApplicationController
     )
 
     if @user
-      @user.setup_new_account if @user.email == "guest_user"
+      if @user.email == "guest_user"
+        @user.reset_guest_account
+        @user.setup_new_account
+      end
 
       login(@user)
       render "api/users/show"
@@ -23,7 +26,6 @@ class Api::SessionsController < ApplicationController
   def destroy
     @user = current_user
     if @user
-      @user.reset_guest_account if @user.email == "guest_user"
       logout
       render(
         json: {

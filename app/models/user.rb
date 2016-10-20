@@ -1,3 +1,5 @@
+require 'byebug'
+
 class User < ApplicationRecord
   attr_reader :password
 
@@ -86,6 +88,7 @@ class User < ApplicationRecord
       title: "Flux Cycle",
       body: "<div>Learn more about <a href=\"https://facebook.github.io/flux/docs/overview.html\">flux</a>!</div><div><img src=\"https://res.cloudinary.com/dg2yejdpt/image/upload/v1472462057/flux-diagram-white-background_dfpasw.png\"></div>"
     )
+    debugger
 
     note4 = Note.create!(
       notebook_id: notebook2.id,
@@ -108,7 +111,7 @@ class User < ApplicationRecord
     note7 = Note.create!(
       notebook_id: notebook.id,
       title: "Jot down ideas",
-      body: "<div>on paper and take a picture!</div><div><img width=\"425\" height=\"282\" src=\"http://www.directpropertygroup.net.au/wp-content/uploads/2016/02/free-office-move-checklist.bmp\" class=\"attachment-full size-full wp-post-image\" alt=\"free-office-move-checklist\" title=\"\"></div><div><br></div><ol><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Or</i></b></span></li><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Create a checklist inside a note just like this!</i></b></span></li></ol>"
+      body: "<div>on paper and take a picture!</div><div><img width=\"425\" height=\"282\" src=\"https://res.cloudinary.com/dg2yejdpt/image/upload/v1476924956/To-Do-List_67436-300x167_w7pnhl.jpg\" class=\"attachment-full size-full wp-post-image\" alt=\"free-office-move-checklist\" title=\"\"></div><div><br></div><ol><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Or</i></b></span></li><li><span style=\"color: rgb(0, 102, 204);\"><b><i>Create a checklist inside a note just like this!</i></b></span></li></ol>"
     )
 
     tag1 = Tag.create!(
